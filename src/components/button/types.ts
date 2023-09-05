@@ -3,7 +3,8 @@ export type ButtonPropType = {
 	label?: string;
 	variant?: 'primary' | 'secondary' | undefined;
 	type?: 'button' | 'submit' | 'reset' | undefined;
+	disabled?: boolean;
 	onClick?: React.MouseEventHandler<HTMLButtonElement>;
-	leftIcon?: JSX.Element;
-	rightIcon?: JSX.Element;
+	leftIcon?: JSX.Element | string;
+	rightIcon?: JSX.Element | string;
 };
