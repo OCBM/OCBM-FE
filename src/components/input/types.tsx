@@ -8,4 +8,5 @@ export type InputType = {
 	onClick?: () => void;
 	label?: string;
 	inputIcon?: JSX.Element;
+	labelclassName?: string;
 };
