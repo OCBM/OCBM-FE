@@ -1,3 +1,3 @@
-export type BreadcrumbType = {
+export type BreadcrumbsType = {
 	className?: string;
 };

@@ -1,17 +1,14 @@
 import { useLocation } from 'react-router-dom';
-import { BreadcrumbType } from './types';
+import { BreadcrumbsType } from './types';
 
-function Breadcrumbs({ className }: BreadcrumbType) {
+function Breadcrumbs({ className }: BreadcrumbsType) {
 	const location = useLocation();
-
-	//   let currentlink = "";
 	const crumbs = location.pathname
 		.split('/')
 		.filter((crumbs) => crumbs !== '')
 		.map((crumbs) => {
-			//   currentlink += `/${crumbs}`;
 			return (
-				<div className=" text-[18px] text-black capitalize " key={crumbs}>
+				<div className="" key={crumbs}>
 					{crumbs}
 				</div>
 			);
@@ -21,8 +18,8 @@ function Breadcrumbs({ className }: BreadcrumbType) {
 		<div
 			className={`${
 				className || ''
-			} breadcrumb flex gap-2 mx-8 pb-2 border-b-[2px] border-[#44444447] border-solid`}>
-			{crumbs}
+			} breadcrumb flex gap-2 mx-8 pb-2 border-b-[2px] border-[#44444447] border-solid  text-[18px] text-black capitalize`}>
+			<div>Home</div> {crumbs}
 		</div>
 	);
 }
