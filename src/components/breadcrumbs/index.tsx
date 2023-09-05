@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
-import { CrumbType } from './types';
+import { BreadcrumbType } from './types';
 
-function Breadcrumbs({ className }: CrumbType) {
+function Breadcrumbs({ className }: BreadcrumbType) {
 	const location = useLocation();
 
 	//   let currentlink = "";
@@ -9,7 +9,6 @@ function Breadcrumbs({ className }: CrumbType) {
 		.split('/')
 		.filter((crumbs) => crumbs !== '')
 		.map((crumbs) => {
-			console.log(crumbs, 'inside map');
 			//   currentlink += `/${crumbs}`;
 			return (
 				<div className=" text-[18px] text-black capitalize " key={crumbs}>
@@ -17,8 +16,6 @@ function Breadcrumbs({ className }: CrumbType) {
 				</div>
 			);
 		});
-
-	console.log(crumbs);
 
 	return (
 		<div
