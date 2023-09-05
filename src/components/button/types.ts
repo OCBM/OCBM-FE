@@ -1,8 +1,7 @@
 export type ButtonPropType = {
 	className: string;
-	variant?: string;
-	label: string;
-	secondary?: boolean;
+	label?: string;
+	variant?: 'primary' | 'secondary' | undefined;
 	type?: 'button' | 'submit' | 'reset' | undefined;
 	onClick?: React.MouseEventHandler<HTMLButtonElement>;
 	leftIcon?: JSX.Element;

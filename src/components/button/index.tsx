@@ -4,9 +4,9 @@ const Button = ({
 	className,
 	type,
 	label,
-	secondary,
 	leftIcon,
 	rightIcon,
+	variant,
 	onClick,
 }: ButtonPropType) => {
 	return (
@@ -14,7 +14,7 @@ const Button = ({
 			type={type}
 			onClick={onClick}
 			className={
-				secondary
+				variant === 'secondary'
 					? `${className} p-3 rounded-2xl border text-base border-themeColor text-themeColor`
 					: `${className} p-3 rounded-2xl border bg-themeColor text-[#ffffff] text-base font-bold ${
 							leftIcon ? 'flex items-center gap-16' : ''
