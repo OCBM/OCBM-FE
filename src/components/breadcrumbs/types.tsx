@@ -1,3 +1,4 @@
 export type BreadcrumbsType = {
-	className?: string;
+  className?: string;
+  crumbs?: Array<string>;
 };
