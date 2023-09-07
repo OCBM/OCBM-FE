@@ -1,6 +1,7 @@
 export type TabViewPropsType = {
   tabs: TabType[];
-  className: string;
+  className?: string;
+  type: 'primary' | 'secondary';
 };
 
 export type TabType = {
