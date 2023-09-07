@@ -1,4 +1,4 @@
-import useBreadcrumbs from '@/hooks/useBreadcrumbs';
+import { useBreadcrumbs } from '@/hooks';
 import Breadcrumbs from '../components/breadcrumbs';
 import Layout from '../components/layout';
 
