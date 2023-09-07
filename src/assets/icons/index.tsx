@@ -1,16 +1,6 @@
-type iconsPropType = {
-  className?: string;
-};
-type squarePropType = {
-  className?: string;
-  critical?: boolean;
-  low?: boolean;
-  medium?: boolean;
-  active?: boolean;
-  color?: string;
-};
+import { IconsPropType, SquareIconPropTypes } from './types';
 
-export const ChevronDown = ({ className }: iconsPropType) => {
+export const ChevronDownIcon = ({ className }: IconsPropType) => {
   return (
     <svg
       className={className}
@@ -32,7 +22,7 @@ export const ChevronDown = ({ className }: iconsPropType) => {
   );
 };
 
-export const CalenderIcon = ({ className }: iconsPropType) => {
+export const CalenderIcon = ({ className }: IconsPropType) => {
   return (
     <svg
       className={className}
@@ -120,7 +110,7 @@ export const CalenderIcon = ({ className }: iconsPropType) => {
   );
 };
 
-export const ChevronLeftIcon = ({ className }: iconsPropType) => {
+export const ChevronLeftIcon = ({ className }: IconsPropType) => {
   return (
     <svg
       className={className}
@@ -138,7 +128,7 @@ export const ChevronLeftIcon = ({ className }: iconsPropType) => {
   );
 };
 
-export const ChevronRightIcon = ({ className }: iconsPropType) => {
+export const ChevronRightIcon = ({ className }: IconsPropType) => {
   return (
     <svg
       className={className}
@@ -156,7 +146,7 @@ export const ChevronRightIcon = ({ className }: iconsPropType) => {
   );
 };
 
-export const ChevronCancelIcon = ({ className }: iconsPropType) => {
+export const ChevronCancelIcon = ({ className }: IconsPropType) => {
   return (
     <svg
       className={className}
@@ -175,7 +165,7 @@ export const ChevronCancelIcon = ({ className }: iconsPropType) => {
   );
 };
 
-export const ChevronSuccessIcon = ({ className }: iconsPropType) => {
+export const ChevronSuccessIcon = ({ className }: IconsPropType) => {
   return (
     <svg
       className={className}
@@ -201,7 +191,7 @@ export const ChevronSuccessIcon = ({ className }: iconsPropType) => {
   );
 };
 
-export const DeleteIcon = ({ className }: iconsPropType) => {
+export const DeleteIcon = ({ className }: IconsPropType) => {
   return (
     <svg
       className={className}
@@ -222,7 +212,7 @@ export const DeleteIcon = ({ className }: iconsPropType) => {
   );
 };
 
-export const PencilIcon = ({ className }: iconsPropType) => {
+export const PencilIcon = ({ className }: IconsPropType) => {
   return (
     <svg
       className={className}
@@ -243,7 +233,7 @@ export const PencilIcon = ({ className }: iconsPropType) => {
   );
 };
 
-export const SearchIcon = ({ className }: iconsPropType) => {
+export const SearchIcon = ({ className }: IconsPropType) => {
   return (
     <svg
       className={className}
@@ -263,7 +253,7 @@ export const SearchIcon = ({ className }: iconsPropType) => {
   );
 };
 
-export const NoteIcon = ({ className }: iconsPropType) => {
+export const NoteIcon = ({ className }: IconsPropType) => {
   return (
     <svg
       className={className}
@@ -291,7 +281,7 @@ export const NoteIcon = ({ className }: iconsPropType) => {
   );
 };
 
-export const MachineIcon = ({ className }: iconsPropType) => {
+export const MachineIcon = ({ className }: IconsPropType) => {
   return (
     <svg
       className={className}
@@ -325,7 +315,7 @@ export const MachineIcon = ({ className }: iconsPropType) => {
   );
 };
 
-export const PlantIcon = ({ className }: iconsPropType) => {
+export const PlantIcon = ({ className }: IconsPropType) => {
   return (
     <svg
       className={className}
@@ -359,7 +349,7 @@ export const PlantIcon = ({ className }: iconsPropType) => {
   );
 };
 
-export const MasteryIcon = ({ className }: iconsPropType) => {
+export const MasteryIcon = ({ className }: IconsPropType) => {
   return (
     <svg
       className={className}
@@ -393,7 +383,7 @@ export const MasteryIcon = ({ className }: iconsPropType) => {
   );
 };
 
-export const ReportsIcon = ({ className }: iconsPropType) => {
+export const ReportsIcon = ({ className }: IconsPropType) => {
   return (
     <svg
       className={className}
@@ -440,7 +430,7 @@ export const ReportsIcon = ({ className }: iconsPropType) => {
   );
 };
 
-export const SetStandardIcon = ({ className }: iconsPropType) => {
+export const SetStandardIcon = ({ className }: IconsPropType) => {
   return (
     <svg
       className={className}
@@ -484,7 +474,7 @@ export const SquareIcon = ({
   active,
   color = 'black',
   className,
-}: squarePropType) => {
+}: SquareIconPropTypes) => {
   return (
     <svg
       className={className}

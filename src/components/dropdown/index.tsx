@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { DropdownOptionType, DropdownPropsType } from './types';
-import { ChevronDown } from '@/assets/icons';
+import { ChevronDownIcon } from '@/assets/icons';
 
 const Dropdown = ({ options, selectedVal, handleChange, type, placeholder }: DropdownPropsType) => {
   const [query, setQuery] = useState<string>('');
@@ -57,7 +57,7 @@ const Dropdown = ({ options, selectedVal, handleChange, type, placeholder }: Dro
           className="grow h-full cursor-pointer outline-none"
         />
         <span className={isOpen ? 'rotate-180 transition' : ''}>
-          <ChevronDown />
+          <ChevronDownIcon />
         </span>
       </div>
       {isOpen && (
