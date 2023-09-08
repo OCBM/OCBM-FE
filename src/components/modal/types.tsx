@@ -1,5 +1,5 @@
 export type ModalTypes = {
-  isOpen?: React.MouseEventHandler<HTMLButtonElement> | boolean;
-  modalCloseRequest: () => void;
+  isOpen?: boolean;
+  onCancel: () => void;
   children?: string | JSX.Element | JSX.Element[];
 };
