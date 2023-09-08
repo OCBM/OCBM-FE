@@ -13,7 +13,6 @@ const meta = {
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
   tags: ['autodocs'],
-  // For default args value for all component use the below one
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   // argTypes: {
 
