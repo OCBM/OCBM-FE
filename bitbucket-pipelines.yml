@@ -10,7 +10,7 @@ pipelines:
             - npm install
             - npm run build
           artifacts:
-            - build/**
+            - dist/**
       - step:
           name: Deploy Production Omnex to S3
           deployment: production
@@ -22,7 +22,7 @@ pipelines:
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
                 S3_BUCKET: $S3_BUCKET
                 ACL: 'public-read'
-                LOCAL_PATH: 'build'
+                LOCAL_PATH: 'dist'
     dev:
       - step:
           name: Build Stage Omnex app
@@ -31,7 +31,7 @@ pipelines:
             - npm install
             - npm run build
           artifacts:
-            - build/**
+            - dist/**
       - step:
           name: Deploy Staging Omnex to S3
           deployment: staging
@@ -43,7 +43,7 @@ pipelines:
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
                 S3_BUCKET: $S3_BUCKET
                 ACL: 'public-read'
-                LOCAL_PATH: 'build'
+                LOCAL_PATH: 'dist'
   custom:
     production:
       - step:
@@ -53,7 +53,7 @@ pipelines:
             - npm install
             - npm run build
           artifacts:
-            - build/**
+            - dist/**
       - step:
           name: Deploy Production Omnex to S3
           deployment: production
@@ -65,7 +65,7 @@ pipelines:
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
                 S3_BUCKET: $S3_BUCKET
                 ACL: 'public-read'
-                LOCAL_PATH: 'build'
+                LOCAL_PATH: 'dist'
     staging:
       - step:
           name: Deploy Staging Omnex to S3
@@ -78,4 +78,4 @@ pipelines:
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
                 S3_BUCKET: $S3_BUCKET
                 ACL: 'public-read'
-                LOCAL_PATH: '/'
+                LOCAL_PATH: 'dist'
