@@ -3,7 +3,7 @@ import { TabViewPropsType } from './types';
 import { TabType } from './types';
 import { Outlet, useNavigate } from 'react-router-dom';
 
-const TabViewSecondary = ({ tabs, className }: TabViewPropsType) => {
+const TabViewSecondary = ({ tabs = [], className = '' }: TabViewPropsType) => {
   const navigate = useNavigate();
   const [active, setActive] = useState<number>(0);
 
@@ -37,19 +37,3 @@ const TabViewSecondary = ({ tabs, className }: TabViewPropsType) => {
 };
 
 export default TabViewSecondary;
-
-TabViewSecondary.defaultProps = {
-  tabs: [
-    {
-      title: 'Machines',
-      path: '/machines',
-      key: 'machines',
-    },
-    {
-      title: 'Sensors',
-      path: '/sensors',
-      key: 'sensors',
-    },
-  ],
-  className: '',
-};

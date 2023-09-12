@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { TabViewPropsType } from './types';
 import { TabType } from './types';
 
-const TabViewPrimary = ({ tabs, className }: TabViewPropsType) => {
+const TabViewPrimary = ({ tabs = [], className = '' }: TabViewPropsType) => {
   const [active, setActive] = useState<number>(0);
   const primaryActiveStyle = 'bg-[#605BFF] text-white rounded-t-lg';
   const primaryInactiveStyle = 'bg-[#F4F3FE] text-[#605BFF]';
@@ -34,19 +34,3 @@ const TabViewPrimary = ({ tabs, className }: TabViewPropsType) => {
 };
 
 export default TabViewPrimary;
-
-TabViewPrimary.defaultProps = {
-  tabs: [
-    {
-      title: 'Plant',
-      content: 'Add Plant',
-      key: 'plant',
-    },
-    {
-      title: 'Shop',
-      content: 'Add Shop',
-      key: 'shop',
-    },
-  ],
-  className: '',
-};
