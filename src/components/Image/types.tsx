@@ -1,5 +1,5 @@
 export type ImageTypes = {
   className?: string;
-  src?: string;
+  src: string;
   alt?: string;
 };
