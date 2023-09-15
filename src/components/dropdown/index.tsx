@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { DropdownOptionType, DropdownPropsType } from './types';
 import { ChevronDownIcon } from '@/assets/icons';
 
-const Dropdown = ({ options, selectedVal, handleChange, type, placeholder }: DropdownPropsType) => {
+const Dropdown = ({ options, value, handleChange, type, placeholder }: DropdownPropsType) => {
   const [query, setQuery] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -25,7 +25,7 @@ const Dropdown = ({ options, selectedVal, handleChange, type, placeholder }: Dro
 
   const getDisplayValue = () => {
     if (query) return query;
-    if (selectedVal) return selectedVal;
+    if (value) return value;
     return '';
   };
 
@@ -47,7 +47,7 @@ const Dropdown = ({ options, selectedVal, handleChange, type, placeholder }: Dro
         <input
           ref={inputRef}
           type="text"
-          placeholder={placeholder || selectedVal}
+          placeholder={placeholder || value}
           value={getDisplayValue()}
           onChange={(e) => {
             setQuery(e.target.value);
