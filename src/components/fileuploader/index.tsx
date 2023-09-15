@@ -1,12 +1,13 @@
 import React, { ForwardedRef, useState } from 'react';
 import { UploadIcon, UploadSuccessIcon } from '@/assets/icons';
 import { FileUploadStatusType, FileUploaderPropsType } from './types';
+import { isArray } from '@/utils';
 
 const FileUploader = React.forwardRef(
   (props: FileUploaderPropsType, ref: ForwardedRef<HTMLInputElement>) => {
-    const { handleChange, acceptFormat = '', multiple = false, status = 'upload' } = props;
+    const { handleChange, fileFormat = '.xlsx', multiple = false, status = 'upload' } = props;
 
-    const [fileName, setFileName] = useState('');
+    const [fileName, setFileName] = useState<string>('');
 
     const handleStatusIcon = (status: FileUploadStatusType) => {
       switch (status) {
@@ -29,9 +30,12 @@ const FileUploader = React.forwardRef(
         htmlFor="uploadInput"
         onDragOver={(event) => event.preventDefault()}
         onDrop={(event) => {
+          console.log(event, 'drag-event');
           event.preventDefault();
           handleChange(event?.dataTransfer?.files);
-          setFileName(event?.dataTransfer?.files[0]?.name);
+          setFileName(
+            (isArray(event?.dataTransfer?.files) && event?.dataTransfer?.files[0]?.name) || '',
+          );
         }}
       >
         <input
@@ -39,12 +43,13 @@ const FileUploader = React.forwardRef(
           className="hidden"
           type="file"
           name="file"
-          accept={acceptFormat}
+          accept={fileFormat}
           id="uploadInput"
           multiple={multiple}
           onChange={(event) => {
+            console.log(event, 'upload-event');
             handleChange(event?.target?.files);
-            setFileName(event?.target?.files?.[0]?.name || '');
+            setFileName((isArray(event?.target?.files) && event?.target?.files?.[0]?.name) || '');
           }}
         />
         {handleStatusIcon(status)}
@@ -60,7 +65,7 @@ const FileUploader = React.forwardRef(
         )}
 
         <p className="text-[#676767] text-xs font-normal leading-5">
-          Supported formats: {acceptFormat}
+          Supported formats: {fileFormat}
         </p>
       </label>
     );
