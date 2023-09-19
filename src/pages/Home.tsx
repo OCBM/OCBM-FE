@@ -1,24 +1,15 @@
-// import { useBreadcrumbs } from '@/hooks';
-// import Breadcrumbs from '../components/breadcrumbs';
-// import Layout from '../components/layout';
-import FileUploader from '@/components/fileuploader';
-import { useState } from 'react';
+import { useBreadcrumbs } from '@/hooks';
+import Breadcrumbs from '../components/breadcrumbs';
+import Layout from '../components/layout';
 
 function Home() {
-  const [status, setStatus] = useState('upload');
-  // const list = useBreadcrumbs();
-  const handleFiles = (event) => {
-    console.log(event, 'file');
-    if (event?.length > 0 || event?.length > 0) setStatus('success');
-  };
+  const list = useBreadcrumbs();
+
   return (
-    // <Layout>
-    <div>
-      {/* <h2>Hello world</h2> */}
-      {/* <Breadcrumbs crumbs={['home', ...list]} /> */}
-      <FileUploader handleChange={handleFiles} fileFormat=".xlsx" multiple status={status} />
-    </div>
-    // </Layout>
+    <Layout>
+      <h2>Hello world</h2>
+      <Breadcrumbs crumbs={['home', ...list]} />
+    </Layout>
   );
 }
 export default Home;

@@ -1,7 +1,7 @@
 export type FileUploaderPropsType = {
-  handleChange: (event: any) => void;
+  handleFile: (event: any) => void;
+  handleWrongFile?: (event: any) => void;
   fileFormat?: '.xlsx';
-  multiple?: boolean;
   status?: FileUploadStatusType;
 };
 
