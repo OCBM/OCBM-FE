@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import Card from '@/components/card';
 import Image from '@/components/Image';
-import Chennai from '../assets/images/chennai.jpg';
-import Machine from '../assets/images/machine.png';
+import Chennai from '../../src/stories/images/chennai.jpg';
+import Machine from '../../src/stories/images/machine.png';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
@@ -40,7 +40,7 @@ export const CardWithPlant: Story = {
 export const CardWithSensor: Story = {
   args: {
     children: (
-      <div className="text-center w-[244px] h-auto rounded-[15px] bg-white shadow-[0px_0px_40px_0px_#0000001A] pt-4">
+      <div className="text-center w-[244px] h-auto rounded-[16px] border-[#19C18F66] border-2   pt-4">
         <h2 className="text-[18px] font-bold text-black px-5 mb-4">
           Oil Temperature at Cooloer Outlet Line
         </h2>
