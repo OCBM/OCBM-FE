@@ -1,14 +1,10 @@
 import { useState } from 'react';
-import { UploadIcon, UploadSuccessIcon } from '@/assets/icons';
 import { FileUploadStatusType, FileUploaderPropsType } from './types';
+import { FILE_FORMAT } from './constants';
+import { UploadIcon, UploadSuccessIcon } from 'assets/icons';
 
 const FileUploader = (props: FileUploaderPropsType) => {
-  const {
-    handleFile,
-    handleWrongFile = () => {},
-    fileFormat = '.xlsx',
-    uploadStatus = 'upload',
-  } = props;
+  const { handleFile, fileFormat = '.xlsx', uploadStatus = 'upload' } = props;
 
   const [fileName, setFileName] = useState<string>('');
 
@@ -29,29 +25,16 @@ const FileUploader = (props: FileUploaderPropsType) => {
 
   const handleDrop = (event: any) => {
     event.preventDefault();
-    if (
-      event?.dataTransfer?.files[0].type ===
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    ) {
+    if (event?.dataTransfer?.files[0].type === FILE_FORMAT.excel) {
       handleFile(event?.dataTransfer?.files);
       setFileName(event?.dataTransfer?.files[0]?.name);
-    } else {
-      setFileName('');
-      handleWrongFile(event?.dataTransfer?.files);
     }
   };
 
   const handleInputChange = (event: any) => {
-    console.log(event?.target?.files[0]);
-    if (
-      event?.target?.files[0].type ===
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    ) {
+    if (event?.target?.files[0].type === FILE_FORMAT.excel) {
       handleFile(event?.target?.files);
       setFileName(event?.target?.files?.[0]?.name);
-    } else {
-      setFileName('');
-      handleWrongFile(event?.target?.files);
     }
   };
 
