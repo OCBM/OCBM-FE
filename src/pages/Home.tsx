@@ -4,12 +4,11 @@ import Layout from '../components/layout';
 
 function Home() {
   const list = useBreadcrumbs();
+
   return (
     <Layout>
-      <div>
-        <h2>Hello world</h2>
-        <Breadcrumbs crumbs={['home', ...list]} />
-      </div>
+      <h2>Hello world</h2>
+      <Breadcrumbs crumbs={['home', ...list]} />
     </Layout>
   );
 }
