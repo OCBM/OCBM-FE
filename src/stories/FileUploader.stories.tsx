@@ -16,6 +16,10 @@ const meta = {
       control: { type: 'radio' },
     },
   },
+  parameters: {
+    layout: 'centered',
+  },
+  tags: ['autodocs'],
 } satisfies Meta<typeof FileUploader>;
 
 export default meta;
