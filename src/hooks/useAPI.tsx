@@ -11,24 +11,23 @@ type useAPIPropsType = {
 const useAPI = ({ url = '', method = 'GET', body = {}, headers }: useAPIPropsType) => {
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const fetchData = () => {
-    axios({
-      url,
-      method,
-      headers,
-      data: body,
-    })
-      .then((response: any) => {
-        setResponse(response.data);
-      })
-      .catch((error: any) => {
-        setError(error);
-      })
-      .finally(() => {
-        setLoading(false);
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response: any = await axios({
+        url,
+        method,
+        headers,
+        data: body,
       });
+      setResponse(response);
+      setLoading(false);
+    } catch (error: any) {
+      setError(error);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
