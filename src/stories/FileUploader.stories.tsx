@@ -6,16 +6,6 @@ import { FileUploadStatusType } from 'components/fileuploader/types';
 const meta = {
   title: 'Components/FileUploader',
   component: FileUploader,
-  argTypes: {
-    fileFormat: {
-      options: ['.xlsx', '.png', '.pdf', '.jpg', 'jpeg'],
-      control: { type: 'radio' },
-    },
-    uploadStatus: {
-      options: ['upload', 'loading', 'success', 'warning', 'error'],
-      control: { type: 'radio' },
-    },
-  },
   parameters: {
     layout: 'centered',
   },
@@ -35,7 +25,18 @@ const FileUploaderWithHooks = () => {
   return <FileUploader fileFormat=".xlsx" uploadStatus={uploadStatus} handleFile={handleFile} />;
 };
 
-export const UI: Story = {};
+export const UI: Story = {
+  argTypes: {
+    fileFormat: {
+      options: ['.xlsx', '.png', '.pdf', '.jpg', 'jpeg'],
+      control: { type: 'radio' },
+    },
+    uploadStatus: {
+      options: ['upload', 'loading', 'success', 'warning', 'error'],
+      control: { type: 'radio' },
+    },
+  },
+};
 
 export const Functionality: Story = {
   render: () => <FileUploaderWithHooks />,
