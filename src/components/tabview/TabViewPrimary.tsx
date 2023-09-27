@@ -1,9 +1,12 @@
-import { useState } from 'react';
 import { TabViewPropsType } from './types';
 import { TabType } from './types';
 
-const TabViewPrimary = ({ tabs = [], className = '' }: TabViewPropsType) => {
-  const [active, setActive] = useState<number>(0);
+const TabViewPrimary = ({
+  tabs = [],
+  className = '',
+  handleClick,
+  activeIndex,
+}: TabViewPropsType) => {
   const primaryActiveStyle = 'bg-[#605BFF] text-white rounded-t-lg';
   const primaryInactiveStyle = 'bg-[#F4F3FE] text-[#605BFF]';
 
@@ -17,18 +20,18 @@ const TabViewPrimary = ({ tabs = [], className = '' }: TabViewPropsType) => {
             key={tab.key}
             className={`cursor-pointer tracking-[0.36px] leading-[18px] text-lg
                   ${` ${
-                    index === active ? primaryActiveStyle : primaryInactiveStyle
+                    index === activeIndex ? primaryActiveStyle : primaryInactiveStyle
                   } font-medium py-4 px-20`}
                 `}
             onClick={() => {
-              setActive(index);
+              handleClick(index);
             }}
           >
             {tab?.title}
           </div>
         ))}
       </div>
-      <div className="p-12">{tabs?.[active]?.content}</div>
+      <div className="p-12">{tabs?.[activeIndex]?.content}</div>
     </div>
   );
 };

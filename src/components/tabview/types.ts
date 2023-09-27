@@ -2,6 +2,8 @@ export type TabViewPropsType = {
   tabs: TabType[];
   className?: string;
   type?: 'primary' | 'secondary';
+  activeIndex: number;
+  handleClick?: (index: number, path?: string) => {};
 };
 
 export type TabType = {
