@@ -9,7 +9,7 @@ function App() {
     <div>
       <GlobalErrorBoundary>
         <PublicRoutes>
-          <Route path="/homes" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="*" element={<h1>Not found</h1>} />
         </PublicRoutes>
       </GlobalErrorBoundary>
