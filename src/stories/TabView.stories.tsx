@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import TabView from 'components/tabview';
 
 const primaryTabs = [
@@ -23,8 +23,6 @@ const meta = {
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
-
 const TabViewPrimary = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -32,14 +30,7 @@ const TabViewPrimary = () => {
     setActiveIndex(index);
   };
 
-  return (
-    <TabView
-      type="primary"
-      tabs={primaryTabs}
-      activeIndex={activeIndex}
-      handleClick={handleClick}
-    />
-  );
+  return <TabView type="primary" tabs={primaryTabs} activeIndex={activeIndex} handleClick={handleClick} />;
 };
 
 const TabViewSecondary = () => {
@@ -49,20 +40,13 @@ const TabViewSecondary = () => {
     setActiveIndex(index);
   };
 
-  return (
-    <TabView
-      type="secondary"
-      tabs={secondaryTabs}
-      activeIndex={activeIndex}
-      handleClick={handleClick}
-    />
-  );
+  return <TabView type="secondary" tabs={secondaryTabs} activeIndex={activeIndex} handleClick={handleClick} />;
 };
 
-export const Primary: Story = {
+export const Primary = {
   render: () => <TabViewPrimary />,
 };
 
-export const Secondary: Story = {
+export const Secondary = {
   render: () => <TabViewSecondary />,
 };

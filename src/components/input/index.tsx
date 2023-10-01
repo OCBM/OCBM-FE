@@ -14,11 +14,7 @@ function Input({
 }: InputType) {
   return (
     <div className="relative">
-      <label
-        className={`${labelclassName || ''} text-[#492CE1] text-[14px] font-medium block mb-2`}
-      >
-        {label}
-      </label>
+      <label className={`${labelclassName || ''} text-[#492CE1] text-[14px] font-medium block mb-2`}>{label}</label>
       <input
         id={id}
         type={type}
@@ -26,9 +22,7 @@ function Input({
         value={value}
         placeholder={placeholder}
         onClick={onClick}
-        className={`${
-          className || ''
-        } w-full rounded-[50px] border-gray-400 border-2 border-solid h-[40px] px-3`}
+        className={`${className || ''} w-full rounded-[50px] border-gray-400 border-2 border-solid h-[40px] px-3`}
       />
       {inputIcon}
     </div>

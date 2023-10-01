@@ -31,9 +31,7 @@ export const Basic: Story = {
           <ChevronSuccessIcon />
         </div>
         <h2 className="mb-4 font-medium text-[24px]">File Uploaded successfully</h2>
-        <button className="text-center bg-blue-500 px-5 py-2 rounded-[20px] text-white">
-          Done
-        </button>
+        <button className="text-center bg-blue-500 px-5 py-2 rounded-[20px] text-white">Done</button>
       </div>
     ),
     isOpen: true,

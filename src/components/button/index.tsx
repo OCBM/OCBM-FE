@@ -16,12 +16,15 @@ const Button = ({
       ' text-base border-themeColor text-themeColor ': variant === 'secondary',
     },
     {
-      '!border-grey-light !text-grey-light cursor-not-allowed ':
-        variant === 'secondary' && disabled,
+      '!border-grey-light !text-grey-light cursor-not-allowed ': variant === 'secondary' && disabled,
     },
-    { ' text-[#ffffff] text-base font-bold bg-themeColor ': variant === 'primary' },
+    {
+      ' text-[#ffffff] text-base font-bold bg-themeColor ': variant === 'primary',
+    },
 
-    { ' !bg-grey-light cursor-not-allowed ': disabled && variant === 'primary' },
+    {
+      ' !bg-grey-light cursor-not-allowed ': disabled && variant === 'primary',
+    },
 
     { ' flex items-center gap-2 ': leftIcon },
     className,

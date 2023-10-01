@@ -45,13 +45,7 @@ const FileUploader = (props: FileUploaderPropsType) => {
       onDragOver={(event) => event.preventDefault()}
       onDrop={handleDrop}
     >
-      <input
-        className="hidden"
-        type="file"
-        accept={fileFormat}
-        id="uploadInput"
-        onChange={handleInputChange}
-      />
+      <input className="hidden" type="file" accept={fileFormat} id="uploadInput" onChange={handleInputChange} />
       {handleStatusIcon(uploadStatus)}
       {fileName ? (
         <p className="text-[#605BFF] text-lg font-medium leading-5 underline tracking-[0.36px] mt-4 mb-[10px]">
@@ -59,14 +53,11 @@ const FileUploader = (props: FileUploaderPropsType) => {
         </p>
       ) : (
         <p className="text-[#0F0F0F] text-lg font-medium leading-5 mt-4 mb-[10px]">
-          Drag & drop files or{' '}
-          <span className="text-[#605BFF] text-lg font-medium leading-5 underline">Browse</span>
+          Drag & drop files or <span className="text-[#605BFF] text-lg font-medium leading-5 underline">Browse</span>
         </p>
       )}
 
-      <p className="text-[#676767] text-xs font-normal leading-5">
-        Supported formats: {fileFormat}
-      </p>
+      <p className="text-[#676767] text-xs font-normal leading-5">Supported formats: {fileFormat}</p>
     </label>
   );
 };

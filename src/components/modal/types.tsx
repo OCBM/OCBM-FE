@@ -1,3 +1,5 @@
+import { JSX } from 'react';
+
 export type ModalTypes = {
   isOpen?: boolean;
   onCancel: () => void;

@@ -30,9 +30,7 @@ const Dropdown = ({ options, value, handleChange, type, placeholder }: DropdownP
   };
 
   const filterOptions = (options: DropdownOptionType[]) => {
-    return options?.filter(
-      (option: DropdownOptionType) => option?.text?.toLowerCase().includes(query.toLowerCase()),
-    );
+    return options?.filter((option: DropdownOptionType) => option?.text?.toLowerCase().includes(query.toLowerCase()));
   };
 
   return (
