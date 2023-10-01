@@ -8,11 +8,11 @@ import './index.css';
 const container = document.getElementById('root')! as HTMLElement;
 
 ReactDOM.createRoot(container).render(
-	<React.StrictMode>
-		<ReduxProvider>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
-		</ReduxProvider>
-	</React.StrictMode>
+  <React.StrictMode>
+    <ReduxProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ReduxProvider>
+  </React.StrictMode>,
 );
