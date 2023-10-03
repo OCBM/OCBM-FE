@@ -41,9 +41,7 @@ export const CardWithSensor: Story = {
   args: {
     children: (
       <div className="text-center w-[244px] h-auto rounded-[16px] border-[#19C18F66] border-2   pt-4">
-        <h2 className="text-[18px] font-bold text-black px-5 mb-4">
-          Oil Temperature at Cooloer Outlet Line
-        </h2>
+        <h2 className="text-[18px] font-bold text-black px-5 mb-4">Oil Temperature at Cooloer Outlet Line</h2>
         <Image className="mx-auto mb-4" src={Machine} alt="Planet Images" />
         <button className="bg-[#605BFF] text-white text-[16px] text-center w-full py-3 font-bold rounded-b-[16px]">
           View
@@ -56,9 +54,7 @@ export const CardWithTag: Story = {
   args: {
     children: (
       <div className="text-center w-[244px] h-auto rounded-[15px] bg-white shadow-[0px_0px_40px_0px_#0000001A] pt-4">
-        <h2 className="text-[18px] font-bold text-black px-5 mb-4">
-          Oil Temperature at Cooloer Outlet Line
-        </h2>
+        <h2 className="text-[18px] font-bold text-black px-5 mb-4">Oil Temperature at Cooloer Outlet Line</h2>
         <Image className="mx-auto mb-4" src={Machine} alt="Planet Images" />
         <button className="bg-[#605BFF] text-white text-[16px] text-center w-full py-3 font-bold rounded-b-[16px]">
           View

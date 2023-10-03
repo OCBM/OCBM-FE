@@ -1,6 +1,7 @@
+import { JSX } from 'react';
 export type ProtectedRouteTypes = {
-    redirectTo?: string;
+  redirectTo?: string;
 };
 export type PublicRouteTypes = {
-    children: JSX.Element | JSX.Element[];
+  children: JSX.Element | JSX.Element[];
 };

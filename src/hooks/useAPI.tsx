@@ -13,24 +13,23 @@ const useAPI = ({ url = '', method = 'GET', body = {}, headers }: useAPIPropsTyp
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const response: any = await axios({
-        url,
-        method,
-        headers,
-        data: body,
-      });
-      setResponse(response);
-      setLoading(false);
-    } catch (error: any) {
-      setError(error);
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response: any = await axios({
+          url,
+          method,
+          headers,
+          data: body,
+        });
+        setResponse(response);
+        setLoading(false);
+      } catch (error: any) {
+        setError(error);
+        setLoading(false);
+      }
+    };
     fetchData();
   }, [method, url, body, headers]);
 
