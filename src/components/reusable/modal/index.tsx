@@ -10,7 +10,7 @@ function Modal({ isOpen, onCancel, children }: ModalTypes) {
       onClick={onCancel}
     >
       <div
-        className="width-[450px] cursor-default rounded-xl bg-white p-5"
+        className=" cursor-default rounded-xl bg-white "
         onClick={(event) => {
           event.stopPropagation();
         }}

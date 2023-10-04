@@ -19,11 +19,11 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "pages/*": ["src/pages/*"],
-      "components/*": ["src/components/*"],
-      "assets/*": ["src/assets/*"],
+      // "pages/*": ["src/pages/*"],
+      // "components/*": ["components/*"],
+      // "assets/*": ["src/assets/*"],
       "@/*": ["./src/*", "./dist/*", ""]
     }
   },

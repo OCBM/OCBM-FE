@@ -11,6 +11,7 @@ function Input({
   label,
   inputIcon,
   labelclassName,
+  onChange,
 }: InputType) {
   return (
     <div className="relative">
@@ -22,7 +23,8 @@ function Input({
         value={value}
         placeholder={placeholder}
         onClick={onClick}
-        className={`${className || ''} w-full rounded-[50px] border-gray-400 border-2 border-solid h-[40px] px-3`}
+        onChange={onChange}
+        className={`${className || ''} w-full rounded-[50px] border-gray-400 border border-solid px-3 `}
       />
       {inputIcon}
     </div>
