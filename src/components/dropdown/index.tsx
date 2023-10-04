@@ -2,7 +2,16 @@ import { useEffect, useRef, useState } from 'react';
 import { DropdownOptionType, DropdownPropsType } from './types';
 import { ChevronDownIcon } from '@/assets/icons';
 
-const Dropdown = ({ options, value, handleChange, type, placeholder }: DropdownPropsType) => {
+const Dropdown = ({
+  options,
+  value,
+  handleChange = () => {},
+  type,
+  placeholder,
+  className,
+  label,
+  labelclassName,
+}: DropdownPropsType) => {
   const [query, setQuery] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -35,11 +44,14 @@ const Dropdown = ({ options, value, handleChange, type, placeholder }: DropdownP
 
   return (
     <div className="relative">
+      {label && (
+        <label className={`${labelclassName || ''} text-[#492CE1] text-[14px] font-medium block mb-2`}>{label}</label>
+      )}
       <div
         className={
           type === 'secondary'
-            ? 'flex items-center justify-between border-b-2 py-3 px-5'
-            : 'flex border-2 py-3 px-5 overflow-hidden rounded-[50px] gap-3 items-center justify-between border-[#444444] cursor-pointer'
+            ? `flex items-center justify-between border-b-2 py-3 px-5 ${className}`
+            : `flex border-2 py-3 px-5 overflow-hidden rounded-[50px] gap-3 items-center justify-between border-[#444444] cursor-pointer ${className}`
         }
       >
         <input
