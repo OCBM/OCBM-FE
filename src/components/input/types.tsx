@@ -1,4 +1,4 @@
-import { JSX } from 'react';
+import { JSX, ChangeEvent } from 'react';
 
 export type InputType = {
   id?: string;
@@ -7,7 +7,7 @@ export type InputType = {
   type?: string;
   value?: string;
   placeholder?: string;
-  onChange?: () => void;
+  onChange?: (event: ChangeEvent) => void;
   label?: string;
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
