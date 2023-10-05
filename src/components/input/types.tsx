@@ -7,8 +7,9 @@ export type InputType = {
   type?: string;
   value?: string;
   placeholder?: string;
-  onClick?: () => void;
+  onChange?: () => void;
   label?: string;
-  inputIcon?: JSX.Element;
+  leftIcon?: JSX.Element;
+  rightIcon?: JSX.Element;
   labelclassName?: string;
 };
