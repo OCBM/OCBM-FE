@@ -71,7 +71,7 @@ const Dropdown = ({
         </span>
       </div>
       {isOpen && (
-        <div className="absolute border-4 w-full px-8 py-3 my-3 border-white rounded-b-2xl rounded-l-2xl shadow-[0px_4px_6px_0px_rgba(0,0,0,0.08)] ">
+        <div className="absolute border-4 w-full px-8 py-3 my-3 border-white rounded-b-2xl rounded-l-2xl shadow-[0px_4px_6px_0px_rgba(0,0,0,0.08) z-[99] bg-white">
           {filterOptions(options).map((option: DropdownOptionType) => (
             <div
               onClick={() => selectOption(option)}
