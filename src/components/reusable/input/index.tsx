@@ -18,11 +18,7 @@ function Input({
       {label && (
         <label className={`${labelclassName || ''} text-[#492CE1] text-[14px] font-medium block mb-2`}>{label}</label>
       )}
-      <div
-        className={`${
-          className || ''
-        } rounded-[50px] border-gray-400 border-2 border-solid h-[40px] px-3 flex items-center`}
-      >
+      <div className={`${className || ''} rounded-[50px] border-gray-400 border-solid h-[40px] px-3 flex items-center`}>
         {leftIcon}
         <input
           id={id}
