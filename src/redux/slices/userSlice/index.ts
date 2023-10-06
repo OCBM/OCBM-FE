@@ -26,7 +26,7 @@ const UserSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.user = payload.message;
+        state.user = payload?.message;
       })
       .addCase(loginUser.rejected, (state) => {
         state.isLoading = false;

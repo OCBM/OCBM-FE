@@ -6,16 +6,17 @@ import LoginLayout from './layout';
 import ResetPassword from './ResetPassword';
 import { loginUser } from '@/redux/slices/userSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks';
+import { RootState } from '@/redux/store';
 
 const LoginCard = () => {
-  const { user } = useAppSelector((store: any) => store?.user);
+  const { user } = useAppSelector((store: RootState) => store?.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [showResetPassword, setShowResetPassword] = useState(false);
 
   const [formData, setFormData] = useState({
-    username: 'abineshprabhakaran',
-    password: 'Abinesh@2023',
+    username: '',
+    password: '',
     newPassword: '',
     conformPassword: '',
   });

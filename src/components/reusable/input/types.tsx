@@ -7,7 +7,7 @@ export type InputType = {
   type?: string;
   value?: string;
   placeholder?: string;
-  onChange?: (event: ChangeEvent) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   label?: string;
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
