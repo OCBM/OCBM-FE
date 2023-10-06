@@ -7,6 +7,8 @@ import { Layout } from './components';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
+import Addusers from './pages/AddUsers';
+import Users from './pages/Users';
 
 function App() {
   return (
@@ -37,6 +39,8 @@ function App() {
               <Route index element={<Home />} />
             </Route>
             <Route path="/login" element={<Login />} />
+            <Route path="/userdetails/adduser" element={<Addusers />} />
+            <Route path="/userdetails" element={<Users />} />
             <Route path="*" element={<h1>Not found</h1>} />
           </PublicRoutes>
         </div>
