@@ -66,7 +66,7 @@ const LoginCard = () => {
                         name="username"
                         value={formData.username}
                         placeholder="User Name*"
-                        className="py-5 pr-[10px] pl-7 border border-grey-dark text-grey-light"
+                        className="py-7 pl-7 border border-grey-dark text-grey-light"
                         onChange={inputHandler}
                       />
                     </div>
@@ -76,7 +76,7 @@ const LoginCard = () => {
                         name="password"
                         value={formData.password}
                         placeholder="Password*"
-                        className="py-5 pr-[10px] pl-7 border border-grey-dark text-grey-light"
+                        className="py-7 pl-7 border border-grey-dark text-grey-light"
                         onChange={inputHandler}
                       />
                     </div>
@@ -84,12 +84,12 @@ const LoginCard = () => {
                       className="py-5 font-medium text-base text-[#5F2EEA] cursor-pointer"
                       onClick={resetPasswordClick}
                     >
-                      Reset Password
+                      <i>Forgot Password</i>
                     </p>
                     <div className="w-full">
                       <Button
                         disabled={formData?.username.length < 6 || formData?.password.length < 6 ? true : false}
-                        label="Login"
+                        label="Log In"
                         className="w-full cursor-pointer"
                         onClick={loginSubmit}
                       />
