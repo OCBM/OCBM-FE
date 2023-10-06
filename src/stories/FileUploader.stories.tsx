@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
-import FileUploader from '../components/fileuploader';
-import { FileUploadStatusType } from 'components/fileuploader/types';
+import { FileUploader } from '@/components';
+import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
 
 const meta = {
   title: 'Components/FileUploader',

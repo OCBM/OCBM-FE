@@ -1,15 +1,14 @@
+import { Breadcrumbs } from '@/components';
 import { useBreadcrumbs } from '@/hooks';
-import Breadcrumbs from '../components/breadcrumbs';
-import Layout from '../components/layout';
 
 function Home() {
   const list = useBreadcrumbs();
 
   return (
-    <Layout>
+    <section>
       <h2>Hello world</h2>
       <Breadcrumbs crumbs={['home', ...list]} />
-    </Layout>
+    </section>
   );
 }
 export default Home;

@@ -1,14 +1,14 @@
 import { JSX } from 'react';
-import { Navigate, Outlet, Routes } from 'react-router-dom';
-import { ProtectedRouteTypes, PublicRouteTypes } from './types';
+import { Navigate, Routes } from 'react-router-dom';
+import { PublicRouteTypes } from './types';
+import { useAppSelector } from '@/hooks';
 
-const ProtectedRoute = ({ redirectTo }: ProtectedRouteTypes) => {
-  const auth = true; // replace with actual authentication
-  if (!auth) {
-    return <Navigate to={`${redirectTo || '/auth/login '}`} replace />;
+const ProtectedRoute = ({ children }: any) => {
+  const { user } = useAppSelector((state: any) => state.user);
+  if (!user) {
+    return <Navigate to="/login" replace />;
   }
-
-  return <Outlet />;
+  return children;
 };
 
 const PublicRoutes = ({ children }: PublicRouteTypes): JSX.Element => {

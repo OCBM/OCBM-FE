@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FileUploadStatusType, FileUploaderPropsType } from './types';
 import { FILE_FORMAT } from './constants';
-import { UploadIcon, UploadSuccessIcon } from 'assets/icons';
+import { UploadIcon, UploadSuccessIcon } from '@/assets/icons';
 
 const FileUploader = (props: FileUploaderPropsType) => {
   const { handleFile, fileFormat = '.xlsx', uploadStatus = 'upload' } = props;
