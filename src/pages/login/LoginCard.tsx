@@ -22,7 +22,7 @@ const LoginCard = () => {
   });
 
   useEffect(() => {
-    if (user?.userid) {
+    if (user) {
       toast.success('Login successfull');
       navigate('/');
     }
