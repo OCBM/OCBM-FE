@@ -8,7 +8,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useAppDispatch();
   const logoutBtn = () => {
-    dispatch(logoutUser('Logging Out'));
+    dispatch(logoutUser());
   };
   return (
     <div className="w-full flex justify-between items-center">

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Modal from '@/components/modal';
 import { ChevronSuccessIcon } from '@/assets/icons';
+import { Modal } from '@/components';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {

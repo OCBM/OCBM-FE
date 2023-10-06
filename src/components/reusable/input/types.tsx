@@ -1,4 +1,4 @@
-import { JSX, ChangeEventHandler, ChangeEvent } from 'react';
+import { JSX, ChangeEvent } from 'react';
 
 export type InputType = {
   id?: string;
@@ -12,5 +12,4 @@ export type InputType = {
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
   labelclassName?: string;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
 };

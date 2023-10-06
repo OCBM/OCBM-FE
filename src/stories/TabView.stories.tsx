@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta } from '@storybook/react';
-import TabView from 'components/tabview';
+import { TabView } from '@/components';
 
 const primaryTabs = [
   { title: 'Plant', key: 'plant', content: 'plant' },

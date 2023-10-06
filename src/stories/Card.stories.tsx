@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Card from '@/components/card';
-import Image from '@/components/Image';
 import Chennai from './images/chennai.jpg';
 import Machine from './images/machine.png';
+import { Card, Image } from '@/components';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {

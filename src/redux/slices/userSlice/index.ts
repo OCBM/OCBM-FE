@@ -1,7 +1,8 @@
-import { loginUserThunk } from '@/services/UserThunk';
+import { loginUserThunk } from '@/services/authServices';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  loggedIn: false,
   isLoading: false,
   user: null,
 };
@@ -14,7 +15,7 @@ const UserSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    logoutUser: (state, { payload }) => {
+    logoutUser: (state) => {
       state.user = null;
     },
   },

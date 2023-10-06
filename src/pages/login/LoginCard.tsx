@@ -14,8 +14,8 @@ const LoginCard = () => {
   const [showResetPassword, setShowResetPassword] = useState(false);
 
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
+    username: 'abineshprabhakaran',
+    password: 'Abinesh@2023',
     newPassword: '',
     conformPassword: '',
   });
