@@ -3,12 +3,16 @@ import { UploadWarningIcon } from '@/assets/icons';
 import { Button, Modal } from '@/components';
 import { useAppDispatch } from '@/hooks';
 import { logoutUser } from '@/redux/slices/userSlice';
+import { toast } from 'react-toastify';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useAppDispatch();
   const logoutBtn = () => {
-    dispatch(logoutUser());
+    toast.success('Logged out');
+    setTimeout(() => {
+      dispatch(logoutUser());
+    }, 1000);
   };
   return (
     <div className="w-full flex justify-between items-center">

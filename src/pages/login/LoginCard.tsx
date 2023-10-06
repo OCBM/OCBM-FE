@@ -7,13 +7,13 @@ import ResetPassword from './ResetPassword';
 import { loginUser } from '@/redux/slices/userSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { RootState } from '@/redux/store';
+import { toast } from 'react-toastify';
 
 const LoginCard = () => {
   const { user } = useAppSelector((store: RootState) => store?.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [showResetPassword, setShowResetPassword] = useState(false);
-
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -22,7 +22,8 @@ const LoginCard = () => {
   });
 
   useEffect(() => {
-    if (user) {
+    if (user?.userid) {
+      toast.success('Login successfull');
       navigate('/');
     }
   });
