@@ -1,4 +1,3 @@
-// src/store/reducers.ts
 import { combineReducers } from '@reduxjs/toolkit';
 import userSlice from './slices/userSlice';
 

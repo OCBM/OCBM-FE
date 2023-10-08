@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { DropdownOptionType, DropdownPropsType } from './types';
+import { DropdownPropsType } from './types';
 import { ChevronDownIcon } from '@/assets/icons';
 
 const Dropdown = ({
@@ -11,6 +11,8 @@ const Dropdown = ({
   className,
   label,
   labelclassName,
+  optionLabel = '',
+  optionValue = '',
 }: DropdownPropsType) => {
   const [query, setQuery] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -22,9 +24,13 @@ const Dropdown = ({
     return () => document.removeEventListener('click', toggle);
   }, []);
 
-  const selectOption = (option: DropdownOptionType) => {
+  const selectOption = (option: any) => {
     setQuery('');
-    handleChange(option?.text);
+    if (optionValue) {
+      handleChange(option[optionValue]);
+    } else {
+      handleChange(option);
+    }
     setIsOpen(!isOpen);
   };
 
@@ -33,13 +39,30 @@ const Dropdown = ({
   }
 
   const getDisplayValue = () => {
-    if (query) return query;
-    if (value) return value;
-    return '';
+    // If we edit the text field that text will be displayed
+    if (query) {
+      return query;
+    }
+    // If we dont provide any label and value default input value provided
+    else if (!optionLabel && !optionValue) {
+      return value;
+    } else if (optionLabel && !optionValue) {
+      //@ts-ignore
+      return value && value[optionLabel];
+    } else {
+      return value;
+    }
   };
 
-  const filterOptions = (options: DropdownOptionType[]) => {
-    return options?.filter((option: DropdownOptionType) => option?.text?.toLowerCase().includes(query.toLowerCase()));
+  const filterOptions = (options: any) => {
+    if (optionLabel) {
+      return options?.filter((option: any) => option[optionLabel]?.toLowerCase().includes(query.toLowerCase()));
+    } else if (!optionLabel && !optionValue) {
+      return options?.filter(
+        (option: any) => typeof option === 'string' && option?.toLowerCase().includes(query.toLowerCase()),
+      );
+    }
+    return [];
   };
 
   return (
@@ -72,15 +95,30 @@ const Dropdown = ({
       </div>
       {isOpen && (
         <div className="absolute border-4 w-full px-8 py-3 my-3 border-white rounded-b-2xl rounded-l-2xl shadow-[0px_4px_6px_0px_rgba(0,0,0,0.08) z-[99] bg-white">
-          {filterOptions(options).map((option: DropdownOptionType) => (
-            <div
-              onClick={() => selectOption(option)}
-              className="p-4  cursor-pointer transition-all  hover:bg-[#f4f4f4] rounded-r-xl"
-              key={option?.id}
-            >
-              {option?.text}
-            </div>
-          ))}
+          {filterOptions(options)?.map((option: any) => {
+            if (optionLabel) {
+              return (
+                <div
+                  onClick={() => selectOption(option)}
+                  className="p-4  cursor-pointer transition-all  hover:bg-[#f4f4f4] rounded-r-xl"
+                  key={option[optionLabel]}
+                >
+                  {option[optionLabel]}
+                </div>
+              );
+            } else if (typeof option === 'string') {
+              return (
+                <div
+                  onClick={() => selectOption(option)}
+                  className="p-4  cursor-pointer transition-all  hover:bg-[#f4f4f4] rounded-r-xl"
+                  key={option}
+                >
+                  {option}
+                </div>
+              );
+            }
+            return '';
+          })}
         </div>
       )}
     </div>

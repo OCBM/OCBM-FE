@@ -8,6 +8,7 @@ import { loginUser } from '@/redux/slices/userSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { RootState } from '@/redux/store';
 import { toast } from 'react-toastify';
+import { SITEMAP } from '@/utils/sitemap';
 
 const LoginCard = () => {
   const { user } = useAppSelector((store: RootState) => store?.user);
@@ -24,7 +25,7 @@ const LoginCard = () => {
   useEffect(() => {
     if (user) {
       toast.success('Login successfull');
-      navigate('/');
+      navigate(SITEMAP.base.index);
     }
   });
 
