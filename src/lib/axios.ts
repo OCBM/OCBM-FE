@@ -1,11 +1,17 @@
+import { Store } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { Config } from '@/config';
-import { store } from '@/redux/store';
+
+let reduxStore: Store;
+
+// getting redux store from redux provider file and using in apis
+export const injectStore = (_store: Store) => {
+  reduxStore = _store;
+};
 
 function getToken() {
-  const isUser = store.getState()?.auth?.user;
+  const isUser = reduxStore.getState()?.auth?.user;
   if (isUser) {
-    //@ts-ignore
     return isUser?.accessToken;
   }
   return null;
