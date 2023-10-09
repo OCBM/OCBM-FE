@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { UploadWarningIcon } from '@/assets/icons';
 import { Button, Modal } from '@/components';
 import { useAppDispatch } from '@/hooks';
-import { logoutUser } from '@/redux/slices/userSlice';
+import { logoutUser } from '@/redux/slices/authSlice';
 import { toast } from 'react-toastify';
 
 const Header = () => {

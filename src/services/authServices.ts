@@ -6,6 +6,7 @@ export const AUTH_SERVICES = {
   login: async (url: any, user: any, thunkAPI: any) => {
     try {
       const resp = await apiInstance.post(url, user);
+      toast.success('Login successfull');
       return resp.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error.message;

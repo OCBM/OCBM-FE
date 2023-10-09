@@ -6,7 +6,7 @@ import { RootState } from '@/redux/store';
 import { SITEMAP } from '@/utils/sitemap';
 
 const ProtectedRoute = ({ children }: any) => {
-  const { user } = useAppSelector((state: RootState) => state.user);
+  const { user } = useAppSelector((state: RootState) => state?.auth);
   if (!user) {
     return <Navigate to={SITEMAP.auth.index} replace />;
   }

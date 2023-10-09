@@ -8,12 +8,12 @@ const initialState = {
   user: null,
 };
 
-export const loginUser = createAsyncThunk('user/loginUser', (user: any, thunkAPI) => {
+export const loginUser = createAsyncThunk('auth/loginUser', (user: any, thunkAPI) => {
   return AUTH_SERVICES.login(SERVICES.auth.login, user, thunkAPI);
 });
 
-const UserSlice = createSlice({
-  name: 'user',
+const AuthSlice = createSlice({
+  name: 'auth',
   initialState,
   reducers: {
     logoutUser: (state) => {
@@ -37,5 +37,5 @@ const UserSlice = createSlice({
   },
 });
 
-export const { logoutUser } = UserSlice.actions;
-export default UserSlice.reducer;
+export const { logoutUser } = AuthSlice.actions;
+export default AuthSlice.reducer;

@@ -3,8 +3,12 @@ import { Config } from '@/config';
 import { store } from '@/redux/store';
 
 function getToken() {
-  //@ts-ignore
-  return store.getState().user?.user.accessToken;
+  const isUser = store.getState()?.auth?.user;
+  if (isUser) {
+    //@ts-ignore
+    return isUser?.accessToken;
+  }
+  return null;
 }
 
 const apiInstance = axios.create({
