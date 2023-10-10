@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
+import { toast } from 'react-toastify';
 import { Logo } from '@/assets/images';
 import { Button, Input } from '@/components';
-import LoginLayout from './layout';
-import ResetPassword from './ResetPassword';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { RootState } from '@/redux/store';
-import { toast } from 'react-toastify';
 import { SITEMAP } from '@/utils/sitemap';
 import { loginUser } from '@/redux/slices/authSlice';
+import LoginLayout from './layout';
+import ResetPassword from './ResetPassword';
 
 const LoginCard = () => {
   const [showForgotPassword, setShowForgotPassword] = useState<boolean>(false);
