@@ -10,6 +10,7 @@ function Input({
   onChange,
   label,
   leftIcon,
+  disabled = false,
   rightIcon,
   labelClassName = '',
   inputClassName = '',
@@ -23,6 +24,7 @@ function Input({
           id={id}
           type={type}
           name={name}
+          disabled={disabled}
           value={value}
           placeholder={placeholder}
           onChange={onChange}

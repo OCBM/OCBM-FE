@@ -8,6 +8,7 @@ import { Layout } from './components';
 import { SITEMAP } from './utils/sitemap';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
+import UsersList from './pages/users';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
                 </ProtectedRoute>
               }
             >
+              <Route path={SITEMAP.users.index} element={<UsersList />} />
               <Route index element={<Home />} />
             </Route>
             <Route path={SITEMAP.auth.index} element={<Login />} />

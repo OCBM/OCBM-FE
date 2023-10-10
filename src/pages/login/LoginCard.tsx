@@ -16,7 +16,7 @@ const LoginCard = () => {
   const navigate = useNavigate();
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [formData, setFormData] = useState({
-    username: '',
+    userName: '',
     password: '',
     newPassword: '',
     conformPassword: '',
@@ -39,12 +39,12 @@ const LoginCard = () => {
   };
 
   const loginSubmit = () => {
-    const { username, password } = formData;
-    if (!username || !password) {
+    const { userName, password } = formData;
+    if (!userName || !password) {
       toast.error('provide all fields');
       return;
     }
-    dispatch(loginUser({ username, password }));
+    dispatch(loginUser({ userName, password }));
   };
 
   return (
@@ -62,8 +62,8 @@ const LoginCard = () => {
                     <p className="font-GothamMedium text-base font-medium italic text-[#000] pt-[50px]">Login</p>
                     <div className="pt-10 w-full">
                       <Input
-                        name="username"
-                        value={formData.username}
+                        name="userName"
+                        value={formData.userName}
                         placeholder="User Name*"
                         className="py-7 pl-7 border border-grey-dark text-grey-light h-[40px]"
                         onChange={inputHandler}
@@ -87,7 +87,7 @@ const LoginCard = () => {
                     </p>
                     <div className="w-full">
                       <Button
-                        disabled={formData?.username.length < 6 || formData?.password.length < 6 ? true : false}
+                        disabled={formData?.userName.length < 6 || formData?.password.length < 6 ? true : false}
                         label="Log In"
                         className="w-full cursor-pointer"
                         onClick={loginSubmit}

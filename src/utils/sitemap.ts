@@ -6,8 +6,8 @@ export const SITEMAP = {
     index: '/auth/login',
   },
   users: {
-    index: '/usersdetails',
-    addUser: '/usersdetails/addUser',
+    index: '/users',
+    addUser: '/users/add',
   },
   notFound: '*',
 };
@@ -17,15 +17,17 @@ export const SERVICES = {
     login: '/auth/login',
   },
   user: {
-    add: '/user/create',
+    add: '/user',
+    get: '/user',
+    update: '/user',
   },
   organization: {
-    get: '/organization/get-all-organization',
+    get: '/organization',
   },
   plants: {
-    get: '/plant/get-all-plant',
+    get: '/plant',
   },
   groups: {
-    get: '/group/get-all-groups',
+    get: '/group',
   },
 };
