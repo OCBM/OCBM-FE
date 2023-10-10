@@ -1,5 +1,5 @@
 export type DropdownPropsType = {
-  options: DropdownOptionType[];
+  options: any;
   value?: string;
   handleChange?: (val: string) => void;
   type?: 'primary' | 'secondary' | undefined;
@@ -7,9 +7,6 @@ export type DropdownPropsType = {
   className?: string;
   label?: string;
   labelclassName?: string;
-};
-
-export type DropdownOptionType = {
-  id: number;
-  text: string;
+  optionLabel?: string;
+  optionValue?: string;
 };
