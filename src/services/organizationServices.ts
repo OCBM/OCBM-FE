@@ -1,10 +1,10 @@
 import apiInstance from '@/lib/axios';
 import { SERVICES } from '@/utils/sitemap';
 
-export const USER_SERVICES = {
-  addUser: async (body: any) => {
+export const ORGANIZATION_SERVICES = {
+  getAllOrganization: async () => {
     try {
-      const res = await apiInstance.post(SERVICES.user.add, body);
+      const res = await apiInstance.get(SERVICES.organization.get);
       return res.data;
     } catch (error) {
       console.log(error);

@@ -1,14 +1,13 @@
 import { Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import Home from './pages/Home';
 import GlobalErrorBoundary from './components/error';
 import { ProtectedRoute, PublicRoutes } from './routes';
 import { Login } from './pages';
 import { Layout } from './components';
-import { ToastContainer } from 'react-toastify';
+import { SITEMAP } from './utils/sitemap';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
-import Addusers from './pages/AddUsers';
-import Users from './pages/Users';
 
 function App() {
   return (
@@ -22,14 +21,14 @@ function App() {
             newestOnTop={false}
             closeOnClick
             rtl={false}
-            pauseOnFocusLoss
+            pauseOnFocusLoss={false}
             draggable
             pauseOnHover
             theme="light"
           />
           <PublicRoutes>
             <Route
-              path="/"
+              path={SITEMAP.base.index}
               element={
                 <ProtectedRoute>
                   <Layout />
@@ -38,10 +37,8 @@ function App() {
             >
               <Route index element={<Home />} />
             </Route>
-            <Route path="/login" element={<Login />} />
-            <Route path="/userdetails/adduser" element={<Addusers />} />
-            <Route path="/userdetails" element={<Users />} />
-            <Route path="*" element={<h1>Not found</h1>} />
+            <Route path={SITEMAP.auth.index} element={<Login />} />
+            <Route path={SITEMAP.notFound} element={<h1>Not found</h1>} />
           </PublicRoutes>
         </div>
       </GlobalErrorBoundary>
