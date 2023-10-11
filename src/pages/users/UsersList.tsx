@@ -128,7 +128,7 @@ function UsersList() {
         />
       </Modal>
 
-      <Table className="mt-5 w-[80%] mx-auto" dataSource={userdata} columns={columns} />
+      <Table className="mt-5 w-full mx-auto" dataSource={userdata} columns={columns} />
     </div>
   );
 }

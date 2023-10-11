@@ -32,6 +32,17 @@ function Addusers() {
     role: '',
   };
 
+  const accessType = [
+    {
+      id: 1,
+      value: 'ADMIN',
+    },
+    {
+      id: 2,
+      value: 'USER',
+    },
+  ];
+
   const [user, setUser] = useState<InitialStateType>(initialState);
   const [organizationData, setOrganizationData] = useState([]);
   const [groupsData, setGroupsData] = useState([]);
@@ -72,32 +83,31 @@ function Addusers() {
 
   async function createUser() {
     const body = {
-      ...user,
-      userName: '',
-      name: '',
-      email: '',
-      employeeId: '',
-      position: '',
-      role: '',
+      userName: user.userName,
+      name: user.name,
+      email: user.email,
+      employeeId: user.email,
+      position: user.position,
+      role: user.role,
       groups: {
         connect: [
           {
-            groupId: '',
+            groupId: user.groups,
           },
         ],
       },
       organization: {
         connect: [
           {
-            organizationId: '',
+            organizationId: user.organization,
           },
         ],
       },
-      password: '',
+      password: user.password,
     };
     const res = await USER_SERVICES.addUser(body);
     console.log(res, 'user data');
-    if (res.statusCode === 200) {
+    if (res.statusCode === 201) {
       setUser(initialState);
       toast.success('User added successfully');
     }
@@ -145,7 +155,7 @@ function Addusers() {
           <div className="flex justify-start flex-row w-full gap-[20px] mt-5 ml-5 mb-9">
             <Dropdown
               label="Select Organization*"
-              className="w-[348px] border-[1px] h-[50px]"
+              className="w-[348px] border-[1px] h-[50px] px-3"
               placeholder="Select Organization"
               options={organizationData}
               handleChange={(value) => {
@@ -153,17 +163,15 @@ function Addusers() {
               }}
               value={user.organization}
               optionLabel="organizationName"
-              optionValue="organizationName"
             />
 
             <Dropdown
               label="Select group*"
-              className="w-[348px] border-[1px] h-[50px]"
+              className="w-[348px] border-[1px] h-[50px] px-3"
               placeholder="Select Group"
               value={user?.groups}
               options={groupsData}
               optionLabel="groupName"
-              optionValue="groupName"
               handleChange={(value) => {
                 setUser((prev: any) => ({ ...prev, groups: value }));
               }}
@@ -202,15 +210,17 @@ function Addusers() {
               onChange={handleChange}
             />
 
-            <Input
-              className="rounded-[50px] border-[1px] border-grey-dark w-[348px] h-[50px] mt-2 px-3"
-              labelClassName="text-[#492CE1] text-[14px] font-medium"
+            <Dropdown
               label="Role*"
-              placeholder="Enter your Role"
-              type="text"
-              name="role"
+              className="w-[348px] border-[1px] h-[50px] px-3"
+              placeholder="Select Role"
               value={user?.role}
-              onChange={handleChange}
+              options={accessType}
+              optionLabel="value"
+              optionValue="value"
+              handleChange={(value) => {
+                setUser((prev: any) => ({ ...prev, role: value }));
+              }}
             />
           </div>
 
