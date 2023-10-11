@@ -3,12 +3,11 @@ import { ToastContainer } from 'react-toastify';
 import Home from './pages/Home';
 import GlobalErrorBoundary from './components/error';
 import { ProtectedRoute, PublicRoutes } from './routes';
-import { Login } from './pages';
+import { Login, UsersList } from './pages';
 import { Layout } from './components';
 import { SITEMAP } from './utils/sitemap';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
-import UsersList from './pages/users';
 
 function App() {
   return (

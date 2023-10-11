@@ -10,7 +10,7 @@ export const USER_SERVICES = {
       console.log(error);
     }
   },
-  getUserbyRole: async (role: 'ADMIN' | 'USER') => {
+  getUserbyRole: async (role: string) => {
     try {
       const res = await apiInstance.get(`${SERVICES.user.get}/${role}`);
       return res.data;
