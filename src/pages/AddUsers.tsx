@@ -1,82 +1,54 @@
-import { useBreadcrumbs } from '@/hooks';
-import { useState } from 'react';
-import { Breadcrumbs, Button, Dropdown, Input } from '@/components';
-import { addUser } from '@/services/userServices';
+import { useState, useEffect } from 'react';
+import { Button, Dropdown, Input } from '@/components';
 import { useNavigate } from 'react-router-dom';
-const Position = [
-  {
-    id: 1,
-    text: 'employee',
-  },
-  {
-    id: 2,
-    text: 'manager',
-  },
-];
-
-const Organization = [
-  {
-    id: 1,
-    text: 'Organization 1',
-  },
-  {
-    id: 2,
-    text: 'Organization 2',
-  },
-];
-
-const Plant = [
-  {
-    id: 1,
-    text: 'plant 1',
-  },
-  {
-    id: 2,
-    text: 'plant 2',
-  },
-];
-
-const userType = [
-  {
-    id: 1,
-    text: 'SUPERADMIN',
-  },
-  {
-    id: 2,
-    text: 'ADMIN',
-  },
-  {
-    id: 3,
-    text: 'USER',
-  },
-];
+import { USER_SERVICES } from '@/services/userServices';
+import { GROUP_SERVICES } from '@/services/groupServices';
+import { ORGANIZATION_SERVICES } from '@/services/organizationServices';
+import { toast } from 'react-toastify';
 
 function Addusers() {
-  const list = useBreadcrumbs();
-
   type InitialStateType = {
-    name: string;
-    employeeid: string;
-    email: string;
-    position: string | null;
-    organization: string | null;
-    plants: string | null;
-    username: string;
-    password: string;
-    role: string | null;
+    name: string | undefined;
+    employeeId: string | undefined;
+    email: string | undefined;
+    position: string | undefined;
+    organization: string | undefined;
+    plants: string | undefined;
+    groups: string | undefined;
+    userName: string | undefined;
+    password: string | undefined;
+    role: string | undefined;
   };
   const initialState = {
     name: '',
-    employeeid: '',
+    employeeId: '',
     email: '',
-    position: null,
-    organization: null,
-    plants: null,
-    username: '',
+    position: '',
+    organization: '',
+    plants: '',
+    groups: '',
+    userName: '',
     password: '',
-    role: null,
+    role: '',
   };
+
   const [user, setUser] = useState<InitialStateType>(initialState);
+  const [organizationData, setOrganizationData] = useState([]);
+  const [groupsData, setGroupsData] = useState([]);
+
+  useEffect(() => {
+    async function getOrganizations() {
+      const organization = await ORGANIZATION_SERVICES.getAllOrganization();
+      setOrganizationData(organization.message);
+    }
+
+    async function getGroups() {
+      const organization = await GROUP_SERVICES.getAllGroups();
+      setGroupsData(organization.message);
+    }
+    getOrganizations();
+    getGroups();
+  }, []);
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
@@ -85,16 +57,15 @@ function Addusers() {
       [name]: value,
     }));
   };
-
   const disableAdUser = () => {
     return user.role &&
-      user.employeeid &&
+      user.employeeId &&
       user.name &&
       user.email &&
       user.password &&
-      user.plants &&
       user.position &&
-      user.username
+      user.userName &&
+      user.groups
       ? false
       : true;
   };
@@ -102,28 +73,45 @@ function Addusers() {
   async function createUser() {
     const body = {
       ...user,
+      userName: '',
+      name: '',
+      email: '',
+      employeeId: '',
+      position: '',
+      role: '',
       groups: {
         connect: [
           {
-            id: 1,
+            groupId: '',
           },
         ],
       },
+      organization: {
+        connect: [
+          {
+            organizationId: '',
+          },
+        ],
+      },
+      password: '',
     };
-    await addUser(body);
+    const res = await USER_SERVICES.addUser(body);
+    console.log(res, 'user data');
+    if (res.statusCode === 200) {
+      setUser(initialState);
+      toast.success('User added successfully');
+    }
   }
-
   const navigate = useNavigate();
-
   return (
     <>
-      <Breadcrumbs crumbs={['home', ...list]} />
       <div className="shadow-md w-full p-[20px] mt-[30px] rounded-[16px]">
         <h2 className="uppercase text-[24px] text-[#444444] font-medium">Add User</h2>
         <form>
           <div className="flex justify-start flex-row w-full gap-[20px] mt-5 ml-5 mb-9">
             <Input
-              className="p-6 rounded-[50px] border-[1px] border-grey-dark w-[348px]"
+              className="rounded-[50px] border-[1px] border-grey-dark w-[348px] h-[50px] mt-2 px-3"
+              labelClassName="text-[#492CE1] text-[14px] font-medium"
               label="Employee Name*"
               placeholder="Enter Full Name"
               type="text"
@@ -132,72 +120,80 @@ function Addusers() {
               onChange={handleChange}
             />
             <Input
-              className="p-6 rounded-[50px] border-[1px] border-grey-dark w-[348px]"
+              className="rounded-[50px] border-[1px] border-grey-dark w-[348px] h-[50px] mt-2 px-3"
+              labelClassName="text-[#492CE1] text-[14px] font-medium"
               label="Employee Id*"
               placeholder="Enter Employee Id"
               type="text"
-              name="employeeid"
-              value={user?.employeeid}
+              name="employeeId"
+              value={user?.employeeId}
               onChange={handleChange}
             />
 
-            <Dropdown
+            <Input
+              className="rounded-[50px] border-[1px] border-grey-dark w-[348px] h-[50px] mt-2 px-3"
+              labelClassName="text-[#492CE1] text-[14px] font-medium"
               label="Position*"
-              className="w-[348px] border-[1px]"
-              placeholder="Select Position"
-              options={Position}
-              handleChange={(value) => {
-                setUser((prev: any) => ({ ...prev, position: value }));
-              }}
+              placeholder="Enter Position"
+              type="text"
+              name="position"
               value={user?.position}
+              onChange={handleChange}
             />
           </div>
 
           <div className="flex justify-start flex-row w-full gap-[20px] mt-5 ml-5 mb-9">
             <Dropdown
               label="Select Organization*"
-              className="w-[348px] border-[1px]"
+              className="w-[348px] border-[1px] h-[50px]"
               placeholder="Select Organization"
-              options={Organization}
+              options={organizationData}
               handleChange={(value) => {
                 setUser((prev: any) => ({ ...prev, organization: value }));
               }}
-              value={user?.organization}
+              value={user.organization}
+              optionLabel="organizationName"
+              optionValue="organizationName"
             />
 
             <Dropdown
-              label="Select plant*"
-              className="w-[348px] border-[1px]"
-              placeholder="Select plant"
-              value={user?.plants}
-              options={Plant}
+              label="Select group*"
+              className="w-[348px] border-[1px] h-[50px]"
+              placeholder="Select Group"
+              value={user?.groups}
+              options={groupsData}
+              optionLabel="groupName"
+              optionValue="groupName"
               handleChange={(value) => {
-                setUser((prev: any) => ({ ...prev, plants: value }));
+                setUser((prev: any) => ({ ...prev, groups: value }));
               }}
             />
             <Input
-              className="p-6 rounded-[50px] border-[1px] border-grey-dark w-[348px]"
-              label="Email*"
-              placeholder="Enter Employee Id"
-              type="email"
-              name="email"
-              value={user?.email}
+              className="rounded-[50px] border-[1px] border-grey-dark w-[348px] h-[50px] mt-2 px-3"
+              labelClassName="text-[#492CE1] text-[14px] font-medium"
+              label="User Name*"
+              placeholder="Enter Full Name"
+              type="text"
+              name="userName"
+              value={user?.userName}
               onChange={handleChange}
             />
           </div>
 
           <div className="flex justify-start flex-row w-full gap-[20px] mt-5 ml-5 mb-9">
             <Input
-              className="p-6 rounded-[50px] border-[1px] border-grey-dark w-[348px]"
-              label="User Name*"
-              placeholder="Enter Full Name"
+              className="rounded-[50px] border-[1px] border-grey-dark w-[348px] h-[50px] mt-2 px-3"
+              labelClassName="text-[#492CE1] text-[14px] font-medium"
+              label="Email*"
+              placeholder="Enter your Email"
               type="text"
-              name="username"
-              value={user?.username}
+              name="email"
+              value={user?.email}
               onChange={handleChange}
             />
             <Input
-              className="p-6 rounded-[50px] border-[1px] border-grey-dark w-[348px]"
+              className="rounded-[50px] border-[1px] border-grey-dark w-[348px] h-[50px] mt-2 px-3"
+              labelClassName="text-[#492CE1] text-[14px] font-medium"
               label="Password*"
               placeholder="Enter Password"
               type="password"
@@ -206,22 +202,22 @@ function Addusers() {
               onChange={handleChange}
             />
 
-            <Dropdown
-              handleChange={(value) => {
-                setUser((prev: any) => ({ ...prev, role: value }));
-              }}
-              label="Access Type*"
-              className="w-[348px] border-[1px]"
+            <Input
+              className="rounded-[50px] border-[1px] border-grey-dark w-[348px] h-[50px] mt-2 px-3"
+              labelClassName="text-[#492CE1] text-[14px] font-medium"
+              label="Role*"
+              placeholder="Enter your Role"
+              type="text"
+              name="role"
               value={user?.role}
-              placeholder="Select Type"
-              options={userType}
+              onChange={handleChange}
             />
           </div>
 
           <div className="flex justify-start flex-row w-full gap-[20px] mt-5 ml-5 mb-9">
             <Button
               onClick={() => {
-                navigate('/userdetails');
+                navigate(-1);
               }}
               className="py-2 px-6 rounded-[16px]"
               label="Cancel"
