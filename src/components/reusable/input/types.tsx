@@ -13,4 +13,5 @@ export type InputType = {
   rightIcon?: JSX.Element;
   labelClassName?: string;
   inputClassName?: string;
+  disabled?: boolean;
 };

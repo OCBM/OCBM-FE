@@ -3,7 +3,7 @@ import { ToastContainer } from 'react-toastify';
 import Home from './pages/Home';
 import GlobalErrorBoundary from './components/error';
 import { ProtectedRoute, PublicRoutes } from './routes';
-import { Login } from './pages';
+import { Login, UsersList } from './pages';
 import { Layout } from './components';
 import { SITEMAP } from './utils/sitemap';
 import 'react-toastify/dist/ReactToastify.css';
@@ -35,8 +35,10 @@ function App() {
                 </ProtectedRoute>
               }
             >
-              {/* <Route index element={<Home />} /> */}
+              <Route path={SITEMAP.users.index} element={<UsersList />} />
+              {/* Once plant component added replace with plant and uncomment home compoenent */}
               <Route path={SITEMAP.plant.index} element={<Home />} />
+              {/* <Route index element={<Home />} /> */}
               <Route path={SITEMAP.notFound} element={<h1>Not found</h1>} />
             </Route>
             <Route path={SITEMAP.auth.index} element={<Login />} />
