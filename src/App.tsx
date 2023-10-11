@@ -16,7 +16,7 @@ function App() {
       <GlobalErrorBoundary>
         <div>
           <ToastContainer
-            position="bottom-right"
+            position="top-right"
             autoClose={3000}
             hideProgressBar={true}
             newestOnTop={false}
@@ -25,7 +25,7 @@ function App() {
             pauseOnFocusLoss={false}
             draggable
             pauseOnHover
-            theme="light"
+            theme="colored"
           />
           <PublicRoutes>
             <Route
