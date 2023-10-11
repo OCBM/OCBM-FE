@@ -36,10 +36,12 @@ function App() {
               }
             >
               <Route path={SITEMAP.users.index} element={<UsersList />} />
-              <Route index element={<Home />} />
+              {/* Once plant component added replace with plant and uncomment home compoenent */}
+              <Route path={SITEMAP.plant.index} element={<Home />} />
+              {/* <Route index element={<Home />} /> */}
+              <Route path={SITEMAP.notFound} element={<h1>Not found</h1>} />
             </Route>
             <Route path={SITEMAP.auth.index} element={<Login />} />
-            <Route path={SITEMAP.notFound} element={<h1>Not found</h1>} />
           </PublicRoutes>
         </div>
       </GlobalErrorBoundary>

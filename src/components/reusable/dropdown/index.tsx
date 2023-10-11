@@ -10,7 +10,8 @@ const Dropdown = ({
   placeholder,
   className,
   label,
-  labelclassName,
+  labelClassName,
+  inputClassName,
   optionLabel = '',
   optionValue = '',
 }: DropdownPropsType) => {
@@ -70,13 +71,13 @@ const Dropdown = ({
   return (
     <div className="relative">
       {label && (
-        <label className={`${labelclassName || ''} text-[#492CE1] text-[14px] font-medium block mb-2`}>{label}</label>
+        <label className={`${labelClassName || ''} text-[#492CE1] text-[14px] font-medium block mb-2`}>{label}</label>
       )}
       <div
         className={
           type === 'secondary'
-            ? `flex items-center justify-between border-b-2 py-3 px-5 ${className}`
-            : `flex border-2 py-3 px-5 overflow-hidden rounded-[50px] gap-3 items-center justify-between border-[#444444] cursor-pointer ${className}`
+            ? `flex items-center justify-between border-b-2 ${className}`
+            : `flex border-2 overflow-hidden rounded-[50px] gap-3 items-center justify-between border-[#444444] cursor-pointer ${className}`
         }
       >
         <input
@@ -89,7 +90,7 @@ const Dropdown = ({
             handleChange('');
           }}
           onClick={toggle}
-          className="grow h-full cursor-pointer outline-none"
+          className={`grow h-full cursor-pointer outline-none mr-[10px] ${inputClassName}`}
         />
         <span className={isOpen ? 'rotate-180 transition' : ''}>
           <ChevronDownIcon />

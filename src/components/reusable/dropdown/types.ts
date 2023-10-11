@@ -6,7 +6,8 @@ export type DropdownPropsType = {
   placeholder?: string;
   className?: string;
   label?: string;
-  labelclassName?: string;
+  labelClassName?: string;
+  inputClassName?: string;
   optionLabel?: string;
   optionValue?: string;
 };
