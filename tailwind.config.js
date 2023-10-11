@@ -9,10 +9,14 @@ export default {
           dark: '#444444',
         },
         themeColor: '#605BFF',
+        textThemeColor: '#5F2EEA',
       },
       backgroundImage: {
         'gradient-24': 'linear-gradient(180deg, #605bff 0%, #0a03d9 100%)',
         'login-bg-image': 'url(/src/assets/images/login-bg.png)',
+      },
+      backgroundSize: {
+        'full-cover': '100% 100%',
       },
       fontFamily: {
         Gotham: ['Gotham-light'],
