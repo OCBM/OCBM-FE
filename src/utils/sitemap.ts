@@ -5,9 +5,24 @@ export const SITEMAP = {
   auth: {
     index: '/auth/login',
   },
+  plant: {
+    index: '/plant',
+  },
+  machines: {
+    index: '/machines',
+  },
+  mastery: {
+    index: '/mastery',
+  },
+  setStandards: {
+    index: '/setStandards',
+  },
+  reports: {
+    index: '/reports',
+  },
   users: {
-    index: '/usersdetails',
-    addUser: '/usersdetails/addUser',
+    index: '/users',
+    addUser: '/users/add',
   },
   notFound: '*',
 };

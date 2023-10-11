@@ -7,9 +7,9 @@ import { useBreadcrumbs } from '@/hooks';
 export function Layout() {
   const list = useBreadcrumbs();
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen py-[14px] pl-[14px] pr-[35px]">
       <SideNav />
-      <div className="p-5 w-screen">
+      <div className="px-[30px] w-full">
         <Header />
         <Breadcrumbs crumbs={['home', ...list]} />
         <div>
