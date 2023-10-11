@@ -1,22 +1,7 @@
 import { SearchIcon } from '@/assets/icons';
 import { Dropdown, Input } from '@/components';
-import { useState } from 'react';
-import { UploadWarningIcon } from '@/assets/icons';
-import { Button, Modal } from '@/components';
-import { useAppDispatch } from '@/hooks';
-import { logoutUser } from '@/redux/slices/userSlice';
-import { toast } from 'react-toastify';
-import { Divider } from 'antd';
 
 const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const dispatch = useAppDispatch();
-  const logoutBtn = () => {
-    toast.success('Logged out');
-    setTimeout(() => {
-      dispatch(logoutUser());
-    }, 1000);
-  };
   const options = [
     {
       key: 'plants',
@@ -46,7 +31,6 @@ const Header = () => {
         {options.map((option) => (
           <div key={option?.key} className="flex border-r-2 px-[52px] border-black">
             <Dropdown
-              // key={option?.key
               type="secondary"
               placeholder={option?.text}
               className={`border-none`}
@@ -56,7 +40,11 @@ const Header = () => {
         ))}
       </div>
       <div>
-        <Input placeholder="Search" leftIcon={<SearchIcon />} className="pl-[10px] pr-[24px] py-[13px]" />
+        <Input
+          placeholder="Search"
+          leftIcon={<SearchIcon className="w-[20px]" />}
+          className="pl-[10px] pr-[24px] py-[13px]"
+        />
       </div>
       <div className="flex items-center gap-[10px]">
         <div className="bg-[#492CE1] text-white p-3 text-center w-[40px] h-[40px] rounded-[30px] flex items-center justify-center">
