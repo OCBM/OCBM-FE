@@ -35,10 +35,11 @@ function App() {
                 </ProtectedRoute>
               }
             >
-              <Route index element={<Home />} />
+              {/* <Route index element={<Home />} /> */}
+              <Route path={SITEMAP.plant.index} element={<Home />} />
+              <Route path={SITEMAP.notFound} element={<h1>Not found</h1>} />
             </Route>
             <Route path={SITEMAP.auth.index} element={<Login />} />
-            <Route path={SITEMAP.notFound} element={<h1>Not found</h1>} />
           </PublicRoutes>
         </div>
       </GlobalErrorBoundary>

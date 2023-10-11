@@ -27,7 +27,7 @@ const LoginCard = () => {
 
   useEffect(() => {
     if (user) {
-      navigate(SITEMAP.base.index, { replace: true });
+      navigate(SITEMAP.plant.index, { replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);

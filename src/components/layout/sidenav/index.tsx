@@ -9,9 +9,17 @@ const SideNav = () => {
   const [activeIndex, setActiveIndex] = useState(SITEMAP.plant.index);
   const navigate = useNavigate();
 
+  console.log(activeIndex);
+
   return (
     <div className="bg-[#605BFF] rounded-2xl flex flex-col items-center px-5 py-[50px]">
-      <div className="p-[10px] mb-10" onClick={() => navigate('/')}>
+      <div
+        className="p-[10px] mb-10 cursor-pointer"
+        onClick={() => {
+          setActiveIndex(SITEMAP.plant.index);
+          navigate(SITEMAP.plant.index);
+        }}
+      >
         <OmnexIcon />
       </div>
       <div className="flex flex-col justify-center items-center gap-[10px] overflow-y-auto">
