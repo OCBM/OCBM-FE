@@ -2,7 +2,7 @@ import { BreadcrumbsType } from './types';
 
 function Breadcrumbs({ className, crumbs }: BreadcrumbsType) {
   return (
-    <div className="border-b-[2px] border-[#44444447] border-solid flex justify-start">
+    <div className=" flex justify-start">
       {crumbs?.map((data) => (
         <div
           key={data}

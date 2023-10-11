@@ -12,4 +12,5 @@ export type InputType = {
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
   labelClassName?: string;
+  inputClassName?: string;
 };

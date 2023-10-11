@@ -4,13 +4,14 @@ import { Logo } from '@/assets/images';
 import { Button, Input } from '@/components';
 import LoginLayout from './layout';
 import ResetPassword from './ResetPassword';
-import { loginUser } from '@/redux/slices/userSlice';
+import { loginUser } from '@/redux/slices/authSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { RootState } from '@/redux/store';
 import { toast } from 'react-toastify';
+import { SITEMAP } from '@/utils/sitemap';
 
 const LoginCard = () => {
-  const { user } = useAppSelector((store: RootState) => store?.user);
+  const { user } = useAppSelector((store: RootState) => store?.auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [showResetPassword, setShowResetPassword] = useState(false);
@@ -23,10 +24,9 @@ const LoginCard = () => {
 
   useEffect(() => {
     if (user) {
-      toast.success('Login successfull');
-      navigate('/');
+      navigate(SITEMAP.base.index, { replace: true });
     }
-  });
+  }, [user]);
 
   const resetPasswordClick = () => {
     setShowResetPassword(!showResetPassword);
@@ -41,7 +41,7 @@ const LoginCard = () => {
   const loginSubmit = () => {
     const { username, password } = formData;
     if (!username || !password) {
-      alert('provide all fields');
+      toast.error('provide all fields');
       return;
     }
     dispatch(loginUser({ username, password }));
@@ -62,11 +62,10 @@ const LoginCard = () => {
                     <p className="font-GothamMedium text-base font-medium italic text-[#000] pt-[50px]">Login</p>
                     <div className="pt-10 w-full">
                       <Input
-                        type="text"
                         name="username"
                         value={formData.username}
                         placeholder="User Name*"
-                        className="py-5 pr-[10px] pl-7 border border-grey-dark text-grey-light"
+                        className="py-7 pl-7 border border-grey-dark text-grey-light h-[40px]"
                         onChange={inputHandler}
                       />
                     </div>
@@ -76,7 +75,7 @@ const LoginCard = () => {
                         name="password"
                         value={formData.password}
                         placeholder="Password*"
-                        className="py-5 pr-[10px] pl-7 border border-grey-dark text-grey-light"
+                        className="py-7 pl-7 border border-grey-dark text-grey-light h-[40px]"
                         onChange={inputHandler}
                       />
                     </div>
@@ -84,12 +83,12 @@ const LoginCard = () => {
                       className="py-5 font-medium text-base text-[#5F2EEA] cursor-pointer"
                       onClick={resetPasswordClick}
                     >
-                      Reset Password
+                      <i>Forgot Password</i>
                     </p>
                     <div className="w-full">
                       <Button
                         disabled={formData?.username.length < 6 || formData?.password.length < 6 ? true : false}
-                        label="Login"
+                        label="Log In"
                         className="w-full cursor-pointer"
                         onClick={loginSubmit}
                       />

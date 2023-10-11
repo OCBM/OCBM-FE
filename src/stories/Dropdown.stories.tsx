@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { Dropdown } from '@/components';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
@@ -19,39 +20,51 @@ const meta = {
 } satisfies Meta<typeof Dropdown>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const Primary: Story = {
-  args: {
-    placeholder: 'Dropdown',
-    options: [
-      {
-        id: 1,
-        text: 'Alert Data',
-      },
-      {
-        id: 2,
-        text: 'Warn Data',
-      },
-    ],
-    type: 'primary',
+const dropdownOptions = [
+  {
+    id: 1,
+    text: 'Alert Data',
   },
+  {
+    id: 2,
+    text: 'Warn Data',
+  },
+];
+
+const PrimaryDropdown = () => {
+  const [state, setState] = useState('');
+
+  return (
+    <Dropdown
+      type="primary"
+      value={state}
+      options={dropdownOptions}
+      placeholder="Dropdown"
+      optionLabel="text"
+      handleChange={(val) => setState(val)}
+    />
+  );
+};
+const SecondaryDropdown = () => {
+  const [state, setState] = useState('');
+
+  return (
+    <Dropdown
+      type="secondary"
+      value={state}
+      options={dropdownOptions}
+      placeholder="Dropdown"
+      optionLabel="text"
+      handleChange={(val) => setState(val)}
+    />
+  );
+};
+// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
+export const Primary = {
+  render: () => <PrimaryDropdown />,
 };
 
-export const Secondary: Story = {
-  args: {
-    placeholder: 'Dropdown',
-    options: [
-      {
-        id: 1,
-        text: 'Alert Data',
-      },
-      {
-        id: 2,
-        text: 'Warn Data',
-      },
-    ],
-    type: 'secondary',
-  },
+export const Secondary = {
+  render: () => <SecondaryDropdown />,
 };

@@ -3,26 +3,21 @@ import { InputType } from './types';
 function Input({
   id,
   name,
-  className,
-  type,
+  className = '',
+  type = 'text',
   value,
-  placeholder,
+  placeholder = '',
   onChange,
   label,
   leftIcon,
   rightIcon,
-  labelClassName,
+  labelClassName = '',
+  inputClassName = '',
 }: InputType) {
   return (
     <div className="relative">
-      {label && (
-        <label className={`${labelClassName || ''} text-[#492CE1] text-[14px] font-medium block mb-2`}>{label}</label>
-      )}
-      <div
-        className={`${
-          className || ''
-        } rounded-[50px] border-gray-400 border-2 border-solid gap-[14px] flex items-center`}
-      >
+      {label && <label className={labelClassName}>{label}</label>}
+      <div className={`${className} rounded-[50px] border-gray-400 border-solid flex items-center`}>
         {leftIcon}
         <input
           id={id}
@@ -31,7 +26,7 @@ function Input({
           value={value}
           placeholder={placeholder}
           onChange={onChange}
-          className="border-none w-full outline-none"
+          className={`${inputClassName} w-full outline-none mx-1`}
         />
         {rightIcon}
       </div>

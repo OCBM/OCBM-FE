@@ -24,6 +24,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     placeholder: 'Enter Username',
+    className: 'py-7 pl-7 border border-grey-dark text-grey-light h-[40px]',
   },
 };
 
@@ -31,5 +32,7 @@ export const Secondary: Story = {
   args: {
     placeholder: 'Enter Machine name',
     label: 'Machine Name',
+    labelClassName: 'text-[#492CE1] text-[14px] font-medium block mb-2',
+    className: 'py-7 pl-7 border border-grey-dark text-grey-light h-[40px]',
   },
 };

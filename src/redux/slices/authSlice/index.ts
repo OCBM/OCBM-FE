@@ -1,4 +1,5 @@
-import { loginUserThunk } from '@/services/authServices';
+import { AUTH_SERVICES } from '@/services/authServices';
+import { SERVICES } from '@/utils/sitemap';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -7,16 +8,17 @@ const initialState = {
   user: null,
 };
 
-export const loginUser = createAsyncThunk('user/loginUser', (user: any, thunkAPI) => {
-  return loginUserThunk('auth/login', user, thunkAPI);
+export const loginUser = createAsyncThunk('auth/loginUser', (user: any, thunkAPI) => {
+  return AUTH_SERVICES.login(SERVICES.auth.login, user, thunkAPI);
 });
 
-const UserSlice = createSlice({
-  name: 'user',
+const AuthSlice = createSlice({
+  name: 'auth',
   initialState,
   reducers: {
     logoutUser: (state) => {
       state.user = null;
+      state.loggedIn = false;
     },
   },
   extraReducers: (builder) => {
@@ -26,6 +28,7 @@ const UserSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, { payload }) => {
         state.isLoading = false;
+        state.loggedIn = true;
         state.user = payload?.message;
       })
       .addCase(loginUser.rejected, (state) => {
@@ -34,5 +37,5 @@ const UserSlice = createSlice({
   },
 });
 
-export const { logoutUser } = UserSlice.actions;
-export default UserSlice.reducer;
+export const { logoutUser } = AuthSlice.actions;
+export default AuthSlice.reducer;
