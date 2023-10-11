@@ -35,6 +35,7 @@ const Header = () => {
               placeholder={option?.text}
               className={`border-none`}
               inputClassName={`placeholder:text-[#444444]  ${option.className}`}
+              options={[]}
             />
           </div>
         ))}
@@ -42,8 +43,8 @@ const Header = () => {
       <div>
         <Input
           placeholder="Search"
-          leftIcon={<SearchIcon className="w-[20px]" />}
-          className="pl-[10px] pr-[24px] py-[13px]"
+          leftIcon={<SearchIcon className="w-[20px] mr-[10px]" />}
+          className="px-[20px] py-[10px] w-[230px] border border-solid border-[#444] "
         />
       </div>
       <div className="flex items-center gap-[10px]">
@@ -55,6 +56,7 @@ const Header = () => {
           placeholder="User"
           className="border-none"
           inputClassName=" placeholder:text-[#444444] placeholder:font-medium w-[47px]"
+          options={[]}
         />
       </div>
     </div>
