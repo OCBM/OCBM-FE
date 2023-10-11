@@ -5,6 +5,21 @@ export const SITEMAP = {
   auth: {
     index: '/auth/login',
   },
+  plant: {
+    index: '/plant',
+  },
+  machines: {
+    index: '/machines',
+  },
+  mastery: {
+    index: '/mastery',
+  },
+  setStandards: {
+    index: '/setStandards',
+  },
+  reports: {
+    index: '/reports',
+  },
   users: {
     index: '/users',
     addUser: '/users/add',
@@ -18,6 +33,9 @@ export const SERVICES = {
   },
   user: {
     add: '/user',
+    get: '/user',
+    update: '/user',
+    delete: '/user',
   },
   organization: {
     get: '/organization',
