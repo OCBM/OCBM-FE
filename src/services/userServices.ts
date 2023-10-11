@@ -34,4 +34,12 @@ export const USER_SERVICES = {
       console.log(error);
     }
   },
+  deleteUserById: async (id: string) => {
+    try {
+      const res = await apiInstance.delete(`${SERVICES.user.delete}/${id}`);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };

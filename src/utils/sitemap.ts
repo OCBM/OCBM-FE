@@ -35,6 +35,7 @@ export const SERVICES = {
     add: '/user',
     get: '/user',
     update: '/user',
+    delete: '/user',
   },
   organization: {
     get: '/organization',

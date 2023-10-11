@@ -27,11 +27,14 @@ function UsersList() {
   const [selectedUser, setSelectedUser] = useState<SelectedUserTypes>(initialState);
   const [showEditUserModal, setShowEditUserModal] = useState<boolean>(false);
 
+  // fetching users data by role
+  const fetchUserDataByRole = async () => {
+    const res = await USER_SERVICES.getUserbyRole(USER_ROLES.ADMIN);
+    setUserdate(res?.message);
+  };
+
   useEffect(() => {
-    (async () => {
-      const res = await USER_SERVICES.getUserbyRole(USER_ROLES.ADMIN);
-      setUserdate(res?.message);
-    })();
+    fetchUserDataByRole();
   }, []);
 
   const handleChange = (event: any) => {
@@ -47,6 +50,13 @@ function UsersList() {
     if (data) {
       setShowEditUserModal(true);
       setSelectedUser(data);
+    }
+  };
+  const DeleteUser = async (data: SelectedUserTypes) => {
+    if (data) {
+      const res = await USER_SERVICES.deleteUserById(data.userId);
+      toast.success(res.message);
+      fetchUserDataByRole();
     }
   };
 
@@ -79,7 +89,7 @@ function UsersList() {
             <div
               className="cursor-pointer"
               onClick={() => {
-                console.log('Delete icon clicked');
+                DeleteUser(data);
               }}
             >
               <DeleteIcon className="w-[20px] h-[20px]" />
@@ -98,8 +108,11 @@ function UsersList() {
   const updateUser = async () => {
     const res = await USER_SERVICES.updateUserbyId(selectedUser.userId, selectedUser);
     if (res.statusCode === 200) {
-      setShowEditUserModal(false);
-      toast.success('User updated successfully');
+      fetchUserDataByRole();
+      setTimeout(() => {
+        setShowEditUserModal(false);
+        toast.success('User updated successfully');
+      }, 1000);
     }
   };
   return (
