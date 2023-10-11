@@ -11,7 +11,7 @@ const ResetPassword = ({ onChange, formData, handleForgotPassword, forgotPasswor
             {formData?.reset ? (
               <>
                 <div className="flex justify-center items-center">
-                  <p className="font-GothamMedium text-base font-medium italic text-[#000] mt-[60px]">
+                  <p className="font-GothamMedium text-base font-medium italic text-black mt-[60px]">
                     Enter Your user name
                   </p>
                 </div>
@@ -39,7 +39,7 @@ const ResetPassword = ({ onChange, formData, handleForgotPassword, forgotPasswor
             ) : (
               <>
                 <div className="flex justify-center items-center">
-                  <p className="font-GothamMedium text-base font-medium italic text-[#000] mt-[60px]">
+                  <p className="font-GothamMedium text-base font-medium italic text-black mt-[60px]">
                     Set New Password
                   </p>
                 </div>
