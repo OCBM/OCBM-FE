@@ -2,7 +2,7 @@ import { LoginLeftContent } from '../LoginLeftContent';
 
 const LoginLayout = ({ children }: any) => {
   return (
-    <div className="bg-login-bg-image h-screen bg-no-repeat bg-center bg-full-cover">
+    <div className="bg-login-bg-image h-screen bg-no-repeat bg-center bg-full-cover bg-themeColor">
       <div className="w-full flex items-center h-screen">
         <LoginLeftContent />
         {children}
