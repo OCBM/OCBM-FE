@@ -14,7 +14,7 @@ import ResetPassword from './ResetPassword';
 const LoginCard = () => {
   const [showForgotPassword, setShowForgotPassword] = useState<boolean>(false);
   const [formData, setFormData] = useState({
-    username: '',
+    userName: '',
     password: '',
     newPassword: '',
     confirmPassword: '',
@@ -39,12 +39,12 @@ const LoginCard = () => {
   };
 
   const loginSubmit = () => {
-    const { username, password } = formData;
-    if (!username || !password) {
+    const { userName, password } = formData;
+    if (!userName || !password) {
       toast.warn('Provide All Fields');
       return;
     }
-    dispatch(loginUser({ username, password }));
+    dispatch(loginUser({ userName, password }));
   };
 
   const handleForgotPassword = (val: boolean) => {
@@ -65,7 +65,7 @@ const LoginCard = () => {
   };
 
   const loginBtnClass = classNames(`w-full
-  ${formData?.username.length < 6 || formData?.password.length < 8 ? 'cursor-not-allowed' : 'cursor-pointer'}`);
+  ${formData?.userName.length < 6 || formData?.password.length < 8 ? 'cursor-not-allowed' : 'cursor-pointer'}`);
 
   return (
     <LoginLayout>
@@ -87,8 +87,8 @@ const LoginCard = () => {
                     <p className="font-GothamMedium text-base font-medium italic text-black pt-[50px]">Login</p>
                     <div className="pt-10 w-full">
                       <Input
-                        name="username"
-                        value={formData.username}
+                        name="userName"
+                        value={formData.userName}
                         placeholder="User Name*"
                         className="p-5 border border-grey-dark text-grey-light"
                         onChange={inputHandler}

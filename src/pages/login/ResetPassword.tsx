@@ -17,8 +17,8 @@ const ResetPassword = ({ onChange, formData, handleForgotPassword, forgotPasswor
                 </div>
                 <div className="pt-10 w-full">
                   <Input
-                    name="username"
-                    value={formData?.username}
+                    name="userName"
+                    value={formData?.userName}
                     onChange={onChange}
                     placeholder="User Name"
                     className="p-5 border border-grey-dark text-grey-light capitalize"
