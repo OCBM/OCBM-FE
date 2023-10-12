@@ -32,15 +32,18 @@ export const SERVICES = {
     login: '/auth/login',
   },
   user: {
-    add: '/user/create',
+    add: '/user',
+    get: '/user',
+    update: '/user',
+    delete: '/user',
   },
   organization: {
-    get: '/organization/get-all-organization',
+    get: '/organization',
   },
   plants: {
-    get: '/plant/get-all-plant',
+    get: '/plant',
   },
   groups: {
-    get: '/group/get-all-groups',
+    get: '/group',
   },
 };
