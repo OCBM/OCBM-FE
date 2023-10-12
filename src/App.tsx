@@ -35,7 +35,9 @@ function App() {
                 </ProtectedRoute>
               }
             >
+              {/* Enable home component once plant component was added */}
               {/* <Route index element={<Home />} /> */}
+              {/* Replace home component with Plant once it is added */}
               <Route path={SITEMAP.plant.index} element={<Home />} />
               <Route path={SITEMAP.notFound} element={<h1>Not found</h1>} />
             </Route>

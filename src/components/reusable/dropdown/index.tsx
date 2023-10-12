@@ -97,13 +97,13 @@ const Dropdown = ({
         </span>
       </div>
       {isOpen && (
-        <div className="absolute border-4 w-full px-8 py-3 my-3 border-white rounded-b-2xl rounded-l-2xl shadow-[0px_4px_6px_0px_rgba(0,0,0,0.08) z-[99] bg-white">
+        <div className="absolute border-4 w-full my-3 border-white rounded-b-2xl rounded-l-2xl shadow-[0px_4px_6px_0px_rgba(0,0,0,0.08) z-[99] bg-white">
           {filterOptions(options)?.map((option: any) => {
             if (optionLabel) {
               return (
                 <div
                   onClick={() => selectOption(option)}
-                  className="p-4  cursor-pointer transition-all  hover:bg-[#f4f4f4] rounded-r-xl"
+                  className="py-4 cursor-pointer transition-all hover:bg-[#f4f4f4] rounded-r-xl"
                   key={option[optionLabel]}
                 >
                   {option[optionLabel]}
@@ -113,7 +113,7 @@ const Dropdown = ({
               return (
                 <div
                   onClick={() => selectOption(option)}
-                  className="p-4  cursor-pointer transition-all  hover:bg-[#f4f4f4] rounded-r-xl"
+                  className="py-4 cursor-pointer transition-all hover:bg-[#f4f4f4] rounded-r-xl"
                   key={option}
                 >
                   {option}
