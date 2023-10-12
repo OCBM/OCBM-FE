@@ -10,6 +10,7 @@ import { SITEMAP } from '@/utils/sitemap';
 import { loginUser } from '@/redux/slices/authSlice';
 import LoginLayout from './layout';
 import ResetPassword from './ResetPassword';
+import { LOGIN_CONSTANTS } from '@/utils/constants';
 
 const LoginCard = () => {
   const [showForgotPassword, setShowForgotPassword] = useState<boolean>(false);
@@ -118,9 +119,7 @@ const LoginCard = () => {
               </div>
             </div>
           </div>
-          <span className="pt-10 text-white font-Poppins font-normal text-[10px]">
-            All Rights Reserved. &copy; 2023
-          </span>
+          <span className="pt-10 text-white font-Poppins font-normal text-[10px]">{LOGIN_CONSTANTS.copyrights}</span>
         </div>
       )}
     </LoginLayout>
