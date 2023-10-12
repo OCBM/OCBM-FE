@@ -9,8 +9,6 @@ const SideNav = () => {
   const [activeIndex, setActiveIndex] = useState(SITEMAP.plant.index);
   const navigate = useNavigate();
 
-  console.log(activeIndex);
-
   return (
     <div className="bg-[#605BFF] rounded-2xl flex flex-col items-center px-5 py-[50px]">
       <div
