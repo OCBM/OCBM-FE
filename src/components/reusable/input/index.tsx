@@ -28,7 +28,7 @@ function Input({
           value={value}
           placeholder={placeholder}
           onChange={onChange}
-          className={`${inputClassName} w-full outline-none mx-1`}
+          className={`${inputClassName} w-full outline-none mx-1 bg-transparent`}
         />
         {rightIcon}
       </div>

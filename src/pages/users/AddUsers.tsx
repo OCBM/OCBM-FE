@@ -5,6 +5,7 @@ import { USER_SERVICES } from '@/services/userServices';
 import { GROUP_SERVICES } from '@/services/groupServices';
 import { ORGANIZATION_SERVICES } from '@/services/organizationServices';
 import { toast } from 'react-toastify';
+import { SITEMAP } from '@/utils/sitemap';
 
 function Addusers() {
   type InitialStateType = {
@@ -46,6 +47,7 @@ function Addusers() {
   const [user, setUser] = useState<InitialStateType>(initialState);
   const [organizationData, setOrganizationData] = useState([]);
   const [groupsData, setGroupsData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getOrganizations() {
@@ -106,16 +108,15 @@ function Addusers() {
       password: user.password,
     };
     const res = await USER_SERVICES.addUser(body);
-    console.log(res, 'user data');
-    if (res.statusCode === 201) {
+    if (res?.statusCode === 201) {
       setUser(initialState);
       toast.success('User added successfully');
+      navigate(SITEMAP.users.index);
     }
   }
-  const navigate = useNavigate();
   return (
     <>
-      <div className="shadow-md w-full p-[20px] mt-[30px] rounded-[16px]">
+      <div className="shadow-md w-full p-[20px] rounded-[16px]">
         <h2 className="uppercase text-[24px] text-[#444444] font-medium">Add User</h2>
         <form>
           <div className="flex justify-start flex-row w-full gap-[20px] mt-5 ml-5 mb-9">

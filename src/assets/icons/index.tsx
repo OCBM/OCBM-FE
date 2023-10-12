@@ -529,6 +529,34 @@ export const UploadWarningIcon = ({ className }: IconsPropType) => {
     </svg>
   );
 };
+
+export const CreateUserIcon = ({ className }: IconsPropType) => {
+  return (
+    <svg className={className} width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3.208 3.488V0.431999H5.032V3.488H8.104V5.248H5.032V8.304H3.208V5.248H0.136V3.488H3.208Z" fill="white" />
+    </svg>
+  );
+};
+
+export const DeleteUserIcon = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      width="101"
+      height="100"
+      viewBox="0 0 101 100"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="0.5" width="100" height="100" rx="50" fill="#FFC24C" />
+      <path
+        d="M47.5373 45.56C50.5773 45.432 52.7373 45 54.0173 44.264C55.2973 43.496 55.9373 42.456 55.9373 41.144C55.9373 40.024 55.5533 39.176 54.7853 38.6C54.0173 37.992 52.9293 37.688 51.5213 37.688C50.1773 37.688 48.9133 37.96 47.7293 38.504C46.5773 39.048 45.4413 39.88 44.3213 41L39.9053 36.152C41.3133 34.616 42.9613 33.368 44.8493 32.408C46.7693 31.448 49.0413 30.968 51.6653 30.968C53.3933 30.968 54.9613 31.192 56.3693 31.64C57.8093 32.056 59.0413 32.696 60.0653 33.56C61.0893 34.392 61.8733 35.432 62.4173 36.68C62.9933 37.928 63.2813 39.352 63.2813 40.952C63.2813 42.488 63.0253 43.816 62.5133 44.936C62.0333 46.024 61.3613 46.952 60.4973 47.72C59.6653 48.488 58.6733 49.112 57.5213 49.592C56.3693 50.04 55.1373 50.392 53.8253 50.648L53.2973 53.576H48.4013L47.2973 45.8L47.5373 45.56ZM54.5933 65H46.8173V57.32H54.5933V65Z"
+        fill="white"
+      />
+    </svg>
+  );
+};
+
 export const OmnexIcon = ({ className = 'fill-white' }: IconsPropType) => {
   return (
     <svg className={className} width="60" height="14" viewBox="0 0 60 14" xmlns="http://www.w3.org/2000/svg">

@@ -49,6 +49,18 @@ const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUs
               type="text"
               value={selectedUser?.position}
             />
+
+            <Input
+              className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
+              placeholder="Group"
+              label="Group*"
+              labelClassName="text-[#492CE1] text-[14px] font-medium"
+              name="position"
+              onChange={handleChange}
+              type="text"
+              value={selectedUser?.groups && selectedUser.groups[0].groupName}
+              disabled
+            />
           </div>
 
           <div>

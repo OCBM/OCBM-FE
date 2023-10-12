@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
-import { DeleteIcon, PencilIcon } from '@/assets/icons';
-import { Modal } from '@/components';
+import { CreateUserIcon, DeleteIcon, PencilIcon } from '@/assets/icons';
+import { Button, Modal } from '@/components';
 import { Table } from '@/components/reusable/table';
 import { USER_SERVICES } from '@/services/userServices';
-import { USER_ROLES } from '@/utils/constants';
 import { toast } from 'react-toastify';
 import EditUser from './EditUser';
-import { SelectedUserTypes } from './types';
+import { UserTypes } from './types';
+import DeleteUser from './DeleteUser';
+import { useAppSelector } from '@/hooks';
+import { useNavigate } from 'react-router-dom';
+import { SITEMAP } from '@/utils/sitemap';
 
 function UsersList() {
   const initialState = {
@@ -17,20 +20,27 @@ function UsersList() {
     position: '',
     role: '',
     email: '',
-    createdAt: '',
-    updatedAt: '',
     groups: [],
     organization: [],
   };
   const [userdata, setUserdate] = useState([]);
   const [edit, setEdit] = useState<boolean>(false);
-  const [selectedUser, setSelectedUser] = useState<SelectedUserTypes>(initialState);
+  const [selectedUser, setSelectedUser] = useState<UserTypes>(initialState);
   const [showEditUserModal, setShowEditUserModal] = useState<boolean>(false);
+  const [showDeleteUserModal, setShowDeleteUserModal] = useState<boolean>(false);
+  const loggedUser = useAppSelector((state) => state.auth?.user);
 
   // fetching users data by role
   const fetchUserDataByRole = async () => {
-    const res = await USER_SERVICES.getUserbyRole(USER_ROLES.ADMIN);
-    setUserdate(res?.message);
+    if (loggedUser) {
+      //error needs to correct
+      //@ts-ignore
+      const res = await USER_SERVICES.getUserbyRole(loggedUser?.role);
+      setUserdate(res?.message);
+    }
+  };
+  const OnAddUserPage = () => {
+    navigate(SITEMAP.users.addUser);
   };
 
   useEffect(() => {
@@ -39,24 +49,26 @@ function UsersList() {
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
-    setSelectedUser((initialState: SelectedUserTypes) => ({
+    setSelectedUser((initialState: UserTypes) => ({
       ...initialState,
       [name]: value,
     }));
   };
 
-  const Edituser = (data: SelectedUserTypes) => {
+  const Edituser = (data: UserTypes) => {
     setEdit(true);
     if (data) {
       setShowEditUserModal(true);
       setSelectedUser(data);
     }
   };
-  const DeleteUser = async (data: SelectedUserTypes) => {
-    if (data) {
-      const res = await USER_SERVICES.deleteUserById(data.userId);
+  const onDeleteUser = async (id: string) => {
+    setShowDeleteUserModal(true);
+    if (id) {
+      const res = await USER_SERVICES.deleteUserById(id);
       toast.success(res.message);
       fetchUserDataByRole();
+      setShowDeleteUserModal(false);
     }
   };
 
@@ -89,7 +101,8 @@ function UsersList() {
             <div
               className="cursor-pointer"
               onClick={() => {
-                DeleteUser(data);
+                setSelectedUser(data);
+                setShowDeleteUserModal(true);
               }}
             >
               <DeleteIcon className="w-[20px] h-[20px]" />
@@ -115,6 +128,9 @@ function UsersList() {
       }, 1000);
     }
   };
+
+  const navigate = useNavigate();
+
   return (
     <div>
       <Modal isOpen={showEditUserModal} onCancel={onCloseEditModal} className="z-[99]">
@@ -127,8 +143,32 @@ function UsersList() {
           updateUser={updateUser}
         />
       </Modal>
-
-      <Table className="mt-5 w-full mx-auto" dataSource={userdata} columns={columns} />
+      <Modal
+        isOpen={showDeleteUserModal}
+        onCancel={() => {
+          setShowDeleteUserModal(false);
+        }}
+        className="z-[99]"
+      >
+        <DeleteUser
+          deleteUser={() => {
+            onDeleteUser(selectedUser.userId);
+          }}
+          onCloseDeleteModal={() => {
+            setShowDeleteUserModal(false);
+          }}
+        />
+      </Modal>
+      <div className="absolute top-[11%] right-[4%]">
+        <Button
+          leftIcon={<CreateUserIcon />}
+          label="Create"
+          className="py-[8px] px-[18px] text-[16px] font-medium"
+          variant="primary"
+          onClick={OnAddUserPage}
+        />
+      </div>
+      <Table className="w-full mx-auto" dataSource={userdata} columns={columns} />
     </div>
   );
 }

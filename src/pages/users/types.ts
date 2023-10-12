@@ -11,7 +11,7 @@ export type UserOrganizationTypes = {
   organizationName: string;
 };
 
-export type SelectedUserTypes = {
+export type UserTypes = {
   userId: string;
   userName: string;
   employeeId: string;
@@ -28,6 +28,11 @@ export type EditUserType = {
   updateUser: () => void;
   onCloseEditModal: () => void;
   edit: boolean;
-  selectedUser: SelectedUserTypes;
-  setSelectedUser: (state: SelectedUserTypes) => void;
+  selectedUser: UserTypes;
+  setSelectedUser: (state: UserTypes) => void;
+};
+
+export type DeleteUserType = {
+  onCloseDeleteModal: () => void;
+  deleteUser: () => void;
 };
