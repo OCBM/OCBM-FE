@@ -36,7 +36,7 @@ function App() {
                 </ProtectedRoute>
               }
             >
-              <Route path={'/users/add'} element={<Addusers />} />
+              <Route path={SITEMAP.users.addUser} element={<Addusers />} />
               <Route path={SITEMAP.users.index} element={<UsersList />} />
               <Route path={SITEMAP.plant.index} element={<Plant />} />
               <Route index element={<Home />} />

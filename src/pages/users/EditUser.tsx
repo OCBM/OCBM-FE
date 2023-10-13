@@ -58,7 +58,7 @@ const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUs
               name="position"
               onChange={handleChange}
               type="text"
-              value={selectedUser?.groups && selectedUser.groups[0].groupName}
+              value={selectedUser.groups.length ? selectedUser.groups[0].groupName : ''}
               disabled
             />
           </div>

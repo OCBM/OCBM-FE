@@ -70,7 +70,7 @@ function Addusers() {
       [name]: value,
     }));
   };
-  const disableAdUser = () => {
+  const disablingAddUser = () => {
     return user.role &&
       user.employeeId &&
       user.name &&
@@ -238,7 +238,7 @@ function Addusers() {
               className="py-2 px-6 rounded-[16px]"
               label="Create"
               onClick={createUser}
-              disabled={disableAdUser()}
+              disabled={disablingAddUser()}
             />
           </div>
         </form>
