@@ -21,6 +21,7 @@ export type UserTypes = {
   email: string;
   groups: UserGroupTypes[];
   organization: UserOrganizationTypes[];
+  password: string;
 };
 
 export type EditUserType = {

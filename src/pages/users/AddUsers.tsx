@@ -13,9 +13,9 @@ function Addusers() {
     employeeId: string | undefined;
     email: string | undefined;
     position: string | undefined;
-    organization: string | undefined;
+    organization: string | any;
     plants: string | undefined;
-    groups: string | undefined;
+    groups: string | any;
     userName: string | undefined;
     password: string | undefined;
     role: string | undefined;
@@ -94,14 +94,14 @@ function Addusers() {
       groups: {
         connect: [
           {
-            groupId: user.groups,
+            groupId: user.groups?.groupId || '',
           },
         ],
       },
       organization: {
         connect: [
           {
-            organizationId: user.organization,
+            organizationId: user.organization?.organizationId || '',
           },
         ],
       },
