@@ -41,7 +41,7 @@ const Header = () => {
   };
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between pb-6 ">
       <div className="flex justify-between items-center [&>*:nth-child(4)]:border-0 [&>*:nth-child(1)]:pl-0 [&>*:nth-child(4)]:pr-0">
         {options.map((option) => (
           <div key={option?.key} className="flex border-r-2 px-[52px] border-black">

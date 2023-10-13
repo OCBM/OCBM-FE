@@ -18,6 +18,9 @@ export default {
       backgroundSize: {
         'full-cover': '100% 100%',
       },
+      boxShadow: {
+        '2xl': '0px 5px 8px 2px rgba(0, 0, 0, 0.10)',
+      },
       fontFamily: {
         Gotham: ['Gotham-light'],
         GothamMedium: ['Gotham-medium'],
