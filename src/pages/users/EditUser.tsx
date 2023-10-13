@@ -91,6 +91,8 @@ const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUs
             <Input
               className="w-[349px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
               label="Set New Password"
+              value={selectedUser.password}
+              name="password"
               placeholder="Enter Password"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
               onChange={handleChange}

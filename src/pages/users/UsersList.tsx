@@ -22,6 +22,7 @@ function UsersList() {
     email: '',
     groups: [],
     organization: [],
+    password: '',
   };
   const [userdata, setUserdate] = useState([]);
   const [edit, setEdit] = useState<boolean>(false);
@@ -119,7 +120,12 @@ function UsersList() {
   };
 
   const updateUser = async () => {
-    const res = await USER_SERVICES.updateUserbyId(selectedUser.userId, selectedUser);
+    const body = {
+      name: selectedUser.name,
+      position: selectedUser.position,
+      password: selectedUser.password,
+    };
+    const res = await USER_SERVICES.updateUserbyId(selectedUser.userId, body);
     if (res.statusCode === 200) {
       fetchUserDataByRole();
       setTimeout(() => {
