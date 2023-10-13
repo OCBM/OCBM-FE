@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CreateUserIcon, DeleteIcon, PencilIcon } from '@/assets/icons';
+import { PlusIcon, DeleteIcon, PencilIcon } from '@/assets/icons';
 import { Button, Modal } from '@/components';
 import { Table } from '@/components/reusable/table';
 import { USER_SERVICES } from '@/services/userServices';
@@ -161,7 +161,7 @@ function UsersList() {
       </Modal>
       <div className="absolute top-[11%] right-[4%]">
         <Button
-          leftIcon={<CreateUserIcon />}
+          leftIcon={<PlusIcon />}
           label="Create"
           className="py-[8px] px-[18px] text-[16px] font-medium"
           variant="primary"
