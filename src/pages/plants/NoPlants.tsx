@@ -11,9 +11,9 @@ const NoPlants = () => {
       <p className="grid text-center">
         To choose the plant. <span> Please upload in the mastery</span>
       </p>
-      <p className="text-[#492CE1] underline pt-9">
-        <Link to={SITEMAP?.mastery?.index}>Upload in mastery</Link>
-      </p>
+      <Link to={SITEMAP?.mastery?.index} className="cursor-pointer text-[#492CE1] underline pt-9 ">
+        Upload in mastery
+      </Link>
     </div>
   );
 };
