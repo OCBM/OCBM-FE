@@ -11,7 +11,9 @@ export function Layout() {
       <SideNav />
       <div className="px-[30px] w-full">
         <Header />
-        <Breadcrumbs crumbs={['home', ...list]} />
+        <div className="my-8">
+          <Breadcrumbs crumbs={['home', ...list]} />
+        </div>
         <>
           <Outlet />
         </>
