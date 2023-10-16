@@ -1,6 +1,7 @@
 import { ChevronCancelIcon } from '@/assets/icons';
 import { Button, Input } from '@/components';
 import { EditUserType } from './types';
+import { USERS_PAGE_CONSTANTS } from './constants';
 
 const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUser }: EditUserType) => {
   return (
@@ -13,11 +14,15 @@ const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUs
       >
         <ChevronCancelIcon />
       </div>
-      <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-5">Edit Details</h2>
+      <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-5">
+        {USERS_PAGE_CONSTANTS.EDIT_USER_DIALOG.label}
+      </h2>
       <form>
         <div className="flex gap-[36px] justify-between">
           <div>
-            <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-4">Employee Detail</h4>
+            <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-4">
+              {USERS_PAGE_CONSTANTS.EDIT_USER_DIALOG.leftLabel}
+            </h4>
             <Input
               className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
               label="Employee Name"
@@ -68,7 +73,9 @@ const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUs
           </div>
 
           <div>
-            <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-4">User Details</h4>
+            <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-4">
+              {USERS_PAGE_CONSTANTS.EDIT_USER_DIALOG.rightLabel}
+            </h4>
             <Input
               className="w-[349px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
               label="User Name"
