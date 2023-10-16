@@ -6,6 +6,7 @@ import { GROUP_SERVICES } from '@/services/groupServices';
 import { ORGANIZATION_SERVICES } from '@/services/organizationServices';
 import { toast } from 'react-toastify';
 import { SITEMAP } from '@/utils/sitemap';
+import { USERS_PAGE_CONSTANTS } from './constants';
 
 function Addusers() {
   type InitialStateType = {
@@ -32,17 +33,6 @@ function Addusers() {
     password: '',
     role: '',
   };
-
-  const accessType = [
-    {
-      id: 1,
-      value: 'ADMIN',
-    },
-    {
-      id: 2,
-      value: 'USER',
-    },
-  ];
 
   const [user, setUser] = useState<InitialStateType>(initialState);
   const [organizationData, setOrganizationData] = useState([]);
@@ -216,9 +206,9 @@ function Addusers() {
               className="w-[348px] border-[1px] h-[50px] px-3"
               placeholder="Select Role"
               value={user?.role}
-              options={accessType}
-              optionLabel="value"
-              optionValue="value"
+              options={USERS_PAGE_CONSTANTS.ROLE_ACCESS_TYPES}
+              optionLabel="role"
+              optionValue="role"
               handleChange={(value) => {
                 setUser((prev: any) => ({ ...prev, role: value }));
               }}

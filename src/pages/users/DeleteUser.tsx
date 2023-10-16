@@ -1,13 +1,16 @@
 import { QuesionMarkIcon } from '@/assets/icons';
 import { Button } from '@/components';
 import { DeleteUserType } from './types';
+import { USERS_PAGE_CONSTANTS } from './constants';
 
 const DeleteUser = ({ onCloseDeleteModal, deleteUser }: DeleteUserType) => {
   return (
     <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
       <div className="flex flex-col items-center justify-center">
         <QuesionMarkIcon />
-        <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Are you sure want to delete?</h2>
+        <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">
+          {USERS_PAGE_CONSTANTS.DELETE_USER_DIALOG.message}
+        </h2>
         <div className="flex gap-[8px] justify-between">
           <Button
             label="Cancel"
