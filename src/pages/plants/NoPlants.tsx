@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const NoPlants = () => {
   const no_plant_container = classNames(
-    `w-full h-[80vh] flex flex-col items-center justify-center font-GothamMedium text-2xl font-medium shadow-2xl mt-4 rounded-2xl`,
+    `w-full h-[74vh] flex flex-col items-center justify-center font-GothamMedium text-2xl font-medium shadow-2xl rounded-2xl`,
   );
   return (
     <div className={`${no_plant_container}`}>

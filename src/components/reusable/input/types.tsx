@@ -14,4 +14,5 @@ export type InputType = {
   labelClassName?: string;
   inputClassName?: string;
   disabled?: boolean;
+  mandatory?: boolean;
 };

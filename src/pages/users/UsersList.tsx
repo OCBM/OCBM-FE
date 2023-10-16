@@ -165,7 +165,7 @@ function UsersList() {
           }}
         />
       </Modal>
-      <div className="absolute top-[11%] right-[4%]">
+      <div className="absolute top-[14%] right-[2%]">
         <Button
           leftIcon={<PlusIcon />}
           label="Create"
