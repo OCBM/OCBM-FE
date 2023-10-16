@@ -34,7 +34,7 @@ export const sideNavRoutes = [
   },
   {
     icon: AddUserIcon,
-    title: 'Add user',
+    title: 'User',
     path: SITEMAP.users.index,
     key: SITEMAP.users.index,
   },

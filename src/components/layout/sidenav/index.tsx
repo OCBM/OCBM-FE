@@ -6,6 +6,11 @@ import { SITEMAP } from '@/utils/sitemap';
 const SideNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  function isRoute(currentRoute: string) {
+    return location.pathname.includes(currentRoute);
+  }
+
   return (
     <div className="bg-[#605BFF] rounded-2xl flex flex-col items-center px-5 py-[50px]">
       <div
@@ -21,16 +26,16 @@ const SideNav = () => {
           <div
             key={option.key}
             className={`flex flex-col justify-center items-center rounded-2xl w-[92px] h-[92px] cursor-pointer ${
-              location.pathname === option.key ? 'bg-white py-[10px]' : ''
+              isRoute(option.key) ? 'bg-white py-[10px]' : ''
             }`}
             onClick={() => {
               navigate(option.path);
             }}
           >
-            <option.icon className={`${location.pathname === option.key ? 'fill-[#492CE1]' : 'fill-white'} w-9 h-9`} />
+            <option.icon className={`${isRoute(option.key) ? 'fill-[#492CE1]' : 'fill-white'} w-9 h-9`} />
             <p
               className={`text-center font-medium text-[14px] mt-[6px] ${
-                location.pathname === option.key ? 'text-[#492CE1]' : 'text-white'
+                isRoute(option.key) ? 'text-[#492CE1]' : 'text-white'
               }`}
             >
               {option.title}

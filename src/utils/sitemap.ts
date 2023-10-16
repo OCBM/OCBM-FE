@@ -21,8 +21,8 @@ export const SITEMAP = {
     index: '/reports',
   },
   users: {
-    index: '/users',
-    addUser: '/users/add',
+    index: '/userDetails',
+    addUser: '/userDetails/addUser',
   },
   notFound: '*',
 };
