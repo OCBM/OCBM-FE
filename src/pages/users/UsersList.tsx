@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { PlusIcon, DeleteIcon, PencilIcon } from '@/assets/icons';
+import { PlusIcon, DeleteIcon, PencilIcon, ChevronSuccessIcon } from '@/assets/icons';
 import { Button, Modal } from '@/components';
 import { Table } from '@/components/reusable/table';
 import { USER_SERVICES } from '@/services/userServices';
@@ -10,6 +10,7 @@ import DeleteUser from './DeleteUser';
 import { useAppSelector } from '@/hooks';
 import { useNavigate } from 'react-router-dom';
 import { SITEMAP } from '@/utils/sitemap';
+import { USERS_PAGE_CONSTANTS } from './constants';
 
 function UsersList() {
   const initialState = {
@@ -28,14 +29,13 @@ function UsersList() {
   const [edit, setEdit] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<UserTypes>(initialState);
   const [showEditUserModal, setShowEditUserModal] = useState<boolean>(false);
+  const [showEditSuccessModal, setShowEditSuccessModal] = useState<boolean>(false);
   const [showDeleteUserModal, setShowDeleteUserModal] = useState<boolean>(false);
   const loggedUser = useAppSelector((state) => state.auth?.user);
 
   // fetching users data by role
   const fetchUserDataByRole = async () => {
     if (loggedUser) {
-      //error needs to correct
-      //@ts-ignore
       const res = await USER_SERVICES.getUserbyRole(loggedUser?.role);
       setUserdate(res?.message);
     }
@@ -46,6 +46,7 @@ function UsersList() {
 
   useEffect(() => {
     fetchUserDataByRole();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChange = (event: any) => {
@@ -128,10 +129,8 @@ function UsersList() {
     const res = await USER_SERVICES.updateUserbyId(selectedUser.userId, body);
     if (res.statusCode === 200) {
       fetchUserDataByRole();
-      setTimeout(() => {
-        setShowEditUserModal(false);
-        toast.success('User updated successfully');
-      }, 1000);
+      setShowEditUserModal(false);
+      setShowEditSuccessModal(true);
     }
   };
 
@@ -165,7 +164,28 @@ function UsersList() {
           }}
         />
       </Modal>
-      <div className="absolute top-[11%] right-[4%]">
+
+      <Modal isOpen={showEditSuccessModal} onCancel={onCloseEditModal} className="z-[99]">
+        <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
+          <div className="flex flex-col items-center justify-center">
+            <ChevronSuccessIcon className="w-[100px] h-[100px]" />
+            <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">
+              {USERS_PAGE_CONSTANTS.EDIT_USER_DIALOG.message}
+            </h2>
+            <div className="flex gap-[8px] justify-between">
+              <Button
+                label="Done"
+                variant="primary"
+                className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] py-[8px] px-[24px]"
+                onClick={() => {
+                  setShowEditSuccessModal(false);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </Modal>
+      <div className="absolute top-[14%] right-[2%]">
         <Button
           leftIcon={<PlusIcon />}
           label="Create"

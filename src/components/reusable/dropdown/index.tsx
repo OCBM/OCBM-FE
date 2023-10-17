@@ -14,6 +14,7 @@ const Dropdown = ({
   inputClassName,
   optionLabel = '',
   optionValue = '',
+  mandatory = false,
 }: DropdownPropsType) => {
   const [query, setQuery] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -71,7 +72,10 @@ const Dropdown = ({
   return (
     <div className="relative">
       {label && (
-        <label className={`${labelClassName || ''} text-[#492CE1] text-[14px] font-medium block mb-2`}>{label}</label>
+        <label className={`${labelClassName || ''} text-[#492CE1] text-[14px] font-medium block mb-2`}>
+          {label}
+          <span className="text-[#D95117]">{mandatory ? '*' : ''}</span>
+        </label>
       )}
       <div
         className={

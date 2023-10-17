@@ -113,39 +113,42 @@ function Addusers() {
             <Input
               className="rounded-[50px] border-[1px] border-grey-dark w-[348px] h-[50px] mt-2 px-3"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
-              label="Employee Name*"
+              label="Employee Name"
               placeholder="Enter Full Name"
               type="text"
               name="name"
               value={user?.name}
               onChange={handleChange}
+              mandatory={true}
             />
             <Input
               className="rounded-[50px] border-[1px] border-grey-dark w-[348px] h-[50px] mt-2 px-3"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
-              label="Employee Id*"
+              label="Employee Id"
               placeholder="Enter Employee Id"
               type="text"
               name="employeeId"
               value={user?.employeeId}
               onChange={handleChange}
+              mandatory={true}
             />
 
             <Input
               className="rounded-[50px] border-[1px] border-grey-dark w-[348px] h-[50px] mt-2 px-3"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
-              label="Position*"
+              label="Position"
               placeholder="Enter Position"
               type="text"
               name="position"
               value={user?.position}
               onChange={handleChange}
+              mandatory={true}
             />
           </div>
 
           <div className="flex justify-start flex-row w-full gap-[20px] mt-5 ml-5 mb-9">
             <Dropdown
-              label="Select Organization*"
+              label="Select Organization"
               className="w-[348px] border-[1px] h-[50px] px-3"
               placeholder="Select Organization"
               options={organizationData}
@@ -154,10 +157,11 @@ function Addusers() {
               }}
               value={user.organization}
               optionLabel="organizationName"
+              mandatory={true}
             />
 
             <Dropdown
-              label="Select group*"
+              label="Select group"
               className="w-[348px] border-[1px] h-[50px] px-3"
               placeholder="Select Group"
               value={user?.groups}
@@ -166,16 +170,18 @@ function Addusers() {
               handleChange={(value) => {
                 setUser((prev: any) => ({ ...prev, groups: value }));
               }}
+              mandatory={true}
             />
             <Input
               className="rounded-[50px] border-[1px] border-grey-dark w-[348px] h-[50px] mt-2 px-3"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
-              label="User Name*"
+              label="User Name"
               placeholder="Enter Full Name"
               type="text"
               name="userName"
               value={user?.userName}
               onChange={handleChange}
+              mandatory={true}
             />
           </div>
 
@@ -183,26 +189,28 @@ function Addusers() {
             <Input
               className="rounded-[50px] border-[1px] border-grey-dark w-[348px] h-[50px] mt-2 px-3"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
-              label="Email*"
+              label="Email"
               placeholder="Enter your Email"
               type="text"
               name="email"
               value={user?.email}
               onChange={handleChange}
+              mandatory={true}
             />
             <Input
               className="rounded-[50px] border-[1px] border-grey-dark w-[348px] h-[50px] mt-2 px-3"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
-              label="Password*"
+              label="Password"
               placeholder="Enter Password"
               type="password"
               name="password"
               value={user?.password}
               onChange={handleChange}
+              mandatory={true}
             />
 
             <Dropdown
-              label="Role*"
+              label="Role"
               className="w-[348px] border-[1px] h-[50px] px-3"
               placeholder="Select Role"
               value={user?.role}
@@ -212,6 +220,7 @@ function Addusers() {
               handleChange={(value) => {
                 setUser((prev: any) => ({ ...prev, role: value }));
               }}
+              mandatory={true}
             />
           </div>
 

@@ -25,17 +25,18 @@ const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUs
             </h4>
             <Input
               className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
-              label="Employee Name*"
+              label="Employee Name"
               placeholder="Enter Full Name"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
               type="text"
               value={selectedUser?.name}
               onChange={handleChange}
               name="name"
+              mandatory={true}
             />
             <Input
               className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
-              label="Employee ID*"
+              label="Employee ID"
               placeholder="Enter Employee ID"
               disabled={edit}
               labelClassName="text-[#492CE1] text-[14px] font-medium"
@@ -43,28 +44,31 @@ const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUs
               name="employeeid"
               value={selectedUser?.employeeId}
               onChange={handleChange}
+              mandatory={true}
             />
             <Input
               className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
               placeholder="Select Position"
-              label="Position*"
+              label="Position"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
               name="position"
               onChange={handleChange}
               type="text"
               value={selectedUser?.position}
+              mandatory={true}
             />
 
             <Input
               className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
               placeholder="Group"
-              label="Group*"
+              label="Group"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
               name="position"
               onChange={handleChange}
               type="text"
               value={selectedUser.groups.length ? selectedUser.groups[0].groupName : ''}
               disabled
+              mandatory={true}
             />
           </div>
 

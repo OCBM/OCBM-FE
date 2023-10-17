@@ -10,4 +10,5 @@ export type DropdownPropsType = {
   inputClassName?: string;
   optionLabel?: string;
   optionValue?: string;
+  mandatory?: boolean;
 };
