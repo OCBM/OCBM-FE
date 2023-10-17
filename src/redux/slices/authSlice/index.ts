@@ -1,14 +1,15 @@
 import { AUTH_SERVICES } from '@/services/authServices';
 import { SERVICES } from '@/utils/sitemap';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { AuthInitialState, LoginDataType } from './auth.types';
 
-const initialState = {
+const initialState: AuthInitialState = {
   loggedIn: false,
   isLoading: false,
   user: null,
 };
 
-export const loginUser = createAsyncThunk('auth/loginUser', (user: any, thunkAPI) => {
+export const loginUser = createAsyncThunk('auth/loginUser', (user: LoginDataType, thunkAPI) => {
   return AUTH_SERVICES.login(SERVICES.auth.login, user, thunkAPI);
 });
 
