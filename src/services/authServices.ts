@@ -1,9 +1,10 @@
 import { toast } from 'react-toastify';
 import { HELPER_SERVICES } from './helperServices';
 import apiInstance from '@/lib/axios';
+import { LoginDataType } from '@/redux/slices/authSlice/auth.types';
 
 export const AUTH_SERVICES = {
-  login: async (url: any, user: any, thunkAPI: any) => {
+  login: async (url: string, user: LoginDataType, thunkAPI: any) => {
     try {
       const resp = await apiInstance.post(url, user);
       toast.success('Login successfull');

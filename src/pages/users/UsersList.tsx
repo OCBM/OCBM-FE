@@ -36,8 +36,6 @@ function UsersList() {
   // fetching users data by role
   const fetchUserDataByRole = async () => {
     if (loggedUser) {
-      //error needs to correct
-      //@ts-ignore
       const res = await USER_SERVICES.getUserbyRole(loggedUser?.role);
       setUserdate(res?.message);
     }
