@@ -1,8 +1,6 @@
 import { BreadcrumbsType } from './types';
 
 function Breadcrumbs({ className, crumbs }: BreadcrumbsType) {
-  console.log('crumbs', crumbs);
-
   const routerNameChange = (data: string) => {
     switch (data) {
       case 'userDetails':
