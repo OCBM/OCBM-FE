@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { PlusIcon, DeleteIcon, PencilIcon, ChevronRightIcon, ChevronSuccessIcon } from '@/assets/icons';
+import { PlusIcon, DeleteIcon, PencilIcon, ChevronSuccessIcon } from '@/assets/icons';
 import { Button, Modal } from '@/components';
 import { Table } from '@/components/reusable/table';
 import { USER_SERVICES } from '@/services/userServices';
@@ -48,6 +48,7 @@ function UsersList() {
 
   useEffect(() => {
     fetchUserDataByRole();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChange = (event: any) => {
@@ -130,11 +131,8 @@ function UsersList() {
     const res = await USER_SERVICES.updateUserbyId(selectedUser.userId, body);
     if (res.statusCode === 200) {
       fetchUserDataByRole();
-      setTimeout(() => {
-        setShowEditUserModal(false);
-        setShowEditSuccessModal(true);
-        // toast.success('User updated successfully');
-      }, 1000);
+      setShowEditUserModal(false);
+      setShowEditSuccessModal(true);
     }
   };
 
