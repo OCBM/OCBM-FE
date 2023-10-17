@@ -16,6 +16,7 @@ export const USERS_PAGE_CONSTANTS = {
     label: 'Edit Details',
     leftLabel: 'Employee Details',
     rightLabel: 'Login Details',
+    message: 'Changes are Done',
   }),
   DELETE_USER_DIALOG: Object.freeze({
     message: 'Are you sure want to delete?',
