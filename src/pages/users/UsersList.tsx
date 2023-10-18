@@ -91,6 +91,11 @@ function UsersList() {
       key: 'userName',
     },
     {
+      title: 'Role',
+      dataIndex: 'role',
+      key: 'role',
+    },
+    {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',
