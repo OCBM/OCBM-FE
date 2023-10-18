@@ -78,7 +78,7 @@ function Addusers() {
       userName: user.userName,
       name: user.name,
       email: user.email,
-      employeeId: user.email,
+      employeeId: user.employeeId,
       position: user.position,
       role: user.role,
       groups: {

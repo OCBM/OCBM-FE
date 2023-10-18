@@ -1,5 +1,5 @@
 import { ChevronCancelIcon } from '@/assets/icons';
-import { Button, Input } from '@/components';
+import { Button, Dropdown, Input } from '@/components';
 import { EditUserType } from './types';
 import { USERS_PAGE_CONSTANTS } from './constants';
 
@@ -58,14 +58,12 @@ const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUs
               mandatory={true}
             />
 
-            <Input
-              className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
+            <Dropdown
+              className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[15px] mb-5 mt-2"
               placeholder="Group"
               label="Group"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
-              name="position"
-              onChange={handleChange}
-              type="text"
+              options={selectedUser.groups}
               value={selectedUser.groups.length ? selectedUser.groups[0].groupName : ''}
               disabled
               mandatory={true}
@@ -88,22 +86,21 @@ const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUs
               value={selectedUser.userName}
             />
 
-            <Input
-              className="w-[349px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
+            <Dropdown
+              className="w-[349px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[15px] mb-5 mt-2"
               label="Access Type"
               value={selectedUser.role}
+              options={USERS_PAGE_CONSTANTS.ROLE_ACCESS_TYPES}
               placeholder="Enter Type"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
-              onChange={handleChange}
               disabled={edit}
-              name="role"
             />
-
             <Input
               className="w-[349px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
               label="Set New Password"
               value={selectedUser.password}
               name="password"
+              type="password"
               placeholder="Enter Password"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
               onChange={handleChange}

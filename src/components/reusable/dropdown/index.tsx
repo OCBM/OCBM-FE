@@ -10,16 +10,18 @@ const Dropdown = ({
   placeholder,
   className,
   label,
-  labelClassName,
-  inputClassName,
+  labelClassName = '',
+  inputClassName = '',
   optionLabel = '',
   optionValue = '',
   mandatory = false,
+  disabled = false,
 }: DropdownPropsType) => {
   const [query, setQuery] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const inputRef = useRef(null);
+  const iconRef = useRef(null);
 
   useEffect(() => {
     document.addEventListener('click', toggle);
@@ -37,9 +39,14 @@ const Dropdown = ({
   };
 
   function toggle(event: any) {
-    setIsOpen(event && event.target === inputRef.current);
+    if ((event && event.target === inputRef.current) || event.target === iconRef.current) {
+      if (isOpen) {
+        setIsOpen(false);
+      } else {
+        setIsOpen(true);
+      }
+    }
   }
-
   const getDisplayValue = () => {
     // If we edit the text field that text will be displayed
     if (query) {
@@ -80,23 +87,27 @@ const Dropdown = ({
       <div
         className={
           type === 'secondary'
-            ? `flex items-center justify-between border-b-2 ${className}`
-            : `flex border-2 overflow-hidden rounded-[50px] gap-3 items-center justify-between border-[#444444] cursor-pointer ${className}`
+            ? `flex items-center justify-between border-b-2 ${className} cursor-pointer`
+            : `flex border-2 overflow-hidden rounded-[50px] gap-3 items-center justify-between border-[#444444] cursor-pointer ${className} cursor-pointer`
         }
+        onClick={(e) => {
+          e.stopPropagation();
+          toggle(e);
+        }}
       >
         <input
-          ref={inputRef}
           type="text"
+          disabled={disabled}
+          ref={inputRef}
           placeholder={placeholder || value}
           value={getDisplayValue()}
           onChange={(e) => {
             setQuery(e.target.value);
             handleChange('');
           }}
-          onClick={toggle}
-          className={`grow h-full cursor-pointer outline-none mr-[10px] ${inputClassName}`}
+          className={`grow h-full cursor-pointer outline-none bg-transparent ${inputClassName}`}
         />
-        <span className={isOpen ? 'rotate-180 transition' : ''}>
+        <span ref={iconRef} className={`pl-3 pr-3 mt-1 ${isOpen ? 'rotate-180 transition' : ''}`}>
           <ChevronDownIcon />
         </span>
       </div>
