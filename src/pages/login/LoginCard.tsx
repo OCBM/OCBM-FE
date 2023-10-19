@@ -91,7 +91,7 @@ const LoginCard = () => {
                         name="userName"
                         value={formData.userName}
                         placeholder="User Name*"
-                        className="p-5 border border-grey-dar text-[#444444]"
+                        className="p-5 border border-grey-dark text-[#444444]"
                         onChange={inputHandler}
                       />
                     </div>
