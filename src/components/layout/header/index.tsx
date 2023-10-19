@@ -2,13 +2,11 @@ import { SearchIcon } from '@/assets/icons';
 import { Dropdown, Input } from '@/components';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { logoutUser } from '@/redux/slices/authSlice';
-import { USER_ROLES } from '@/utils/constants';
 import { toast } from 'react-toastify';
 
 const Header = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
-  console.log(user, 'uservalue');
   const options = [
     {
       key: 'plants',
