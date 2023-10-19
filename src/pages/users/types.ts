@@ -11,6 +11,14 @@ export type UserOrganizationTypes = {
   organizationName: string;
 };
 
+export type UserPlantTypes = {
+  plantId: string;
+  plantName: string;
+  description: string;
+  organizationId: string;
+  image: string;
+};
+
 export type UserTypes = {
   userId: string;
   userName: string;
@@ -20,6 +28,7 @@ export type UserTypes = {
   role: string;
   email: string;
   groups: UserGroupTypes[];
+  plants: UserPlantTypes[];
   organization: UserOrganizationTypes[];
   password: string;
 };

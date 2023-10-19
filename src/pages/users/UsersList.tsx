@@ -21,6 +21,7 @@ function UsersList() {
     email: '',
     groups: [],
     organization: [],
+    plants: [],
     password: '',
   };
   const [userdata, setUserdate] = useState([]);
@@ -52,12 +53,12 @@ function UsersList() {
     }));
   };
 
-  const Edituser = (data: UserTypes) => {
+  const Edituser = async (data: UserTypes) => {
     setEdit(true);
-    console.log(data, 'userdata');
-    if (data) {
+    if (data.userId) {
+      const res = await USER_SERVICES.getUserbyId(data.userId);
       setShowEditUserModal(true);
-      setSelectedUser(data);
+      setSelectedUser(res.message);
     }
   };
   const onDeleteUser = async (id: string) => {

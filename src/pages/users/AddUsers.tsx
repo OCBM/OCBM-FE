@@ -121,7 +121,6 @@ function Addusers() {
       navigate(SITEMAP.users.index);
     }
   }
-
   return (
     <>
       <div className="shadow-md w-full p-[20px] rounded-[16px] mx-auto mb-8 overflow-x-hidden">
@@ -199,6 +198,7 @@ function Addusers() {
                 placeholder="Select Plant"
                 value={user?.plants}
                 options={plantsData}
+                disabled={!user.organization}
                 optionLabel="plantName"
                 handleChange={(value) => {
                   setUser((prev: any) => ({ ...prev, plants: value }));

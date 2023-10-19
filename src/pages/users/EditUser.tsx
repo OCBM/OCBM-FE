@@ -60,12 +60,23 @@ const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUs
 
             <Dropdown
               className="w-[385px] h-[54px] rounded-[50px] border-gray-400 border-[1px] p-[15px] mb-5 mt-2"
+              placeholder="Organization"
+              label="Organization"
+              labelClassName="text-[#492CE1] text-[14px] font-medium"
+              options={selectedUser.organization}
+              value={selectedUser.organization?.length ? selectedUser.organization[0].organizationName : ''}
+              disabled={edit}
+              mandatory={true}
+            />
+
+            <Dropdown
+              className="w-[385px] h-[54px] rounded-[50px] border-gray-400 border-[1px] p-[15px] mb-5 mt-2"
               placeholder="Group"
               label="Group"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
               options={selectedUser.groups}
               value={selectedUser.groups?.length ? selectedUser.groups[0].groupName : ''}
-              disabled
+              disabled={edit}
               mandatory={true}
             />
           </div>
@@ -104,6 +115,16 @@ const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUs
               placeholder="Enter Password"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
               onChange={handleChange}
+            />
+            <Dropdown
+              className="w-[349px] h-[54px] rounded-[50px] border-gray-400 border-[1px] p-[15px] mb-5 mt-2"
+              placeholder="Plant"
+              label="Plant"
+              labelClassName="text-[#492CE1] text-[14px] font-medium"
+              options={selectedUser.plants}
+              value={selectedUser.plants?.length ? selectedUser.plants[0].plantName : ''}
+              disabled={edit}
+              mandatory={true}
             />
           </div>
         </div>

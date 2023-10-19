@@ -112,9 +112,9 @@ const Dropdown = ({
         ) : (
           <div
             ref={inputRef}
-            className={`grow cursor-pointer outline-none bg-transparent ${inputClassName}  ${
-              placeholder && !getDisplayValue() && 'text-gray-400'
-            }`}
+            className={`grow cursor-pointer outline-none bg-transparent ${
+              disabled && 'pointer-events-none'
+            } ${inputClassName}  ${placeholder && !getDisplayValue() && 'text-gray-400'}`}
           >
             {getDisplayValue() || placeholder}
           </div>
