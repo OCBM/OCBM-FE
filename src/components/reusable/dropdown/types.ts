@@ -12,4 +12,5 @@ export type DropdownPropsType = {
   optionValue?: string;
   mandatory?: boolean;
   disabled?: boolean;
+  editable?: boolean;
 };

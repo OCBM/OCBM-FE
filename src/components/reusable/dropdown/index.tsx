@@ -16,6 +16,7 @@ const Dropdown = ({
   optionValue = '',
   mandatory = false,
   disabled = false,
+  editable = false,
 }: DropdownPropsType) => {
   const [query, setQuery] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -77,7 +78,7 @@ const Dropdown = ({
   };
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       {label && (
         <label className={`${labelClassName || ''} text-[#492CE1] text-[14px] font-medium block mb-2`}>
           {label}
@@ -95,18 +96,29 @@ const Dropdown = ({
           toggle(e);
         }}
       >
-        <input
-          type="text"
-          disabled={disabled}
-          ref={inputRef}
-          placeholder={placeholder || value}
-          value={getDisplayValue()}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            handleChange('');
-          }}
-          className={`grow h-full cursor-pointer outline-none bg-transparent ${inputClassName}`}
-        />
+        {editable ? (
+          <input
+            type="text"
+            disabled={disabled}
+            ref={inputRef}
+            placeholder={placeholder || value}
+            value={getDisplayValue()}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              handleChange('');
+            }}
+            className={`grow h-full cursor-pointer outline-none bg-transparent ${inputClassName}`}
+          />
+        ) : (
+          <div
+            ref={inputRef}
+            className={`grow cursor-pointer outline-none bg-transparent ${inputClassName}  ${
+              placeholder && !getDisplayValue() && 'text-gray-400'
+            }`}
+          >
+            {getDisplayValue() || placeholder}
+          </div>
+        )}
         <span ref={iconRef} className={`pl-3 pr-3 mt-1 ${isOpen ? 'rotate-180 transition' : ''}`}>
           <ChevronDownIcon />
         </span>
