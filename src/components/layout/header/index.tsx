@@ -64,7 +64,7 @@ const Header = () => {
       </div>
       <div className="flex items-center gap-[10px] w-[138px]">
         <div className="bg-[#492CE1] text-white p-3 text-center w-[40px] h-[40px] rounded-[30px] flex items-center justify-center">
-          <span className="text-center">{user?.name.charAt(0)}</span>
+          <span className="text-center w-[40px]">{user?.name ? user?.name.charAt(0) : 'U'}</span>
         </div>
         <Dropdown
           type="secondary"
