@@ -3,7 +3,9 @@ import { Button } from '@/components';
 import { PlusIcon } from '@/assets/icons';
 import { useNavigate } from 'react-router-dom';
 import { SITEMAP } from '@/utils/sitemap';
+import { useLocation } from 'react-router-dom';
 function Breadcrumbs({ className, crumbs }: BreadcrumbsType) {
+  const location = useLocation();
   const OnAddUserPage = () => {
     navigate(SITEMAP.users.addUser);
   };
@@ -33,7 +35,7 @@ function Breadcrumbs({ className, crumbs }: BreadcrumbsType) {
           </div>
         ))}
       </div>
-      {routerNameChange('addUser') === 'add User' ? (
+      {location.pathname === SITEMAP.users.index ? (
         <div>
           <Button
             leftIcon={<PlusIcon />}

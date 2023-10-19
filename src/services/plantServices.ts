@@ -11,9 +11,9 @@ export const PLANT_SERVICES = {
     }
   },
 
-  getAllPlants: async () => {
+  getAllPlants: async (id: string) => {
     try {
-      const res = await apiInstance.get(SERVICES.plants.get);
+      const res = await apiInstance.get(`${SERVICES.plants.get}/organizationId=${id}`);
       return res.data;
     } catch (error) {
       console.log(error);

@@ -16,7 +16,7 @@ function Addusers() {
     email: string | undefined;
     position: string | undefined;
     organization: string | any;
-    plants: string | undefined;
+    plants: string | any;
     groups: string | any;
     userName: string | undefined;
     password: string | undefined;
@@ -51,15 +51,16 @@ function Addusers() {
       const group = await GROUP_SERVICES.getAllGroups();
       setGroupsData(group.message);
     }
-    async function getPlants() {
-      const plants = await PLANT_SERVICES.getAllPlants();
-      setPlantsData(plants.message);
-    }
 
     getOrganizations();
     getGroups();
-    getPlants();
   }, []);
+
+  async function getPlants(value: any) {
+    console.log(value, 'orgid');
+    const plants = await PLANT_SERVICES.getAllPlants(value.organizationId);
+    setPlantsData(plants.message);
+  }
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
@@ -97,13 +98,13 @@ function Addusers() {
           },
         ],
       },
-      // plants: {
-      //   connect: [
-      //     {
-      //       plantId: user.plants?.plantId || '',
-      //     },
-      //   ],
-      // },
+      plants: {
+        connect: [
+          {
+            plantId: user.plants?.plantId || '',
+          },
+        ],
+      },
       organization: {
         connect: [
           {
@@ -171,6 +172,7 @@ function Addusers() {
                 options={organizationData}
                 handleChange={(value) => {
                   setUser((prev: any) => ({ ...prev, organization: value }));
+                  getPlants(value);
                 }}
                 value={user.organization}
                 optionLabel="organizationName"
@@ -196,6 +198,7 @@ function Addusers() {
                 placeholder="Select Plant"
                 value={user?.plants}
                 options={plantsData}
+                disabled={!user.organization}
                 optionLabel="plantName"
                 handleChange={(value) => {
                   setUser((prev: any) => ({ ...prev, plants: value }));
@@ -241,10 +244,10 @@ function Addusers() {
               />
             </div>
             <div className="flex justify-start flex-row gap-[20px] mt-5 mb-9">
-              <div className="w-[100%]">
+              <div className="w-[33%]">
                 <Dropdown
                   label="Role"
-                  className="w-[33%] border-[1px] h-[50px] px-3"
+                  className="w-[100%] border-[1px] h-[50px] px-3"
                   placeholder="Select Role"
                   value={user?.role}
                   options={USERS_PAGE_CONSTANTS.ROLE_ACCESS_TYPES}

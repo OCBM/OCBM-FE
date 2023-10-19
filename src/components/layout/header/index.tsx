@@ -2,13 +2,11 @@ import { SearchIcon } from '@/assets/icons';
 import { Dropdown, Input } from '@/components';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { logoutUser } from '@/redux/slices/authSlice';
-import { USER_ROLES } from '@/utils/constants';
 import { toast } from 'react-toastify';
 
 const Header = () => {
   const dispatch = useAppDispatch();
-  const userRole = useAppSelector((state) => state.auth.user?.role);
-
+  const user = useAppSelector((state) => state.auth.user);
   const options = [
     {
       key: 'plants',
@@ -66,14 +64,14 @@ const Header = () => {
       </div>
       <div className="flex items-center gap-[10px] w-[138px]">
         <div className="bg-[#492CE1] text-white p-3 text-center w-[40px] h-[40px] rounded-[30px] flex items-center justify-center">
-          <span className="text-center">{userRole === USER_ROLES.ADMIN ? 'A' : 'U'}</span>
+          <span className="text-center w-[40px]">{user?.name ? user?.name.charAt(0) : 'U'}</span>
         </div>
         <Dropdown
           type="secondary"
           placeholder="User type"
-          value={userRole === USER_ROLES.ADMIN ? 'Admin' : 'User'}
+          value={user?.name}
           className="border-none"
-          inputClassName="placeholder:text-[#444444] placeholder:font-medium w-[50px]"
+          inputClassName="placeholder:text-[#444444] placeholder:font-medium w-[50px] text-ellipsis overflow-hidden whitespace-nowrap"
           options={userOptions}
           handleChange={logoutBtn}
         />
