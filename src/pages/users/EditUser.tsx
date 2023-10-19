@@ -64,7 +64,7 @@ const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUs
               label="Group"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
               options={selectedUser.groups}
-              value={selectedUser.groups.length ? selectedUser.groups[0].groupName : ''}
+              value={selectedUser.groups?.length ? selectedUser.groups[0].groupName : ''}
               disabled
               mandatory={true}
             />

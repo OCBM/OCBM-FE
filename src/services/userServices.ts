@@ -14,9 +14,9 @@ export const USER_SERVICES = {
       console.log(error);
     }
   },
-  getUserbyRole: async (role: string) => {
+  getAllUsers: async () => {
     try {
-      const res = await apiInstance.get(`${SERVICES.user.get}/${role}`);
+      const res = await apiInstance.get(`${SERVICES.user.get}`);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;

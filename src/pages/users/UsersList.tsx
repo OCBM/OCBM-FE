@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { PlusIcon, DeleteIcon, PencilIcon, ChevronSuccessIcon } from '@/assets/icons';
+import { DeleteIcon, PencilIcon, ChevronSuccessIcon } from '@/assets/icons';
 import { Button, Modal } from '@/components';
 import { Table } from '@/components/reusable/table';
 import { USER_SERVICES } from '@/services/userServices';
@@ -8,8 +8,6 @@ import EditUser from './EditUser';
 import { UserTypes } from './types';
 import DeleteUser from './DeleteUser';
 import { useAppSelector } from '@/hooks';
-import { useNavigate } from 'react-router-dom';
-import { SITEMAP } from '@/utils/sitemap';
 import { USERS_PAGE_CONSTANTS } from './constants';
 
 function UsersList() {
@@ -36,12 +34,9 @@ function UsersList() {
   // fetching users data by role
   const fetchUserDataByRole = async () => {
     if (loggedUser) {
-      const res = await USER_SERVICES.getUserbyRole(loggedUser?.role);
+      const res = await USER_SERVICES.getAllUsers();
       setUserdate(res?.message);
     }
-  };
-  const OnAddUserPage = () => {
-    navigate(SITEMAP.users.addUser);
   };
 
   useEffect(() => {
@@ -59,6 +54,7 @@ function UsersList() {
 
   const Edituser = (data: UserTypes) => {
     setEdit(true);
+    console.log(data, 'userdata');
     if (data) {
       setShowEditUserModal(true);
       setSelectedUser(data);
@@ -139,8 +135,6 @@ function UsersList() {
     }
   };
 
-  const navigate = useNavigate();
-
   return (
     <div>
       <Modal isOpen={showEditUserModal} onCancel={onCloseEditModal} className="z-[99]">
@@ -190,7 +184,7 @@ function UsersList() {
           </div>
         </div>
       </Modal>
-      <div className="absolute top-[14%] right-[2%]">
+      {/* <div className="absolute top-[14%] right-[2%]">
         <Button
           leftIcon={<PlusIcon />}
           label="Create"
@@ -198,7 +192,7 @@ function UsersList() {
           variant="primary"
           onClick={OnAddUserPage}
         />
-      </div>
+      </div> */}
       <Table className="w-full mx-auto" dataSource={userdata} columns={columns} />
     </div>
   );
