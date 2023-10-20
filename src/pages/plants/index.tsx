@@ -19,9 +19,9 @@ function Plant() {
   const plant_container = classNames(
     `w-full h-[76%] container mx-auto font-GothamMedium text-2xl font-medium shadow-2xl rounded-2xl p-6`,
   );
-  const plantBtn = (val: any) => {
-    // setCity(val);
-  };
+  // const plantBtn = (val: any) => {
+  //   setCity(val);
+  // };
   useEffect(() => {
     fetchPlantsbyUserId();
   }, []);
@@ -38,7 +38,10 @@ function Plant() {
             <div className="grid grid-cols-5 gap-10 pr-6 h-[60vh]">
               {plantData.map((data: any, i) => (
                 <div key={i}>
-                  <PlantCard data={data} onClick={() => plantBtn(data)} />
+                  <PlantCard
+                    data={data}
+                    //  onClick={() => plantBtn(data)}
+                  />
                 </div>
               ))}
             </div>
