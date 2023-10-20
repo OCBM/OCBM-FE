@@ -4,7 +4,7 @@ import { FILE_FORMAT } from './constants';
 import { UploadIcon, UploadSuccessIcon } from '@/assets/icons';
 
 const FileUploader = (props: FileUploaderPropsType) => {
-  const { handleFile, fileFormat = '.xlsx', uploadStatus = 'upload' } = props;
+  const { handleFile, fileFormat = '.xlsx', uploadStatus = 'upload', mastery = false, className = '' } = props;
 
   const [fileName, setFileName] = useState<string>('');
 
@@ -25,14 +25,14 @@ const FileUploader = (props: FileUploaderPropsType) => {
 
   const handleDrop = (event: any) => {
     event.preventDefault();
-    if (event?.dataTransfer?.files[0].type === FILE_FORMAT.excel) {
+    if (event?.dataTransfer?.files[0].type === FILE_FORMAT.excel || FILE_FORMAT.image) {
       handleFile(event?.dataTransfer?.files);
       setFileName(event?.dataTransfer?.files[0]?.name);
     }
   };
 
   const handleInputChange = (event: any) => {
-    if (event?.target?.files[0].type === FILE_FORMAT.excel) {
+    if (event?.target?.files[0].type === FILE_FORMAT.excel || FILE_FORMAT.image) {
       handleFile(event?.target?.files);
       setFileName(event?.target?.files?.[0]?.name);
     }
@@ -40,16 +40,22 @@ const FileUploader = (props: FileUploaderPropsType) => {
 
   return (
     <label
-      className="bg-[#F8F6FF] border border-dashed border-[#434347] flex flex-col items-center justify-center py-[34px] px-[200px] rounded-md cursor-pointer"
+      className={`bg-[#F8F6FF] border border-dashed border-[#605BFF] flex flex-col items-center justify-center py-[34px] rounded-md cursor-pointer ${className}`}
       htmlFor="uploadInput"
       onDragOver={(event) => event.preventDefault()}
       onDrop={handleDrop}
     >
       <input className="hidden" type="file" accept={fileFormat} id="uploadInput" onChange={handleInputChange} />
-      {handleStatusIcon(uploadStatus)}
+      {!mastery && handleStatusIcon(uploadStatus)}
       {fileName ? (
         <p className="text-[#605BFF] text-lg font-medium leading-5 underline tracking-[0.36px] mt-4 mb-[10px]">
           {fileName}
+        </p>
+      ) : mastery ? (
+        <p className="font-medium flex gap-2 items-center">
+          <span className="text-base">Upload image</span>
+          <span className="text-xs">Drag & drop files or</span>
+          <span className="text-[#605BFF] underline">Browse</span>
         </p>
       ) : (
         <p className="text-[#0F0F0F] text-lg font-medium leading-5 mt-4 mb-[10px]">

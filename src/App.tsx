@@ -9,6 +9,7 @@ import { Login, Plant, UsersList } from './pages';
 import Addusers from './pages/users/AddUsers';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
+import Mastery from './pages/mastery';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
               <Route path={SITEMAP.plant.index} element={<Plant />} />
               <Route index element={<Home />} />
               <Route path={SITEMAP.notFound} element={<h1>Not found</h1>} />
+              <Route path={SITEMAP.mastery.index} element={<Mastery />} />
             </Route>
 
             <Route path={SITEMAP.auth.index} element={<Login />} />
