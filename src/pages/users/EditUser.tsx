@@ -18,7 +18,7 @@ const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUs
         {USERS_PAGE_CONSTANTS.EDIT_USER_DIALOG.label}
       </h2>
       <form>
-        <div className="flex gap-[36px] justify-between">
+        <div className="flex gap-[36px] justify-between h-[485px] overflow-y-auto disable-scrollbar">
           <div>
             <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-4">
               {USERS_PAGE_CONSTANTS.EDIT_USER_DIALOG.leftLabel}
