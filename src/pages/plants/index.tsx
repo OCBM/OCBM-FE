@@ -8,6 +8,7 @@ import PlantCard from './PlantCard';
 function Plant() {
   const loggedUser = useAppSelector((state) => state.auth?.user);
   const [plantData, setPlantData] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [city, setCity] = useState<any>('');
 
   const fetchPlantsbyUserId = async () => {

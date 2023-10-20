@@ -28,5 +28,10 @@ body,
   padding: 0;
   height: 100vh;
   width: 100vw;
-  overflow-x: hidden;
+  overflow: hidden;
+}
+.scroll-bar-webkit {
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
