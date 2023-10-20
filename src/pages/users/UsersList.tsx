@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { PlusIcon, DeleteIcon, PencilIcon, ChevronSuccessIcon } from '@/assets/icons';
+import { DeleteIcon, PencilIcon, ChevronSuccessIcon } from '@/assets/icons';
 import { Button, Modal } from '@/components';
 import { Table } from '@/components/reusable/table';
 import { USER_SERVICES } from '@/services/userServices';
@@ -8,8 +8,6 @@ import EditUser from './EditUser';
 import { UserTypes } from './types';
 import DeleteUser from './DeleteUser';
 import { useAppSelector } from '@/hooks';
-import { useNavigate } from 'react-router-dom';
-import { SITEMAP } from '@/utils/sitemap';
 import { USERS_PAGE_CONSTANTS } from './constants';
 
 function UsersList() {
@@ -23,6 +21,7 @@ function UsersList() {
     email: '',
     groups: [],
     organization: [],
+    plants: [],
     password: '',
   };
   const [userdata, setUserdate] = useState([]);
@@ -36,12 +35,9 @@ function UsersList() {
   // fetching users data by role
   const fetchUserDataByRole = async () => {
     if (loggedUser) {
-      const res = await USER_SERVICES.getUserbyRole(loggedUser?.role);
+      const res = await USER_SERVICES.getAllUsers();
       setUserdate(res?.message);
     }
-  };
-  const OnAddUserPage = () => {
-    navigate(SITEMAP.users.addUser);
   };
 
   useEffect(() => {
@@ -57,11 +53,12 @@ function UsersList() {
     }));
   };
 
-  const Edituser = (data: UserTypes) => {
+  const Edituser = async (data: UserTypes) => {
     setEdit(true);
-    if (data) {
+    if (data.userId) {
+      const res = await USER_SERVICES.getUserbyId(data.userId);
       setShowEditUserModal(true);
-      setSelectedUser(data);
+      setSelectedUser(res.message);
     }
   };
   const onDeleteUser = async (id: string) => {
@@ -89,6 +86,11 @@ function UsersList() {
       title: 'User Name',
       dataIndex: 'userName',
       key: 'userName',
+    },
+    {
+      title: 'Role',
+      dataIndex: 'role',
+      key: 'role',
     },
     {
       title: 'Action',
@@ -133,8 +135,6 @@ function UsersList() {
       setShowEditSuccessModal(true);
     }
   };
-
-  const navigate = useNavigate();
 
   return (
     <div>
@@ -185,7 +185,7 @@ function UsersList() {
           </div>
         </div>
       </Modal>
-      <div className="absolute top-[14%] right-[2%]">
+      {/* <div className="absolute top-[14%] right-[2%]">
         <Button
           leftIcon={<PlusIcon />}
           label="Create"
@@ -193,7 +193,7 @@ function UsersList() {
           variant="primary"
           onClick={OnAddUserPage}
         />
-      </div>
+      </div> */}
       <Table className="w-full mx-auto" dataSource={userdata} columns={columns} />
     </div>
   );

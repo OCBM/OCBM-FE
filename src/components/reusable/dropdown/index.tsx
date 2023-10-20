@@ -16,6 +16,7 @@ const Dropdown = ({
   optionValue = '',
   mandatory = false,
   disabled = false,
+  editable = false,
 }: DropdownPropsType) => {
   const [query, setQuery] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -77,7 +78,7 @@ const Dropdown = ({
   };
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       {label && (
         <label className={`${labelClassName || ''} text-[#492CE1] text-[14px] font-medium block mb-2`}>
           {label}
@@ -95,30 +96,41 @@ const Dropdown = ({
           toggle(e);
         }}
       >
-        <input
-          type="text"
-          disabled={disabled}
-          ref={inputRef}
-          placeholder={placeholder || value}
-          value={getDisplayValue()}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            handleChange('');
-          }}
-          className={`grow h-full cursor-pointer outline-none bg-transparent ${inputClassName}`}
-        />
+        {editable ? (
+          <input
+            type="text"
+            disabled={disabled}
+            ref={inputRef}
+            placeholder={placeholder || value}
+            value={getDisplayValue()}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              handleChange('');
+            }}
+            className={`grow h-full cursor-pointer outline-none bg-transparent ${inputClassName}`}
+          />
+        ) : (
+          <div
+            ref={inputRef}
+            className={`grow cursor-pointer outline-none bg-transparent ${
+              disabled && 'pointer-events-none'
+            } ${inputClassName}  ${placeholder && !getDisplayValue() && 'text-gray-400'}`}
+          >
+            {getDisplayValue() || placeholder}
+          </div>
+        )}
         <span ref={iconRef} className={`pl-3 pr-3 mt-1 ${isOpen ? 'rotate-180 transition' : ''}`}>
           <ChevronDownIcon />
         </span>
       </div>
       {isOpen && (
-        <div className="absolute border-4 w-full my-3 border-white rounded-b-2xl rounded-l-2xl shadow-[0px_4px_6px_0px_rgba(0,0,0,0.08) z-[99] bg-white">
+        <div className="absolute border-4 w-full my-3 border-white rounded-b-2xl rounded-l-2xl shadow-lg z-[99] bg-white">
           {filterOptions(options)?.map((option: any) => {
             if (optionLabel) {
               return (
                 <div
                   onClick={() => selectOption(option)}
-                  className="py-4 cursor-pointer transition-all hover:bg-[#f4f4f4] rounded-r-xl"
+                  className="p-4 cursor-pointer transition-all hover:bg-[#f4f4f4] rounded-r-xl"
                   key={option[optionLabel]}
                 >
                   {option[optionLabel]}

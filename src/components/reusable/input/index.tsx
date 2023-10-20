@@ -17,7 +17,7 @@ function Input({
   mandatory = false,
 }: InputType) {
   return (
-    <div className="relative">
+    <div className="relative w-full">
       {label && (
         <label className={labelClassName}>
           {label}
