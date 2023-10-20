@@ -8,8 +8,7 @@ import PlantCard from './PlantCard';
 function Plant() {
   const loggedUser = useAppSelector((state) => state.auth?.user);
   const [plantData, setPlantData] = useState([]);
-  // eslint-disable-next-line no-unused-vars
-  const [city, setCity] = useState<any>('');
+  // const [city, setCity] = useState<any>('');
 
   const fetchPlantsbyUserId = async () => {
     if (loggedUser) {
@@ -21,7 +20,7 @@ function Plant() {
     `w-full h-[76%] container mx-auto font-GothamMedium text-2xl font-medium shadow-2xl rounded-2xl p-6`,
   );
   const plantBtn = (val: any) => {
-    setCity(val);
+    // setCity(val);
   };
   useEffect(() => {
     fetchPlantsbyUserId();

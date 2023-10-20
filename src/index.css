@@ -30,7 +30,7 @@ body,
   width: 100vw;
   overflow: hidden;
 }
-.scroll-bar-webkit {
+.disable-scrollbar {
   &::-webkit-scrollbar {
     display: none;
   }
