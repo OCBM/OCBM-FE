@@ -26,6 +26,7 @@ const Shop = () => {
           options={[]}
         />
       </div>
+      {/* We can add shop images using uploader */}
       <FileUploader
         className="w-[560px] py-6"
         mastery
