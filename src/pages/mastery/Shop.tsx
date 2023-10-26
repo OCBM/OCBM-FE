@@ -37,12 +37,12 @@ const Shop = () => {
       <div className="flex gap-4 mt-8 mb-8">
         <Button
           variant="secondary"
-          className="py-3 px-6 rounded-2xl tracking-[0.32px] font-medium text-base"
+          className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
           label="Clear"
         />
         <Button
           variant="primary"
-          className="py-3 px-6 rounded-2xl tracking-[0.32px] font-medium text-base"
+          className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
           label="Add"
         />
       </div>

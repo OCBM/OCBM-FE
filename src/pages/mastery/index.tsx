@@ -48,7 +48,7 @@ const Mastery = () => {
     <>
       {!showTab ? (
         // home page of mastery
-        <div className="flex justify-center items-center h-[75%]">
+        <div className="flex justify-center items-center flex-grow">
           <div className="flex gap-6 items-center justify-center">
             {/* Block upload section */}
             <div className="flex flex-col gap-5 items-center justify-center px-16 py-12 rounded-2xl cursor-pointer shadow-[0_0_6px_2px_rgba(0,0,0,0.08)]">

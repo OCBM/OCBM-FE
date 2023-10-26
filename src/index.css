@@ -13,6 +13,24 @@
 }
 
 @tailwind base;
+
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(68, 68, 68, 0.25);
+  border-radius: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #492ce1;
+  border-radius: 8px;
+}
+*::-webkit-scrollbar-thumb:vertical {
+  height: 105px;
+}
+
 @tailwind components;
 @tailwind utilities;
 
