@@ -13,43 +13,40 @@ import Mastery from './pages/mastery';
 
 function App() {
   return (
-    <div>
-      <GlobalErrorBoundary>
-        <div>
-          <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar={true}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss={false}
-            draggable
-            pauseOnHover
-            theme="colored"
-          />
-          <PublicRoutes>
-            <Route
-              path={SITEMAP.base.index}
-              element={
-                <ProtectedRoute>
-                  <Layout />
-                </ProtectedRoute>
-              }
-            >
-              <Route path={SITEMAP.users.addUser} element={<Addusers />} />
-              <Route path={SITEMAP.users.index} element={<UsersList />} />
-              <Route path={SITEMAP.plant.index} element={<Plant />} />
-              <Route index element={<Home />} />
-              <Route path={SITEMAP.notFound} element={<h1>Not found</h1>} />
-              <Route path={SITEMAP.mastery.index} element={<Mastery />} />
-            </Route>
-
-            <Route path={SITEMAP.auth.index} element={<Login />} />
-          </PublicRoutes>
-        </div>
-      </GlobalErrorBoundary>
-    </div>
+    <GlobalErrorBoundary>
+      <>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
+        <PublicRoutes>
+          <Route
+            path={SITEMAP.base.index}
+            element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }
+          >
+            <Route path={SITEMAP.users.addUser} element={<Addusers />} />
+            <Route path={SITEMAP.users.index} element={<UsersList />} />
+            <Route path={SITEMAP.plant.index} element={<Plant />} />
+            <Route index element={<Home />} />
+            <Route path={SITEMAP.mastery.index} element={<Mastery />} />
+            <Route path={SITEMAP.notFound} element={<h1>Not found</h1>} />
+          </Route>
+          <Route path={SITEMAP.auth.index} element={<Login />} />
+        </PublicRoutes>
+      </>
+    </GlobalErrorBoundary>
   );
 }
 export default App;

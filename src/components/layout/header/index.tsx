@@ -70,7 +70,7 @@ const Header = () => {
           type="secondary"
           placeholder="User type"
           value={user?.name}
-          className="border-none"
+          className="border-none text-center"
           inputClassName="placeholder:text-[#444444] placeholder:font-medium w-[50px] text-ellipsis overflow-hidden whitespace-nowrap"
           options={userOptions}
           handleChange={logoutBtn}
