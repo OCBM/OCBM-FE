@@ -2,6 +2,7 @@ import { BulkUploadIcon, ManualEntryIcon } from '@/assets/icons';
 import TabViewPrimary from '@/components/reusable/tabview/TabViewPrimary';
 import { useState } from 'react';
 import Shop from './Shop';
+import Plant from './Plant';
 
 const Mastery = () => {
   const [showTab, setShowTab] = useState(false);
@@ -10,7 +11,7 @@ const Mastery = () => {
   const tabs = [
     {
       title: 'Plant',
-      content: 'Add plant',
+      content: <Plant />,
       key: 'plant',
     },
     {
