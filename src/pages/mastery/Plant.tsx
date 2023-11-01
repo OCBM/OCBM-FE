@@ -110,6 +110,7 @@ function Plant() {
               onClick={() => {
                 setNewPlant(data);
                 setEditPlant(true);
+                console.log(data, 'table data');
               }}
             >
               <PencilIcon className="w-[20px] h-[20px]" />
