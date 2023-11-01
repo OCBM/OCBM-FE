@@ -1,5 +1,5 @@
-import { SearchIcon } from '@/assets/icons';
-import { Dropdown, Input } from '@/components';
+// import { SearchIcon } from '@/assets/icons';
+import { Dropdown } from '@/components';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { logoutUser } from '@/redux/slices/authSlice';
 import { toast } from 'react-toastify';
@@ -7,28 +7,28 @@ import { toast } from 'react-toastify';
 const Header = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
-  const options = [
-    {
-      key: 'plants',
-      text: 'Plants',
-      className: 'w-[57px]',
-    },
-    {
-      text: 'Shop',
-      key: 'shop',
-      className: 'w-[48px]',
-    },
-    {
-      text: 'Machine Line',
-      key: 'machineline',
-      className: 'w-[121px]',
-    },
-    {
-      text: 'Machine Type',
-      key: 'machinetype',
-      className: 'w-[127px]',
-    },
-  ];
+  // const options = [
+  //   {
+  //     key: 'plants',
+  //     text: 'Plants',
+  //     className: 'w-[57px]',
+  //   },
+  //   {
+  //     text: 'Shop',
+  //     key: 'shop',
+  //     className: 'w-[48px]',
+  //   },
+  //   {
+  //     text: 'Machine Line',
+  //     key: 'machineline',
+  //     className: 'w-[121px]',
+  //   },
+  //   {
+  //     text: 'Machine Type',
+  //     key: 'machinetype',
+  //     className: 'w-[127px]',
+  //   },
+  // ];
 
   const userOptions = ['Logout'];
 
