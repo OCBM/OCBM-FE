@@ -16,6 +16,7 @@ function Plant() {
     plantId: string | undefined;
     description: string | undefined;
     image: string | undefined;
+    imageName: string | undefined;
   };
   const initialState = {
     plantName: '',
@@ -23,6 +24,7 @@ function Plant() {
     plantId: '',
     description: '',
     image: '',
+    imageName: '',
   };
 
   const [plantData, setPlantData] = useState([]);
@@ -133,7 +135,7 @@ function Plant() {
       plantName: newPlant.plantName,
       description: newPlant.description,
       organizationId: orgID,
-      plantId: newPlant.plantId,
+      imageName: newPlant.imageName,
     };
     const res = await PLANT_SERVICES.addPlant(body);
     if (res?.statusCode === 201) {
@@ -217,7 +219,7 @@ function Plant() {
       </div>
 
       <div>
-        <Table columns={columns} dataSource={plantData} />
+        <Table columns={columns} dataSource={plantData} pagination={false} />
       </div>
 
       <Modal
