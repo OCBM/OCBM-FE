@@ -17,13 +17,14 @@ function Plant() {
     }
   };
   const plant_container = classNames(
-    `w-full h-[76%] container mx-auto font-GothamMedium text-2xl font-medium shadow-2xl rounded-2xl p-6`,
+    `w-full h-[76%] container font-GothamMedium text-2xl font-medium shadow-2xl rounded-2xl p-6`,
   );
   // const plantBtn = (val: any) => {
   //   setCity(val);
   // };
   useEffect(() => {
     fetchPlantsbyUserId();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
