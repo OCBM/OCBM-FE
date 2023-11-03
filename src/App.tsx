@@ -41,7 +41,6 @@ function App() {
             <Route path={SITEMAP.users.index} element={<UsersList />} />
             <Route path={SITEMAP.plant.index} element={<Plant />} />
             <Route index element={<Home />} />
-            <Route path={SITEMAP.mastery.index} element={<Mastery />} />
             <Route path={SITEMAP.notFound} element={<h1>Not found</h1>} />
           </Route>
           <Route path={SITEMAP.auth.index} element={<Login />} />

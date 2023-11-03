@@ -13,6 +13,8 @@
 }
 
 @tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 *::-webkit-scrollbar {
   width: 12px;
@@ -30,9 +32,6 @@
 *::-webkit-scrollbar-thumb:vertical {
   height: 105px;
 }
-
-@tailwind components;
-@tailwind utilities;
 
 * {
   margin: 0;
