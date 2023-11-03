@@ -3,7 +3,6 @@ import { Dropdown } from '@/components';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { logoutUser } from '@/redux/slices/authSlice';
 import { toast } from 'react-toastify';
-// import { Input } from '@/components';
 
 const Header = () => {
   const dispatch = useAppDispatch();

@@ -32,20 +32,20 @@ const FileUploader = (props: FileUploaderPropsType) => {
     event.preventDefault();
     if (event?.dataTransfer?.files[0].type === FILE_FORMAT.excel || FILE_FORMAT.image) {
       handleFile(event?.dataTransfer?.files);
-      // setFileName(event?.dataTransfer?.files[0]?.name);
     }
   };
 
   const handleInputChange = (event: any) => {
     if (event?.target?.files[0].type === FILE_FORMAT.excel || FILE_FORMAT.image) {
       handleFile(event?.target?.files);
-      // setFileName(event?.target?.files?.[0]?.name);
     }
   };
 
   return (
     <label
-      className={`bg-[#F8F6FF] border border-dashed border-[#605BFF] flex gap-5 items-center justify-center py-[34px] rounded-md cursor-pointer ${className}`}
+      className={`bg-[#F8F6FF] border border-dashed border-[#605BFF] flex gap-5 items-center justify-center py-[34px] rounded-md cursor-pointer ${
+        className || ''
+      }`}
       htmlFor="uploadInput"
       onDragOver={(event) => event.preventDefault()}
       onDrop={handleDrop}
