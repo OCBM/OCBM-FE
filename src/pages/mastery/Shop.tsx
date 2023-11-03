@@ -51,8 +51,6 @@ const Shop = () => {
   // constants to delete a shop
   const [showDeleteShopModal, setShowDeleteShopModal] = useState<boolean>(false);
 
-  console.log(newShop, 'new');
-
   /* To get plants and shops */
   useEffect(() => {
     fetchAllPlants();
