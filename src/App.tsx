@@ -7,6 +7,7 @@ import { Layout } from './components';
 import { SITEMAP } from './utils/sitemap';
 import { Login, Plant, UsersList } from './pages';
 import Addusers from './pages/users/AddUsers';
+import Mastery from './pages/mastery';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
@@ -35,6 +36,7 @@ function App() {
               </ProtectedRoute>
             }
           >
+            <Route path={SITEMAP.mastery.index} element={<Mastery />} />
             <Route path={SITEMAP.users.addUser} element={<Addusers />} />
             <Route path={SITEMAP.users.index} element={<UsersList />} />
             <Route path={SITEMAP.plant.index} element={<Plant />} />

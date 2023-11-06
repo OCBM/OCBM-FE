@@ -1,12 +1,12 @@
 import apiInstance from '@/lib/axios';
 import { SERVICES } from '@/utils/sitemap';
-import { toast } from 'react-toastify';
 import { HELPER_SERVICES } from './helperServices';
+import { toast } from 'react-toastify';
 
-export const USER_SERVICES = {
-  addUser: async (body: any) => {
+export const SHOP_SERVICES = {
+  getAllShops: async () => {
     try {
-      const res = await apiInstance.post(SERVICES.user.add, body);
+      const res = await apiInstance.get(SERVICES.shops.get);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
@@ -14,9 +14,10 @@ export const USER_SERVICES = {
       console.log(error);
     }
   },
-  getAllUsers: async (page: number, limit: number) => {
+
+  getAllShopsByPlantId: async (id: string) => {
     try {
-      const res = await apiInstance.get(`${SERVICES.user.get}?page=${page || 1}&limit=${limit || 10}`);
+      const res = await apiInstance.get(`${SERVICES.shops.get}/plantId=${id}`);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
@@ -24,9 +25,10 @@ export const USER_SERVICES = {
       console.log(error);
     }
   },
-  getUserbyId: async (id: string) => {
+
+  addShop: async (body: any) => {
     try {
-      const res = await apiInstance.get(`${SERVICES.user.get}/${id}`);
+      const res = await apiInstance.post(SERVICES.shops.add, body);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
@@ -34,9 +36,10 @@ export const USER_SERVICES = {
       console.log(error);
     }
   },
-  updateUserbyId: async (id: string, body: any) => {
+
+  updateShopById: async (plantId: string, shopId: string, body: any) => {
     try {
-      const res = await apiInstance.put(`${SERVICES.user.update}/${id}`, body);
+      const res = await apiInstance.put(`${SERVICES.shops.update}/plantId=${plantId}&shopId=${shopId}`, body);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
@@ -44,9 +47,10 @@ export const USER_SERVICES = {
       console.log(error);
     }
   },
-  deleteUserById: async (id: string) => {
+
+  deleteShopById: async (plantId: string, shopId: string) => {
     try {
-      const res = await apiInstance.delete(`${SERVICES.user.delete}/${id}`);
+      const res = await apiInstance.delete(`${SERVICES.shops.delete}/plantId=${plantId}&shopId=${shopId}`);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
