@@ -6,6 +6,7 @@ import {
   fetchMachineByShopId,
   fetchShopsByPlantId,
   plantData,
+  resetPlantData,
   setSelectedPlant,
   setSelectedShop,
   toggleShopOpen,
@@ -30,6 +31,12 @@ function Plant() {
     fetchPlantsbyUserId();
   }, []);
 
+  useEffect(() => {
+    return () => {
+      dispatch(resetPlantData());
+    };
+  }, []);
+
   const plantBtn = (data: any) => {
     dispatch(toggleShopOpen('shop'));
     dispatch(fetchShopsByPlantId(data?.plantId));
@@ -41,8 +48,6 @@ function Plant() {
     dispatch(fetchMachineByShopId(data?.shopId));
     dispatch(setSelectedShop(data));
   };
-
-  console.log('plants', machines);
 
   const plant_container = classNames(
     `w-full h-[76%] container mx-auto font-GothamMedium text-2xl font-medium shadow-2xl rounded-2xl p-6`,

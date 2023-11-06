@@ -42,6 +42,12 @@ const PlantSlice = createSlice({
     toggleShopOpen: (state, { payload }) => {
       state.show = payload;
     },
+    resetPlantData: (state) => {
+      state.show = 'plant';
+      state.plants = initialState.plants;
+      state.shops = initialState.shops;
+      state.machines = initialState.machines;
+    },
     togglePlantOpen: (state) => {
       state.plantToggle = !state.plantToggle;
     },
@@ -82,5 +88,11 @@ const PlantSlice = createSlice({
 });
 
 export default PlantSlice.reducer;
-export const { toggleShopOpen, setSelectedPlant, setSelectedShop, setSelectedMachine, togglePlantOpen } =
-  PlantSlice.actions;
+export const {
+  toggleShopOpen,
+  setSelectedPlant,
+  setSelectedShop,
+  setSelectedMachine,
+  togglePlantOpen,
+  resetPlantData,
+} = PlantSlice.actions;
