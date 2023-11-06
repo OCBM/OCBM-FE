@@ -31,8 +31,10 @@ export default {
       },
       screens: {
         xl: [{ min: '1300px', max: '1400px' }],
-        tall: { raw: '(max-height:900px)' },
-        laptop: { raw: '(min-height:900px)' },
+        // tall: { raw: '(max-height:900px)' },
+        tall: { raw: '(min-width: 1339px),(minheight:820px)' },
+        laptop: { raw: '(min-width: 1400px),(minheight:800px)' },
+        minh: { raw: '(minheight:900px)' },
       },
     },
   },
