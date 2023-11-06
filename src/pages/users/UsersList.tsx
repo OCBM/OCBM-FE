@@ -30,25 +30,18 @@ function UsersList() {
   const [showEditUserModal, setShowEditUserModal] = useState<boolean>(false);
   const [showEditSuccessModal, setShowEditSuccessModal] = useState<boolean>(false);
   const [showDeleteUserModal, setShowDeleteUserModal] = useState<boolean>(false);
-  const [page, setpage] = useState<{
-    pageNumber: number;
-    pageSize: number;
-  }>({
-    pageNumber: 1,
-    pageSize: 10,
-  });
   const loggedUser = useAppSelector((state) => state.auth?.user);
 
   // fetching users data by role
-  const fetchUserDataByRole = async (page: number, limit: number) => {
+  const fetchUserDataByRole = async () => {
     if (loggedUser) {
-      const res = await USER_SERVICES.getAllUsers(page, limit);
+      const res = await USER_SERVICES.getAllUsers();
       setUserdate(res?.message);
     }
   };
 
   useEffect(() => {
-    fetchUserDataByRole(page?.pageNumber, page?.pageSize);
+    fetchUserDataByRole();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -73,7 +66,7 @@ function UsersList() {
     if (id) {
       const res = await USER_SERVICES.deleteUserById(id);
       toast.success(res.message);
-      fetchUserDataByRole(page?.pageNumber, page?.pageSize);
+      fetchUserDataByRole();
       setShowDeleteUserModal(false);
     }
   };
@@ -137,7 +130,7 @@ function UsersList() {
     };
     const res = await USER_SERVICES.updateUserbyId(selectedUser.userId, body);
     if (res.statusCode === 200) {
-      fetchUserDataByRole(page?.pageNumber, page?.pageSize);
+      fetchUserDataByRole();
       setShowEditUserModal(false);
       setShowEditSuccessModal(true);
     }
@@ -201,23 +194,7 @@ function UsersList() {
           onClick={OnAddUserPage}
         />
       </div> */}
-      <Table
-        className="w-full mx-auto"
-        dataSource={userdata}
-        columns={columns}
-        pagination={{
-          pageSize: page.pageSize,
-          current: page.pageNumber,
-          total: userdata,
-          onChange: (pages, pageSize) => {
-            setpage({
-              ...page,
-              pageNumber: pages,
-              pageSize: pageSize,
-            });
-          },
-        }}
-      />
+      <Table className="w-full mx-auto" dataSource={userdata} columns={columns} />
     </div>
   );
 }
