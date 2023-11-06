@@ -3,7 +3,7 @@ name: Deploy to AWS S3
 on:
   push:
     branches:
-      - cicd-implementation # Adjust this to your main branch name
+      - main 
 
 jobs:
   build:
