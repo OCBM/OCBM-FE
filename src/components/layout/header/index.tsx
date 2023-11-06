@@ -54,8 +54,8 @@ const Header = () => {
             />
           </div>
         ))}
-      </div> */}
-      {/* <div className="header-search">
+      </div>
+      <div className="header-search">
         <Input
           placeholder="Search"
           leftIcon={<SearchIcon className="w-[20px] mr-[10px]" />}
