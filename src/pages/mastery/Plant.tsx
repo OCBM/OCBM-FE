@@ -167,7 +167,7 @@ function Plant() {
     }
   }
 
-  const UpdatePlant = async () => {
+  const updatePlant = async () => {
     const body = {
       plantName: newPlant.plantName,
       description: newPlant.description,
@@ -274,7 +274,7 @@ function Plant() {
               <Button
                 label="Yes"
                 variant="primary"
-                className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] italic py-[8px] px-[24px] w-[104px]"
+                className="rounded-[16px] text-[16px] font-medium text-[#ffffff] italic py-[8px] px-[24px] w-[104px]"
                 onClick={() => {
                   onDeletePlant(orgID, selectedPlant);
                 }}
@@ -344,7 +344,7 @@ function Plant() {
             </div>
             <div className="text-center mt-3">
               <Button
-                onClick={UpdatePlant}
+                onClick={updatePlant}
                 variant="primary"
                 label="Submit"
                 className="py-[8px] px-[24px] rounded-[16px] font-normal text-[16px]"

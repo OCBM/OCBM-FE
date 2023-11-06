@@ -68,7 +68,7 @@ function Element() {
 
   return (
     <div>
-      <h2 className="text-[20px] text-[#444444] font-medium mb-6">Add Element</h2>
+      <h2 className="text-[20px] text-grey-light font-medium mb-6">Add Element</h2>
 
       <div>
         <div className="flex justify-center gap-[16px] mb-8">

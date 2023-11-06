@@ -8,7 +8,9 @@ export const PLANT_SERVICES = {
     try {
       const res = await apiInstance.get(`${SERVICES.plants.get}/userId=${id}`);
       return res.data;
-    } catch (error) {
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
       console.log(error);
     }
   },
@@ -28,7 +30,9 @@ export const PLANT_SERVICES = {
     try {
       const res = await apiInstance.get(`${SERVICES.plants.get}/organizationId=${id}`);
       return res.data;
-    } catch (error) {
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
       console.log(error);
     }
   },

@@ -16,7 +16,7 @@ export const USER_SERVICES = {
   },
   getAllUsers: async (page: number, limit: number) => {
     try {
-      const res = await apiInstance.get(`${SERVICES.user.get}?page=${page}&limit=${limit}`);
+      const res = await apiInstance.get(`${SERVICES.user.get}?page=${page || 1}&limit=${limit || 10}`);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
