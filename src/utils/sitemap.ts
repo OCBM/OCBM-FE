@@ -43,13 +43,13 @@ export const SERVICES = {
   plants: {
     get: '/plant',
   },
-  shops: {
-    get: '/shop',
-    add: '/shop',
-    update: '/shop',
-    delete: 'shop',
-  },
   groups: {
     get: '/group',
+  },
+  shops: {
+    get: '/shop',
+  },
+  machineLine: {
+    get: '/machineLine',
   },
 };

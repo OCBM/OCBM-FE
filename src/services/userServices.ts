@@ -16,7 +16,7 @@ export const USER_SERVICES = {
   },
   getAllUsers: async () => {
     try {
-      const res = await apiInstance.get(`${SERVICES.user.get}?page=1&limit=10`);
+      const res = await apiInstance.get(`${SERVICES.user.get}`);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
