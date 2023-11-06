@@ -29,7 +29,6 @@ function Plant() {
 
   const [plantData, setPlantData] = useState([]);
   const [newPlant, setNewPlant] = useState<InitialStateType>(initialState);
-  console.log('newPlant', newPlant);
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
   const [editPlant, setEditPlant] = useState<boolean>(false);
   const [showDeleteUserModal, setShowDeleteUserModal] = useState<boolean>(false);
@@ -37,6 +36,8 @@ function Plant() {
   const [showEditSuccessModal, setShowEditSuccessModal] = useState<boolean>(false);
   const loggedUser = useAppSelector((state) => state.auth?.user);
 
+  const [fileName, setFileName] = useState<string>('');
+  const [imageURL, setImageURl] = useState<string>('');
   // fetching All Plant data by organizationId
   const fetchPlantDataByOrgId = async () => {
     if (loggedUser) {
@@ -58,10 +59,26 @@ function Plant() {
     }));
   };
 
-  const handleFile = (event: any) => {
+  const handleFile = async (event: any) => {
     setUploadStatus('success');
-    setNewPlant((prev: any) => ({ ...prev, imageName: event[0].name }));
-    setNewPlant((prev: any) => ({ ...prev, image: event[0] }));
+    setFileName(event[0].name);
+    const base64String = await convertToBase64(event[0]);
+    setNewPlant((prev: any) => ({ ...prev, image: base64String, imageName: event[0].name }));
+    setImageURl(base64String);
+  };
+
+  // function to convert image file to base64
+  const convertToBase64 = (file: any) => {
+    return new Promise((resolve) => {
+      let baseURL = '';
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        baseURL = reader.result;
+        resolve(baseURL);
+        return baseURL;
+      };
+    });
   };
 
   const onDeletePlant = async (orgId: string, plantId: string) => {
@@ -70,6 +87,7 @@ function Plant() {
       const res = await PLANT_SERVICES.deletePlantById(orgId, plantId);
       toast.success(res.message);
       setShowDeleteUserModal(false);
+      fetchPlantDataByOrgId();
     }
   };
 
@@ -120,6 +138,7 @@ function Plant() {
               onClick={() => {
                 setShowDeleteUserModal(true);
                 setSelectedPlant(data?.plantId);
+                console.log(data);
               }}
             >
               <DeleteIcon className="w-[20px] h-[20px]" />
@@ -131,28 +150,20 @@ function Plant() {
   ];
 
   async function createPlant() {
-    if (newPlant.image) {
-      var file = newPlant.image;
-      var reader = new FileReader();
-      reader.onloadend = async function () {
-        console.log('RESULT', reader.result);
-        const body = {
-          image: reader.result,
-          plantName: newPlant.plantName,
-          description: newPlant.description,
-          organizationId: orgID,
-          imageName: newPlant.imageName,
-        };
-        const res = await PLANT_SERVICES.addPlant(body);
-        if (res?.statusCode === 201) {
-          setNewPlant(initialState);
-          toast.success('Plant added successfully');
-          fetchPlantDataByOrgId();
-        }
-        console.log('newPlant', body);
-      };
-      console.log(newPlant, 'new data');
-      reader.readAsDataURL(file);
+    const body = {
+      image: newPlant.image,
+      plantName: newPlant.plantName,
+      description: newPlant.description,
+      organizationId: orgID,
+      imageName: newPlant.imageName,
+    };
+    const res = await PLANT_SERVICES.addPlant(body);
+    if (res?.statusCode === 201) {
+      setNewPlant(initialState);
+      setFileName('');
+      setImageURl('');
+      toast.success('Plant added successfully');
+      fetchPlantDataByOrgId();
     }
   }
 
@@ -205,18 +216,21 @@ function Plant() {
 
         <div className="mb-6">
           <FileUploader
-            id="plant-image"
             className="w-[560px] py-6"
             mastery
             fileFormat=".jpg, .png"
             handleFile={handleFile}
             uploadStatus={uploadStatus}
+            image={imageURL}
+            fileName={fileName}
           />
         </div>
         <div className="flex justify-start flex-row w-full gap-[20px] mt-5 mb-9">
           <Button
             onClick={() => {
               setNewPlant(initialState);
+              setFileName('');
+              setImageURl('');
             }}
             className="py-2 px-6 rounded-[16px]"
             label="Clear"
@@ -319,12 +333,13 @@ function Plant() {
                 onChange={handleChange}
               />
               <FileUploader
-                id="plant-image-edit"
                 className="w-[385px] py-6 mt-2"
                 mastery
                 fileFormat=".jpg, .png"
                 handleFile={handleFile}
                 uploadStatus={uploadStatus}
+                image={newPlant?.image}
+                fileName={newPlant?.imageName}
               />
             </div>
             <div className="text-center mt-3">
