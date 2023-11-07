@@ -57,7 +57,6 @@ function Addusers() {
   }, []);
 
   async function getPlants(value: any) {
-    console.log(value, 'orgid');
     const plants = await PLANT_SERVICES.getAllPlants(value.organizationId);
     setPlantsData(plants.message);
   }
