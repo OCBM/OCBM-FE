@@ -56,7 +56,6 @@ function Plant() {
   const plant_card = classNames(
     ` bg-white flex flex-col items-center pt-[10px] pb-5 px-[10px] border-white rounded-2xl shadow-lg w-[220px] h-[244px] cursor-pointer`,
   );
-  console.log(window.innerWidth, '*', window.innerHeight);
   return (
     <>
       {plants ? (
