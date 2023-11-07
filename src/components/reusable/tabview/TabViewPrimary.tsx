@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { TabViewPropsType } from './types';
 import { TabType } from './types';
 
@@ -12,7 +13,10 @@ const TabViewPrimary = ({ tabs = [], className = '', handleClick = () => {}, act
           <div
             key={tab.key}
             className={`cursor-pointer tracking-[0.36px] leading-[18px] text-lg w-[17%] text-center font-medium py-4
-                   ${index === activeIndex ? primaryActiveStyle : primaryInactiveStyle}`}
+                   ${classNames(
+                     { [primaryActiveStyle]: index === activeIndex },
+                     { [primaryInactiveStyle]: index !== activeIndex },
+                   )}`}
             onClick={() => {
               handleClick(index);
             }}

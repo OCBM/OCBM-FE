@@ -44,7 +44,7 @@ const Shop = () => {
   const [selectedShop, setSelectedShop] = useState<InitialStateType>(initialState);
 
   // constants to edit a shop
-  const [edit, setEdit] = useState<boolean>(false);
+  // const [edit, setEdit] = useState<boolean>(false);
   const [showEditShopModal, setShowEditShopModal] = useState<boolean>(false);
   const [showEditSuccessModal, setShowEditSuccessModal] = useState<boolean>(false);
 
@@ -350,11 +350,11 @@ const Shop = () => {
       </Modal>
       <p className="text-xl font-medium leading-5 py-[10px] mb-8">Add Shop</p>
       {/* Fields to get shop name, shop description and shop image */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-center gap-[16px] mb-6 ">
         {/* <Modal isOpen /> */}
         <Input
           placeholder="Shop Name"
-          className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
+          className="w-full border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"
           name="shopName"
@@ -363,7 +363,7 @@ const Shop = () => {
         />
         <Input
           placeholder="Shop Descriptions"
-          className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
+          className="w-full border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"
           name="description"
@@ -372,7 +372,7 @@ const Shop = () => {
         />
         <Dropdown
           placeholder="Select Plant"
-          className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] py-4 px-5 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
+          className="w-full border-[1px] border-solid border-[#A9A9A9] rounded-[50px] py-4 px-5 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           options={plantList}
           optionLabel="plantName"
           handleChange={(value) => {
