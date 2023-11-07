@@ -28,7 +28,7 @@ export const plantData = createAsyncThunk('plants/plantData', (id: any) => {
 });
 
 export const fetchShopsByPlantId = createAsyncThunk('shops/fetchShopsByPlantId', (data: any) => {
-  return SHOP_SERVICES.getAllShopsbyPlantid(data);
+  return SHOP_SERVICES.getAllShopsByPlantId(data);
 });
 
 export const fetchMachineByShopId = createAsyncThunk('machineLine/fetchMachineByShopId', (data: any) => {
