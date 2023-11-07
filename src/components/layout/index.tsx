@@ -9,7 +9,7 @@ export function Layout() {
   return (
     <div className="flex h-full w-full overflow-hidden py-[14px] pl-[14px]">
       <SideNav />
-      <div className="px-[30px] w-full h-full overflow-y-auto ">
+      <div className="px-[30px] w-full h-full overflow-y-auto flex flex-col">
         <Header />
         <div className="my-8">
           <Breadcrumbs crumbs={['home', ...list]} />
