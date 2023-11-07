@@ -51,6 +51,9 @@ export const SERVICES = {
   },
   shops: {
     get: '/shop',
+    add: '/shop',
+    update: '/shop',
+    delete: 'shop',
   },
   machineLine: {
     get: '/machineLine',

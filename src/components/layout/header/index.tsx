@@ -1,35 +1,34 @@
-import { SearchIcon } from '@/assets/icons';
-import { Dropdown, Input } from '@/components';
+import { Dropdown } from '@/components';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { logoutUser } from '@/redux/slices/authSlice';
 import classNames from 'classnames';
 import { toast } from 'react-toastify';
 
-const Header = ({ hideAvatar, hideFilters }: any) => {
+const Header = ({ hideAvatar }: any) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
-  const options = [
-    {
-      key: 'plants',
-      text: 'Plants',
-      className: 'w-[57px]',
-    },
-    {
-      text: 'Shop',
-      key: 'shop',
-      className: 'w-[48px]',
-    },
-    {
-      text: 'Machine Line',
-      key: 'machineline',
-      className: 'w-[121px]',
-    },
-    {
-      text: 'Machine Type',
-      key: 'machinetype',
-      className: 'w-[127px]',
-    },
-  ];
+  // const options = [
+  //   {
+  //     key: 'plants',
+  //     text: 'Plants',
+  //     className: 'w-[57px]',
+  //   },
+  //   {
+  //     text: 'Shop',
+  //     key: 'shop',
+  //     className: 'w-[48px]',
+  //   },
+  //   {
+  //     text: 'Machine Line',
+  //     key: 'machineline',
+  //     className: 'w-[121px]',
+  //   },
+  //   {
+  //     text: 'Machine Type',
+  //     key: 'machinetype',
+  //     className: 'w-[127px]',
+  //   },
+  // ];
 
   const userOptions = ['Logout'];
 
@@ -44,7 +43,7 @@ const Header = ({ hideAvatar, hideFilters }: any) => {
   return (
     <>
       <div className="flex items-center justify-end gap-5 pb-6 ">
-        <div
+        {/* <div
           className={` ${classNames({
             hidden: hideFilters,
           })} flex justify-between items-center [&>*:nth-child(4)]:border-0 [&>*:nth-child(1)]:pl-0 [&>*:nth-child(4)]:pr-0`}
@@ -60,17 +59,19 @@ const Header = ({ hideAvatar, hideFilters }: any) => {
               />
             </div>
           ))}
-        </div>
-        <div className="header-search">
+        </div> */}
+        {/* <div className="header-search">
           <Input
             placeholder="Search"
             leftIcon={<SearchIcon className="w-[20px] mr-[10px]" />}
             className={` ${classNames({
               ' bg-white ': hideAvatar,
             })} px-[20px] py-[10px] w-[230px] border border-solid border-[#444]`}
-          />
-        </div>
-        <div className={` ${classNames({ invisible: hideAvatar })} flex items-center gap-[10px] w-[138px] `}>
+          /> */}
+        {/* </div> */}
+        <div
+          className={` ${classNames({ invisible: hideAvatar })} flex items-center gap-[10px] w-[138px] justify-end `}
+        >
           <div className="bg-[#492CE1] text-white p-3 text-center w-[40px] h-[40px] rounded-[30px] flex items-center justify-center">
             <span className="text-center w-[40px]">{user?.name ? user?.name.charAt(0) : 'U'}</span>
           </div>
