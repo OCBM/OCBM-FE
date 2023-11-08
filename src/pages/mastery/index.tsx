@@ -2,6 +2,7 @@ import { BulkUploadIcon, ManualEntryIcon } from '@/assets/icons';
 import TabViewPrimary from '@/components/reusable/tabview/TabViewPrimary';
 import { useState } from 'react';
 import Shop from './Shop';
+import Machine from './Machine';
 
 const Mastery = () => {
   const [showTab, setShowTab] = useState(false);
@@ -25,7 +26,7 @@ const Mastery = () => {
     },
     {
       title: 'Machine',
-      content: 'Add Machine',
+      content: <Machine />,
       key: 'machine',
     },
     {

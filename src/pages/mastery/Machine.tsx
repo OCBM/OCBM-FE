@@ -2,30 +2,30 @@ import { DeleteIcon, PencilIcon, QuesionMarkIcon, ChevronCancelIcon, ChevronSucc
 import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
 import { Table } from '@/components/reusable/table';
-import { PLANT_SERVICES } from '@/services/plantServices';
-import { SHOP_SERVICES } from '@/services/shopServices';
+import { MACHINELINE_SERVICES } from '@/services/machineLineServices';
+import { MACHINE_SERVICES } from '@/services/machineServices';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-export type DeleteShopType = {
+export type DeleteMachineType = {
   onCloseDeleteModal: () => void;
-  deleteShop: () => void;
+  deleteMachine: () => void;
 };
 
-const Shop = () => {
+const Machine = () => {
   type InitialStateType = {
-    shopName: string | undefined;
+    machineName: string | undefined;
     image: string | undefined;
     imageName: string | undefined;
-    description: string | undefined;
-    plantId: string | undefined;
+    machineDescription: string | undefined;
+    machineLineId: string | undefined;
   };
   const initialState = {
-    shopName: '',
+    machineName: '',
     image: '',
     imageName: '',
-    description: '',
-    plantId: '',
+    machineDescription: '',
+    machineLineId: '',
   };
 
   // constants for file uploader
@@ -33,56 +33,57 @@ const Shop = () => {
   const [fileName, setFileName] = useState<string>('');
   const [imageURL, setImageURl] = useState<string>('');
 
-  // constants to store plants and shops
-  const [shopList, setShopList] = useState([]);
-  const [plantList, setPlantList] = useState([]);
+  // constants to store machineLines and Machines
+  const [machineList, setMachineList] = useState([]);
+  const [machineLineList, setMachineLineList] = useState([]);
 
-  // constants to store new shop details
-  const [newShop, setNewShop] = useState<InitialStateType>(initialState);
+  // constants to store new Machine details
+  const [newMachine, setNewMachine] = useState<InitialStateType>(initialState);
 
-  // constant to store a selected shop
-  const [selectedShop, setSelectedShop] = useState<InitialStateType>(initialState);
+  // constant to store a selected Machine
+  const [selectedMachine, setSelectedMachine] = useState<InitialStateType>(initialState);
 
-  // constants to edit a shop
-  const [edit, setEdit] = useState<boolean>(false);
-  const [showEditShopModal, setShowEditShopModal] = useState<boolean>(false);
+  // constants to edit a Machine
+  const [showEditMachineModal, setShowEditMachineModal] = useState<boolean>(false);
   const [showEditSuccessModal, setShowEditSuccessModal] = useState<boolean>(false);
 
-  // constants to delete a shop
-  const [showDeleteShopModal, setShowDeleteShopModal] = useState<boolean>(false);
+  // constants to delete a Machine
+  const [showDeleteMachineModal, setShowDeleteMachineModal] = useState<boolean>(false);
 
-  /* To get plants and shops */
+  /* To get machineLines and Machines */
   useEffect(() => {
-    fetchAllPlants();
-    fetchAllShops();
+    fetchAllMachineLines();
+    fetchAllMachines();
   }, []);
 
-  const fetchAllShops = async () => {
-    const res = await SHOP_SERVICES.getAllShops();
-    setShopList(res?.message);
+  const fetchAllMachines = async () => {
+    const res = await MACHINE_SERVICES.getAllMachines();
+    setMachineList(res?.message);
   };
 
-  const fetchAllPlants = async () => {
-    const res = await PLANT_SERVICES.getAllPlants('9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d');
-    setPlantList(res?.message);
+  const fetchAllMachineLines = async () => {
+    const res = await MACHINELINE_SERVICES.getAllMachineLine();
+    setMachineLineList(res?.message);
   };
+
+  console.log('machine', machineList);
 
   /* Columns and Data for table */
   const columns = [
     {
-      title: 'Shop Name',
-      dataIndex: 'shopName',
-      key: 'shopName',
+      title: 'Machine Name',
+      dataIndex: 'machineName',
+      key: 'machineName',
     },
     {
-      title: 'Shop Description',
-      dataIndex: 'description',
-      key: 'description',
+      title: 'Machine Description',
+      dataIndex: 'machineDescription',
+      key: 'machineDescription',
     },
     {
-      title: 'Shop ID',
-      dataIndex: 'shopId',
-      key: 'shopId',
+      title: 'Machine ID',
+      dataIndex: 'machineId',
+      key: 'machineId',
     },
     {
       title: 'Image',
@@ -99,8 +100,8 @@ const Shop = () => {
             <div
               className="cursor-pointer"
               onClick={() => {
-                setShowEditShopModal(true);
-                setNewShop(data);
+                setShowEditMachineModal(true);
+                setNewMachine(data);
               }}
             >
               <PencilIcon className="w-[20px] h-[20px]" />
@@ -108,8 +109,8 @@ const Shop = () => {
             <div
               className="cursor-pointer"
               onClick={() => {
-                setSelectedShop(data);
-                setShowDeleteShopModal(true);
+                setSelectedMachine(data);
+                setShowDeleteMachineModal(true);
               }}
             >
               <DeleteIcon className="w-[20px] h-[20px]" />
@@ -120,11 +121,11 @@ const Shop = () => {
     },
   ];
 
-  /* Functions to create a new shop */
+  /* Functions to create a new Machine */
   // function to read input changes
   const handleChange = (event: any) => {
     const { name, value } = event.target;
-    setNewShop((initialState: InitialStateType) => ({
+    setNewMachine((initialState: InitialStateType) => ({
       ...initialState,
       [name]: value,
     }));
@@ -135,7 +136,7 @@ const Shop = () => {
     setFileName(event[0].name);
     setUploadStatus('success');
     const base64String = await convertToBase64(event[0]);
-    setNewShop((prev: any) => ({ ...prev, image: base64String, imageName: event[0].name }));
+    setNewMachine((prev: any) => ({ ...prev, image: base64String, imageName: event[0].name }));
     setImageURl(base64String);
   };
 
@@ -153,65 +154,65 @@ const Shop = () => {
     });
   };
 
-  // API call for adding a new shop
-  const createShop = async () => {
+  // API call for adding a new Machine
+  const createMachine = async () => {
     const body = {
-      shopName: newShop.shopName,
-      image: newShop.image,
-      imageName: newShop.imageName,
-      description: newShop.description,
-      plantId: newShop?.plantId?.plantId,
+      machineName: newMachine.machineName,
+      image: newMachine.image,
+      imageName: newMachine.imageName,
+      machineDescription: newMachine.machineDescription,
+      machineLineId: newMachine?.machineLineId?.machineLineId,
     };
 
-    const res = await SHOP_SERVICES.addShop(body);
+    const res = await MACHINE_SERVICES.addMachine(body);
     if (res.statusCode === 201) {
-      setNewShop(initialState);
+      setNewMachine(initialState);
       setFileName('');
       setImageURl('');
-      toast.success('Shop added successfully');
-      fetchAllShops();
+      toast.success('Machine added successfully');
+      fetchAllMachines();
     }
   };
 
   /* functions for buttons */
   const disablingAdd = () => {
-    return newShop.shopName && newShop.plantId && newShop.image ? false : true;
+    return newMachine.machineName && newMachine.machineLineId && newMachine.image ? false : true;
   };
 
   const handleClear = () => {
-    setNewShop(initialState);
+    setNewMachine(initialState);
     setFileName('');
     setImageURl('');
   };
 
-  /* Functions to update a shop */
-  const updateShop = async () => {
+  /* Functions to update a Machine */
+  const updateMachine = async () => {
     const body = {
-      shopName: newShop?.shopName,
-      description: newShop?.description,
-      image: newShop?.image,
-      imageName: newShop?.imageName,
+      machineName: newMachine?.machineName,
+      machineDescription: newMachine?.machineDescription,
+      image: newMachine?.image,
+      imageName: newMachine?.imageName,
     };
-    const res = await SHOP_SERVICES.updateShopById(newShop?.plantId, newShop.shopId, body);
+    const res = await MACHINE_SERVICES.updateMachineById(newMachine?.machineLineId, newMachine.machineId, body);
     if (res.statusCode === 200) {
-      setNewShop(initialState);
+      setNewMachine(initialState);
       setFileName('');
       setImageURl('');
-      setShowEditShopModal(false);
+      setShowEditMachineModal(false);
       setShowEditSuccessModal(true);
-      fetchAllShops();
+      fetchAllMachines();
     }
   };
 
   // function to do what happen while closing the search modal
   const onCloseEditModal = () => {
-    setShowEditShopModal(false);
+    setShowEditMachineModal(false);
   };
 
-  /* Functions to delete a shop */
+  /* Functions to delete a Machine */
 
   // Delete Modal
-  const DeleteShop = ({ onCloseDeleteModal, deleteShop }: DeleteShopType) => {
+  const DeleteMachine = ({ onCloseDeleteModal, deleteMachine }: DeleteMachineType) => {
     return (
       <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
         <div className="flex flex-col items-center justify-center">
@@ -228,7 +229,7 @@ const Shop = () => {
               label="Yes"
               variant="primary"
               className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] italic py-[8px] px-[24px] w-[104px]"
-              onClick={deleteShop}
+              onClick={deleteMachine}
             />
           </div>
         </div>
@@ -236,23 +237,25 @@ const Shop = () => {
     );
   };
 
-  // API call to delete a shop
-  const onDeleteShop = async (plantId: string, shopId: string) => {
-    setShowDeleteShopModal(true);
-    if ((plantId, shopId)) {
-      const res = await SHOP_SERVICES.deleteShopById(plantId, shopId);
+  // API call to delete a Machine
+  const onDeleteMachine = async (machineLineId: string, machineId: string) => {
+    setShowDeleteMachineModal(true);
+    console.log(machineLineId, 'mlid');
+    console.log(machineId, 'mid');
+    if ((machineLineId, machineId)) {
+      const res = await MACHINE_SERVICES.deleteMachineById(machineLineId, machineId);
       toast.success(res.message);
-      setShowDeleteShopModal(false);
-      fetchAllShops();
+      setShowDeleteMachineModal(false);
+      fetchAllMachines();
     }
   };
 
   return (
     <div>
       <Modal
-        isOpen={showEditShopModal}
+        isOpen={showEditMachineModal}
         onCancel={() => {
-          setShowEditShopModal(false);
+          setShowEditMachineModal(false);
         }}
         className="z-[99]"
       >
@@ -260,7 +263,7 @@ const Shop = () => {
           <div
             className="absolute right-[10px] top-[10px] cursor-pointer"
             onClick={() => {
-              setShowEditShopModal(false);
+              setShowEditMachineModal(false);
             }}
           >
             <ChevronCancelIcon />
@@ -273,24 +276,24 @@ const Shop = () => {
               <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-4">Organization Details</h4>
               <Input
                 className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
-                label="Shop Name"
+                label="Machine Name"
                 labelClassName="text-[#492CE1] text-[14px] font-medium"
                 mandatory={true}
                 type="text"
-                name="shopName"
-                placeholder="Enter Shop Name"
-                value={newShop?.shopName}
+                name="machineName"
+                placeholder="Enter Machine Name"
+                value={newMachine?.machineName}
                 onChange={handleChange}
               />
               <Input
                 className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
-                label="Shop Description"
+                label="Machine Description"
                 labelClassName="text-[#492CE1] text-[14px] font-medium"
                 mandatory={true}
                 type="text"
-                name="description"
-                placeholder="Enter Plant Description"
-                value={newShop?.description}
+                name="machineDescription"
+                placeholder="Enter machineLine Description"
+                value={newMachine?.machineDescription}
                 onChange={handleChange}
               />
               <FileUploader
@@ -299,13 +302,13 @@ const Shop = () => {
                 fileFormat=".jpg, .png"
                 handleFile={handleFile}
                 uploadStatus={uploadStatus}
-                image={newShop?.image}
-                fileName={newShop.imageName}
+                image={newMachine?.image}
+                fileName={newMachine.imageName}
               />
             </div>
             <div className="text-center mt-3">
               <Button
-                onClick={updateShop}
+                onClick={updateMachine}
                 variant="primary"
                 label="Submit"
                 className="py-[8px] px-[24px] rounded-[16px] font-normal text-[16px]"
@@ -333,57 +336,57 @@ const Shop = () => {
         </div>
       </Modal>
       <Modal
-        isOpen={showDeleteShopModal}
+        isOpen={showDeleteMachineModal}
         onCancel={() => {
-          setShowDeleteShopModal(false);
+          setShowDeleteMachineModal(false);
         }}
         className="z-[99]"
       >
-        <DeleteShop
-          deleteShop={() => {
-            onDeleteShop(selectedShop?.plantId, selectedShop?.shopId);
+        <DeleteMachine
+          deleteMachine={() => {
+            onDeleteMachine(selectedMachine?.machineLineId, selectedMachine?.machineId);
           }}
           onCloseDeleteModal={() => {
-            setShowDeleteShopModal(false);
+            setShowDeleteMachineModal(false);
           }}
         />
       </Modal>
-      <p className="text-xl font-medium leading-5 py-[10px] mb-8">Add Shop</p>
-      {/* Fields to get shop name, shop description and shop image */}
+      <p className="text-xl font-medium leading-5 py-[10px] mb-8">Add Machine</p>
+      {/* Fields to get Machine name, Machine description and Machine image */}
       <div className="flex items-center justify-between gap-8 mb-6">
         {/* <Modal isOpen /> */}
         <Input
-          placeholder="Shop Name"
+          placeholder="Machine Name"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"
-          name="shopName"
-          value={newShop.shopName}
+          name="machineName"
+          value={newMachine.machineName}
           mandatory={true}
         />
         <Input
-          placeholder="Shop Descriptions"
+          placeholder="Machine Descriptions"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"
-          name="description"
-          value={newShop.description}
+          name="machineDescription"
+          value={newMachine.machineDescription}
           mandatory={true}
         />
         <Dropdown
-          placeholder="Select Plant"
+          placeholder="Select machineLine"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] py-4 px-5 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
-          options={plantList}
-          optionLabel="plantName"
+          options={machineLineList}
+          optionLabel="machineLineName"
           handleChange={(value) => {
-            setNewShop((prev: any) => ({ ...prev, plantId: value }));
+            setNewMachine((prev: any) => ({ ...prev, machineLineId: value }));
           }}
-          value={newShop.plantId}
+          value={newMachine.machineLineId}
           mandatory={true}
         />
       </div>
 
-      {/* We can add shop images using uploader */}
+      {/* We can add Machine images using uploader */}
       <FileUploader
         className="w-[560px] py-6"
         mastery
@@ -394,7 +397,7 @@ const Shop = () => {
         image={imageURL}
       />
 
-      {/* Buttons to clear data and add a shop */}
+      {/* Buttons to clear data and add a Machine */}
       <div className="flex gap-4 mt-8 mb-8">
         <Button
           variant="secondary"
@@ -407,13 +410,13 @@ const Shop = () => {
           className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
           label="Add"
           disabled={disablingAdd()}
-          onClick={createShop}
+          onClick={createMachine}
         />
       </div>
-      {/* Table for listing shops */}
-      <Table columns={columns} dataSource={shopList} />
+      {/* Table for listing Machines */}
+      <Table columns={columns} dataSource={machineList} />
     </div>
   );
 };
 
-export default Shop;
+export default Machine;
