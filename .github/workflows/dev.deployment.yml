@@ -3,7 +3,7 @@ name: Deploy to AWS S3
 on:
   push:
     branches:
-      - main 
+      - cicd-implementation
 
 jobs:
   build:
@@ -22,7 +22,9 @@ jobs:
         run: npm install # Use yarn if you prefer
 
       - name: Build the Vite application
-        run: npm run build # Replace with the build script used in your Vite project
+        run: |
+          echo "VITE_APP_API_BASE_URL=http://3.136.250.139:4000" >> .env
+          npm run build # Replace with the build script used in your Vite project
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -32,4 +34,3 @@ jobs:
           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
       - name: Deploy to S3 bucket
         run: aws s3 sync ./dist/ ${{ secrets.DEV_AWS_S3_BUCKET_URI }} --delete
-
