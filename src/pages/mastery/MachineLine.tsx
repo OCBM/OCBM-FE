@@ -46,7 +46,6 @@ const MachineLine = () => {
     fetchAllMachineline();
     fetchAllShops();
   }, []);
-  console.log(newMachineLine, 'newMachineLine');
   //all machine line api fetch
   const fetchAllMachineline = async () => {
     const res = await MACHINELINE_SERVICES.getAllMachineLine();
@@ -342,10 +341,10 @@ const MachineLine = () => {
         />
       </Modal>
       <p className="text-xl font-medium leading-5 py-[10px] mb-8">Add Machine Line</p>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-center gap-[16px] mb-6">
         <Input
           placeholder="Machine line Name"
-          className="w-[350px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
+          className="w-full border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"
           name="machineLineName"
@@ -354,7 +353,7 @@ const MachineLine = () => {
         />
         <Input
           placeholder="Machine line descriptions"
-          className="w-[350px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
+          className="w-full border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           name="description"
           type="text"
           onChange={handleChange}
@@ -363,7 +362,7 @@ const MachineLine = () => {
         />
         <Dropdown
           placeholder="Select Shop"
-          className="w-[350px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
+          className="w-full border-[1px] border-solid border-[#A9A9A9] rounded-[50px] py-4 px-5 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           options={shopList}
           handleChange={(value) => {
             setNewMachineLine((prev: any) => ({ ...prev, shopId: value }));

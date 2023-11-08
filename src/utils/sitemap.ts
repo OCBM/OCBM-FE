@@ -47,7 +47,7 @@ export const SERVICES = {
     update: '/plant',
   },
   machineline: {
-    get: '/machineline',
+    get: '/machineLine',
     add: '/machineline',
     update: '/machineline',
     delete: '/machineline',
