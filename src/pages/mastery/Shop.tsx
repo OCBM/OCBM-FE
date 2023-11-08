@@ -341,7 +341,7 @@ const Shop = () => {
       >
         <DeleteShop
           deleteShop={() => {
-            onDeleteShop(selectedShop?.plantId, selectedShop?.shopId);
+            onDeleteShop('9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d', selectedShop?.shopId);
           }}
           onCloseDeleteModal={() => {
             setShowDeleteShopModal(false);
