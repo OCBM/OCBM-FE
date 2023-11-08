@@ -52,12 +52,6 @@ export const SERVICES = {
     update: '/shop',
     delete: 'shop',
   },
-  machines: {
-    get: '/machine',
-    add: '/machine',
-    update: '/machine',
-    delete: '/machine',
-  },
   groups: {
     get: '/group',
   },
