@@ -68,7 +68,7 @@ function Plant() {
                 </h2>
               )}
             </div>
-            <div className="grid grid-cols-5 gap-10 pr-6 h-[60vh] xl:gap-[15%] ">
+            <div className="grid grid-cols-5 gap-10 pr-6 h-[60vh] winLap:gap-[15%] ">
               {plants?.selectedPlant?.plantId && (
                 <div className={`${classNames({ relative: show === 'shop' })}${plant_card}`}>
                   <PlantCard
@@ -102,7 +102,7 @@ function Plant() {
             </div>
             {show === 'shop' && (
               <>
-                <div className="border p-[30px] shadow-card-shadow rounded-2xl absolute bottom-0 minh:top-[47%] laptop:top-[51%] h-[35%] w-[80%] bg-white tall:top-[52%] xl:top-[52%]">
+                <div className="border p-[30px] shadow-card-shadow rounded-2xl absolute bottom-0 minh:top-[47%] laptop:top-[51%] h-[35%] w-[80%] bg-white tall:top-[52%] winLap:top-[52%]">
                   <span className="absolute w-[30px] h-[30px] bg-white rotate-45 top-[-15px] left-[95px]"></span>
                   <p className="text-[#492CE1] font-GothamMedium text-lg font-medium">Which shop are you in ?</p>
                   <div className="overflow-auto flex gap-6">

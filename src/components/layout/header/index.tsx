@@ -4,7 +4,7 @@ import { logoutUser } from '@/redux/slices/authSlice';
 import classNames from 'classnames';
 import { toast } from 'react-toastify';
 
-const Header = ({ hideAvatar }: any) => {
+const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
   // const options = [

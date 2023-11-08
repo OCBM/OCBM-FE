@@ -1,4 +1,6 @@
-const Cards = ({ image, name, onClick }: any) => {
+import { CardType } from './types';
+
+const Cards = ({ image, name, onClick }: CardType) => {
   return (
     <>
       <div

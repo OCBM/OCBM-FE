@@ -16,7 +16,7 @@ export function Layout() {
     >
       <SideNav />
       <div className="px-[30px] w-full h-full overflow-y-auto flex flex-col">
-        <Header hideAvatar={show !== 'plant'} hideFilters={show !== 'plant'} />
+        <Header hideAvatar={show !== 'plant'} />
 
         {show !== 'shop' && show !== 'machine' && (
           <div className="my-8">
