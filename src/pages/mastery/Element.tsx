@@ -14,7 +14,7 @@ function Element() {
     // setNewPlant((prev: any) => ({ ...prev, image: event[0] }));
   };
 
-  const datasource = [
+  const dataSource: any = [
     {
       elementName: 'Chennai',
       description: 'chennai elements',
@@ -87,6 +87,7 @@ function Element() {
             name="descriptions"
           />
           <Dropdown
+            options={[]}
             className="w-full border-[1px] h-[46px] mt-2 px-3 rounded-[50px] border-[#A9A9A9] p-[16px]"
             placeholder="Select Machine"
             handleChange={() => {
@@ -94,7 +95,6 @@ function Element() {
               // getPlants(value);
             }}
             // value={user.organization}
-            options={[]}
             mandatory={true}
           />
         </div>
@@ -113,7 +113,7 @@ function Element() {
         </div>
       </div>
       <div>
-        <Table columns={columns} dataSource={datasource as any} pagination={false} />
+        <Table columns={columns} dataSource={dataSource} pagination={false} />
       </div>
     </div>
   );

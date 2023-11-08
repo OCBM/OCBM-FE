@@ -40,10 +40,10 @@ const Shop = () => {
   const [plantList, setPlantList] = useState([]);
 
   // constants to store new shop details
-  const [newShop, setNewShop] = useState<InitialStateType>(initialState);
+  const [newShop, setNewShop] = useState<any>(initialState);
 
   // constant to store a selected shop
-  const [selectedShop, setSelectedShop] = useState<InitialStateType>(initialState);
+  const [selectedShop, setSelectedShop] = useState<any>(initialState);
 
   // constants to edit a shop
   // const [edit, setEdit] = useState<boolean>(false);
@@ -345,9 +345,7 @@ const Shop = () => {
       >
         <DeleteShop
           deleteShop={() => {
-            if (selectedShop?.plantId && selectedShop?.shopId) {
-              onDeleteShop(selectedShop?.plantId, selectedShop?.shopId);
-            }
+            onDeleteShop(selectedShop.plantId, selectedShop?.shopId);
           }}
           onCloseDeleteModal={() => {
             setShowDeleteShopModal(false);
