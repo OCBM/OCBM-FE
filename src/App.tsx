@@ -8,6 +8,7 @@ import { SITEMAP } from './utils/sitemap';
 import { Login, Plant, UsersList } from './pages';
 import Addusers from './pages/users/AddUsers';
 import Mastery from './pages/mastery';
+import Machines from './pages/machines';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
@@ -40,6 +41,7 @@ function App() {
             <Route path={SITEMAP.users.addUser} element={<Addusers />} />
             <Route path={SITEMAP.users.index} element={<UsersList />} />
             <Route path={SITEMAP.plant.index} element={<Plant />} />
+            <Route path={SITEMAP.machines.index} element={<Machines />} />
             <Route index element={<Home />} />
             <Route path={SITEMAP.notFound} element={<h1>Not found</h1>} />
           </Route>

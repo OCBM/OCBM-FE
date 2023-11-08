@@ -630,3 +630,76 @@ export const ManualEntryIcon = ({ className = 'fill-white' }: IconsPropType) => 
     </svg>
   );
 };
+//status for the machines
+export const OutOfSpec = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+    >
+      <rect
+        x="0.5"
+        y="15.5"
+        width="15"
+        height="15"
+        rx="3.5"
+        transform="rotate(-90 0.5 15.5)"
+        fill="white"
+        stroke="#FF3831"
+      />
+      <rect x="3" y="13" width="10" height="10" rx="3" transform="rotate(-90 3 13)" fill="#FF3831" />
+    </svg>
+  );
+};
+export const Thresholdlimit = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+    >
+      <rect
+        x="0.5"
+        y="15.5"
+        width="15"
+        height="15"
+        rx="3.5"
+        transform="rotate(-90 0.5 15.5)"
+        fill="white"
+        stroke="#FFFF54"
+      />
+      <rect x="3" y="13" width="10" height="10" rx="3" transform="rotate(-90 3 13)" fill="#FFFF54" />
+    </svg>
+  );
+};
+export const WithinSpec = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+    >
+      <rect
+        x="0.5"
+        y="15.5"
+        width="15"
+        height="15"
+        rx="3.5"
+        transform="rotate(-90 0.5 15.5)"
+        fill="white"
+        stroke="#74F94B"
+      />
+      <rect x="3" y="13" width="10" height="10" rx="3" transform="rotate(-90 3 13)" fill="#74F94B" />
+    </svg>
+  );
+};
