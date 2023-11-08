@@ -11,8 +11,7 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "json-server": "json-server -H 127.0.0.1 --watch src/data/db.json --port 4000",
-    "prepare": "husky install"
+    "json-server": "json-server -H 127.0.0.1 --watch src/data/db.json --port 4000"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
@@ -57,7 +56,6 @@
     "storybook": "^7.4.0",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2",
-    "vite": "^4.4.5",
-    "husky": "^8.0.0"
+    "vite": "^4.4.5"
   }
 }
