@@ -23,7 +23,7 @@ jobs:
 
       - name: Build the Vite application
         run: |
-          echo "VITE_APP_API_BASE_URL=http://3.136.250.139:4000" >> .env
+          echo "VITE_APP_API_BASE_URL=${{ secrets.DEV_API_BASE_URL }}" >> .env
           npm run build # Replace with the build script used in your Vite project
 
       - name: Configure AWS Credentials
