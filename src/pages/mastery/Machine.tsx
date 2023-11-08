@@ -2,7 +2,7 @@ import { DeleteIcon, PencilIcon, QuesionMarkIcon, ChevronCancelIcon, ChevronSucc
 import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
 import { Table } from '@/components/reusable/table';
-import { MACHINELINE_SERVICES } from '@/services/machineLineServices';
+// import { MACHINELINE_SERVICES } from '@/services/machineLineServices';
 import { MACHINE_SERVICES } from '@/services/machineServices';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -18,7 +18,8 @@ const Machine = () => {
     image: string | undefined;
     imageName: string | undefined;
     machineDescription: string | undefined;
-    machineLineId: string | undefined;
+    machineLineId: string | undefined | any;
+    machineId: string | undefined;
   };
   const initialState = {
     machineName: '',
@@ -26,6 +27,7 @@ const Machine = () => {
     imageName: '',
     machineDescription: '',
     machineLineId: '',
+    machineId: '',
   };
 
   // constants for file uploader
@@ -62,8 +64,9 @@ const Machine = () => {
   };
 
   const fetchAllMachineLines = async () => {
-    const res = await MACHINELINE_SERVICES.getAllMachineLine();
-    setMachineLineList(res?.message);
+    // const res = await MACHINELINE_SERVICES.getAllMachineLine();
+    // setMachineLineList(res?.message);
+    setMachineLineList([]);
   };
 
   console.log('machine', machineList);
@@ -135,7 +138,7 @@ const Machine = () => {
   const handleFile = async (event: any) => {
     setFileName(event[0].name);
     setUploadStatus('success');
-    const base64String = await convertToBase64(event[0]);
+    const base64String: any = await convertToBase64(event[0]);
     setNewMachine((prev: any) => ({ ...prev, image: base64String, imageName: event[0].name }));
     setImageURl(base64String);
   };
@@ -143,7 +146,7 @@ const Machine = () => {
   // function to convert image file to base64
   const convertToBase64 = (file: any) => {
     return new Promise((resolve) => {
-      let baseURL = '';
+      let baseURL: any = '';
       let reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
@@ -193,7 +196,11 @@ const Machine = () => {
       image: newMachine?.image,
       imageName: newMachine?.imageName,
     };
-    const res = await MACHINE_SERVICES.updateMachineById(newMachine?.machineLineId, newMachine.machineId, body);
+    const res = await MACHINE_SERVICES.updateMachineById(
+      newMachine?.machineLineId,
+      newMachine.machineId as string,
+      body,
+    );
     if (res.statusCode === 200) {
       setNewMachine(initialState);
       setFileName('');
@@ -242,7 +249,7 @@ const Machine = () => {
     setShowDeleteMachineModal(true);
     console.log(machineLineId, 'mlid');
     console.log(machineId, 'mid');
-    if ((machineLineId, machineId)) {
+    if (machineLineId && machineId) {
       const res = await MACHINE_SERVICES.deleteMachineById(machineLineId, machineId);
       toast.success(res.message);
       setShowDeleteMachineModal(false);
@@ -344,7 +351,7 @@ const Machine = () => {
       >
         <DeleteMachine
           deleteMachine={() => {
-            onDeleteMachine(selectedMachine?.machineLineId, selectedMachine?.machineId);
+            onDeleteMachine(selectedMachine?.machineLineId || '', selectedMachine?.machineId || '');
           }}
           onCloseDeleteModal={() => {
             setShowDeleteMachineModal(false);

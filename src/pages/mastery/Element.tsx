@@ -94,7 +94,7 @@ function Element() {
               // getPlants(value);
             }}
             // value={user.organization}
-            // options={}
+            options={[]}
             mandatory={true}
           />
         </div>
@@ -113,7 +113,7 @@ function Element() {
         </div>
       </div>
       <div>
-        <Table columns={columns} dataSource={datasource} pagination={false} />
+        <Table columns={columns} dataSource={datasource as any} pagination={false} />
       </div>
     </div>
   );

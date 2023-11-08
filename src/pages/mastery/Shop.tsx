@@ -18,7 +18,8 @@ const Shop = () => {
     image: string | undefined;
     imageName: string | undefined;
     description: string | undefined;
-    plantId: string | undefined;
+    plantId: string | undefined | any;
+    shopId: string | undefined;
   };
   const initialState = {
     shopName: '',
@@ -26,6 +27,7 @@ const Shop = () => {
     imageName: '',
     description: '',
     plantId: '',
+    shopId: '',
   };
 
   // constants for file uploader
@@ -134,7 +136,7 @@ const Shop = () => {
   const handleFile = async (event: any) => {
     setFileName(event[0].name);
     setUploadStatus('success');
-    const base64String = await convertToBase64(event[0]);
+    const base64String: any = await convertToBase64(event[0]);
     setNewShop((prev: any) => ({ ...prev, image: base64String, imageName: event[0].name }));
     setImageURl(base64String);
   };
@@ -142,7 +144,7 @@ const Shop = () => {
   // function to convert image file to base64
   const convertToBase64 = (file: any) => {
     return new Promise((resolve) => {
-      let baseURL = '';
+      let baseURL: any = '';
       let reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
@@ -186,20 +188,22 @@ const Shop = () => {
 
   /* Functions to update a shop */
   const updateShop = async () => {
-    const body = {
-      shopName: newShop?.shopName,
-      description: newShop?.description,
-      image: newShop?.image,
-      imageName: newShop?.imageName,
-    };
-    const res = await SHOP_SERVICES.updateShopById(newShop?.plantId, newShop.shopId, body);
-    if (res.statusCode === 200) {
-      setNewShop(initialState);
-      setFileName('');
-      setImageURl('');
-      setShowEditShopModal(false);
-      setShowEditSuccessModal(true);
-      fetchAllShops();
+    if (newShop?.plantId && newShop.shopId) {
+      const body = {
+        shopName: newShop?.shopName,
+        description: newShop?.description,
+        image: newShop?.image,
+        imageName: newShop?.imageName,
+      };
+      const res = await SHOP_SERVICES.updateShopById(newShop?.plantId, newShop.shopId, body);
+      if (res.statusCode === 200) {
+        setNewShop(initialState);
+        setFileName('');
+        setImageURl('');
+        setShowEditShopModal(false);
+        setShowEditSuccessModal(true);
+        fetchAllShops();
+      }
     }
   };
 
@@ -239,7 +243,7 @@ const Shop = () => {
   // API call to delete a shop
   const onDeleteShop = async (plantId: string, shopId: string) => {
     setShowDeleteShopModal(true);
-    if ((plantId, shopId)) {
+    if (plantId && shopId) {
       const res = await SHOP_SERVICES.deleteShopById(plantId, shopId);
       toast.success(res.message);
       setShowDeleteShopModal(false);
@@ -341,7 +345,9 @@ const Shop = () => {
       >
         <DeleteShop
           deleteShop={() => {
-            onDeleteShop(selectedShop?.plantId, selectedShop?.shopId);
+            if (selectedShop?.plantId && selectedShop?.shopId) {
+              onDeleteShop(selectedShop?.plantId, selectedShop?.shopId);
+            }
           }}
           onCloseDeleteModal={() => {
             setShowDeleteShopModal(false);
