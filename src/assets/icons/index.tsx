@@ -574,7 +574,13 @@ export const AddUserIcon = ({ className = 'fill-white' }: IconsPropType) => {
     </svg>
   );
 };
-
+export const DividerIcon = ({ className = 'fill-white' }: IconsPropType) => {
+  return (
+    <svg className={className} width="2" height="18" viewBox="0 0 2 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0.95459" y1="-2.18557e-08" x2="0.954591" y2="18" stroke="black" />
+    </svg>
+  );
+};
 export const BulkUploadIcon = ({ className = 'fill-white' }: IconsPropType) => {
   return (
     <svg

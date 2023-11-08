@@ -22,3 +22,11 @@ export const USERS_PAGE_CONSTANTS = {
     message: 'Are you sure want to delete?',
   }),
 };
+
+export const MASTERY_PAGE_CONSTANTS = {
+  EDIT_PLANT_DIALOG: Object.freeze({
+    label: 'Edit Plant',
+    orgLabel: 'Organisation Detail',
+    message: 'Changes are Done',
+  }),
+};
