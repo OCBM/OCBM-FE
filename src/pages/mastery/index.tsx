@@ -2,6 +2,7 @@ import { BulkUploadIcon, ManualEntryIcon } from '@/assets/icons';
 import TabViewPrimary from '@/components/reusable/tabview/TabViewPrimary';
 import { useState } from 'react';
 import Shop from './Shop';
+import MachineLine from './MachineLine';
 import Machine from './Machine';
 import Plant from './Plant';
 import Element from './Element';
@@ -23,7 +24,7 @@ const Mastery = () => {
     },
     {
       title: 'Machine Line',
-      content: 'Add Machine Line',
+      content: <MachineLine />,
       key: 'machine line',
     },
     {
