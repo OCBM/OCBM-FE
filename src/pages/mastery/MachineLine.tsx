@@ -12,13 +12,13 @@ export type DeleteMachineLineType = {
 };
 const MachineLine = () => {
   type InitialStateType = {
-    machineLineName: string | undefined;
+    machineLineName: string;
     machineLineId: any;
-    image: string | undefined;
-    imageName: string | undefined;
-    description: string | undefined;
-    shopId: string | undefined;
-    machineLineDescription: string | undefined;
+    image: string;
+    imageName: string;
+    description: string;
+    shopId: string;
+    machineLineDescription: string;
   };
   const initialState = {
     machineLineName: '',
@@ -124,7 +124,7 @@ const MachineLine = () => {
   const handleFile = async (event: any) => {
     setFileName(event[0].name);
     setUpload('success');
-    const base64String : any = await convertToBase64(event[0]);
+    const base64String: any = await convertToBase64(event[0]);
     setNewMachineLine((prev: any) => ({ ...prev, image: base64String, imageName: event[0].name }));
     setImageURl(base64String);
   };
@@ -159,24 +159,26 @@ const MachineLine = () => {
   //API CALLS
   //update Machine Line
   const updateMachineLine = async () => {
-    const body = {
-      machineLineName: newMachineLine.machineLineName,
-      machineLineDescription: newMachineLine.machineLineDescription,
-      image: newMachineLine.image,
-      imageName: newMachineLine.imageName,
-    };
-    const res = await MACHINELINE_SERVICES.updateMachineLineById(
-      newMachineLine?.machineLineId,
-      newMachineLine?.shopId,
-      body,
-    );
-    if (res.statusCode === 200) {
-      setNewMachineLine(initialState);
-      setFileName('');
-      setImageURl('');
-      setShowEditMachineLineModal(false);
-      setShowEditSuccessModal(true);
-      fetchAllMachineline();
+    if (newMachineLine?.shopId) {
+      const body = {
+        machineLineName: newMachineLine.machineLineName,
+        machineLineDescription: newMachineLine.machineLineDescription,
+        image: newMachineLine.image,
+        imageName: newMachineLine.imageName,
+      };
+      const res = await MACHINELINE_SERVICES.updateMachineLineById(
+        newMachineLine?.machineLineId,
+        newMachineLine?.shopId,
+        body,
+      );
+      if (res.statusCode === 200) {
+        setNewMachineLine(initialState);
+        setFileName('');
+        setImageURl('');
+        setShowEditMachineLineModal(false);
+        setShowEditSuccessModal(true);
+        fetchAllMachineline();
+      }
     }
   };
 

@@ -3,10 +3,28 @@ import { SERVICES } from '@/utils/sitemap';
 import { HELPER_SERVICES } from './helperServices';
 import { toast } from 'react-toastify';
 
-export const MACHINE_LINE_SERVICES = {
-  getAllMachineLine: async () => {
+export const MACHINE_SERVICES = {
+  getAllMachines: async () => {
     try {
-      const res = await apiInstance.get(SERVICES.machineline.get);
+      const res = await apiInstance.get(SERVICES.machines.get);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  getAllMachinesByMachineLineId: async (id: string) => {
+    try {
+      const res = await apiInstance.get(`${SERVICES.machines.get}/machineLineId=${id}`);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  addMachine: async (body: any) => {
+    try {
+      const res = await apiInstance.post(SERVICES.machines.add, body);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
@@ -15,10 +33,10 @@ export const MACHINE_LINE_SERVICES = {
     }
   },
 
-  updateMachineLineById: async (machineLineId: string, shopId: string, body: any) => {
+  updateMachineById: async (machineLineId: string, machineId: string, body: any) => {
     try {
       const res = await apiInstance.put(
-        `${SERVICES.machineline.update}/shopId=${shopId}&machineLineId=${machineLineId}`,
+        `${SERVICES.machines.update}/machineLineId=${machineLineId}&machineId=${machineId}`,
         body,
       );
       return res.data;
@@ -28,20 +46,11 @@ export const MACHINE_LINE_SERVICES = {
       console.log(error);
     }
   },
-  addMachineLine: async (body: any) => {
-    try {
-      const res = await apiInstance.post(SERVICES.machineline.add, body);
-      return res.data;
-    } catch (error: any) {
-      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
-      toast.error(errorMsg);
-      console.log(error);
-    }
-  },
-  deleteMachinelineById: async (machineLineId: string, shopId: string) => {
+
+  deleteMachineById: async (machineLineId: string, machineId: string) => {
     try {
       const res = await apiInstance.delete(
-        `${SERVICES.machineline.delete}/shopId=${shopId}&machineLineId=${machineLineId}`,
+        `${SERVICES.machines.delete}/machineLineId=${machineLineId}&machineId=${machineId}`,
       );
       return res.data;
     } catch (error: any) {
