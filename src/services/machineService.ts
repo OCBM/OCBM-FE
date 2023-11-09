@@ -6,7 +6,7 @@ import { HELPER_SERVICES } from './helperServices';
 export const MACHINE_SERVICES = {
   getAllMachinesbyShopid: async (id: string) => {
     try {
-      const res = await apiInstance.get(`${SERVICES.machineLine.get}/shopId=${id}`);
+      const res = await apiInstance.get(`${SERVICES.machines.get}/shopId=${id}`);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
