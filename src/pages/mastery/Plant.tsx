@@ -62,7 +62,7 @@ function Plant() {
   const handleFile = async (event: any) => {
     setUploadStatus('success');
     setFileName(event[0].name);
-    const base64String = await convertToBase64(event[0]);
+    const base64String: any = await convertToBase64(event[0]);
     setNewPlant((prev: any) => ({ ...prev, image: base64String, imageName: event[0].name }));
     setImageURl(base64String);
   };
@@ -70,7 +70,7 @@ function Plant() {
   // function to convert image file to base64
   const convertToBase64 = (file: any) => {
     return new Promise((resolve) => {
-      let baseURL = '';
+      let baseURL: any = '';
       let reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {

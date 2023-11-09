@@ -89,7 +89,7 @@ const Dropdown = ({
         className={
           type === 'secondary'
             ? `flex items-center justify-between border-b-2 ${className} cursor-pointer`
-            : `flex border-2 overflow-hidden rounded-[50px] gap-3 items-center justify-between border-[#444444] cursor-pointer ${className} cursor-pointer`
+            : `flex border-2 overflow-hidden w-2/6 rounded-[50px] gap-3 items-center justify-between border-[#444444] cursor-pointer ${className} cursor-pointer`
         }
         onClick={(e) => {
           e.stopPropagation();
