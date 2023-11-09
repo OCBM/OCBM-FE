@@ -6,9 +6,11 @@ type customPros = {
   employee_name?: string;
   Position?: string;
   action?: any;
+  dataSource?: any[];
 };
 
 export function Table(props: TableProps<customPros>) {
+  console.log('hello', props);
   return (
     <div>
       <AntdTable {...props} />
