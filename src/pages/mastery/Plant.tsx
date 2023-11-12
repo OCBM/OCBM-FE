@@ -1,4 +1,4 @@
-import { ChevronCancelIcon, ChevronSuccessIcon, DeleteIcon, PencilIcon, QuesionMarkIcon } from '@/assets/icons';
+import { ChevronCancelIcon, ChevronSuccessIcon, DeleteIcon, PencilIcon, QuestionMarkIcon } from '@/assets/icons';
 import { Button, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
 import { Table } from '@/components/reusable/table';
@@ -189,32 +189,27 @@ function Plant() {
 
   return (
     <div>
-      <h2 className="text-[20px] text-[#444444] font-medium mb-6">Add Plant</h2>
+      <h2 className="text-[20px] text-[#444444] leading-5 font-medium mb-8">Add Plant</h2>
       <div>
-        <div className="flex justify-start gap-[16px] mb-8">
-          <div className="w-[33%]">
-            <Input
-              className="w-full border-[1px] h-[46px] mt-2 px-3 rounded-[50px] border-[#A9A9A9] p-[16px]"
-              placeholder="Plant Name*"
-              type="text"
-              value={newPlant.plantName}
-              name="plantName"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="w-[33%]">
-            <Input
-              className="w-full border-[1px] h-[46px] mt-2 px-3 rounded-[50px] border-[#A9A9A9] p-[16px]"
-              placeholder="Plant Descriptions*"
-              type="text"
-              name="description"
-              value={newPlant.description}
-              onChange={handleChange}
-            />
-          </div>
+        <div className="flex justify-start items-center gap-[16px] mb-6">
+          <Input
+            className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
+            placeholder="Plant Name*"
+            type="text"
+            value={newPlant.plantName}
+            name="plantName"
+            onChange={handleChange}
+          />
+          <Input
+            className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
+            placeholder="Plant Descriptions*"
+            type="text"
+            name="description"
+            value={newPlant.description}
+            onChange={handleChange}
+          />
         </div>
-
-        <div className="mb-6">
+        <div>
           <FileUploader
             className="w-[560px] py-6"
             mastery
@@ -225,19 +220,19 @@ function Plant() {
             fileName={fileName}
           />
         </div>
-        <div className="flex justify-start flex-row w-full gap-[20px] mt-5 mb-9">
+        <div className="flex justify-start flex-row w-full gap-4 mt-8 mb-8">
           <Button
             onClick={() => {
               setNewPlant(initialState);
               setFileName('');
               setImageURl('');
             }}
-            className="py-2 px-6 rounded-[16px]"
+            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
             label="Clear"
             variant="secondary"
           />
           <Button
-            className="py-2 px-6 rounded-[16px]"
+            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
             label="Add"
             disabled={disablingNewPlant()}
             onClick={createPlant}
@@ -258,7 +253,7 @@ function Plant() {
       >
         <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
           <div className="flex flex-col items-center justify-center">
-            <QuesionMarkIcon />
+            <QuestionMarkIcon />
             <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">
               {USERS_PAGE_CONSTANTS.DELETE_USER_DIALOG.message}
             </h2>
@@ -333,6 +328,8 @@ function Plant() {
                 onChange={handleChange}
               />
               <FileUploader
+                label="Image"
+                labelClassName="text-[#492CE1] text-[14px] font-medium"
                 className="w-[385px] py-6 mt-2"
                 mastery
                 fileFormat=".jpg, .png"

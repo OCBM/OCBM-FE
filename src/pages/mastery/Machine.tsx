@@ -1,8 +1,8 @@
-import { DeleteIcon, PencilIcon, QuesionMarkIcon, ChevronCancelIcon, ChevronSuccessIcon } from '@/assets/icons';
+import { DeleteIcon, PencilIcon, QuestionMarkIcon, ChevronCancelIcon, ChevronSuccessIcon } from '@/assets/icons';
 import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
 import { Table } from '@/components/reusable/table';
-// import { MACHINELINE_SERVICES } from '@/services/machineLineServices';
+import { MACHINE_LINE_SERVICES } from '@/services/machineLineServices';
 import { MACHINE_SERVICES } from '@/services/machineServices';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -14,12 +14,12 @@ export type DeleteMachineType = {
 
 const Machine = () => {
   type InitialStateType = {
-    machineName: string | undefined;
-    image: string | undefined;
-    imageName: string | undefined;
-    machineDescription: string | undefined;
-    machineLineId: string | undefined | any;
-    machineId: string | undefined;
+    machineName: string;
+    image: string;
+    imageName: string;
+    machineDescription: string;
+    machineLineId: string;
+    machineId: string;
   };
   const initialState = {
     machineName: '',
@@ -61,15 +61,13 @@ const Machine = () => {
   const fetchAllMachines = async () => {
     const res = await MACHINE_SERVICES.getAllMachines();
     setMachineList(res?.message);
+    console.log(res?.message, 'res');
   };
 
   const fetchAllMachineLines = async () => {
-    // const res = await MACHINELINE_SERVICES.getAllMachineLine();
-    // setMachineLineList(res?.message);
-    setMachineLineList([]);
+    const res = await MACHINE_LINE_SERVICES.getAllMachineLine();
+    setMachineLineList(res?.message);
   };
-
-  console.log('machine', machineList);
 
   /* Columns and Data for table */
   const columns = [
@@ -164,7 +162,7 @@ const Machine = () => {
       image: newMachine.image,
       imageName: newMachine.imageName,
       machineDescription: newMachine.machineDescription,
-      machineLineId: newMachine?.machineLineId?.machineLineId,
+      machineLineId: newMachine?.machineLineId,
     };
 
     const res = await MACHINE_SERVICES.addMachine(body);
@@ -196,15 +194,9 @@ const Machine = () => {
       image: newMachine?.image,
       imageName: newMachine?.imageName,
     };
-    const res = await MACHINE_SERVICES.updateMachineById(
-      newMachine?.machineLineId,
-      newMachine.machineId as string,
-      body,
-    );
+    const res = await MACHINE_SERVICES.updateMachineById(newMachine?.machineLineId, newMachine?.machineId, body);
     if (res.statusCode === 200) {
-      setNewMachine(initialState);
-      setFileName('');
-      setImageURl('');
+      handleClear();
       setShowEditMachineModal(false);
       setShowEditSuccessModal(true);
       fetchAllMachines();
@@ -223,7 +215,7 @@ const Machine = () => {
     return (
       <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
         <div className="flex flex-col items-center justify-center">
-          <QuesionMarkIcon />
+          <QuestionMarkIcon />
           <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Are you sure want to delete?</h2>
           <div className="flex gap-[8px] justify-between">
             <Button
@@ -304,6 +296,8 @@ const Machine = () => {
                 onChange={handleChange}
               />
               <FileUploader
+                label="Image"
+                labelClassName="text-[#492CE1] text-[14px] font-medium"
                 className="w-[385px] py-6 mt-2"
                 mastery
                 fileFormat=".jpg, .png"
@@ -358,10 +352,9 @@ const Machine = () => {
           }}
         />
       </Modal>
-      <p className="text-xl font-medium leading-5 py-[10px] mb-8">Add Machine</p>
+      <p className="text-xl font-medium leading-5 mb-8">Add Machine</p>
       {/* Fields to get Machine name, Machine description and Machine image */}
-      <div className="flex items-center justify-between gap-8 mb-6">
-        {/* <Modal isOpen /> */}
+      <div className="flex items-center justify-between gap-[16px] mb-6">
         <Input
           placeholder="Machine Name"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
@@ -382,13 +375,17 @@ const Machine = () => {
         />
         <Dropdown
           placeholder="Select machineLine"
-          className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] py-4 px-5 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
+          className="w-[270px] border-[1px] border-solid border-[#A9A9A9] rounded-[50px] py-4 px-5 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           options={machineLineList}
           optionLabel="machineLineName"
-          handleChange={(value) => {
-            setNewMachine((prev: any) => ({ ...prev, machineLineId: value }));
+          handleChange={(value: any) => {
+            setNewMachine((prev: any) => ({ ...prev, machineLineId: value?.machineLineId }));
           }}
-          value={newMachine.machineLineId}
+          value={
+            showEditMachineModal
+              ? ''
+              : machineLineList.find((machineLine: any) => machineLine.machineLineId === newMachine.machineLineId)
+          }
           mandatory={true}
         />
       </div>

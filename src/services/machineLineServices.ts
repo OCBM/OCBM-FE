@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 export const MACHINE_LINE_SERVICES = {
   getAllMachineLine: async () => {
     try {
-      const res = await apiInstance.get(SERVICES.machineline.get);
+      const res = await apiInstance.get(SERVICES.machineLine.get);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
@@ -18,7 +18,7 @@ export const MACHINE_LINE_SERVICES = {
   updateMachineLineById: async (machineLineId: string, shopId: string, body: any) => {
     try {
       const res = await apiInstance.put(
-        `${SERVICES.machineline.update}/shopId=${shopId}&machineLineId=${machineLineId}`,
+        `${SERVICES.machineLine.update}/shopId=${shopId}&machineLineId=${machineLineId}`,
         body,
       );
       return res.data;
@@ -30,7 +30,7 @@ export const MACHINE_LINE_SERVICES = {
   },
   addMachineLine: async (body: any) => {
     try {
-      const res = await apiInstance.post(SERVICES.machineline.add, body);
+      const res = await apiInstance.post(SERVICES.machineLine.add, body);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
@@ -38,10 +38,10 @@ export const MACHINE_LINE_SERVICES = {
       console.log(error);
     }
   },
-  deleteMachinelineById: async (machineLineId: string, shopId: string) => {
+  deleteMachineLineById: async (machineLineId: string, shopId: string) => {
     try {
       const res = await apiInstance.delete(
-        `${SERVICES.machineline.delete}/shopId=${shopId}&machineLineId=${machineLineId}`,
+        `${SERVICES.machineLine.delete}/shopId=${shopId}&machineLineId=${machineLineId}`,
       );
       return res.data;
     } catch (error: any) {
