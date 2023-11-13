@@ -703,3 +703,72 @@ export const WithinSpec = ({ className }: IconsPropType) => {
     </svg>
   );
 };
+export const OutOfSpecUnselected = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="15px"
+      height="15px"
+      viewBox="0 0 143 143"
+      fill="none"
+    >
+      <rect x="4.92708" y="5.37362" width="132.812" height="132.812" rx="25.9301" fill="white" />
+      <rect
+        x="4.92708"
+        y="5.37362"
+        width="132.812"
+        height="132.812"
+        rx="25.9301"
+        stroke="#EF4040"
+        strokeWidth="8.85417"
+      />
+    </svg>
+  );
+};
+export const ThresholdlimitUnselected = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="15px"
+      height="15px"
+      viewBox="0 0 143 142"
+      fill="none"
+    >
+      <rect x="4.90316" y="4.71419" width="132.812" height="132.812" rx="25.9301" fill="white" />
+      <rect
+        x="4.90316"
+        y="4.71419"
+        width="132.812"
+        height="132.812"
+        rx="25.9301"
+        stroke="#FFFF54"
+        strokeWidth="8.85417"
+      />
+    </svg>
+  );
+};
+export const WithinSpecUnselected = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="15px"
+      height="15px"
+      viewBox="0 0 143 142"
+      fill="none"
+    >
+      <rect x="5.23665" y="4.55208" width="132.812" height="132.812" rx="25.9301" fill="white" />
+      <rect
+        x="5.23665"
+        y="4.55208"
+        width="132.812"
+        height="132.812"
+        rx="25.9301"
+        stroke="#74F94B"
+        strokeWidth="8.85417"
+      />
+    </svg>
+  );
+};
