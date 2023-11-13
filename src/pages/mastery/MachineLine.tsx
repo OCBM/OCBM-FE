@@ -1,108 +1,98 @@
-import { DeleteIcon, PencilIcon, QuesionMarkIcon, ChevronCancelIcon, ChevronSuccessIcon } from '@/assets/icons';
+import { ChevronCancelIcon, ChevronSuccessIcon, DeleteIcon, PencilIcon, QuesionMarkIcon } from '@/assets/icons';
 import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
 import { Table } from '@/components/reusable/table';
-import { PLANT_SERVICES } from '@/services/plantServices';
+import { MACHINELINE_SERVICES } from '@/services/machineLineServices';
 import { SHOP_SERVICES } from '@/services/shopServices';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-
-export type DeleteShopType = {
+export type DeleteMachineLineType = {
   onCloseDeleteModal: () => void;
-  deleteShop: () => void;
+  deleteMachineLine: () => void;
 };
-
-const Shop = () => {
+const MachineLine = () => {
   type InitialStateType = {
-    shopName: string | undefined;
-    image: string | undefined;
-    imageName: string | undefined;
-    description: string | undefined;
-    plantId: string | undefined | any;
-    shopId: string | undefined;
+    machineLineName: string;
+    machineLineId: any;
+    image: string;
+    imageName: string;
+    description: string;
+    shopId: string;
+    machineLineDescription: string;
   };
   const initialState = {
-    shopName: '',
+    machineLineName: '',
+    machineLineId: '',
     image: '',
     imageName: '',
     description: '',
-    plantId: '',
     shopId: '',
+    machineLineDescription: '',
   };
 
-  // constants for file uploader
-  const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
+  const [upload, setUpload] = useState<FileUploadStatusType>('upload');
+  const [newMachineLine, setNewMachineLine] = useState<InitialStateType>(initialState);
+  const [selectedMachineLine, setSelectedMachineLine] = useState<InitialStateType>(initialState);
   const [fileName, setFileName] = useState<string>('');
   const [imageURL, setImageURl] = useState<string>('');
-
-  // constants to store plants and shops
   const [shopList, setShopList] = useState([]);
-  const [plantList, setPlantList] = useState([]);
-
-  // constants to store new shop details
-  const [newShop, setNewShop] = useState<any>(initialState);
-
-  // constant to store a selected shop
-  const [selectedShop, setSelectedShop] = useState<any>(initialState);
-
-  // constants to edit a shop
-  // const [edit, setEdit] = useState<boolean>(false);
-  const [showEditShopModal, setShowEditShopModal] = useState<boolean>(false);
+  const [machinelineList, setMachinelineList] = useState([]);
+  const [showDeleteMachineLineModal, setShowDeleteMachineLineModal] = useState<boolean>(false);
+  const [showEditMachineLineModal, setShowEditMachineLineModal] = useState<boolean>(false);
   const [showEditSuccessModal, setShowEditSuccessModal] = useState<boolean>(false);
 
-  // constants to delete a shop
-  const [showDeleteShopModal, setShowDeleteShopModal] = useState<boolean>(false);
-
-  /* To get plants and shops */
+  //useEffect for shops and machine line api fetch
   useEffect(() => {
-    fetchAllPlants();
+    fetchAllMachineline();
     fetchAllShops();
   }, []);
+  //all machine line api fetch
+  const fetchAllMachineline = async () => {
+    const res = await MACHINELINE_SERVICES.getAllMachineLine();
+    setMachinelineList(res?.message);
+  };
 
+  //all shops api fetch
   const fetchAllShops = async () => {
     const res = await SHOP_SERVICES.getAllShops();
     setShopList(res?.message);
   };
 
-  const fetchAllPlants = async () => {
-    const res = await PLANT_SERVICES.getAllPlants('9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d');
-    setPlantList(res?.message);
-  };
-
-  /* Columns and Data for table */
-  const columns = [
+  //DATA FOR MACHINELINE TABLE
+  const tableData = [
     {
-      title: 'Shop Name',
-      dataIndex: 'shopName',
-      key: 'shopName',
+      title: 'Machine line Name',
+      key: 'machineLineName',
+      dataIndex: 'machineLineName',
     },
     {
-      title: 'Shop Description',
-      dataIndex: 'description',
-      key: 'description',
+      title: 'Machine line Description',
+      key: 'machineLineDescription',
+      dataIndex: 'machineLineDescription',
     },
     {
-      title: 'Shop ID',
-      dataIndex: 'shopId',
-      key: 'shopId',
+      title: 'Machine line ID',
+      key: 'machineLineId',
+      dataIndex: 'machineLineId',
     },
     {
       title: 'Image',
-      dataIndex: 'imageName',
       key: 'imageName',
+      dataIndex: 'imageName',
     },
     {
-      title: 'Action',
-      dataIndex: 'action',
+      title: 'Actions',
       key: 'action',
+      dataIndex: 'action',
       render: (_: any, data: any) => {
         return (
           <div className="flex justify-start gap-3">
             <div
               className="cursor-pointer"
               onClick={() => {
-                setShowEditShopModal(true);
-                setNewShop(data);
+                setShowEditMachineLineModal(true);
+                setNewMachineLine(data);
+                console.log(data);
               }}
             >
               <PencilIcon className="w-[20px] h-[20px]" />
@@ -110,8 +100,8 @@ const Shop = () => {
             <div
               className="cursor-pointer"
               onClick={() => {
-                setSelectedShop(data);
-                setShowDeleteShopModal(true);
+                setSelectedMachineLine(data);
+                setShowDeleteMachineLineModal(true);
               }}
             >
               <DeleteIcon className="w-[20px] h-[20px]" />
@@ -122,29 +112,26 @@ const Shop = () => {
     },
   ];
 
-  /* Functions to create a new shop */
-  // function to read input changes
+  //FUNCTIONS
   const handleChange = (event: any) => {
     const { name, value } = event.target;
-    setNewShop((initialState: InitialStateType) => ({
+    setNewMachineLine((initialState: InitialStateType) => ({
       ...initialState,
       [name]: value,
     }));
   };
 
-  // function to read a file
   const handleFile = async (event: any) => {
     setFileName(event[0].name);
-    setUploadStatus('success');
+    setUpload('success');
     const base64String: any = await convertToBase64(event[0]);
-    setNewShop((prev: any) => ({ ...prev, image: base64String, imageName: event[0].name }));
+    setNewMachineLine((prev: any) => ({ ...prev, image: base64String, imageName: event[0].name }));
     setImageURl(base64String);
   };
 
-  // function to convert image file to base64
   const convertToBase64 = (file: any) => {
     return new Promise((resolve) => {
-      let baseURL: any = '';
+      let baseURL: string | ArrayBuffer | null = '';
       let reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
@@ -155,67 +142,78 @@ const Shop = () => {
     });
   };
 
-  // API call for adding a new shop
-  const createShop = async () => {
-    const body = {
-      shopName: newShop.shopName,
-      image: newShop.image,
-      imageName: newShop.imageName,
-      description: newShop.description,
-      plantId: newShop?.plantId?.plantId,
-    };
-
-    const res = await SHOP_SERVICES.addShop(body);
-    if (res.statusCode === 201) {
-      setNewShop(initialState);
-      setFileName('');
-      setImageURl('');
-      toast.success('Shop added successfully');
-      fetchAllShops();
-    }
-  };
-
-  /* functions for buttons */
   const disablingAdd = () => {
-    return newShop.shopName && newShop.plantId && newShop.image ? false : true;
+    return newMachineLine.machineLineName && newMachineLine?.shopId && newMachineLine.image ? false : true;
   };
 
   const handleClear = () => {
-    setNewShop(initialState);
+    setNewMachineLine(initialState);
     setFileName('');
     setImageURl('');
   };
 
-  /* Functions to update a shop */
-  const updateShop = async () => {
-    if (newShop?.plantId && newShop.shopId) {
+  const onCloseEditModal = () => {
+    setShowEditMachineLineModal(false);
+  };
+
+  //API CALLS
+  //update Machine Line
+  const updateMachineLine = async () => {
+    if (newMachineLine?.shopId) {
       const body = {
-        shopName: newShop?.shopName,
-        description: newShop?.description,
-        image: newShop?.image,
-        imageName: newShop?.imageName,
+        machineLineName: newMachineLine.machineLineName,
+        machineLineDescription: newMachineLine.machineLineDescription,
+        image: newMachineLine.image,
+        imageName: newMachineLine.imageName,
       };
-      const res = await SHOP_SERVICES.updateShopById(newShop?.plantId, newShop.shopId, body);
+      const res = await MACHINELINE_SERVICES.updateMachineLineById(
+        newMachineLine?.machineLineId,
+        newMachineLine?.shopId,
+        body,
+      );
       if (res.statusCode === 200) {
-        setNewShop(initialState);
+        setNewMachineLine(initialState);
         setFileName('');
         setImageURl('');
-        setShowEditShopModal(false);
+        setShowEditMachineLineModal(false);
         setShowEditSuccessModal(true);
-        fetchAllShops();
+        fetchAllMachineline();
       }
     }
   };
 
-  // function to do what happen while closing the search modal
-  const onCloseEditModal = () => {
-    setShowEditShopModal(false);
+  //delete machine line
+  const onDeleteMachineline = async (shopId: string, machineLineId: string) => {
+    setShowDeleteMachineLineModal(true);
+    if (shopId && machineLineId) {
+      const res = await MACHINELINE_SERVICES.deleteMachinelineById(machineLineId, shopId);
+      toast.success(res.message);
+      setShowDeleteMachineLineModal(false);
+      fetchAllMachineline();
+    }
+  };
+  //create machine line
+  const createMachineLine = async () => {
+    const body = {
+      machineLineName: newMachineLine.machineLineName,
+      image: newMachineLine.image,
+      imageName: newMachineLine.imageName,
+      machineLineDescription: newMachineLine.description,
+      shopId: newMachineLine?.shopId?.shopId,
+    };
+
+    const res = await MACHINELINE_SERVICES.addMachineLine(body);
+    if (res.statusCode === 201) {
+      setNewMachineLine(initialState);
+      setFileName('');
+      setImageURl('');
+      toast.success('Shop added successfully');
+      fetchAllMachineline();
+    }
   };
 
-  /* Functions to delete a shop */
-
-  // Delete Modal
-  const DeleteShop = ({ onCloseDeleteModal, deleteShop }: DeleteShopType) => {
+  //Delete popupmodal component
+  const DeleteMachineLine = ({ onCloseDeleteModal, deleteMachineLine }: DeleteMachineLineType) => {
     return (
       <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
         <div className="flex flex-col items-center justify-center">
@@ -232,7 +230,7 @@ const Shop = () => {
               label="Yes"
               variant="primary"
               className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] italic py-[8px] px-[24px] w-[104px]"
-              onClick={deleteShop}
+              onClick={deleteMachineLine}
             />
           </div>
         </div>
@@ -240,23 +238,13 @@ const Shop = () => {
     );
   };
 
-  // API call to delete a shop
-  const onDeleteShop = async (plantId: string, shopId: string) => {
-    setShowDeleteShopModal(true);
-    if (plantId && shopId) {
-      const res = await SHOP_SERVICES.deleteShopById(plantId, shopId);
-      toast.success(res.message);
-      setShowDeleteShopModal(false);
-      fetchAllShops();
-    }
-  };
-
   return (
     <div>
+      {/*Edit Modal for machine Line*/}
       <Modal
-        isOpen={showEditShopModal}
+        isOpen={showEditMachineLineModal}
         onCancel={() => {
-          setShowEditShopModal(false);
+          setShowEditMachineLineModal(false);
         }}
         className="z-[99]"
       >
@@ -264,7 +252,7 @@ const Shop = () => {
           <div
             className="absolute right-[10px] top-[10px] cursor-pointer"
             onClick={() => {
-              setShowEditShopModal(false);
+              setShowEditMachineLineModal(false);
             }}
           >
             <ChevronCancelIcon />
@@ -277,24 +265,24 @@ const Shop = () => {
               <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-4">Organization Details</h4>
               <Input
                 className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
-                label="Shop Name"
+                label="Machine Line Name"
                 labelClassName="text-[#492CE1] text-[14px] font-medium"
                 mandatory={true}
                 type="text"
-                name="shopName"
-                placeholder="Enter Shop Name"
-                value={newShop?.shopName}
+                name="machineLineName"
+                placeholder="Enter Machine Line Name"
+                value={newMachineLine?.machineLineName}
                 onChange={handleChange}
               />
               <Input
                 className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
-                label="Shop Description"
+                label="Machine Line Description"
                 labelClassName="text-[#492CE1] text-[14px] font-medium"
                 mandatory={true}
                 type="text"
-                name="description"
-                placeholder="Enter Plant Description"
-                value={newShop?.description}
+                name="machineLineDescription"
+                placeholder="Enter Machine Line Description"
+                value={newMachineLine?.machineLineDescription}
                 onChange={handleChange}
               />
               <FileUploader
@@ -302,14 +290,14 @@ const Shop = () => {
                 mastery
                 fileFormat=".jpg, .png"
                 handleFile={handleFile}
-                uploadStatus={uploadStatus}
-                image={newShop?.image}
-                fileName={newShop.imageName}
+                uploadStatus={upload}
+                image={newMachineLine?.image}
+                fileName={newMachineLine.imageName}
               />
             </div>
             <div className="text-center mt-3">
               <Button
-                onClick={updateShop}
+                onClick={updateMachineLine}
                 variant="primary"
                 label="Submit"
                 className="py-[8px] px-[24px] rounded-[16px] font-normal text-[16px]"
@@ -318,6 +306,7 @@ const Shop = () => {
           </form>
         </div>
       </Modal>
+      {/*Success message modal*/}
       <Modal isOpen={showEditSuccessModal} onCancel={onCloseEditModal} className="z-[99]">
         <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
           <div className="flex flex-col items-center justify-center">
@@ -336,69 +325,64 @@ const Shop = () => {
           </div>
         </div>
       </Modal>
+      {/*Delete message modal*/}
       <Modal
-        isOpen={showDeleteShopModal}
+        isOpen={showDeleteMachineLineModal}
         onCancel={() => {
-          setShowDeleteShopModal(false);
+          setShowDeleteMachineLineModal(false);
         }}
         className="z-[99]"
       >
-        <DeleteShop
-          deleteShop={() => {
-            onDeleteShop(selectedShop.plantId, selectedShop?.shopId);
+        <DeleteMachineLine
+          deleteMachineLine={() => {
+            onDeleteMachineline(selectedMachineLine?.shopId, selectedMachineLine?.machineLineId);
           }}
           onCloseDeleteModal={() => {
-            setShowDeleteShopModal(false);
+            setShowDeleteMachineLineModal(false);
           }}
         />
       </Modal>
-      <p className="text-xl font-medium leading-5 py-[10px] mb-8">Add Shop</p>
-      {/* Fields to get shop name, shop description and shop image */}
-      <div className="flex items-center justify-center gap-[16px] mb-6 ">
-        {/* <Modal isOpen /> */}
+      <p className="text-xl font-medium leading-5 py-[10px] mb-8">Add Machine Line</p>
+      <div className="flex items-center justify-center gap-[16px] mb-6">
         <Input
-          placeholder="Shop Name"
+          placeholder="Machine line Name"
           className="w-full border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"
-          name="shopName"
-          value={newShop.shopName}
+          name="machineLineName"
+          value={newMachineLine.machineLineName}
           mandatory={true}
         />
         <Input
-          placeholder="Shop Descriptions"
+          placeholder="Machine line descriptions"
           className="w-full border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
-          onChange={handleChange}
-          type="text"
           name="description"
-          value={newShop.description}
+          type="text"
+          onChange={handleChange}
+          value={newMachineLine.description}
           mandatory={true}
         />
         <Dropdown
-          placeholder="Select Plant"
+          placeholder="Select Shop"
           className="w-full border-[1px] border-solid border-[#A9A9A9] rounded-[50px] py-4 px-5 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
-          options={plantList}
-          optionLabel="plantName"
+          options={shopList}
           handleChange={(value) => {
-            setNewShop((prev: any) => ({ ...prev, plantId: value }));
+            setNewMachineLine((prev: any) => ({ ...prev, shopId: value }));
           }}
-          value={newShop.plantId}
+          optionLabel="shopName"
+          value={newMachineLine.shopId}
           mandatory={true}
         />
       </div>
-
-      {/* We can add shop images using uploader */}
       <FileUploader
         className="w-[560px] py-6"
         mastery
         fileFormat=".jpg, .png"
         handleFile={handleFile}
-        uploadStatus={uploadStatus}
+        uploadStatus={upload}
         fileName={fileName}
         image={imageURL}
       />
-
-      {/* Buttons to clear data and add a shop */}
       <div className="flex gap-4 mt-8 mb-8">
         <Button
           variant="secondary"
@@ -411,13 +395,11 @@ const Shop = () => {
           className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
           label="Add"
           disabled={disablingAdd()}
-          onClick={createShop}
+          onClick={createMachineLine}
         />
       </div>
-      {/* Table for listing shops */}
-      <Table columns={columns} dataSource={shopList} />
+      <Table columns={tableData} dataSource={machinelineList} />
     </div>
   );
 };
-
-export default Shop;
+export default MachineLine;
