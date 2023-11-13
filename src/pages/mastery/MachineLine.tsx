@@ -258,13 +258,13 @@ const MachineLine = () => {
             <ChevronCancelIcon />
           </div>
 
-          <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-5">Edit Details</h2>
+          <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-[36px]">Edit Details</h2>
 
           <form>
             <div>
-              <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-4">Organization Details</h4>
+              <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-6">Organization Details</h4>
               <Input
-                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
+                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
                 label="Machine Line Name"
                 labelClassName="text-[#492CE1] text-[14px] font-medium"
                 mandatory={true}
@@ -275,7 +275,7 @@ const MachineLine = () => {
                 onChange={handleChange}
               />
               <Input
-                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
+                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
                 label="Machine Line Description"
                 labelClassName="text-[#492CE1] text-[14px] font-medium"
                 mandatory={true}
@@ -297,7 +297,7 @@ const MachineLine = () => {
                 fileName={newMachineLine.imageName}
               />
             </div>
-            <div className="text-center mt-3">
+            <div className="text-center mt-[36px]">
               <Button
                 onClick={updateMachineLine}
                 variant="primary"

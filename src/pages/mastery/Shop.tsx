@@ -8,12 +8,12 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 export type InitialShopStateType = {
-  shopName: string | undefined;
-  image: string | undefined;
-  imageName: string | undefined;
-  description: string | undefined;
-  plantId: string | undefined;
-  shopId: string | undefined;
+  shopName: string;
+  image: string;
+  imageName: string;
+  description: string;
+  plantId: string;
+  shopId: string;
 };
 
 type DeleteShopType = {
@@ -48,7 +48,7 @@ const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newShop, 
         <div>
           <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-6">Organization Details</h4>
           <Input
-            className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
+            className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
             label="Shop Name"
             labelClassName="text-[#492CE1] text-[14px] font-medium"
             mandatory={true}
@@ -59,7 +59,7 @@ const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newShop, 
             onChange={handleChange}
           />
           <Input
-            className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
+            className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
             label="Shop Description"
             labelClassName="text-[#492CE1] text-[14px] font-medium"
             mandatory={true}
@@ -90,6 +90,26 @@ const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newShop, 
           />
         </div>
       </form>
+    </div>
+  );
+};
+
+// Edit success modal
+const EditSuccessModal = ({ closeEditSuccessModal }: EditSuccessModalType) => {
+  return (
+    <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
+      <div className="flex flex-col items-center justify-center">
+        <ChevronSuccessIcon className="w-[100px] h-[100px]" />
+        <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Changes are done</h2>
+        <div className="flex gap-[8px] justify-between">
+          <Button
+            label="Done"
+            variant="primary"
+            className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] py-[8px] px-[24px]"
+            onClick={closeEditSuccessModal}
+          />
+        </div>
+      </div>
     </div>
   );
 };
@@ -140,10 +160,10 @@ const Shop = () => {
   const [plantList, setPlantList] = useState([]);
 
   // constants to store new shop details
-  const [newShop, setNewShop] = useState<any>(initialState);
+  const [newShop, setNewShop] = useState<InitialShopStateType>(initialState);
 
   // constant to store a selected shop
-  const [selectedShop, setSelectedShop] = useState<any>(initialState);
+  const [selectedShop, setSelectedShop] = useState<InitialShopStateType>(initialState);
 
   // constants to edit a shop
   // const [edit, setEdit] = useState<boolean>(false);
@@ -276,10 +296,12 @@ const Shop = () => {
   };
 
   /* functions for buttons */
+  // Add button functionalities
   const disablingAdd = () => {
     return newShop.shopName && newShop.plantId && newShop.image ? false : true;
   };
 
+  // Clear button functionalities
   const handleClear = () => {
     setNewShop(initialState);
     setFileName('');
@@ -287,25 +309,6 @@ const Shop = () => {
   };
 
   /* Functions to update a shop */
-
-  const EditSuccessModal = ({ closeEditSuccessModal }: EditSuccessModalType) => {
-    return (
-      <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
-        <div className="flex flex-col items-center justify-center">
-          <ChevronSuccessIcon className="w-[100px] h-[100px]" />
-          <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Changes are done</h2>
-          <div className="flex gap-[8px] justify-between">
-            <Button
-              label="Done"
-              variant="primary"
-              className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] py-[8px] px-[24px]"
-              onClick={closeEditSuccessModal}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   // API call to edit a shop
   const editShop = async () => {
@@ -381,7 +384,7 @@ const Shop = () => {
       >
         <DeleteModal
           onDelete={() => {
-            deleteShop(selectedShop.plantId, selectedShop?.shopId);
+            deleteShop(selectedShop?.plantId, selectedShop?.shopId);
           }}
           closeDeleteModal={() => {
             setShowDeleteModal(false);

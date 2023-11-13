@@ -296,7 +296,7 @@ function Plant() {
             <ChevronCancelIcon />
           </div>
 
-          <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-5">
+          <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-[36px]">
             {MASTERY_PAGE_CONSTANTS.EDIT_PLANT_DIALOG.label}
           </h2>
 
@@ -306,7 +306,7 @@ function Plant() {
                 {MASTERY_PAGE_CONSTANTS.EDIT_PLANT_DIALOG.orgLabel}
               </h4>
               <Input
-                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
+                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
                 label="Plant Name"
                 labelClassName="text-[#492CE1] text-[14px] font-medium"
                 mandatory={true}
@@ -317,7 +317,7 @@ function Plant() {
                 onChange={handleChange}
               />
               <Input
-                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
+                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
                 label="Plant Description"
                 labelClassName="text-[#492CE1] text-[14px] font-medium"
                 mandatory={true}
@@ -339,7 +339,7 @@ function Plant() {
                 fileName={newPlant?.imageName}
               />
             </div>
-            <div className="text-center mt-3">
+            <div className="text-center mt-[36px]">
               <Button
                 onClick={updatePlant}
                 variant="primary"

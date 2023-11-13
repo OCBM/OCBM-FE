@@ -12,15 +12,135 @@ export type DeleteMachineType = {
   deleteMachine: () => void;
 };
 
+type EditSuccessModalType = {
+  closeEditSuccessModal: () => void;
+};
+
+type EditModalType = {
+  closeEditModal: () => void;
+  handleChange: (e: any) => void;
+  handleFile: (e: any) => void;
+  onEdit: () => void;
+  newMachine: InitialMachineStateType;
+  uploadStatus: FileUploadStatusType;
+};
+
+type InitialMachineStateType = {
+  machineName: string;
+  image: string;
+  imageName: string;
+  machineDescription: string;
+  machineLineId: string;
+  machineId: string;
+};
+
+// Delete Modal
+const DeleteModal = ({ onCloseDeleteModal, deleteMachine }: DeleteMachineType) => {
+  return (
+    <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
+      <div className="flex flex-col items-center justify-center">
+        <QuestionMarkIcon />
+        <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Are you sure want to delete?</h2>
+        <div className="flex gap-[8px] justify-between">
+          <Button
+            label="Cancel"
+            variant="secondary"
+            className="rounded-[16px] text-[16px] font-medium text-[#605BFF] italic py-[8px] px-[24px] w-[104px]"
+            onClick={onCloseDeleteModal}
+          />
+          <Button
+            label="Yes"
+            variant="primary"
+            className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] italic py-[8px] px-[24px] w-[104px]"
+            onClick={deleteMachine}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Edit Modal
+const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newMachine, uploadStatus }: EditModalType) => {
+  return (
+    <div className="w-[485px] rounded-[16px] p-[50px] relative">
+      <div className="absolute right-[10px] top-[10px] cursor-pointer" onClick={closeEditModal}>
+        <ChevronCancelIcon />
+      </div>
+
+      <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-[36px]">Edit Details</h2>
+
+      <form>
+        <div>
+          <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-6">Organization Details</h4>
+          <Input
+            className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
+            label="Machine Name"
+            labelClassName="text-[#492CE1] text-[14px] font-medium"
+            mandatory={true}
+            type="text"
+            name="machineName"
+            placeholder="Enter Machine Name"
+            value={newMachine?.machineName}
+            onChange={handleChange}
+          />
+          <Input
+            className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
+            label="Machine Description"
+            labelClassName="text-[#492CE1] text-[14px] font-medium"
+            mandatory={true}
+            type="text"
+            name="machineDescription"
+            placeholder="Enter machineLine Description"
+            value={newMachine?.machineDescription}
+            onChange={handleChange}
+          />
+          <FileUploader
+            label="Image"
+            labelClassName="text-[#492CE1] text-[14px] font-medium"
+            className="w-[385px] py-6 mt-2"
+            mastery
+            fileFormat=".jpg, .png"
+            handleFile={handleFile}
+            uploadStatus={uploadStatus}
+            image={newMachine?.image}
+            fileName={newMachine.imageName}
+          />
+        </div>
+        <div className="text-center mt-[36px]">
+          <Button
+            onClick={onEdit}
+            variant="primary"
+            label="Submit"
+            className="py-[8px] px-[24px] rounded-[16px] font-normal text-[16px]"
+          />
+        </div>
+      </form>
+    </div>
+  );
+};
+
+// EditSuccessModal
+const EditSuccessModal = ({ closeEditSuccessModal }: EditSuccessModalType) => {
+  return (
+    <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
+      <div className="flex flex-col items-center justify-center">
+        <ChevronSuccessIcon className="w-[100px] h-[100px]" />
+        <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Changes are done</h2>
+        <div className="flex gap-[8px] justify-between">
+          <Button
+            label="Done"
+            variant="primary"
+            className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] py-[8px] px-[24px]"
+            onClick={closeEditSuccessModal}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Machine = () => {
-  type InitialStateType = {
-    machineName: string;
-    image: string;
-    imageName: string;
-    machineDescription: string;
-    machineLineId: string;
-    machineId: string;
-  };
   const initialState = {
     machineName: '',
     image: '',
@@ -40,17 +160,17 @@ const Machine = () => {
   const [machineLineList, setMachineLineList] = useState([]);
 
   // constants to store new Machine details
-  const [newMachine, setNewMachine] = useState<InitialStateType>(initialState);
+  const [newMachine, setNewMachine] = useState<InitialMachineStateType>(initialState);
 
   // constant to store a selected Machine
-  const [selectedMachine, setSelectedMachine] = useState<InitialStateType>(initialState);
+  const [selectedMachine, setSelectedMachine] = useState<InitialMachineStateType>(initialState);
 
   // constants to edit a Machine
-  const [showEditMachineModal, setShowEditMachineModal] = useState<boolean>(false);
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [showEditSuccessModal, setShowEditSuccessModal] = useState<boolean>(false);
 
   // constants to delete a Machine
-  const [showDeleteMachineModal, setShowDeleteMachineModal] = useState<boolean>(false);
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 
   /* To get machineLines and Machines */
   useEffect(() => {
@@ -101,7 +221,7 @@ const Machine = () => {
             <div
               className="cursor-pointer"
               onClick={() => {
-                setShowEditMachineModal(true);
+                setShowEditModal(true);
                 setNewMachine(data);
               }}
             >
@@ -111,7 +231,7 @@ const Machine = () => {
               className="cursor-pointer"
               onClick={() => {
                 setSelectedMachine(data);
-                setShowDeleteMachineModal(true);
+                setShowDeleteModal(true);
               }}
             >
               <DeleteIcon className="w-[20px] h-[20px]" />
@@ -126,7 +246,7 @@ const Machine = () => {
   // function to read input changes
   const handleChange = (event: any) => {
     const { name, value } = event.target;
-    setNewMachine((initialState: InitialStateType) => ({
+    setNewMachine((initialState: InitialMachineStateType) => ({
       ...initialState,
       [name]: value,
     }));
@@ -187,64 +307,40 @@ const Machine = () => {
   };
 
   /* Functions to update a Machine */
-  const updateMachine = async () => {
-    const body = {
-      machineName: newMachine?.machineName,
-      machineDescription: newMachine?.machineDescription,
-      image: newMachine?.image,
-      imageName: newMachine?.imageName,
-    };
-    const res = await MACHINE_SERVICES.updateMachineById(newMachine?.machineLineId, newMachine?.machineId, body);
-    if (res.statusCode === 200) {
-      handleClear();
-      setShowEditMachineModal(false);
-      setShowEditSuccessModal(true);
-      fetchAllMachines();
+  const editMachine = async () => {
+    if (newMachine.machineLineId && newMachine.machineId) {
+      const body = {
+        machineName: newMachine?.machineName,
+        machineDescription: newMachine?.machineDescription,
+        image: newMachine?.image,
+        imageName: newMachine?.imageName,
+      };
+      const res = await MACHINE_SERVICES.updateMachineById(newMachine?.machineLineId, newMachine?.machineId, body);
+      if (res.statusCode === 200) {
+        handleClear();
+        setShowEditModal(false);
+        setShowEditSuccessModal(true);
+        fetchAllMachines();
+      }
     }
   };
 
   // function to do what happen while closing the search modal
-  const onCloseEditModal = () => {
-    setShowEditMachineModal(false);
+  const closeEditModal = () => {
+    setShowEditModal(false);
   };
 
   /* Functions to delete a Machine */
 
-  // Delete Modal
-  const DeleteMachine = ({ onCloseDeleteModal, deleteMachine }: DeleteMachineType) => {
-    return (
-      <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
-        <div className="flex flex-col items-center justify-center">
-          <QuestionMarkIcon />
-          <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Are you sure want to delete?</h2>
-          <div className="flex gap-[8px] justify-between">
-            <Button
-              label="Cancel"
-              variant="secondary"
-              className="rounded-[16px] text-[16px] font-medium text-[#605BFF] italic py-[8px] px-[24px] w-[104px]"
-              onClick={onCloseDeleteModal}
-            />
-            <Button
-              label="Yes"
-              variant="primary"
-              className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] italic py-[8px] px-[24px] w-[104px]"
-              onClick={deleteMachine}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   // API call to delete a Machine
-  const onDeleteMachine = async (machineLineId: string, machineId: string) => {
-    setShowDeleteMachineModal(true);
+  const deleteMachine = async (machineLineId: string, machineId: string) => {
+    setShowDeleteModal(true);
     console.log(machineLineId, 'mlid');
     console.log(machineId, 'mid');
     if (machineLineId && machineId) {
       const res = await MACHINE_SERVICES.deleteMachineById(machineLineId, machineId);
       toast.success(res.message);
-      setShowDeleteMachineModal(false);
+      setShowDeleteModal(false);
       fetchAllMachines();
     }
   };
@@ -252,103 +348,44 @@ const Machine = () => {
   return (
     <div>
       <Modal
-        isOpen={showEditMachineModal}
+        isOpen={showEditModal}
         onCancel={() => {
-          setShowEditMachineModal(false);
+          setShowEditModal(false);
         }}
         className="z-[99]"
       >
-        <div className="w-[485px] rounded-[16px] p-[50px] relative">
-          <div
-            className="absolute right-[10px] top-[10px] cursor-pointer"
-            onClick={() => {
-              setShowEditMachineModal(false);
-            }}
-          >
-            <ChevronCancelIcon />
-          </div>
-
-          <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-5">Edit Details</h2>
-
-          <form>
-            <div>
-              <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-4">Organization Details</h4>
-              <Input
-                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
-                label="Machine Name"
-                labelClassName="text-[#492CE1] text-[14px] font-medium"
-                mandatory={true}
-                type="text"
-                name="machineName"
-                placeholder="Enter Machine Name"
-                value={newMachine?.machineName}
-                onChange={handleChange}
-              />
-              <Input
-                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
-                label="Machine Description"
-                labelClassName="text-[#492CE1] text-[14px] font-medium"
-                mandatory={true}
-                type="text"
-                name="machineDescription"
-                placeholder="Enter machineLine Description"
-                value={newMachine?.machineDescription}
-                onChange={handleChange}
-              />
-              <FileUploader
-                label="Image"
-                labelClassName="text-[#492CE1] text-[14px] font-medium"
-                className="w-[385px] py-6 mt-2"
-                mastery
-                fileFormat=".jpg, .png"
-                handleFile={handleFile}
-                uploadStatus={uploadStatus}
-                image={newMachine?.image}
-                fileName={newMachine.imageName}
-              />
-            </div>
-            <div className="text-center mt-3">
-              <Button
-                onClick={updateMachine}
-                variant="primary"
-                label="Submit"
-                className="py-[8px] px-[24px] rounded-[16px] font-normal text-[16px]"
-              />
-            </div>
-          </form>
-        </div>
+        <EditModal
+          closeEditModal={() => {
+            handleClear();
+            setShowEditModal(false);
+          }}
+          handleChange={handleChange}
+          handleFile={handleFile}
+          onEdit={editMachine}
+          newMachine={newMachine}
+          uploadStatus={uploadStatus}
+        />
       </Modal>
-      <Modal isOpen={showEditSuccessModal} onCancel={onCloseEditModal} className="z-[99]">
-        <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
-          <div className="flex flex-col items-center justify-center">
-            <ChevronSuccessIcon className="w-[100px] h-[100px]" />
-            <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Changes are done</h2>
-            <div className="flex gap-[8px] justify-between">
-              <Button
-                label="Done"
-                variant="primary"
-                className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] py-[8px] px-[24px]"
-                onClick={() => {
-                  setShowEditSuccessModal(false);
-                }}
-              />
-            </div>
-          </div>
-        </div>
+      <Modal isOpen={showEditSuccessModal} onCancel={closeEditModal} className="z-[99]">
+        <EditSuccessModal
+          closeEditSuccessModal={() => {
+            setShowEditSuccessModal(false);
+          }}
+        />
       </Modal>
       <Modal
-        isOpen={showDeleteMachineModal}
+        isOpen={showDeleteModal}
         onCancel={() => {
-          setShowDeleteMachineModal(false);
+          setShowDeleteModal(false);
         }}
         className="z-[99]"
       >
-        <DeleteMachine
+        <DeleteModal
           deleteMachine={() => {
-            onDeleteMachine(selectedMachine?.machineLineId || '', selectedMachine?.machineId || '');
+            deleteMachine(selectedMachine?.machineLineId, selectedMachine?.machineId);
           }}
           onCloseDeleteModal={() => {
-            setShowDeleteMachineModal(false);
+            setShowDeleteModal(false);
           }}
         />
       </Modal>
@@ -361,7 +398,7 @@ const Machine = () => {
           onChange={handleChange}
           type="text"
           name="machineName"
-          value={newMachine.machineName}
+          value={showEditModal ? '' : newMachine.machineName}
           mandatory={true}
         />
         <Input
@@ -370,7 +407,7 @@ const Machine = () => {
           onChange={handleChange}
           type="text"
           name="machineDescription"
-          value={newMachine.machineDescription}
+          value={showEditModal ? '' : newMachine.machineDescription}
           mandatory={true}
         />
         <Dropdown
@@ -382,7 +419,7 @@ const Machine = () => {
             setNewMachine((prev: any) => ({ ...prev, machineLineId: value?.machineLineId }));
           }}
           value={
-            showEditMachineModal
+            showEditModal
               ? ''
               : machineLineList.find((machineLine: any) => machineLine.machineLineId === newMachine.machineLineId)
           }
@@ -397,8 +434,8 @@ const Machine = () => {
         fileFormat=".jpg, .png"
         handleFile={handleFile}
         uploadStatus={uploadStatus}
-        fileName={fileName}
-        image={imageURL}
+        fileName={showEditModal ? '' : fileName}
+        image={showEditModal ? '' : imageURL}
       />
 
       {/* Buttons to clear data and add a Machine */}
