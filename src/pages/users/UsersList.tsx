@@ -10,6 +10,8 @@ import DeleteUser from './DeleteUser';
 import { useAppSelector } from '@/hooks';
 import { USERS_PAGE_CONSTANTS } from './constants';
 
+// changes
+
 function UsersList() {
   const initialState = {
     userId: '',
@@ -123,7 +125,6 @@ function UsersList() {
       },
     },
   ];
-
   const onCloseEditModal = () => {
     setSelectedUser(initialState);
     setShowEditUserModal(false);
@@ -208,7 +209,7 @@ function UsersList() {
         pagination={{
           pageSize: page.pageSize,
           current: page.pageNumber,
-          total: userdata,
+          total: userdata?.length,
           onChange: (pages, pageSize) => {
             setpage({
               ...page,

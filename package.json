@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "json-server": "json-server -H 127.0.0.1 --watch src/data/db.json --port 4000"
+    "json-server": "json-server -H 127.0.0.1 --watch src/data/db.json --port 4000",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
@@ -51,6 +52,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "eslint-plugin-storybook": "^0.6.13",
+    "husky": "^8.0.0",
     "postcss": "^8.4.29",
     "prettier": "^3.0.3",
     "storybook": "^7.4.0",
