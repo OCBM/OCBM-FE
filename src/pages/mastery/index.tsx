@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Shop from './Shop';
 import Plant from './Plant';
 import Element from './Element';
+import Sensor from './Sensor';
 
 const Mastery = () => {
   const [showTab, setShowTab] = useState(false);
@@ -37,7 +38,7 @@ const Mastery = () => {
     },
     {
       title: 'Sensor',
-      content: 'Add Sensor',
+      content: <Sensor />,
       key: 'sensor',
     },
   ];
