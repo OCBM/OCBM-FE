@@ -2,9 +2,11 @@ import { BulkUploadIcon, ManualEntryIcon } from '@/assets/icons';
 import TabViewPrimary from '@/components/reusable/tabview/TabViewPrimary';
 import { useState } from 'react';
 import Shop from './Shop';
+import MachineLine from './MachineLine';
 import Machine from './Machine';
 import Plant from './Plant';
 import Element from './Element';
+import Sensor from './Sensor';
 
 const Mastery = () => {
   const [showTab, setShowTab] = useState(false);
@@ -23,7 +25,7 @@ const Mastery = () => {
     },
     {
       title: 'Machine Line',
-      content: 'Add Machine Line',
+      content: <MachineLine />,
       key: 'machine line',
     },
     {
@@ -38,7 +40,7 @@ const Mastery = () => {
     },
     {
       title: 'Sensor',
-      content: 'Add Sensor',
+      content: <Sensor />,
       key: 'sensor',
     },
   ];
