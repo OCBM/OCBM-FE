@@ -8,7 +8,6 @@ function Sensor() {
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
 
   const handleFile = (event: any) => {
-    console.log(event[0], 'event');
     setUploadStatus('success');
   };
 
@@ -69,7 +68,6 @@ function Sensor() {
   return (
     <div>
       <h2 className="text-xl font-medium leading-5 text-[#444] mb-8">Add Sensor</h2>
-
       <div>
         <div className="flex justify-center gap-[16px] mb-6">
           <Input
