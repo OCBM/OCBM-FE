@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import MachineCard from '@/components/reusable/card/machineCard';
 import HMC1000 from '../../assets/images/HMC1000.jpg';
 import SL45 from '../../assets/images/SL45.jpg';
@@ -11,6 +10,8 @@ const MachinesPage = () => {
     <div className="flex gap-6 flex-wrap">
       {machines.map((machineData) => (
         <MachineCard
+          key={machineData.title}
+          handleView={() => ''}
           title={machineData.title}
           showValues
           showSignals

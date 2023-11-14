@@ -25,6 +25,8 @@ const SensorPage = () => {
     <div className="flex gap-14 flex-wrap">
       {sensors.map((sensorData) => (
         <MachineCard
+          key={sensorData.title}
+          handleView={() => ''}
           title={sensorData.title}
           showValues={false}
           showSignals={false}

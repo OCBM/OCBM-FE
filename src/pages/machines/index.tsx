@@ -13,7 +13,7 @@ const Machines = () => {
       key: 'machines',
     },
     {
-      title: 'Sensor',
+      title: 'Sensors',
       content: <SensorPage />,
       key: 'sensor',
     },
