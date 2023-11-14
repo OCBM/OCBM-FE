@@ -17,7 +17,7 @@ const MachineLine = () => {
     image: string;
     imageName: string;
     description: string;
-    shopId: string;
+    shopId: any;
     machineLineDescription: string;
   };
   const initialState = {

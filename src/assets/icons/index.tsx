@@ -630,3 +630,145 @@ export const ManualEntryIcon = ({ className = 'fill-white' }: IconsPropType) => 
     </svg>
   );
 };
+//status for the machines
+export const OutOfSpec = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+    >
+      <rect
+        x="0.5"
+        y="15.5"
+        width="15"
+        height="15"
+        rx="3.5"
+        transform="rotate(-90 0.5 15.5)"
+        fill="white"
+        stroke="#FF3831"
+      />
+      <rect x="3" y="13" width="10" height="10" rx="3" transform="rotate(-90 3 13)" fill="#FF3831" />
+    </svg>
+  );
+};
+export const Thresholdlimit = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+    >
+      <rect
+        x="0.5"
+        y="15.5"
+        width="15"
+        height="15"
+        rx="3.5"
+        transform="rotate(-90 0.5 15.5)"
+        fill="white"
+        stroke="#FFFF54"
+      />
+      <rect x="3" y="13" width="10" height="10" rx="3" transform="rotate(-90 3 13)" fill="#FFFF54" />
+    </svg>
+  );
+};
+export const WithinSpec = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+    >
+      <rect
+        x="0.5"
+        y="15.5"
+        width="15"
+        height="15"
+        rx="3.5"
+        transform="rotate(-90 0.5 15.5)"
+        fill="white"
+        stroke="#74F94B"
+      />
+      <rect x="3" y="13" width="10" height="10" rx="3" transform="rotate(-90 3 13)" fill="#74F94B" />
+    </svg>
+  );
+};
+export const OutOfSpecUnselected = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="15px"
+      height="15px"
+      viewBox="0 0 143 143"
+      fill="none"
+    >
+      <rect x="4.92708" y="5.37362" width="132.812" height="132.812" rx="25.9301" fill="white" />
+      <rect
+        x="4.92708"
+        y="5.37362"
+        width="132.812"
+        height="132.812"
+        rx="25.9301"
+        stroke="#EF4040"
+        strokeWidth="8.85417"
+      />
+    </svg>
+  );
+};
+export const ThresholdlimitUnselected = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="15px"
+      height="15px"
+      viewBox="0 0 143 142"
+      fill="none"
+    >
+      <rect x="4.90316" y="4.71419" width="132.812" height="132.812" rx="25.9301" fill="white" />
+      <rect
+        x="4.90316"
+        y="4.71419"
+        width="132.812"
+        height="132.812"
+        rx="25.9301"
+        stroke="#FFFF54"
+        strokeWidth="8.85417"
+      />
+    </svg>
+  );
+};
+export const WithinSpecUnselected = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="15px"
+      height="15px"
+      viewBox="0 0 143 142"
+      fill="none"
+    >
+      <rect x="5.23665" y="4.55208" width="132.812" height="132.812" rx="25.9301" fill="white" />
+      <rect
+        x="5.23665"
+        y="4.55208"
+        width="132.812"
+        height="132.812"
+        rx="25.9301"
+        stroke="#74F94B"
+        strokeWidth="8.85417"
+      />
+    </svg>
+  );
+};
