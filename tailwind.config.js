@@ -20,12 +20,21 @@ export default {
       },
       boxShadow: {
         '2xl': '0px 5px 8px 2px rgba(0, 0, 0, 0.10)',
+        '3xl': '0px 0px 40px 0px rgba(0, 0, 0, 0.10)',
+        'card-shadow': ' 0px 0px 30px 20px rgba(0, 0, 0, 0.08)',
       },
       fontFamily: {
         Gotham: ['Gotham-light'],
         GothamMedium: ['Gotham-medium'],
         GothamBold: ['Gotham-bold'],
         Poppins: ['Poppins', 'sans-serif'],
+      },
+      screens: {
+        winLap: [{ min: '1300px', max: '1400px' }],
+        // tall: { raw: '(max-height:900px)' },
+        tall: { raw: '(min-width: 1339px),(minheight:820px)' },
+        laptop: { raw: '(min-width: 1400px),(minheight:800px)' },
+        minh: { raw: '(minheight:900px)' },
       },
     },
   },

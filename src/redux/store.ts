@@ -6,6 +6,7 @@ import rootReducer from './reducer';
 const persistConfig = {
   key: 'root',
   storage,
+  blacklist: ['plantRegistration'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

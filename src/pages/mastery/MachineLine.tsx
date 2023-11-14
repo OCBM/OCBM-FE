@@ -2,7 +2,7 @@ import { ChevronCancelIcon, ChevronSuccessIcon, DeleteIcon, PencilIcon, QuesionM
 import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
 import { Table } from '@/components/reusable/table';
-import { MACHINELINE_SERVICES } from '@/services/machineLineServices';
+import { MACHINE_LINE_SERVICES } from '@/services/machineLineServices';
 import { SHOP_SERVICES } from '@/services/shopServices';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
@@ -48,7 +48,7 @@ const MachineLine = () => {
   }, []);
   //all machine line api fetch
   const fetchAllMachineline = async () => {
-    const res = await MACHINELINE_SERVICES.getAllMachineLine();
+    const res = await MACHINE_LINE_SERVICES.getAllMachineLine();
     setMachinelineList(res?.message);
   };
 
@@ -166,7 +166,7 @@ const MachineLine = () => {
         image: newMachineLine.image,
         imageName: newMachineLine.imageName,
       };
-      const res = await MACHINELINE_SERVICES.updateMachineLineById(
+      const res = await MACHINE_LINE_SERVICES.updateMachineLineById(
         newMachineLine?.machineLineId,
         newMachineLine?.shopId,
         body,
@@ -186,7 +186,7 @@ const MachineLine = () => {
   const onDeleteMachineline = async (shopId: string, machineLineId: string) => {
     setShowDeleteMachineLineModal(true);
     if (shopId && machineLineId) {
-      const res = await MACHINELINE_SERVICES.deleteMachinelineById(machineLineId, shopId);
+      const res = await MACHINE_LINE_SERVICES.deleteMachinelineById(machineLineId, shopId);
       toast.success(res.message);
       setShowDeleteMachineLineModal(false);
       fetchAllMachineline();
@@ -199,10 +199,10 @@ const MachineLine = () => {
       image: newMachineLine.image,
       imageName: newMachineLine.imageName,
       machineLineDescription: newMachineLine.description,
-      shopId: newMachineLine?.shopId?.shopId,
+      shopId: newMachineLine?.shopId,
     };
 
-    const res = await MACHINELINE_SERVICES.addMachineLine(body);
+    const res = await MACHINE_LINE_SERVICES.addMachineLine(body);
     if (res.statusCode === 201) {
       setNewMachineLine(initialState);
       setFileName('');
