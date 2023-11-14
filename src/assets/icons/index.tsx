@@ -538,7 +538,7 @@ export const PlusIcon = ({ className }: IconsPropType) => {
   );
 };
 
-export const QuesionMarkIcon = ({ className }: IconsPropType) => {
+export const QuestionMarkIcon = ({ className }: IconsPropType) => {
   return (
     <svg
       className={className}

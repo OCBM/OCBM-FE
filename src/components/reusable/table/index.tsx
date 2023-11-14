@@ -10,7 +10,6 @@ type customPros = {
 };
 
 export function Table(props: TableProps<customPros>) {
-  console.log('hello', props);
   return (
     <div>
       <AntdTable {...props} />
