@@ -1,4 +1,4 @@
-import { ChevronCancelIcon, ChevronSuccessIcon, DeleteIcon, PencilIcon, QuesionMarkIcon } from '@/assets/icons';
+import { ChevronCancelIcon, ChevronSuccessIcon, DeleteIcon, PencilIcon, QuestionMarkIcon } from '@/assets/icons';
 import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
 import { Table } from '@/components/reusable/table';
@@ -36,20 +36,20 @@ const MachineLine = () => {
   const [fileName, setFileName] = useState<string>('');
   const [imageURL, setImageURl] = useState<string>('');
   const [shopList, setShopList] = useState([]);
-  const [machinelineList, setMachinelineList] = useState([]);
+  const [machineLineList, setMachineLineList] = useState([]);
   const [showDeleteMachineLineModal, setShowDeleteMachineLineModal] = useState<boolean>(false);
   const [showEditMachineLineModal, setShowEditMachineLineModal] = useState<boolean>(false);
   const [showEditSuccessModal, setShowEditSuccessModal] = useState<boolean>(false);
 
   //useEffect for shops and machine line api fetch
   useEffect(() => {
-    fetchAllMachineline();
+    fetchAllMachineLine();
     fetchAllShops();
   }, []);
   //all machine line api fetch
-  const fetchAllMachineline = async () => {
+  const fetchAllMachineLine = async () => {
     const res = await MACHINE_LINE_SERVICES.getAllMachineLine();
-    setMachinelineList(res?.message);
+    setMachineLineList(res?.message);
   };
 
   //all shops api fetch
@@ -58,7 +58,7 @@ const MachineLine = () => {
     setShopList(res?.message);
   };
 
-  //DATA FOR MACHINELINE TABLE
+  //DATA FOR MACHINE LINE TABLE
   const tableData = [
     {
       title: 'Machine line Name',
@@ -177,19 +177,19 @@ const MachineLine = () => {
         setImageURl('');
         setShowEditMachineLineModal(false);
         setShowEditSuccessModal(true);
-        fetchAllMachineline();
+        fetchAllMachineLine();
       }
     }
   };
 
   //delete machine line
-  const onDeleteMachineline = async (shopId: string, machineLineId: string) => {
+  const onDeleteMachineLine = async (shopId: string, machineLineId: string) => {
     setShowDeleteMachineLineModal(true);
     if (shopId && machineLineId) {
-      const res = await MACHINE_LINE_SERVICES.deleteMachinelineById(machineLineId, shopId);
+      const res = await MACHINE_LINE_SERVICES.deleteMachineLineById(machineLineId, shopId);
       toast.success(res.message);
       setShowDeleteMachineLineModal(false);
-      fetchAllMachineline();
+      fetchAllMachineLine();
     }
   };
   //create machine line
@@ -208,16 +208,16 @@ const MachineLine = () => {
       setFileName('');
       setImageURl('');
       toast.success('Shop added successfully');
-      fetchAllMachineline();
+      fetchAllMachineLine();
     }
   };
 
-  //Delete popupmodal component
+  //Delete popup modal component
   const DeleteMachineLine = ({ onCloseDeleteModal, deleteMachineLine }: DeleteMachineLineType) => {
     return (
       <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
         <div className="flex flex-col items-center justify-center">
-          <QuesionMarkIcon />
+          <QuestionMarkIcon />
           <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Are you sure want to delete?</h2>
           <div className="flex gap-[8px] justify-between">
             <Button
@@ -258,13 +258,13 @@ const MachineLine = () => {
             <ChevronCancelIcon />
           </div>
 
-          <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-5">Edit Details</h2>
+          <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-[36px]">Edit Details</h2>
 
           <form>
             <div>
-              <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-4">Organization Details</h4>
+              <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-6">Organization Details</h4>
               <Input
-                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
+                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
                 label="Machine Line Name"
                 labelClassName="text-[#492CE1] text-[14px] font-medium"
                 mandatory={true}
@@ -275,7 +275,7 @@ const MachineLine = () => {
                 onChange={handleChange}
               />
               <Input
-                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
+                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
                 label="Machine Line Description"
                 labelClassName="text-[#492CE1] text-[14px] font-medium"
                 mandatory={true}
@@ -286,6 +286,8 @@ const MachineLine = () => {
                 onChange={handleChange}
               />
               <FileUploader
+                label="Image"
+                labelClassName="text-[#492CE1] text-[14px] font-medium"
                 className="w-[385px] py-6 mt-2"
                 mastery
                 fileFormat=".jpg, .png"
@@ -295,7 +297,7 @@ const MachineLine = () => {
                 fileName={newMachineLine.imageName}
               />
             </div>
-            <div className="text-center mt-3">
+            <div className="text-center mt-[36px]">
               <Button
                 onClick={updateMachineLine}
                 variant="primary"
@@ -335,18 +337,18 @@ const MachineLine = () => {
       >
         <DeleteMachineLine
           deleteMachineLine={() => {
-            onDeleteMachineline(selectedMachineLine?.shopId, selectedMachineLine?.machineLineId);
+            onDeleteMachineLine(selectedMachineLine?.shopId, selectedMachineLine?.machineLineId);
           }}
           onCloseDeleteModal={() => {
             setShowDeleteMachineLineModal(false);
           }}
         />
       </Modal>
-      <p className="text-xl font-medium leading-5 py-[10px] mb-8">Add Machine Line</p>
+      <p className="text-xl text-[#444] font-medium leading-5 mb-8">Add Machine Line</p>
       <div className="flex items-center justify-center gap-[16px] mb-6">
         <Input
           placeholder="Machine line Name"
-          className="w-full border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
+          className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"
           name="machineLineName"
@@ -355,7 +357,7 @@ const MachineLine = () => {
         />
         <Input
           placeholder="Machine line descriptions"
-          className="w-full border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
+          className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           name="description"
           type="text"
           onChange={handleChange}
@@ -364,13 +366,13 @@ const MachineLine = () => {
         />
         <Dropdown
           placeholder="Select Shop"
-          className="w-full border-[1px] border-solid border-[#A9A9A9] rounded-[50px] py-4 px-5 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
+          className="w-[270px] border-[1px] border-solid border-[#A9A9A9] rounded-[50px] py-4 px-5 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           options={shopList}
-          handleChange={(value) => {
-            setNewMachineLine((prev: any) => ({ ...prev, shopId: value }));
+          handleChange={(value: any) => {
+            setNewMachineLine((prev: any) => ({ ...prev, shopId: value?.shopId }));
           }}
           optionLabel="shopName"
-          value={newMachineLine.shopId}
+          value={shopList.find((shop: any) => shop.shopId === newMachineLine.shopId)}
           mandatory={true}
         />
       </div>
@@ -398,7 +400,7 @@ const MachineLine = () => {
           onClick={createMachineLine}
         />
       </div>
-      <Table columns={tableData} dataSource={machinelineList} />
+      <Table columns={tableData} dataSource={machineLineList} />
     </div>
   );
 };

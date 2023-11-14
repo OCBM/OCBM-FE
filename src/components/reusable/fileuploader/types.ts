@@ -6,6 +6,9 @@ export type FileUploaderPropsType = {
   mastery?: boolean;
   fileName?: string;
   image?: string;
+  label?: string;
+  labelClassName?: string;
+  mandatory?: boolean;
 };
 
 export type FileUploadStatusType = 'upload' | 'loading' | 'success' | 'warning' | 'error';
