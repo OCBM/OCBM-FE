@@ -199,7 +199,7 @@ const MachineLine = () => {
       image: newMachineLine.image,
       imageName: newMachineLine.imageName,
       machineLineDescription: newMachineLine.description,
-      shopId: newMachineLine?.shopId?.shopId,
+      shopId: newMachineLine?.shopId,
     };
 
     const res = await MACHINE_LINE_SERVICES.addMachineLine(body);

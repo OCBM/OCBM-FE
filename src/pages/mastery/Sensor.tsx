@@ -7,7 +7,7 @@ import { useState } from 'react';
 function Sensor() {
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
 
-  const handleFile = (event: any) => {
+  const handleFile = () => {
     setUploadStatus('success');
   };
 
