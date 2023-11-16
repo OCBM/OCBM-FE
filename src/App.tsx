@@ -9,9 +9,9 @@ import { Login, Plant, UsersList } from './pages';
 import Addusers from './pages/users/AddUsers';
 import Mastery from './pages/mastery';
 import Machines from './pages/machines';
+import MachineInfo from './pages/machines/machineInfo';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
-import MachineInfo from './pages/machines/machineInfo';
 
 function App() {
   return (
