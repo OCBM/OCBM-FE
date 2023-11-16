@@ -11,6 +11,9 @@ export const SITEMAP = {
   machines: {
     index: '/machines',
   },
+  machinesbyId: {
+    index: '/machines/:id',
+  },
   mastery: {
     index: '/mastery',
   },

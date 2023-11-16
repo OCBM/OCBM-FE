@@ -1,18 +1,15 @@
 import MachineCard from '@/components/reusable/card/machineCard';
-import HMC1000 from '../../assets/images/HMC1000.jpg';
-import SL45 from '../../assets/images/SL45.jpg';
-const machines = [
-  { title: 'HMC1000', image: HMC1000 },
-  { title: 'SL45', image: SL45 },
-];
+import { MACHINES_DATA } from '@/utils/machinedata';
+import { useNavigate } from 'react-router-dom';
 const MachinesPage = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex gap-6 flex-wrap">
-      {machines.map((machineData) => (
+      {MACHINES_DATA.map((machineData) => (
         <MachineCard
-          key={machineData.title}
-          handleView={() => ''}
-          title={machineData.title}
+          key={machineData.machine}
+          handleView={() => navigate(`/machines/${machineData.id}`)}
+          title={machineData.machine}
           showValues
           showSignals
           outOfSpecValue="03"
