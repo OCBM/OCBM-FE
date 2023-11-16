@@ -43,7 +43,7 @@ function App() {
             <Route path={SITEMAP.users.index} element={<UsersList />} />
             <Route path={SITEMAP.plant.index} element={<Plant />} />
             <Route path={SITEMAP.machines.index} element={<Machines />} />
-            <Route path={SITEMAP.machinesbyId.index} element={<MachineInfo />} />
+            <Route path={SITEMAP.machines.machinesbyId} element={<MachineInfo />} />
             <Route index element={<Home />} />
             <Route path={SITEMAP.notFound} element={<h1>Not found</h1>} />
           </Route>

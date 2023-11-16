@@ -10,9 +10,7 @@ export const SITEMAP = {
   },
   machines: {
     index: '/machines',
-  },
-  machinesbyId: {
-    index: '/machines/:id',
+    machinesbyId: '/machines/:id',
   },
   mastery: {
     index: '/mastery',
