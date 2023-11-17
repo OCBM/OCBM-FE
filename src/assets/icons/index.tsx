@@ -420,8 +420,8 @@ export const SquareIcon = ({ critical, low, medium, active, color = 'black', cla
   return (
     <svg
       className={className}
-      width="143"
-      height="143"
+      // width="30"
+      // height="30"
       viewBox="0 0 143 143"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -627,6 +627,54 @@ export const ManualEntryIcon = ({ className = 'fill-white' }: IconsPropType) => 
           <rect width="66" height="66" fill="white" />
         </clipPath>
       </defs>
+    </svg>
+  );
+};
+export const ReportIcon = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      width="25"
+      height="25"
+      viewBox="0 0 25 25"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g clipPath="url(#clip0_464_13878)">
+        <path
+          d="M20.5 8.20239V17.9524C20.5 20.9524 18.71 21.9524 16.5 21.9524H8.5C6.29 21.9524 4.5 20.9524 4.5 17.9524V8.20239C4.5 4.95239 6.29 4.20239 8.5 4.20239C8.5 4.82239 8.75 5.38239 9.16 5.79239C9.57 6.20239 10.13 6.45239 10.75 6.45239H14.25C15.49 6.45239 16.5 5.44239 16.5 4.20239C18.71 4.20239 20.5 4.95239 20.5 8.20239Z"
+          stroke="#0134CA"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M8.5 12.9524H12.5M8.5 16.9524H16.5M16.5 4.20239C16.5 5.44239 15.49 6.45239 14.25 6.45239H10.75C10.13 6.45239 9.57 6.20239 9.16 5.79239C8.75 5.38239 8.5 4.82239 8.5 4.20239C8.5 2.96239 9.51 1.95239 10.75 1.95239H14.25C14.87 1.95239 15.43 2.20239 15.84 2.61239C16.25 3.02239 16.5 3.58239 16.5 4.20239Z"
+          stroke="#0134CA"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_464_13878">
+          <rect width="24" height="24" fill="white" transform="translate(0.5 0.952393)" />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};
+export const OperatingRange = ({ className }: IconsPropType) => {
+  return (
+    <svg className={className} width="30" height="2" viewBox="0 0 30 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line y1="1.45239" x2="30" y2="1.45239" stroke="#A299D2" />
+    </svg>
+  );
+};
+export const ThresholdValue = ({ className }: IconsPropType) => {
+  return (
+    <svg className={className} width="30" height="2" viewBox="0 0 30 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0.5" y1="1.45239" x2="29.5" y2="1.45239" stroke="#A299D2" strokeLinecap="round" strokeDasharray="4 4" />
     </svg>
   );
 };

@@ -17,6 +17,12 @@ function Breadcrumbs({ className, crumbs }: BreadcrumbsType) {
         return 'add User';
       case 'setStandards':
         return 'set Standards';
+      case 'SpindleCoolingSystem':
+        return 'Spindle Cooling System';
+      case 'hydraulicSystem':
+        return 'hydraulic System';
+      case 'LubricationSystem':
+        return 'Lubrication System';
       default:
         return data;
     }

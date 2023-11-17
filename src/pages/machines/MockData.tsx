@@ -1,0 +1,57 @@
+const chartColors = {
+  red: 'rgb(255, 99, 132)',
+  orange: 'rgb(255, 159, 64)',
+  yellow: 'rgb(255, 205, 86)',
+  green: 'rgb(75, 192, 192)',
+  blue: 'rgb(54, 162, 235)',
+  purple: 'rgb(153, 102, 255)',
+  grey: 'rgb(201, 203, 207)',
+};
+export const graphData = [
+  {
+    id: 1,
+    // name:'MOTOR FIN SURFACE TEMPERATURE',
+    label: 'MOTOR FIN SURFACE TEMPERATURE',
+    data: [0, 33, 41, 35, 59],
+    borderColor: chartColors.blue,
+    min: -30,
+    max: 90,
+    stepSize: 30,
+    value: 'BAR',
+    user: {
+      label: 'MOTOR FIN SURFACE TEMPERATURE (default)',
+      data: [NaN, NaN, NaN, NaN, 59, 70],
+      borderColor: chartColors.red,
+    },
+  },
+  {
+    id: 2,
+    label: 'OIL TEMPERATURE AT COOLER OUTLET LINE',
+    data: [0, 23, 31, 25, 50],
+    borderColor: chartColors.blue,
+    min: -20,
+    max: 60,
+    stepSize: 20,
+    value: '°C',
+    user: {
+      label: 'OIL TEMPERATURE AT COOLER OUTLET LINE (default)',
+      data: [NaN, NaN, NaN, NaN, 50, 60],
+      borderColor: chartColors.red,
+    },
+  },
+  {
+    id: 3,
+    label: 'HYDRAULIC PUMP OIL OUTLET PRESSURE',
+    data: [0, 21, 27, 20, 40],
+    borderColor: chartColors.blue,
+    min: -20,
+    max: 60,
+    stepSize: 20,
+    value: '°C',
+    user: {
+      label: 'HYDRAULIC PUMP OIL OUTLET PRESSURE (default)',
+      data: [NaN, NaN, NaN, NaN, 40, 55],
+      borderColor: chartColors.red,
+    },
+  },
+];
