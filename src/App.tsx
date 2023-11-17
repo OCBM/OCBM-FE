@@ -10,6 +10,9 @@ import Addusers from './pages/users/AddUsers';
 import Mastery from './pages/mastery';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
+import HydraulicSystem from './pages/machines/HydraulicSystem';
+import SpindleCoolingSystem from './pages/machines/SpindleCoolingSystem';
+import LubricationSystem from './pages/machines/LubricationSystem';
 
 function App() {
   return (
@@ -40,6 +43,9 @@ function App() {
             <Route path={SITEMAP.users.addUser} element={<Addusers />} />
             <Route path={SITEMAP.users.index} element={<UsersList />} />
             <Route path={SITEMAP.plant.index} element={<Plant />} />
+            <Route path={SITEMAP.machines.hydraulicSystem} element={<HydraulicSystem />} />
+            <Route path={SITEMAP.machines.SpindleCoolingSystem} element={<SpindleCoolingSystem />} />
+            <Route path={SITEMAP.machines.LubricationSystem} element={<LubricationSystem />} />
             <Route index element={<Home />} />
             <Route path={SITEMAP.notFound} element={<h1>Not found</h1>} />
           </Route>
