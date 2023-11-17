@@ -15,7 +15,7 @@ const Charts = ({ item }: any) => {
           <div key={item.id} className="w-auto">
             <h1 className="uppercase text-[#444444] text-[18px] font-medium w-[70%] mb-5">{item.label}</h1>
           </div>
-          <div className="flex flex-col items-end">
+          <div className="flex flex-col items-end gap-[3px]">
             <SquareIcon active critical className="w-[20px]" />
             <SquareIcon medium className="w-[20px]" />
             <SquareIcon low className="w-[20px]" />

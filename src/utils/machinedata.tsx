@@ -46,7 +46,7 @@ export const MACHINES_DATA: MachineData[] = [
       {
         name: 'Hydraulic System',
         id: 1,
-        link: 'machines/hydraulicSystem',
+        link: 'hydraulicSystem',
         sensors: [
           {
             name: 'Hydraulic oil Temperature',
@@ -99,7 +99,7 @@ export const MACHINES_DATA: MachineData[] = [
       {
         name: 'Spindle Oil Cooling System',
         id: 2,
-        link: 'machines/SpindleCoolingSystem',
+        link: 'SpindleCoolingSystem',
         sensors: [
           {
             name: 'Spindle Oil Outlet Temperature',
@@ -130,7 +130,7 @@ export const MACHINES_DATA: MachineData[] = [
       {
         name: 'Coolant System',
         id: 3,
-        link: 'machines/SpindleCoolingSystem',
+        link: 'SpindleCoolingSystem',
         sensors: [
           {
             name: 'Coolant Oil pump pressure',
@@ -159,7 +159,7 @@ export const MACHINES_DATA: MachineData[] = [
       {
         name: 'Lubrication Unit system',
         id: 4,
-        link: 'machines/LubricationSystem',
+        link: 'LubricationSystem',
         sensors: [
           {
             name: 'Lube Oil pump pressure',
@@ -185,7 +185,7 @@ export const MACHINES_DATA: MachineData[] = [
       {
         name: 'Hydraulic System',
         id: 5,
-        link: 'machines/hydraulicSystem',
+        link: 'hydraulicSystem',
         sensors: [
           {
             name: 'Hydraulic oil level',
@@ -249,7 +249,7 @@ export const MACHINES_DATA: MachineData[] = [
       },
       {
         name: 'Control Panel System',
-        link: 'machines/LubricationSystem',
+        link: 'LubricationSystem',
         id: 6,
         sensors: [
           {
@@ -268,7 +268,7 @@ export const MACHINES_DATA: MachineData[] = [
       },
       {
         name: 'Lubrication Unit system',
-        link: 'machines/LubricationSystem',
+        link: 'LubricationSystem',
         id: 7,
         sensors: [
           {
@@ -298,17 +298,17 @@ export const MACHINES_DATA: MachineData[] = [
 ];
 
 export const ALL_SENSOR_DATA = [
-  { title: 'Hydraulic Oil temprature', image: sensor1, link: 'machines/hydraulicSystem' },
-  { title: 'Hydraulic pump pressure', image: sensor2, link: 'machines/LubricationSystem' },
-  { title: 'Hydraulic oil level', image: sensor3, link: 'machines/SpindleCoolingSystem' },
-  { title: 'Spindle oil level', image: sensor4, link: 'machines/LubricationSystem' },
-  { title: 'Spindle oil outlet temprature', image: sensor1, link: 'machines/SpindleCoolingSystem' },
-  { title: 'Spindle oil pump pressure', image: sensor2, link: 'machines/SpindleCoolingSystem' },
-  { title: 'Coolant oil pump pressure', image: sensor3, link: 'machines/hydraulicSystem' },
-  { title: 'Oil level in lube tank', image: sensor4, link: 'machines/LubricationSystem' },
-  { title: 'Lube oil pump pressure', image: sensor1, link: 'machines/hydraulicSystem' },
-  { title: 'Hydraulic oil pump pressure', image: sensor2, link: 'machines/hydraulicSystem' },
-  { title: 'Hydraulic Oil temprature', image: sensor3, link: 'machines/LubricationSystem' },
-  { title: 'Hydraulic pump pressure', image: sensor4, link: 'machines/hydraulicSystem' },
-  { title: 'Hydraulic oil level', image: sensor1, link: 'machines/hydraulicSystem' },
+  { title: 'Hydraulic Oil temprature', image: sensor1, link: '/machines/:id/hydraulicSystem' },
+  { title: 'Hydraulic pump pressure', image: sensor2, link: 'LubricationSystem' },
+  { title: 'Hydraulic oil level', image: sensor3, link: 'SpindleCoolingSystem' },
+  { title: 'Spindle oil level', image: sensor4, link: 'LubricationSystem' },
+  { title: 'Spindle oil outlet temprature', image: sensor1, link: 'SpindleCoolingSystem' },
+  { title: 'Spindle oil pump pressure', image: sensor2, link: 'SpindleCoolingSystem' },
+  { title: 'Coolant oil pump pressure', image: sensor3, link: 'hydraulicSystem' },
+  { title: 'Oil level in lube tank', image: sensor4, link: 'LubricationSystem' },
+  { title: 'Lube oil pump pressure', image: sensor1, link: 'hydraulicSystem' },
+  { title: 'Hydraulic oil pump pressure', image: sensor2, link: 'hydraulicSystem' },
+  { title: 'Hydraulic Oil temprature', image: sensor3, link: 'LubricationSystem' },
+  { title: 'Hydraulic pump pressure', image: sensor4, link: 'hydraulicSystem' },
+  { title: 'Hydraulic oil level', image: sensor1, link: 'hydraulicSystem' },
 ];
