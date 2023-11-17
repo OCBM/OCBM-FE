@@ -15,9 +15,10 @@ function Input({
   labelClassName = '',
   inputClassName = '',
   mandatory = false,
+  parentClassName = '',
 }: InputType) {
   return (
-    <div className="relative w-full">
+    <div className={` relative w-fit ${parentClassName || ''}`}>
       {label && (
         <label className={labelClassName}>
           {label}
