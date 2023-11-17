@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import MachineCard from '@/components/reusable/card/machineCard';
 import { ALL_SENSOR_DATA } from '@/utils/machinedata';
 import { useNavigate } from 'react-router-dom';
