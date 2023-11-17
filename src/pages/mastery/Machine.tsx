@@ -2,23 +2,14 @@ import { DeleteIcon, PencilIcon, QuestionMarkIcon, ChevronCancelIcon, ChevronSuc
 import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
 import { Table } from '@/components/reusable/table';
-import { PLANT_SERVICES } from '@/services/plantServices';
-import { SHOP_SERVICES } from '@/services/shopServices';
+import { MACHINE_LINE_SERVICES } from '@/services/machineLineServices';
+import { MACHINE_SERVICES } from '@/services/machineServices';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-export type InitialShopStateType = {
-  shopName: string;
-  image: string;
-  imageName: string;
-  description: string;
-  plantId: string;
-  shopId: string;
-};
-
-type DeleteShopType = {
-  closeDeleteModal: () => void;
-  onDelete: () => void;
+export type DeleteMachineType = {
+  onCloseDeleteModal: () => void;
+  deleteMachine: () => void;
 };
 
 type EditSuccessModalType = {
@@ -30,12 +21,47 @@ type EditModalType = {
   handleChange: (e: any) => void;
   handleFile: (e: any) => void;
   onEdit: () => void;
-  newShop: InitialShopStateType;
+  newMachine: InitialMachineStateType;
   uploadStatus: FileUploadStatusType;
 };
 
+type InitialMachineStateType = {
+  machineName: string;
+  image: string;
+  imageName: string;
+  machineDescription: string;
+  machineLineId: string;
+  machineId: string;
+};
+
+// Delete Modal
+const DeleteModal = ({ onCloseDeleteModal, deleteMachine }: DeleteMachineType) => {
+  return (
+    <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
+      <div className="flex flex-col items-center justify-center">
+        <QuestionMarkIcon />
+        <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Are you sure want to delete?</h2>
+        <div className="flex gap-[8px] justify-between">
+          <Button
+            label="Cancel"
+            variant="secondary"
+            className="rounded-[16px] text-[16px] font-medium text-[#605BFF] italic py-[8px] px-[24px] w-[104px]"
+            onClick={onCloseDeleteModal}
+          />
+          <Button
+            label="Yes"
+            variant="primary"
+            className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] italic py-[8px] px-[24px] w-[104px]"
+            onClick={deleteMachine}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Edit Modal
-const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newShop, uploadStatus }: EditModalType) => {
+const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newMachine, uploadStatus }: EditModalType) => {
   return (
     <div className="w-[485px] rounded-[16px] p-[50px] relative">
       <div className="absolute right-[10px] top-[10px] cursor-pointer" onClick={closeEditModal}>
@@ -49,24 +75,24 @@ const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newShop, 
           <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-6">Organization Details</h4>
           <Input
             className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
-            label="Shop Name"
+            label="Machine Name"
             labelClassName="text-[#492CE1] text-[14px] font-medium"
             mandatory={true}
             type="text"
-            name="shopName"
-            placeholder="Enter Shop Name"
-            value={newShop?.shopName}
+            name="machineName"
+            placeholder="Enter Machine Name"
+            value={newMachine?.machineName}
             onChange={handleChange}
           />
           <Input
             className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
-            label="Shop Description"
+            label="Machine Description"
             labelClassName="text-[#492CE1] text-[14px] font-medium"
             mandatory={true}
             type="text"
-            name="description"
-            placeholder="Enter Plant Description"
-            value={newShop?.description}
+            name="machineDescription"
+            placeholder="Enter machineLine Description"
+            value={newMachine?.machineDescription}
             onChange={handleChange}
           />
           <FileUploader
@@ -77,8 +103,8 @@ const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newShop, 
             fileFormat=".jpg, .png"
             handleFile={handleFile}
             uploadStatus={uploadStatus}
-            image={newShop?.image}
-            fileName={newShop.imageName}
+            image={newMachine?.image}
+            fileName={newMachine.imageName}
           />
         </div>
         <div className="text-center mt-[36px]">
@@ -94,7 +120,7 @@ const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newShop, 
   );
 };
 
-// Edit success modal
+// EditSuccessModal
 const EditSuccessModal = ({ closeEditSuccessModal }: EditSuccessModalType) => {
   return (
     <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
@@ -114,40 +140,14 @@ const EditSuccessModal = ({ closeEditSuccessModal }: EditSuccessModalType) => {
   );
 };
 
-// Delete Modal
-const DeleteModal = ({ closeDeleteModal, onDelete }: DeleteShopType) => {
-  return (
-    <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
-      <div className="flex flex-col items-center justify-center">
-        <QuestionMarkIcon />
-        <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Are you sure want to delete?</h2>
-        <div className="flex gap-[8px] justify-between">
-          <Button
-            label="Cancel"
-            variant="secondary"
-            className="rounded-[16px] text-[16px] font-medium text-[#605BFF] italic py-[8px] px-[24px] w-[104px]"
-            onClick={closeDeleteModal}
-          />
-          <Button
-            label="Yes"
-            variant="primary"
-            className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] italic py-[8px] px-[24px] w-[104px]"
-            onClick={onDelete}
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const Shop = () => {
+const Machine = () => {
   const initialState = {
-    shopName: '',
+    machineName: '',
     image: '',
     imageName: '',
-    description: '',
-    plantId: '',
-    shopId: '',
+    machineDescription: '',
+    machineLineId: '',
+    machineId: '',
   };
 
   // constants for file uploader
@@ -155,56 +155,56 @@ const Shop = () => {
   const [fileName, setFileName] = useState<string>('');
   const [imageURL, setImageURl] = useState<string>('');
 
-  // constants to store plants and shops
-  const [shopList, setShopList] = useState([]);
-  const [plantList, setPlantList] = useState([]);
+  // constants to store machineLines and Machines
+  const [machineList, setMachineList] = useState([]);
+  const [machineLineList, setMachineLineList] = useState([]);
 
-  // constants to store new shop details
-  const [newShop, setNewShop] = useState<InitialShopStateType>(initialState);
+  // constants to store new Machine details
+  const [newMachine, setNewMachine] = useState<InitialMachineStateType>(initialState);
 
-  // constant to store a selected shop
-  const [selectedShop, setSelectedShop] = useState<InitialShopStateType>(initialState);
+  // constant to store a selected Machine
+  const [selectedMachine, setSelectedMachine] = useState<InitialMachineStateType>(initialState);
 
-  // constants to edit a shop
-  // const [edit, setEdit] = useState<boolean>(false);
+  // constants to edit a Machine
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [showEditSuccessModal, setShowEditSuccessModal] = useState<boolean>(false);
 
-  // constants to delete a shop
+  // constants to delete a Machine
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 
-  /* To get plants and shops */
+  /* To get machineLines and Machines */
   useEffect(() => {
-    fetchAllPlants();
-    fetchAllShops();
+    fetchAllMachineLines();
+    fetchAllMachines();
   }, []);
 
-  const fetchAllShops = async () => {
-    const res = await SHOP_SERVICES.getAllShops();
-    setShopList(res?.message);
+  const fetchAllMachines = async () => {
+    const res = await MACHINE_SERVICES.getAllMachines();
+    setMachineList(res?.message);
+    console.log(res?.message, 'res');
   };
 
-  const fetchAllPlants = async () => {
-    const res = await PLANT_SERVICES.getAllPlants('9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d');
-    setPlantList(res?.message);
+  const fetchAllMachineLines = async () => {
+    const res = await MACHINE_LINE_SERVICES.getAllMachineLine();
+    setMachineLineList(res?.message);
   };
 
   /* Columns and Data for table */
   const columns = [
     {
-      title: 'Shop Name',
-      dataIndex: 'shopName',
-      key: 'shopName',
+      title: 'Machine Name',
+      dataIndex: 'machineName',
+      key: 'machineName',
     },
     {
-      title: 'Shop Description',
-      dataIndex: 'description',
-      key: 'description',
+      title: 'Machine Description',
+      dataIndex: 'machineDescription',
+      key: 'machineDescription',
     },
     {
-      title: 'Shop ID',
-      dataIndex: 'shopId',
-      key: 'shopId',
+      title: 'Machine ID',
+      dataIndex: 'machineId',
+      key: 'machineId',
     },
     {
       title: 'Image',
@@ -222,7 +222,7 @@ const Shop = () => {
               className="cursor-pointer"
               onClick={() => {
                 setShowEditModal(true);
-                setNewShop(data);
+                setNewMachine(data);
               }}
             >
               <PencilIcon className="w-[20px] h-[20px]" />
@@ -230,7 +230,7 @@ const Shop = () => {
             <div
               className="cursor-pointer"
               onClick={() => {
-                setSelectedShop(data);
+                setSelectedMachine(data);
                 setShowDeleteModal(true);
               }}
             >
@@ -242,11 +242,11 @@ const Shop = () => {
     },
   ];
 
-  /* Functions to create a new shop */
+  /* Functions to create a new Machine */
   // function to read input changes
   const handleChange = (event: any) => {
     const { name, value } = event.target;
-    setNewShop((initialState: InitialShopStateType) => ({
+    setNewMachine((initialState: InitialMachineStateType) => ({
       ...initialState,
       [name]: value,
     }));
@@ -257,7 +257,7 @@ const Shop = () => {
     setFileName(event[0].name);
     setUploadStatus('success');
     const base64String: any = await convertToBase64(event[0]);
-    setNewShop((prev: any) => ({ ...prev, image: base64String, imageName: event[0].name }));
+    setNewMachine((prev: any) => ({ ...prev, image: base64String, imageName: event[0].name }));
     setImageURl(base64String);
   };
 
@@ -275,56 +275,52 @@ const Shop = () => {
     });
   };
 
-  // API call for adding a new shop
-  const createShop = async () => {
+  // API call for adding a new Machine
+  const createMachine = async () => {
     const body = {
-      shopName: newShop.shopName,
-      image: newShop.image,
-      imageName: newShop.imageName,
-      description: newShop.description,
-      plantId: newShop?.plantId,
+      machineName: newMachine.machineName,
+      image: newMachine.image,
+      imageName: newMachine.imageName,
+      machineDescription: newMachine.machineDescription,
+      machineLineId: newMachine?.machineLineId,
     };
 
-    const res = await SHOP_SERVICES.addShop(body);
+    const res = await MACHINE_SERVICES.addMachine(body);
     if (res.statusCode === 201) {
-      setNewShop(initialState);
+      setNewMachine(initialState);
       setFileName('');
       setImageURl('');
-      toast.success('Shop added successfully');
-      fetchAllShops();
+      toast.success('Machine added successfully');
+      fetchAllMachines();
     }
   };
 
   /* functions for buttons */
-  // Add button functionalities
   const disablingAdd = () => {
-    return newShop.shopName && newShop.plantId && newShop.image ? false : true;
+    return newMachine.machineName && newMachine.machineLineId && newMachine.image ? false : true;
   };
 
-  // Clear button functionalities
   const handleClear = () => {
-    setNewShop(initialState);
+    setNewMachine(initialState);
     setFileName('');
     setImageURl('');
   };
 
-  /* Functions to update a shop */
-
-  // API call to edit a shop
-  const editShop = async () => {
-    if (newShop?.plantId && newShop.shopId) {
+  /* Functions to update a Machine */
+  const editMachine = async () => {
+    if (newMachine.machineLineId && newMachine.machineId) {
       const body = {
-        shopName: newShop?.shopName,
-        description: newShop?.description,
-        image: newShop?.image,
-        imageName: newShop?.imageName,
+        machineName: newMachine?.machineName,
+        machineDescription: newMachine?.machineDescription,
+        image: newMachine?.image,
+        imageName: newMachine?.imageName,
       };
-      const res = await SHOP_SERVICES.updateShopById(newShop?.plantId, newShop.shopId, body);
+      const res = await MACHINE_SERVICES.updateMachineById(newMachine?.machineLineId, newMachine?.machineId, body);
       if (res.statusCode === 200) {
         handleClear();
         setShowEditModal(false);
         setShowEditSuccessModal(true);
-        fetchAllShops();
+        fetchAllMachines();
       }
     }
   };
@@ -334,16 +330,18 @@ const Shop = () => {
     setShowEditModal(false);
   };
 
-  /* Functions to delete a shop */
+  /* Functions to delete a Machine */
 
-  // API call to delete a shop
-  const deleteShop = async (plantId: string, shopId: string) => {
+  // API call to delete a Machine
+  const deleteMachine = async (machineLineId: string, machineId: string) => {
     setShowDeleteModal(true);
-    if (plantId && shopId) {
-      const res = await SHOP_SERVICES.deleteShopById(plantId, shopId);
+    console.log(machineLineId, 'mlid');
+    console.log(machineId, 'mid');
+    if (machineLineId && machineId) {
+      const res = await MACHINE_SERVICES.deleteMachineById(machineLineId, machineId);
       toast.success(res.message);
       setShowDeleteModal(false);
-      fetchAllShops();
+      fetchAllMachines();
     }
   };
 
@@ -361,10 +359,10 @@ const Shop = () => {
             handleClear();
             setShowEditModal(false);
           }}
-          handleFile={handleFile}
-          onEdit={editShop}
           handleChange={handleChange}
-          newShop={newShop}
+          handleFile={handleFile}
+          onEdit={editMachine}
+          newMachine={newMachine}
           uploadStatus={uploadStatus}
         />
       </Modal>
@@ -383,49 +381,53 @@ const Shop = () => {
         className="z-[99]"
       >
         <DeleteModal
-          onDelete={() => {
-            deleteShop(selectedShop?.plantId, selectedShop?.shopId);
+          deleteMachine={() => {
+            deleteMachine(selectedMachine?.machineLineId, selectedMachine?.machineId);
           }}
-          closeDeleteModal={() => {
+          onCloseDeleteModal={() => {
             setShowDeleteModal(false);
           }}
         />
       </Modal>
-      <p className="text-xl text-[#444] font-medium leading-5 mb-8">Add Shop</p>
-      {/* Fields to get shop name, shop description and shop image */}
-      <div className="flex items-center justify-center gap-[16px] mb-6">
+      <p className="text-xl font-medium leading-5 mb-8">Add Machine</p>
+      {/* Fields to get Machine name, Machine description and Machine image */}
+      <div className="flex items-center justify-between gap-[16px] mb-6">
         <Input
-          placeholder="Shop Name"
+          placeholder="Machine Name"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"
-          name="shopName"
-          value={showEditModal ? '' : newShop.shopName}
+          name="machineName"
+          value={showEditModal ? '' : newMachine.machineName}
           mandatory={true}
         />
         <Input
-          placeholder="Shop Descriptions"
+          placeholder="Machine Descriptions"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"
-          name="description"
-          value={showEditModal ? '' : newShop.description}
+          name="machineDescription"
+          value={showEditModal ? '' : newMachine.machineDescription}
           mandatory={true}
         />
         <Dropdown
-          placeholder="Select Plant"
+          placeholder="Select machineLine"
           className="w-[270px] border-[1px] border-solid border-[#A9A9A9] rounded-[50px] py-4 px-5 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
-          options={plantList}
-          optionLabel="plantName"
+          options={machineLineList}
+          optionLabel="machineLineName"
           handleChange={(value: any) => {
-            setNewShop((prev: any) => ({ ...prev, plantId: value.plantId }));
+            setNewMachine((prev: any) => ({ ...prev, machineLineId: value?.machineLineId }));
           }}
-          value={showEditModal ? '' : plantList.find((plant: any) => plant.plantId === newShop.plantId)}
+          value={
+            showEditModal
+              ? ''
+              : machineLineList.find((machineLine: any) => machineLine.machineLineId === newMachine.machineLineId)
+          }
           mandatory={true}
         />
       </div>
 
-      {/* We can add shop images using uploader */}
+      {/* We can add Machine images using uploader */}
       <FileUploader
         className="w-[560px] py-6"
         mastery
@@ -436,7 +438,7 @@ const Shop = () => {
         image={showEditModal ? '' : imageURL}
       />
 
-      {/* Buttons to clear data and add a shop */}
+      {/* Buttons to clear data and add a Machine */}
       <div className="flex gap-4 mt-8 mb-8">
         <Button
           variant="secondary"
@@ -449,13 +451,13 @@ const Shop = () => {
           className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
           label="Add"
           disabled={disablingAdd()}
-          onClick={createShop}
+          onClick={createMachine}
         />
       </div>
-      {/* Table for listing shops */}
-      <Table columns={columns} dataSource={shopList} />
+      {/* Table for listing Machines */}
+      <Table columns={columns} dataSource={machineList} />
     </div>
   );
 };
 
-export default Shop;
+export default Machine;

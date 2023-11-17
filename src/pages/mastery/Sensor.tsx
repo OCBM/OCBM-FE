@@ -4,43 +4,42 @@ import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
 import { Table } from '@/components/reusable/table';
 import { useState } from 'react';
 
-function Element() {
+function Sensor() {
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
 
-  const handleFile = (event: any) => {
-    console.log(event[0], 'event');
+  const handleFile = () => {
     setUploadStatus('success');
   };
 
   const dataSource: any = [
     {
-      elementName: 'Chennai',
-      description: 'Chennai elements',
+      sensorName: 'Sensor 1',
+      description: 'Sensor1-desc',
       elementId: '123456',
       image: 'Image-1',
     },
     {
-      elementName: 'Chennai',
-      description: 'Chennai elements',
+      sensorName: 'Sensor 2',
+      description: 'Sensor2-desc',
       elementId: '123456',
       image: 'Image-2',
     },
   ];
   const columns = [
     {
-      title: 'Element Name',
-      dataIndex: 'elementName',
-      key: 'elementName',
+      title: 'Sensor Name',
+      dataIndex: 'sensorName',
+      key: 'sensorName',
     },
     {
-      title: 'Element Description',
+      title: 'Sensor Description',
       dataIndex: 'description',
       key: 'description',
     },
     {
-      title: 'Element ID',
+      title: 'Sensor ID',
       dataIndex: 'elementId',
-      key: 'id',
+      key: 'elementId',
     },
     {
       title: 'Image',
@@ -68,20 +67,19 @@ function Element() {
 
   return (
     <div>
-      <h2 className="text-xl font-medium leading-5 text-[#444] mb-8">Add Element</h2>
-
+      <h2 className="text-xl font-medium leading-5 text-[#444] mb-8">Add Sensor</h2>
       <div>
         <div className="flex justify-center gap-[16px] mb-6">
           <Input
             className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-            placeholder="Element Name*"
+            placeholder="Sensor Name*"
             type="text"
             value=""
-            name="elementName"
+            name="sensorName"
           />
           <Input
             className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-            placeholder="Element descriptions"
+            placeholder="Sensor descriptions"
             type="text"
             value=""
             name="descriptions"
@@ -89,7 +87,7 @@ function Element() {
           <Dropdown
             options={[]}
             className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-            placeholder="Select Machine"
+            placeholder="Select Element"
             handleChange={() => {}}
             value=""
             mandatory={true}
@@ -123,4 +121,4 @@ function Element() {
     </div>
   );
 }
-export default Element;
+export default Sensor;
