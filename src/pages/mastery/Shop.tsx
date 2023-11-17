@@ -420,7 +420,7 @@ const Shop = () => {
           handleChange={(value: any) => {
             setNewShop((prev: any) => ({ ...prev, plantId: value.plantId }));
           }}
-          value={showEditModal ? '' : plantList.find((plant: any) => plant.plantId === newShop.plantId)}
+          value={showEditModal ? '' : plantList?.find((plant: any) => plant?.plantId === newShop?.plantId)}
           mandatory={true}
         />
       </div>
