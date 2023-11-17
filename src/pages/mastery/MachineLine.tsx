@@ -207,7 +207,7 @@ const MachineLine = () => {
       setNewMachineLine(initialState);
       setFileName('');
       setImageURl('');
-      toast.success('Shop added successfully');
+      toast.success('Machine Line added successfully');
       fetchAllMachineLine();
     }
   };
