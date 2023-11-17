@@ -1,4 +1,5 @@
 import { OutOfSpec, ThresholdlimitUnselected, WithinSpecUnselected } from '@/assets/icons';
+import { Button } from '@/components';
 const MachineCard = ({
   showValues,
   showSignals,
@@ -8,12 +9,14 @@ const MachineCard = ({
   handleView,
   withinSpecValue,
   image,
+  disabled,
 }: {
   showValues: boolean;
   showSignals: boolean;
   outOfSpecValue: string;
   thresholdValue: string;
   withinSpecValue: string;
+  disabled?: boolean;
   title: string;
   image: any;
   handleView?: () => void;
@@ -30,7 +33,7 @@ const MachineCard = ({
           </div>
         ) : null}
       </div>
-      <img src={image} alt="image" className="pt-7"></img>
+      <img src={image} alt="machine" className="pt-7"></img>
       {showValues ? (
         <div className="pt-7 flex justify-center gap-5">
           <div className="flex flex-col w-[20%] gap-1">
@@ -54,12 +57,21 @@ const MachineCard = ({
         </div>
       ) : null}
       <div className="pt-7">
-        <button
+        {/* <Button
+          disabled={disabled}
           onClick={handleView}
           className="bg-gradient-to-r from-[#605BFF] to-[#0A03D9] text-white text-base font-bold py-4 px-20 w-[282px] rounded-b-2xl items-center"
         >
           View
-        </button>
+        </Button> */}
+        <Button
+          onClick={handleView}
+          disabled={disabled}
+          label="View"
+          className={`${
+            !disabled && `bg-gradient-to-r from-[#605BFF] to-[#0A03D9]`
+          } text-white text-base font-bold py-4 px-20 w-[282px] rounded-t-none rounded-b-2xl items-center`}
+        />
       </div>
     </div>
   );

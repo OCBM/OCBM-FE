@@ -17,6 +17,7 @@ const SensorPage = () => {
           thresholdValue="02"
           withinSpecValue="01"
           image={sensorData.image}
+          disabled={true}
         />
       ))}
     </div>
