@@ -9,6 +9,7 @@ import { Login, Plant, UsersList } from './pages';
 import Addusers from './pages/users/AddUsers';
 import Mastery from './pages/mastery';
 import Machines from './pages/machines';
+import MachineInfo from './pages/machines/machineInfo';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import HydraulicSystem from './pages/machines/HydraulicSystem';
@@ -48,6 +49,7 @@ function App() {
             <Route path={SITEMAP.machines.SpindleCoolingSystem} element={<SpindleCoolingSystem />} />
             <Route path={SITEMAP.machines.LubricationSystem} element={<LubricationSystem />} />
             <Route path={SITEMAP.machines.index} element={<Machines />} />
+            <Route path={SITEMAP.machines.machinesbyId} element={<MachineInfo />} />
             <Route index element={<Home />} />
             <Route path={SITEMAP.notFound} element={<h1>Not found</h1>} />
           </Route>

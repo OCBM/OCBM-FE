@@ -820,3 +820,19 @@ export const WithinSpecUnselected = ({ className }: IconsPropType) => {
     </svg>
   );
 };
+
+export const RunningIcon = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      width="17"
+      height="17"
+      viewBox="0 0 17 17"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="8.88132" cy="8.51743" r="8.09751" fill="#15AC7F" fillOpacity="0.13" />
+      <circle cx="8.88154" cy="8.51728" r="4.62715" fill="#15AC7F" />
+    </svg>
+  );
+};

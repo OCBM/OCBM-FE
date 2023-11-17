@@ -10,6 +10,7 @@ export const SITEMAP = {
   },
   machines: {
     index: '/machines',
+    machinesbyId: '/machines/:id',
     hydraulicSystem: '/machines/hydraulicSystem',
     SpindleCoolingSystem: '/machines/SpindleCoolingSystem',
     LubricationSystem: '/machines/LubricationSystem',
