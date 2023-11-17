@@ -421,7 +421,7 @@ const Machine = () => {
           value={
             showEditModal
               ? ''
-              : machineLineList.find((machineLine: any) => machineLine.machineLineId === newMachine.machineLineId)
+              : machineLineList?.find((machineLine: any) => machineLine?.machineLineId === newMachine?.machineLineId)
           }
           mandatory={true}
         />
