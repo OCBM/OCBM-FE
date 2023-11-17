@@ -5,25 +5,25 @@ import { Table } from '@/components/reusable/table';
 import { useState } from 'react';
 
 function Element() {
-  // const [newElement, setNewElement] = useState();
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
 
   const handleFile = (event: any) => {
     console.log(event[0], 'event');
     setUploadStatus('success');
-    // setNewPlant((prev: any) => ({ ...prev, image: event[0] }));
   };
 
   const dataSource: any = [
     {
       elementName: 'Chennai',
-      description: 'chennai elements',
+      description: 'Chennai elements',
       elementId: '123456',
+      image: 'Image-1',
     },
     {
       elementName: 'Chennai',
-      description: 'chennai elements',
+      description: 'Chennai elements',
       elementId: '123456',
+      image: 'Image-2',
     },
   ];
   const columns = [
@@ -42,11 +42,11 @@ function Element() {
       dataIndex: 'elementId',
       key: 'id',
     },
-    // {
-    //   title: 'Image',
-    //   dataIndex: 'image',
-    //   key: 'image',
-    // },
+    {
+      title: 'Image',
+      dataIndex: 'image',
+      key: 'image',
+    },
     {
       title: 'Actions',
       dataIndex: 'actions',
@@ -68,37 +68,34 @@ function Element() {
 
   return (
     <div>
-      <h2 className="text-[20px] text-grey-light font-medium mb-6">Add Element</h2>
+      <h2 className="text-xl font-medium leading-5 text-[#444] mb-8">Add Element</h2>
 
       <div>
-        <div className="flex justify-center gap-[16px] mb-8">
+        <div className="flex justify-center gap-[16px] mb-6">
           <Input
-            className="w-full border-[1px] h-[46px] mt-2 px-3 rounded-[50px] border-[#A9A9A9] p-[16px]"
+            className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
             placeholder="Element Name*"
             type="text"
-            // value={newElement.plantName}
+            value=""
             name="elementName"
           />
           <Input
-            className="w-full border-[1px] h-[46px] mt-2 px-3 rounded-[50px] border-[#A9A9A9] p-[16px]"
-            placeholder="Element descriptions*"
+            className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
+            placeholder="Element descriptions"
             type="text"
-            // value={newElement.plantName}
+            value=""
             name="descriptions"
           />
           <Dropdown
             options={[]}
-            className="w-full border-[1px] h-[46px] mt-2 px-3 rounded-[50px] border-[#A9A9A9] p-[16px]"
+            className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
             placeholder="Select Machine"
-            handleChange={() => {
-              // setUser((prev: any) => ({ ...prev, organization: value }));
-              // getPlants(value);
-            }}
-            // value={user.organization}
+            handleChange={() => {}}
+            value=""
             mandatory={true}
           />
         </div>
-        <div className="mb-6">
+        <div>
           <FileUploader
             className="w-[560px] py-6"
             mastery
@@ -107,9 +104,17 @@ function Element() {
             uploadStatus={uploadStatus}
           />
         </div>
-        <div className="flex justify-start flex-row w-full gap-[20px] mt-5 mb-9">
-          <Button className="py-2 px-6 rounded-[16px]" label="Clear" variant="secondary" />
-          <Button className="py-2 px-6 rounded-[16px]" label="Add" disabled />
+        <div className="flex justify-start flex-row w-full gap-4 mt-8 mb-8">
+          <Button
+            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
+            label="Clear"
+            variant="secondary"
+          />
+          <Button
+            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
+            label="Add"
+            disabled
+          />
         </div>
       </div>
       <div>

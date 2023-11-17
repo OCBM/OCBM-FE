@@ -1,4 +1,4 @@
-import { DeleteIcon, PencilIcon, QuesionMarkIcon, ChevronCancelIcon, ChevronSuccessIcon } from '@/assets/icons';
+import { DeleteIcon, PencilIcon, QuestionMarkIcon, ChevronCancelIcon, ChevronSuccessIcon } from '@/assets/icons';
 import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
 import { Table } from '@/components/reusable/table';
@@ -7,20 +7,140 @@ import { SHOP_SERVICES } from '@/services/shopServices';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-export type DeleteShopType = {
-  onCloseDeleteModal: () => void;
-  deleteShop: () => void;
+export type InitialShopStateType = {
+  shopName: string;
+  image: string;
+  imageName: string;
+  description: string;
+  plantId: string;
+  shopId: string;
+};
+
+type DeleteShopType = {
+  closeDeleteModal: () => void;
+  onDelete: () => void;
+};
+
+type EditSuccessModalType = {
+  closeEditSuccessModal: () => void;
+};
+
+type EditModalType = {
+  closeEditModal: () => void;
+  handleChange: (e: any) => void;
+  handleFile: (e: any) => void;
+  onEdit: () => void;
+  newShop: InitialShopStateType;
+  uploadStatus: FileUploadStatusType;
+};
+
+// Edit Modal
+const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newShop, uploadStatus }: EditModalType) => {
+  return (
+    <div className="w-[485px] rounded-[16px] p-[50px] relative">
+      <div className="absolute right-[10px] top-[10px] cursor-pointer" onClick={closeEditModal}>
+        <ChevronCancelIcon />
+      </div>
+
+      <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-[36px]">Edit Details</h2>
+
+      <form>
+        <div>
+          <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-6">Organization Details</h4>
+          <Input
+            className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
+            label="Shop Name"
+            labelClassName="text-[#492CE1] text-[14px] font-medium"
+            mandatory={true}
+            type="text"
+            name="shopName"
+            placeholder="Enter Shop Name"
+            value={newShop?.shopName}
+            onChange={handleChange}
+          />
+          <Input
+            className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
+            label="Shop Description"
+            labelClassName="text-[#492CE1] text-[14px] font-medium"
+            mandatory={true}
+            type="text"
+            name="description"
+            placeholder="Enter Plant Description"
+            value={newShop?.description}
+            onChange={handleChange}
+          />
+          <FileUploader
+            label="Image"
+            labelClassName="text-[#492CE1] text-[14px] font-medium"
+            className="w-[385px] py-6 mt-2"
+            mastery
+            fileFormat=".jpg, .png"
+            handleFile={handleFile}
+            uploadStatus={uploadStatus}
+            image={newShop?.image}
+            fileName={newShop.imageName}
+          />
+        </div>
+        <div className="text-center mt-[36px]">
+          <Button
+            onClick={onEdit}
+            variant="primary"
+            label="Submit"
+            className="py-[8px] px-[24px] rounded-[16px] font-normal text-[16px]"
+          />
+        </div>
+      </form>
+    </div>
+  );
+};
+
+// Edit success modal
+const EditSuccessModal = ({ closeEditSuccessModal }: EditSuccessModalType) => {
+  return (
+    <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
+      <div className="flex flex-col items-center justify-center">
+        <ChevronSuccessIcon className="w-[100px] h-[100px]" />
+        <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Changes are done</h2>
+        <div className="flex gap-[8px] justify-between">
+          <Button
+            label="Done"
+            variant="primary"
+            className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] py-[8px] px-[24px]"
+            onClick={closeEditSuccessModal}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Delete Modal
+const DeleteModal = ({ closeDeleteModal, onDelete }: DeleteShopType) => {
+  return (
+    <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
+      <div className="flex flex-col items-center justify-center">
+        <QuestionMarkIcon />
+        <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Are you sure want to delete?</h2>
+        <div className="flex gap-[8px] justify-between">
+          <Button
+            label="Cancel"
+            variant="secondary"
+            className="rounded-[16px] text-[16px] font-medium text-[#605BFF] italic py-[8px] px-[24px] w-[104px]"
+            onClick={closeDeleteModal}
+          />
+          <Button
+            label="Yes"
+            variant="primary"
+            className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] italic py-[8px] px-[24px] w-[104px]"
+            onClick={onDelete}
+          />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const Shop = () => {
-  type InitialStateType = {
-    shopName: string | undefined;
-    image: string | undefined;
-    imageName: string | undefined;
-    description: string | undefined;
-    plantId: string | undefined | any;
-    shopId: string | undefined;
-  };
   const initialState = {
     shopName: '',
     image: '',
@@ -40,18 +160,18 @@ const Shop = () => {
   const [plantList, setPlantList] = useState([]);
 
   // constants to store new shop details
-  const [newShop, setNewShop] = useState<any>(initialState);
+  const [newShop, setNewShop] = useState<InitialShopStateType>(initialState);
 
   // constant to store a selected shop
-  const [selectedShop, setSelectedShop] = useState<any>(initialState);
+  const [selectedShop, setSelectedShop] = useState<InitialShopStateType>(initialState);
 
   // constants to edit a shop
   // const [edit, setEdit] = useState<boolean>(false);
-  const [showEditShopModal, setShowEditShopModal] = useState<boolean>(false);
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [showEditSuccessModal, setShowEditSuccessModal] = useState<boolean>(false);
 
   // constants to delete a shop
-  const [showDeleteShopModal, setShowDeleteShopModal] = useState<boolean>(false);
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 
   /* To get plants and shops */
   useEffect(() => {
@@ -101,7 +221,7 @@ const Shop = () => {
             <div
               className="cursor-pointer"
               onClick={() => {
-                setShowEditShopModal(true);
+                setShowEditModal(true);
                 setNewShop(data);
               }}
             >
@@ -111,7 +231,7 @@ const Shop = () => {
               className="cursor-pointer"
               onClick={() => {
                 setSelectedShop(data);
-                setShowDeleteShopModal(true);
+                setShowDeleteModal(true);
               }}
             >
               <DeleteIcon className="w-[20px] h-[20px]" />
@@ -126,7 +246,7 @@ const Shop = () => {
   // function to read input changes
   const handleChange = (event: any) => {
     const { name, value } = event.target;
-    setNewShop((initialState: InitialStateType) => ({
+    setNewShop((initialState: InitialShopStateType) => ({
       ...initialState,
       [name]: value,
     }));
@@ -162,7 +282,7 @@ const Shop = () => {
       image: newShop.image,
       imageName: newShop.imageName,
       description: newShop.description,
-      plantId: newShop?.plantId?.plantId,
+      plantId: newShop?.plantId,
     };
 
     const res = await SHOP_SERVICES.addShop(body);
@@ -176,10 +296,12 @@ const Shop = () => {
   };
 
   /* functions for buttons */
+  // Add button functionalities
   const disablingAdd = () => {
     return newShop.shopName && newShop.plantId && newShop.image ? false : true;
   };
 
+  // Clear button functionalities
   const handleClear = () => {
     setNewShop(initialState);
     setFileName('');
@@ -187,7 +309,9 @@ const Shop = () => {
   };
 
   /* Functions to update a shop */
-  const updateShop = async () => {
+
+  // API call to edit a shop
+  const editShop = async () => {
     if (newShop?.plantId && newShop.shopId) {
       const body = {
         shopName: newShop?.shopName,
@@ -197,10 +321,8 @@ const Shop = () => {
       };
       const res = await SHOP_SERVICES.updateShopById(newShop?.plantId, newShop.shopId, body);
       if (res.statusCode === 200) {
-        setNewShop(initialState);
-        setFileName('');
-        setImageURl('');
-        setShowEditShopModal(false);
+        handleClear();
+        setShowEditModal(false);
         setShowEditSuccessModal(true);
         fetchAllShops();
       }
@@ -208,45 +330,19 @@ const Shop = () => {
   };
 
   // function to do what happen while closing the search modal
-  const onCloseEditModal = () => {
-    setShowEditShopModal(false);
+  const closeEditModal = () => {
+    setShowEditModal(false);
   };
 
   /* Functions to delete a shop */
 
-  // Delete Modal
-  const DeleteShop = ({ onCloseDeleteModal, deleteShop }: DeleteShopType) => {
-    return (
-      <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
-        <div className="flex flex-col items-center justify-center">
-          <QuesionMarkIcon />
-          <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Are you sure want to delete?</h2>
-          <div className="flex gap-[8px] justify-between">
-            <Button
-              label="Cancel"
-              variant="secondary"
-              className="rounded-[16px] text-[16px] font-medium text-[#605BFF] italic py-[8px] px-[24px] w-[104px]"
-              onClick={onCloseDeleteModal}
-            />
-            <Button
-              label="Yes"
-              variant="primary"
-              className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] italic py-[8px] px-[24px] w-[104px]"
-              onClick={deleteShop}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   // API call to delete a shop
-  const onDeleteShop = async (plantId: string, shopId: string) => {
-    setShowDeleteShopModal(true);
+  const deleteShop = async (plantId: string, shopId: string) => {
+    setShowDeleteModal(true);
     if (plantId && shopId) {
       const res = await SHOP_SERVICES.deleteShopById(plantId, shopId);
       toast.success(res.message);
-      setShowDeleteShopModal(false);
+      setShowDeleteModal(false);
       fetchAllShops();
     }
   };
@@ -254,135 +350,77 @@ const Shop = () => {
   return (
     <div>
       <Modal
-        isOpen={showEditShopModal}
+        isOpen={showEditModal}
         onCancel={() => {
-          setShowEditShopModal(false);
+          setShowEditModal(false);
         }}
         className="z-[99]"
       >
-        <div className="w-[485px] rounded-[16px] p-[50px] relative">
-          <div
-            className="absolute right-[10px] top-[10px] cursor-pointer"
-            onClick={() => {
-              setShowEditShopModal(false);
-            }}
-          >
-            <ChevronCancelIcon />
-          </div>
-
-          <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-5">Edit Details</h2>
-
-          <form>
-            <div>
-              <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-4">Organization Details</h4>
-              <Input
-                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
-                label="Shop Name"
-                labelClassName="text-[#492CE1] text-[14px] font-medium"
-                mandatory={true}
-                type="text"
-                name="shopName"
-                placeholder="Enter Shop Name"
-                value={newShop?.shopName}
-                onChange={handleChange}
-              />
-              <Input
-                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
-                label="Shop Description"
-                labelClassName="text-[#492CE1] text-[14px] font-medium"
-                mandatory={true}
-                type="text"
-                name="description"
-                placeholder="Enter Plant Description"
-                value={newShop?.description}
-                onChange={handleChange}
-              />
-              <FileUploader
-                className="w-[385px] py-6 mt-2"
-                mastery
-                fileFormat=".jpg, .png"
-                handleFile={handleFile}
-                uploadStatus={uploadStatus}
-                image={newShop?.image}
-                fileName={newShop.imageName}
-              />
-            </div>
-            <div className="text-center mt-3">
-              <Button
-                onClick={updateShop}
-                variant="primary"
-                label="Submit"
-                className="py-[8px] px-[24px] rounded-[16px] font-normal text-[16px]"
-              />
-            </div>
-          </form>
-        </div>
-      </Modal>
-      <Modal isOpen={showEditSuccessModal} onCancel={onCloseEditModal} className="z-[99]">
-        <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
-          <div className="flex flex-col items-center justify-center">
-            <ChevronSuccessIcon className="w-[100px] h-[100px]" />
-            <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Changes are done</h2>
-            <div className="flex gap-[8px] justify-between">
-              <Button
-                label="Done"
-                variant="primary"
-                className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] py-[8px] px-[24px]"
-                onClick={() => {
-                  setShowEditSuccessModal(false);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </Modal>
-      <Modal
-        isOpen={showDeleteShopModal}
-        onCancel={() => {
-          setShowDeleteShopModal(false);
-        }}
-        className="z-[99]"
-      >
-        <DeleteShop
-          deleteShop={() => {
-            onDeleteShop(selectedShop.plantId, selectedShop?.shopId);
+        <EditModal
+          closeEditModal={() => {
+            handleClear();
+            setShowEditModal(false);
           }}
-          onCloseDeleteModal={() => {
-            setShowDeleteShopModal(false);
+          handleFile={handleFile}
+          onEdit={editShop}
+          handleChange={handleChange}
+          newShop={newShop}
+          uploadStatus={uploadStatus}
+        />
+      </Modal>
+      <Modal isOpen={showEditSuccessModal} onCancel={closeEditModal} className="z-[99]">
+        <EditSuccessModal
+          closeEditSuccessModal={() => {
+            setShowEditSuccessModal(false);
           }}
         />
       </Modal>
-      <p className="text-xl font-medium leading-5 py-[10px] mb-8">Add Shop</p>
+      <Modal
+        isOpen={showDeleteModal}
+        onCancel={() => {
+          setShowDeleteModal(false);
+        }}
+        className="z-[99]"
+      >
+        <DeleteModal
+          onDelete={() => {
+            deleteShop(selectedShop?.plantId, selectedShop?.shopId);
+          }}
+          closeDeleteModal={() => {
+            setShowDeleteModal(false);
+          }}
+        />
+      </Modal>
+      <p className="text-xl text-[#444] font-medium leading-5 mb-8">Add Shop</p>
       {/* Fields to get shop name, shop description and shop image */}
-      <div className="flex items-center justify-center gap-[16px] mb-6 ">
-        {/* <Modal isOpen /> */}
+      <div className="flex items-center justify-center gap-[16px] mb-6">
         <Input
           placeholder="Shop Name"
-          className="w-full border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
+          className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"
           name="shopName"
-          value={newShop.shopName}
+          value={showEditModal ? '' : newShop.shopName}
           mandatory={true}
         />
         <Input
           placeholder="Shop Descriptions"
-          className="w-full border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
+          className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"
           name="description"
-          value={newShop.description}
+          value={showEditModal ? '' : newShop.description}
           mandatory={true}
         />
         <Dropdown
           placeholder="Select Plant"
-          className="w-full border-[1px] border-solid border-[#A9A9A9] rounded-[50px] py-4 px-5 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
+          className="w-[270px] border-[1px] border-solid border-[#A9A9A9] rounded-[50px] py-4 px-5 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           options={plantList}
           optionLabel="plantName"
-          handleChange={(value) => {
-            setNewShop((prev: any) => ({ ...prev, plantId: value }));
+          handleChange={(value: any) => {
+            setNewShop((prev: any) => ({ ...prev, plantId: value.plantId }));
           }}
-          value={newShop.plantId}
+          value={showEditModal ? '' : plantList.find((plant: any) => plant.plantId === newShop.plantId)}
           mandatory={true}
         />
       </div>
@@ -394,8 +432,8 @@ const Shop = () => {
         fileFormat=".jpg, .png"
         handleFile={handleFile}
         uploadStatus={uploadStatus}
-        fileName={fileName}
-        image={imageURL}
+        fileName={showEditModal ? '' : fileName}
+        image={showEditModal ? '' : imageURL}
       />
 
       {/* Buttons to clear data and add a shop */}
