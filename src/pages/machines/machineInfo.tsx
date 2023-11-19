@@ -10,7 +10,7 @@ const MachineInfo = () => {
     <div className="flex">
       <div className="flex flex-col border border-solid border-[(rgba(68, 68, 68, 0.40))] shadow-sm pl-11 pr-11 pt-[35px] rounded-l-2xl">
         <div className="flex flex-col items-center justify-center p-5 border-2 border-solid border-[(rgba(68, 68, 68, 0.40))] rounded-2xl shadow-inner">
-          <p className="text-[#444] text-2xl font-bold tracking-[0.48px] leading-6">{filterMachineById?.machine}</p>
+          <p className="text-[#444444] text-2xl font-bold tracking-[0.48px] leading-6">{filterMachineById?.machine}</p>
           <div className="flex items-center gap-[6px] mt-5">
             <RunningIcon />
             <p className="text-[14px] text-[#444] font-medium leading-[10px] tracking-[0.28px]">Running</p>
