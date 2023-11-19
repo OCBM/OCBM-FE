@@ -3,16 +3,19 @@ import Charts from './Charts';
 import Hydraulic from '../../assets/images/hydraulic.png';
 import BackIcon from '../../assets/images/back.png';
 import { OperatingRange, ReportIcon, SquareIcon, ThresholdValue } from '@/assets/icons';
-import { graphData } from './MockData';
+import { graphData } from '../../utils/ChartMockdata';
+import { Link } from 'react-router-dom';
 
 function HydraulicSystem() {
   return (
     <div className="shadow-[0px_4px_20px_0px_#0000000F] border-[1px] border-[#44444440] rounded-[16px] p-[24px] h-full">
       <div className="flex justify-between mb-8 items-center">
-        <div className="flex gap-[10px] justify-start items-center">
-          <img className="" src={BackIcon} alt="Back Icon" />
-          <p className="text-[#444444] text-[14px]">Back</p>
-        </div>
+        <Link to={'/machines'}>
+          <div className="flex gap-[10px] justify-start items-center cursor-pointer">
+            <img className="" src={BackIcon} alt="Back Icon" />
+            <p className="text-[#444444] text-[14px]">Back</p>
+          </div>
+        </Link>
         <div className="flex gap-[10px] justify-start items-center">
           <img className="" src={Hydraulic} alt="Hydraulic" />
           <h2 className="font-bold text-[24px]">Hydraulic System</h2>

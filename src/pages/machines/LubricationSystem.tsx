@@ -3,7 +3,7 @@ import Charts from './Charts';
 import Spindle from '../../assets/images/spindle.png';
 import BackIcon from '../../assets/images/back.png';
 import { OperatingRange, ReportIcon, SquareIcon, ThresholdValue } from '@/assets/icons';
-import { graphData } from './MockData';
+import { graphData } from '../../utils/ChartMockdata';
 
 function LubricationSystem() {
   return (
