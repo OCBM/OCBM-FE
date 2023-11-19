@@ -9,21 +9,29 @@ export function Layout() {
   const list = useBreadcrumbs();
   const { show } = useAppSelector((state) => state.plantRegistration);
   return (
-    <div
-      className={`${classNames({
-        'bg-black flex h-full w-full overflow-hidden py-[14px] pl-[14px ': show !== 'plant',
-      })} flex h-full w-full overflow-hidden py-[14px] pl-[14px]`}
-    >
-      <SideNav />
-      <div className="px-[30px] w-full h-full overflow-y-auto flex flex-col">
-        <Header hideAvatar={show !== 'plant'} />
+    // <div
+    //   className={`${classNames({
+    //     'bg-black flex h-full w-full overflow-hidden py-[14px] pl-[14px ': show !== 'plant',
+    //   })} flex h-full w-full overflow-hidden py-[14px] pl-[14px]`}
+    // >
+    // Changing this as we get two scroll bars when hei8ght goes out of bounds.
+    <div className="h-screen">
+      <div
+        className={`${classNames({
+          'bg-black flex h-auto w-full overflow-hidden py-[14px] pl-[14px ': show !== 'plant',
+        })} flex h-auto w-full overflow-hidden py-[14px] pl-[14px]`}
+      >
+        <SideNav />
+        <div className="px-[30px] w-full h-auto overflow-y-auto flex flex-col">
+          <Header hideAvatar={show !== 'plant'} />
 
-        {show !== 'shop' && show !== 'machine' && (
-          <div className="my-8">
-            <Breadcrumbs crumbs={['home', ...list]} />
-          </div>
-        )}
-        <Outlet />
+          {show !== 'shop' && show !== 'machine' && (
+            <div className="my-8">
+              <Breadcrumbs crumbs={['home', ...list]} />
+            </div>
+          )}
+          <Outlet />
+        </div>
       </div>
     </div>
   );

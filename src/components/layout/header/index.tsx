@@ -42,8 +42,13 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
 
   return (
     <>
+      {/* I don't feel like there should be a padding here changing 
       <div className="flex items-center justify-end gap-5 pb-6 ">
-        {/* <div
+       */}
+      <div className="flex items-center justify-end gap-5">
+        {/* 
+        Keep this commented code as it will be used later implementation
+        <div
           className={` ${classNames({
             hidden: hideFilters,
           })} flex justify-between items-center [&>*:nth-child(4)]:border-0 [&>*:nth-child(1)]:pl-0 [&>*:nth-child(4)]:pr-0`}
