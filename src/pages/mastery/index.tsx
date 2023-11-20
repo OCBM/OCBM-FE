@@ -72,9 +72,9 @@ const Mastery = () => {
         </div>
       ) : (
         // tab view of mastery page
-        <div className="">
+        <>
           <TabViewPrimary type="primary" tabs={tabs} activeIndex={activeIndex} handleClick={handleClick} />
-        </div>
+        </>
       )}
     </>
   );

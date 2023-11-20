@@ -453,7 +453,9 @@ const Shop = () => {
         />
       </div>
       {/* Table for listing shops */}
-      <Table columns={columns} dataSource={shopList} />
+      <>
+        <Table columns={columns} dataSource={shopList} pagination={false} />
+      </>
     </div>
   );
 };

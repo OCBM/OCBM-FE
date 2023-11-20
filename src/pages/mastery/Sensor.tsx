@@ -116,7 +116,9 @@ function Sensor() {
         </div>
       </div>
       <div>
-        <Table columns={columns} dataSource={dataSource} pagination={false} />
+        <>
+          <Table columns={columns} dataSource={dataSource} pagination={false} />
+        </>
       </div>
     </div>
   );

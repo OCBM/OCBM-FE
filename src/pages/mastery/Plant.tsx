@@ -188,9 +188,9 @@ function Plant() {
   };
 
   return (
-    <div>
+    <>
       <h2 className="text-[20px] text-[#444444] leading-5 font-medium mb-8">Add Plant</h2>
-      <div>
+      <>
         <div className="flex justify-start items-center gap-[16px] mb-6">
           <Input
             className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
@@ -238,11 +238,18 @@ function Plant() {
             onClick={createPlant}
           />
         </div>
-      </div>
+      </>
 
+      {/* 
       <div>
         <Table columns={columns} dataSource={plantData} pagination={false} />
-      </div>
+      </div> 
+      Changing this due t usage of empty div.
+      */}
+
+      <>
+        <Table columns={columns} dataSource={plantData} pagination={false} />
+      </>
 
       <Modal
         isOpen={showDeleteUserModal}
@@ -371,7 +378,7 @@ function Plant() {
           </div>
         </div>
       </Modal>
-    </div>
+    </>
   );
 }
 

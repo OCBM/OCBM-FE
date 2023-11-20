@@ -11,8 +11,8 @@ type customPros = {
 
 export function Table(props: TableProps<customPros>) {
   return (
-    <div>
+    <>
       <AntdTable {...props} />
-    </div>
+    </>
   );
 }
