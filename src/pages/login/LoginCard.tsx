@@ -88,20 +88,22 @@ const LoginCard = () => {
                     <p className="font-GothamMedium text-base font-medium italic text-black pt-[50px]">Login</p>
                     <div className="pt-10 w-full">
                       <Input
+                        parentClassName="w-full"
                         name="userName"
                         value={formData.userName}
                         placeholder="User Name*"
-                        className="p-5 border text-[#444444] border-grey-dark"
+                        className="h-[54px] px-2 border text-[#444444] border-grey-dark"
                         onChange={inputHandler}
                       />
                     </div>
                     <div className="pt-[18px] w-full">
                       <Input
+                        parentClassName="w-full"
                         type="password"
                         name="password"
                         value={formData.password}
                         placeholder="Password*"
-                        className="p-5 border  text-[#444444] border-grey-dark"
+                        className="h-[54px] px-2 border  text-[#444444] border-grey-dark"
                         onChange={inputHandler}
                       />
                     </div>
