@@ -247,9 +247,9 @@ function Plant() {
       Changing this due t usage of empty div.
       */}
 
-      <>
+      <div className="pb-1 max-h-5">
         <Table columns={columns} dataSource={plantData} pagination={false} />
-      </>
+      </div>
 
       <Modal
         isOpen={showDeleteUserModal}
