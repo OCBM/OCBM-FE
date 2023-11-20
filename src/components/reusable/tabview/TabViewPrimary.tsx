@@ -25,7 +25,7 @@ const TabViewPrimary = ({ tabs = [], className = '', handleClick = () => {}, act
           </div>
         ))}
       </div>
-      <div className="p-12 max-h-[70vh] overflow-auto">{tabs?.[activeIndex]?.content}</div>
+      <div className="p-12 min-h-[70vh] max-h-[70vh] overflow-auto">{tabs?.[activeIndex]?.content}</div>
     </div>
   );
 };
