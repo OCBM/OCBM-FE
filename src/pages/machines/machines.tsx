@@ -7,6 +7,8 @@ const MachinesPage = () => {
     <div className="flex gap-6 flex-wrap">
       {MACHINES_DATA.map((machineData) => (
         <MachineCard
+          machineName=""
+          sensorCard={false}
           key={machineData.machine}
           handleView={() => navigate(`/machines/${machineData.id}`)}
           title={machineData.machine}

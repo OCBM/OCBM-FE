@@ -8,8 +8,10 @@ const SensorPage = () => {
     <div className="flex gap-14 flex-wrap">
       {ALL_SENSOR_DATA.map((sensorData) => (
         <MachineCard
+          machineName={sensorData.id}
+          sensorCard={true}
           key={sensorData.title}
-          handleView={() => navigate(sensorData.link)}
+          handleView={() => navigate(`/machines/${sensorData?.id}/${sensorData?.subsystems}`)}
           title={sensorData.title}
           showValues={false}
           showSignals={false}
@@ -17,7 +19,6 @@ const SensorPage = () => {
           thresholdValue="02"
           withinSpecValue="01"
           image={sensorData.image}
-          disabled={true}
         />
       ))}
     </div>
