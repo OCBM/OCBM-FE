@@ -5,7 +5,6 @@ import SL45large from '../assets/images/machine-SL45largeimg.jpg';
 import sensor1 from '../assets/images/sensor1.png';
 import sensor2 from '../assets/images/sensor2.png';
 import sensor3 from '../assets/images/sensor3.png';
-import sensor4 from '../assets/images/sensor4.png';
 interface Threshold {
   min: number | string;
   max: number | string;
@@ -298,17 +297,46 @@ export const MACHINES_DATA: MachineData[] = [
 ];
 
 export const ALL_SENSOR_DATA = [
-  { title: 'Hydraulic Oil temprature', image: sensor1, link: '/machines/:id/hydraulicSystem' },
-  { title: 'Hydraulic pump pressure', image: sensor2, link: 'LubricationSystem' },
-  { title: 'Hydraulic oil level', image: sensor3, link: 'SpindleCoolingSystem' },
-  { title: 'Spindle oil level', image: sensor4, link: 'LubricationSystem' },
-  { title: 'Spindle oil outlet temprature', image: sensor1, link: 'SpindleCoolingSystem' },
-  { title: 'Spindle oil pump pressure', image: sensor2, link: 'SpindleCoolingSystem' },
-  { title: 'Coolant oil pump pressure', image: sensor3, link: 'hydraulicSystem' },
-  { title: 'Oil level in lube tank', image: sensor4, link: 'LubricationSystem' },
-  { title: 'Lube oil pump pressure', image: sensor1, link: 'hydraulicSystem' },
-  { title: 'Hydraulic oil pump pressure', image: sensor2, link: 'hydraulicSystem' },
-  { title: 'Hydraulic Oil temprature', image: sensor3, link: 'LubricationSystem' },
-  { title: 'Hydraulic pump pressure', image: sensor4, link: 'hydraulicSystem' },
-  { title: 'Hydraulic oil level', image: sensor1, link: 'hydraulicSystem' },
+  {
+    id: 'HMC1000',
+    subsystems: 'hydraulicSystem',
+    title: 'Motor fin surface temprature',
+    image: sensor1,
+    link: 'LubricationSystem',
+  },
+  {
+    id: 'HMC1000',
+    subsystems: 'SpindleCoolingSystem',
+    title: 'Oil temprature at cooler outlet line',
+    image: sensor2,
+    link: 'hydraulicSystem',
+  },
+  {
+    id: 'HMC1000',
+    subsystems: 'SpindleCoolingSystem',
+    title: 'Hydraulic pump oil outlet pressure',
+    image: sensor3,
+    link: 'LubricationSystem',
+  },
+  {
+    id: 'SL45',
+    subsystems: 'hydraulicSystem',
+    title: 'Hydraulic pump oil outlet pressure',
+    image: sensor1,
+    link: 'hydraulicSystem',
+  },
+  {
+    id: 'SL45',
+    subsystems: 'LubricationSystem',
+    title: 'Oil temprature at cooler outlet line',
+    image: sensor2,
+    link: 'LubricationSystem',
+  },
+  {
+    id: 'SL45',
+    subsystems: 'LubricationSystem',
+    title: 'Motor fin surface temprature',
+    image: sensor3,
+    link: 'LubricationSystem',
+  },
 ];
