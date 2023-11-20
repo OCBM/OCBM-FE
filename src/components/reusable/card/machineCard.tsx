@@ -10,21 +10,28 @@ const MachineCard = ({
   withinSpecValue,
   image,
   disabled,
+  machineName,
+  sensorCard,
 }: {
   showValues: boolean;
+  sensorCard: boolean;
   showSignals: boolean;
   outOfSpecValue: string;
   thresholdValue: string;
   withinSpecValue: string;
+  machineName: string;
   disabled?: boolean;
   title: string;
   image: any;
   handleView?: () => void;
 }) => {
   return (
-    <div className="flex flex-col items-center pt-[10px] px-[10px] border-[#19c18f] border rounded-2xl relative w-[284px] h-full ">
+    <div className="flex flex-col items-center pt-[10px] px-[10px] border-[#19c18f] border rounded-2xl relative w-[284px] justify-between ">
       <div className="flex w-full justify-center relative">
-        <div className="text-lg font-bold font-GothamMedium pt-3 flex justify-center text-center">{title}</div>
+        <div className="flex flex-col">
+          {sensorCard ? <span className="text-center text-[#444444] font-medium text-sm">{machineName}</span> : null}
+          <div className="text-lg font-bold font-GothamMedium pt-3 flex justify-center text-center">{title}</div>
+        </div>
         {showSignals ? (
           <div className="absolute right-4 top-1">
             <OutOfSpec />
@@ -57,13 +64,6 @@ const MachineCard = ({
         </div>
       ) : null}
       <div className="pt-7">
-        {/* <Button
-          disabled={disabled}
-          onClick={handleView}
-          className="bg-gradient-to-r from-[#605BFF] to-[#0A03D9] text-white text-base font-bold py-4 px-20 w-[282px] rounded-b-2xl items-center"
-        >
-          View
-        </Button> */}
         <Button
           onClick={handleView}
           disabled={disabled}
