@@ -4,12 +4,19 @@ import Spindle from '../../assets/images/spindle.png';
 import BackIcon from '../../assets/images/back.png';
 import { OperatingRange, ReportIcon, SquareIcon, ThresholdValue } from '@/assets/icons';
 import { graphData } from '../../utils/ChartMockdata';
+import { useNavigate } from 'react-router-dom';
 
 function LubricationSystem() {
+  const navigate = useNavigate();
   return (
     <div className="shadow-[0px_4px_20px_0px_#0000000F] border-[1px] border-[#44444440] rounded-[16px] p-[24px] h-full">
       <div className="flex justify-between mb-8 items-center">
-        <div className="flex gap-[10px] justify-start items-center">
+        <div
+          onClick={() => {
+            navigate(-1);
+          }}
+          className="flex gap-[10px] justify-start items-center cursor-pointer"
+        >
           <img className="" src={BackIcon} alt="Back Icon" />
           <p className="text-[#444444] text-[14px]">Back</p>
         </div>
