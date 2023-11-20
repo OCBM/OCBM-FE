@@ -400,9 +400,9 @@ const MachineLine = () => {
           onClick={createMachineLine}
         />
       </div>
-      <div className="pb-1 max-h-5">
+      <>
         <Table columns={tableData} dataSource={machineLineList} pagination={false} />
-      </div>
+      </>
     </div>
   );
 };

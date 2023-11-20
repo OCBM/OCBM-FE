@@ -455,9 +455,9 @@ const Machine = () => {
         />
       </div>
       {/* Table for listing Machines */}
-      <div className="pb-1 max-h-5">
+      <>
         <Table columns={columns} dataSource={machineList} pagination={false} />
-      </div>
+      </>
     </div>
   );
 };
