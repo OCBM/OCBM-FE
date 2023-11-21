@@ -199,21 +199,25 @@ const Machine = () => {
     {
       title: 'Machine Description',
       dataIndex: 'machineDescription',
+      width: '20%',
       key: 'machineDescription',
     },
     {
       title: 'Machine ID',
       dataIndex: 'machineId',
+      width: '30%',
       key: 'machineId',
     },
     {
       title: 'Image',
       dataIndex: 'imageName',
+      width: '20%',
       key: 'imageName',
     },
     {
       title: 'Action',
       dataIndex: 'action',
+      width: '10%',
       key: 'action',
       render: (_: any, data: any) => {
         return (

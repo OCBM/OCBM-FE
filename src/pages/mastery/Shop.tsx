@@ -199,21 +199,25 @@ const Shop = () => {
     {
       title: 'Shop Description',
       dataIndex: 'description',
+      width: '20%',
       key: 'description',
     },
     {
       title: 'Shop ID',
       dataIndex: 'shopId',
+      width: '30%',
       key: 'shopId',
     },
     {
       title: 'Image',
       dataIndex: 'imageName',
+      width: '20%',
       key: 'imageName',
     },
     {
       title: 'Action',
       dataIndex: 'action',
+      width: '10%',
       key: 'action',
       render: (_: any, data: any) => {
         return (

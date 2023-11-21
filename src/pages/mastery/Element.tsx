@@ -35,21 +35,25 @@ function Element() {
     {
       title: 'Element Description',
       dataIndex: 'description',
+      width: '20%',
       key: 'description',
     },
     {
       title: 'Element ID',
       dataIndex: 'elementId',
+      width: '30%',
       key: 'id',
     },
     {
       title: 'Image',
       dataIndex: 'image',
+      width: '20%',
       key: 'image',
     },
     {
       title: 'Actions',
       dataIndex: 'actions',
+      width: '10%',
       key: 'actions',
       render: () => {
         return (
@@ -73,6 +77,7 @@ function Element() {
       <div>
         <div className="flex justify-center gap-[16px] mb-6">
           <Input
+            disabled
             className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
             placeholder="Element Name*"
             type="text"
@@ -82,11 +87,13 @@ function Element() {
           <Input
             className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
             placeholder="Element descriptions"
+            disabled
             type="text"
             value=""
             name="descriptions"
           />
           <Dropdown
+            disabled
             options={[]}
             className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
             placeholder="Select Machine"

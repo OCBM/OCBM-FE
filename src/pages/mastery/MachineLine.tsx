@@ -68,21 +68,25 @@ const MachineLine = () => {
     {
       title: 'Machine line Description',
       key: 'machineLineDescription',
+      width: '20%',
       dataIndex: 'machineLineDescription',
     },
     {
       title: 'Machine line ID',
       key: 'machineLineId',
+      width: '30%',
       dataIndex: 'machineLineId',
     },
     {
       title: 'Image',
       key: 'imageName',
+      width: '20%',
       dataIndex: 'imageName',
     },
     {
       title: 'Actions',
       key: 'action',
+      width: '10%',
       dataIndex: 'action',
       render: (_: any, data: any) => {
         return (

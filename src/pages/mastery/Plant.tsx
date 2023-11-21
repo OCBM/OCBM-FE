@@ -104,21 +104,25 @@ function Plant() {
     {
       title: 'Plant Description',
       dataIndex: 'description',
+      width: '20%',
       key: 'description',
     },
     {
       title: 'Plant ID',
       dataIndex: 'plantId',
+      width: '30%',
       key: 'id',
     },
     {
       title: 'Image',
       dataIndex: 'imageName',
+      width: '20%',
       key: 'image',
     },
     {
       title: 'Actions',
       dataIndex: 'actions',
+      width: '10%',
       key: 'actions',
       render: (_: any, data: any) => {
         return (

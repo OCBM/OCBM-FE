@@ -34,21 +34,25 @@ function Sensor() {
     {
       title: 'Sensor Description',
       dataIndex: 'description',
+      width: '20%',
       key: 'description',
     },
     {
       title: 'Sensor ID',
       dataIndex: 'elementId',
+      width: '30%',
       key: 'elementId',
     },
     {
       title: 'Image',
       dataIndex: 'image',
+      width: '20%',
       key: 'image',
     },
     {
       title: 'Actions',
       dataIndex: 'actions',
+      width: '10%',
       key: 'actions',
       render: () => {
         return (
