@@ -405,7 +405,7 @@ const MachineLine = () => {
         />
       </div>
       <>
-        <Table columns={tableData} dataSource={machineLineList} pagination={false} />
+        <Table columns={tableData} dataSource={machineLineList} />
       </>
     </div>
   );

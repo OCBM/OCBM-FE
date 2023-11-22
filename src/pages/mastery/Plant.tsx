@@ -253,7 +253,7 @@ function Plant() {
       */}
 
       <>
-        <Table columns={columns} dataSource={plantData} pagination={false} />
+        <Table columns={columns} dataSource={plantData} />
       </>
 
       <Modal

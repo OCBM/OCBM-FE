@@ -29,7 +29,7 @@ export const PLANT_SERVICES = {
   getAllPlants: async (page?: number, limit?: number, sort?: 'asc' | 'desc') => {
     try {
       const res = await apiInstance.get(
-        `${SERVICES.plants.get}?page=${page || 1}&limit=${limit || 10}&sort=${sort || 'desc'}`,
+        `${SERVICES.plants.get}?page=${page || 1}&limit=${limit || 1000}&sort=${sort || 'desc'}`,
       );
       return res.data;
     } catch (error: any) {

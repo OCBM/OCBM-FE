@@ -460,7 +460,7 @@ const Machine = () => {
       </div>
       {/* Table for listing Machines */}
       <>
-        <Table columns={columns} dataSource={machineList} pagination={false} />
+        <Table columns={columns} dataSource={machineList} />
       </>
     </div>
   );
