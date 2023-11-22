@@ -41,7 +41,7 @@ function Plant() {
   // fetching All Plant data by organizationId
   const fetchPlantDataByOrgId = async () => {
     if (loggedUser) {
-      const res = await PLANT_SERVICES.getAllPlants(orgID);
+      const res = await PLANT_SERVICES.getAllPlants();
       setPlantData(res?.message);
     }
   };
