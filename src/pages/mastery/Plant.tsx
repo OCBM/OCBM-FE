@@ -176,7 +176,7 @@ function Plant() {
       plantName: newPlant.plantName,
       description: newPlant.description,
       image: newPlant.image,
-      ImageName: newPlant.imageName,
+      imageName: newPlant.imageName,
     };
     const res = await PLANT_SERVICES.updatePlantbyId(orgID, newPlant.plantId, body);
     if (res.statusCode === 200) {
