@@ -7,7 +7,7 @@ export const MACHINE_LINE_SERVICES = {
   getAllMachineLine: async (page?: number, limit?: number, sort?: 'asc' | 'dsc') => {
     try {
       const res = await apiInstance.get(
-        `${SERVICES.machineLine.get}?page=${page || 1}&limit=${limit || 10}&sort=${sort || 'asc'}`,
+        `${SERVICES.machineLine.get}?page=${page || 1}&limit=${limit || 10}&sort=${sort || 'desc'}`,
       );
       return res.data;
     } catch (error: any) {
