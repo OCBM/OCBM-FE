@@ -360,7 +360,7 @@ const MachineLine = () => {
           mandatory={true}
         />
         <Input
-          placeholder="Machine line descriptions"
+          placeholder="Machine line description"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           name="description"
           type="text"

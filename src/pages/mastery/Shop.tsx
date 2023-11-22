@@ -408,7 +408,7 @@ const Shop = () => {
           mandatory={true}
         />
         <Input
-          placeholder="Shop Descriptions"
+          placeholder="Shop Description"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"

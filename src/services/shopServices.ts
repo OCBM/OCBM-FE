@@ -4,9 +4,11 @@ import { HELPER_SERVICES } from './helperServices';
 import { toast } from 'react-toastify';
 
 export const SHOP_SERVICES = {
-  getAllShops: async () => {
+  getAllShops: async (page?: number, limit?: number, sort?: 'asc' | 'dsc') => {
     try {
-      const res = await apiInstance.get(SERVICES.shops.get);
+      const res = await apiInstance.get(
+        `${SERVICES.shops.get}?page=${page || 1}&limit=${limit || 10}&sort=${sort || 'asc'}`,
+      );
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;

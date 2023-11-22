@@ -207,7 +207,7 @@ function Plant() {
           />
           <Input
             className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-            placeholder="Plant Descriptions*"
+            placeholder="Plant Description"
             type="text"
             name="description"
             value={newPlant.description}
