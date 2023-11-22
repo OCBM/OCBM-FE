@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 export const SHOP_SERVICES = {
   getAllShops: async (page?: number, limit?: number, sort?: 'asc' | 'desc') => {
     try {
+      // limit is 1000 temporarily, since I did not get the meta data from backend. So setting a large limit.
       const res = await apiInstance.get(
         `${SERVICES.shops.get}?page=${page || 1}&limit=${limit || 1000}&sort=${sort || 'desc'}`,
       );
