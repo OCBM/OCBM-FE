@@ -376,7 +376,7 @@ const MachineLine = () => {
             setNewMachineLine((prev: any) => ({ ...prev, shopId: value?.shopId }));
           }}
           optionLabel="shopName"
-          value={shopList.find((shop: any) => shop.shopId === newMachineLine.shopId)}
+          value={shopList?.find((shop: any) => shop.shopId === newMachineLine.shopId)}
           mandatory={true}
         />
       </div>
