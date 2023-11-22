@@ -113,12 +113,12 @@ function Element() {
         </div>
         <div className="flex justify-start flex-row w-full gap-4 mt-8 mb-8">
           <Button
-            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
+            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
             label="Clear"
             variant="secondary"
           />
           <Button
-            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
+            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
             label="Add"
             disabled
           />
