@@ -34,12 +34,7 @@ const MachineInfo = () => {
         </div>
       </div>
       <div className="flex flex-col gap-[53px] items-center border border-solid border-[(rgba(68, 68, 68, 0.40))] shadow-inner grow rounded-r-2xl">
-        <div className="flex flex-col gap-[10px]">
-          <p className="text-[#444] text-2xl font-bold tracking-[0.48px] leading-6 pt-10">
-            {filterMachineById?.machine}
-          </p>
-          <p className="text-[#444] text-[14px] font-normal tracking-[0.28px] leading-[14px] ">4h 18M 23S</p>
-        </div>
+        <p className="text-[#444] text-2xl font-bold tracking-[0.48px] leading-6 pt-10">{filterMachineById?.machine}</p>
         <div>
           <img src={filterMachineById?.largeimg} alt="honor_15" />
         </div>

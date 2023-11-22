@@ -83,10 +83,10 @@ function Sensor() {
           />
           <Input
             className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-            placeholder="Sensor descriptions"
+            placeholder="Sensor description"
             type="text"
             value=""
-            name="descriptions"
+            name="description"
           />
           <Dropdown
             options={[]}
@@ -108,12 +108,12 @@ function Sensor() {
         </div>
         <div className="flex justify-start flex-row w-full gap-4 mt-8 mb-8">
           <Button
-            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
+            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
             label="Clear"
             variant="secondary"
           />
           <Button
-            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
+            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
             label="Add"
             disabled
           />

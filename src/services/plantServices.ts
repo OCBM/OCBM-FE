@@ -26,9 +26,11 @@ export const PLANT_SERVICES = {
     }
   },
 
-  getAllPlants: async (id: string) => {
+  getAllPlants: async (page?: number, limit?: number, sort?: 'asc' | 'desc') => {
     try {
-      const res = await apiInstance.get(`${SERVICES.plants.get}/organizationId=${id}`);
+      const res = await apiInstance.get(
+        `${SERVICES.plants.get}?page=${page || 1}&limit=${limit || 10}&sort=${sort || 'desc'}`,
+      );
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;

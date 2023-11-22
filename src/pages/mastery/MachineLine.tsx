@@ -360,7 +360,7 @@ const MachineLine = () => {
           mandatory={true}
         />
         <Input
-          placeholder="Machine line descriptions"
+          placeholder="Machine line description"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           name="description"
           type="text"
@@ -376,7 +376,7 @@ const MachineLine = () => {
             setNewMachineLine((prev: any) => ({ ...prev, shopId: value?.shopId }));
           }}
           optionLabel="shopName"
-          value={shopList.find((shop: any) => shop.shopId === newMachineLine.shopId)}
+          value={shopList?.find((shop: any) => shop.shopId === newMachineLine.shopId)}
           mandatory={true}
         />
       </div>
@@ -392,13 +392,13 @@ const MachineLine = () => {
       <div className="flex gap-4 mt-8 mb-8">
         <Button
           variant="secondary"
-          className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
+          className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
           label="Clear"
           onClick={handleClear}
         />
         <Button
           variant="primary"
-          className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
+          className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
           label="Add"
           disabled={disablingAdd()}
           onClick={createMachineLine}

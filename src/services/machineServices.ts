@@ -4,9 +4,11 @@ import { HELPER_SERVICES } from './helperServices';
 import { toast } from 'react-toastify';
 
 export const MACHINE_SERVICES = {
-  getAllMachines: async () => {
+  getAllMachines: async (page?: number, limit?: number, sort?: 'asc' | 'desc') => {
     try {
-      const res = await apiInstance.get(SERVICES.machines.get);
+      const res = await apiInstance.get(
+        `${SERVICES.machines.get}?page=${page || 1}&limit=${limit || 10}&sort=${sort || 'desc'}`,
+      );
       return res.data;
     } catch (error) {
       console.log(error);

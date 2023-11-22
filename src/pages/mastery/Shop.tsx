@@ -185,7 +185,7 @@ const Shop = () => {
   };
 
   const fetchAllPlants = async () => {
-    const res = await PLANT_SERVICES.getAllPlants('9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d');
+    const res = await PLANT_SERVICES.getAllPlants();
     setPlantList(res?.message);
   };
 
@@ -408,7 +408,7 @@ const Shop = () => {
           mandatory={true}
         />
         <Input
-          placeholder="Shop Descriptions"
+          placeholder="Shop Description"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"
@@ -444,13 +444,13 @@ const Shop = () => {
       <div className="flex gap-4 mt-8 mb-8">
         <Button
           variant="secondary"
-          className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
+          className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
           label="Clear"
           onClick={handleClear}
         />
         <Button
           variant="primary"
-          className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
+          className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
           label="Add"
           disabled={disablingAdd()}
           onClick={createShop}
