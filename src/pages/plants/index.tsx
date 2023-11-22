@@ -14,6 +14,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import Cards from './Cards';
 import { useNavigate } from 'react-router-dom';
+import { Loading } from '@/components';
 
 function Plant() {
   const dispatch = useAppDispatch();
@@ -60,7 +61,7 @@ function Plant() {
     <>
       {plants ? (
         <div className={`${plant_container}`}>
-          <div className=" flex flex-col gap-6 w-full ">
+          <div className=" relative flex flex-col gap-6 w-full ">
             <div className="py-2">
               {show === 'plant' && (
                 <h2 className="text-[#492CE1] font-GothamMedium text-2xl font-medium">
@@ -68,14 +69,15 @@ function Plant() {
                 </h2>
               )}
             </div>
-            <div className="grid grid-cols-5 gap-10 pr-6 h-[60vh] winLap:gap-[15%] ">
+            <div className="grid grid-cols-5 gap-10 pr-6 h-fit winLap:gap-[15%] ">
               {plants?.selectedPlant?.plantId && (
-                <div className={`${classNames({ relative: show === 'shop' })}${plant_card}`}>
+                <div className={`${plant_card}`}>
                   <PlantCard
                     name={plants?.selectedPlant?.plantName}
                     onClick={() => {
                       dispatch(toggleShopOpen('plant'));
                       dispatch(setSelectedPlant({}));
+                      dispatch(setSelectedShop({}));
                     }}
                     image={plants?.selectedPlant?.image}
                   />
@@ -102,37 +104,49 @@ function Plant() {
             </div>
             {show === 'shop' && (
               <>
-                <div className="border p-[30px] shadow-card-shadow rounded-2xl absolute bottom-0 minh:top-[47%] laptop:top-[51%] h-[35%] w-[80%] bg-white tall:top-[52%] winLap:top-[52%]">
-                  <span className="absolute w-[30px] h-[30px] bg-white rotate-45 top-[-15px] left-[95px]"></span>
-                  <p className="text-[#492CE1] font-GothamMedium text-lg font-medium">Which shop are you in ?</p>
-                  <div className="overflow-auto flex gap-6">
-                    {shops?.data?.map((shop: any) => (
-                      <div key={shop?.shopId} className="flex gap-4 w-fit cursor-pointer">
-                        <Cards name={shop?.shopName} image={shop?.image} onClick={() => shopCardBtn(shop)} />
+                <div className="border p-[30px] shadow-card-shadow rounded-2xl absolute bottom-0 bg-white w-full top-[505px] h-fit translate-y-[-64%] delay-200">
+                  {shops?.loading ? (
+                    <Loading />
+                  ) : (
+                    <>
+                      <span className="absolute w-[30px] h-[30px] bg-white rotate-45 top-[-15px] left-[95px]"></span>
+                      <p className="text-[#492CE1] font-GothamMedium text-lg font-medium">Which shop are you in ?</p>
+                      <div className="overflow-auto flex gap-6">
+                        {shops?.data?.map((shop: any) => (
+                          <div key={shop?.shopId} className="flex gap-4 w-fit cursor-pointer">
+                            <Cards name={shop?.shopName} image={shop?.image} onClick={() => shopCardBtn(shop)} />
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
+                    </>
+                  )}
                 </div>
               </>
             )}
             {show === 'machine' && (
               <>
-                <div className="border p-[30px] shadow-card-shadow rounded-2xl absolute bottom-0 minh:top-[47%] laptop:top-[51%] h-[35%] w-[80%] bg-white tall:top-[52%] ]">
-                  <span className="absolute w-[30px] h-[30px] bg-white rotate-45 top-[-15px] tall:left-[325px]"></span>
-                  <p className="text-[#492CE1] font-GothamMedium text-lg font-medium">
-                    Lets us know which machine line are you working on ?
-                  </p>
-                  <div className="overflow-auto flex gap-6">
-                    {machines?.data?.map((machine: any) => (
-                      <div
-                        key={machine?.machineLineId}
-                        className="flex gap-4 w-fit cursor-pointer"
-                        onClick={() => navigate('/machines')}
-                      >
-                        <Cards name={machine?.machineLineName} image={machine?.image} />
+                <div className="border p-[30px] shadow-card-shadow rounded-2xl absolute bottom-0 bg-white w-full top-[505px] h-fit translate-y-[-64%] delay-200 ">
+                  {machines?.loading ? (
+                    <Loading />
+                  ) : (
+                    <>
+                      <span className="absolute w-[30px] h-[30px] bg-white rotate-45 top-[-15px] left-[335px]"></span>
+                      <p className="text-[#492CE1] font-GothamMedium text-lg font-medium">
+                        Lets us know which machine line are you working on ?
+                      </p>
+                      <div className="overflow-auto flex gap-6">
+                        {machines?.data?.map((machine: any) => (
+                          <div
+                            key={machine?.machineLineId}
+                            className="flex gap-4 w-fit cursor-pointer"
+                            onClick={() => navigate('/machines')}
+                          >
+                            <Cards name={machine?.machineLineName} image={machine?.image} />
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
+                    </>
+                  )}
                 </div>
               </>
             )}
