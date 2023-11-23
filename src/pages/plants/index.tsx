@@ -57,6 +57,10 @@ function Plant() {
   const plant_card = classNames(
     ` bg-white flex flex-col items-center pt-[10px] pb-5 px-[10px] border-white rounded-2xl shadow-lg w-[220px] h-[244px] cursor-pointer`,
   );
+  const machine_container = classNames(
+    'border p-[30px] shadow-card-shadow rounded-2xl absolute bottom-0 bg-white w-full top-[505px] h-fit translate-y-[-64%] delay-200',
+    { '!top-[400px] ': !machines?.data?.length },
+  );
   return (
     <>
       {plants ? (
@@ -96,11 +100,14 @@ function Plant() {
                 </div>
               )}
               {show === 'plant' &&
-                plants?.data?.map((plant: any) => (
-                  <div key={plant?.plantId} className={`${plant_card}`}>
-                    <PlantCard name={plant?.plantName} image={plant?.image} onClick={() => plantBtn(plant)} />
-                  </div>
-                ))}
+                plants?.data?.map((plant: any) => {
+                  console.log('==plant', plant);
+                  return (
+                    <div key={plant?.plantId} className={`${plant_card}`}>
+                      <PlantCard name={plant?.plantName} image={plant?.image} onClick={() => plantBtn(plant)} />
+                    </div>
+                  );
+                })}
             </div>
             {show === 'shop' && (
               <>
@@ -109,15 +116,28 @@ function Plant() {
                     <Loading />
                   ) : (
                     <>
-                      <span className="absolute w-[30px] h-[30px] bg-white rotate-45 top-[-15px] left-[95px]"></span>
-                      <p className="text-[#492CE1] font-GothamMedium text-lg font-medium">Which shop are you in ?</p>
-                      <div className="overflow-auto flex gap-6">
-                        {shops?.data?.map((shop: any) => (
-                          <div key={shop?.shopId} className="flex gap-4 w-fit cursor-pointer">
-                            <Cards name={shop?.shopName} image={shop?.image} onClick={() => shopCardBtn(shop)} />
+                      {shops?.data?.length > 0 ? (
+                        <>
+                          <span className="absolute w-[30px] h-[30px] bg-white rotate-45 top-[-15px] left-[95px]"></span>
+                          <p className="text-[#492CE1] font-GothamMedium text-lg font-medium">
+                            Which shop are you in ?
+                          </p>
+                          <div className="overflow-auto flex gap-6">
+                            {shops?.data?.map((shop: any) => (
+                              <div key={shop?.shopId} className="flex gap-4 w-fit cursor-pointer">
+                                <Cards name={shop?.shopName} image={shop?.image} onClick={() => shopCardBtn(shop)} />
+                              </div>
+                            ))}
                           </div>
-                        ))}
-                      </div>
+                        </>
+                      ) : (
+                        <>
+                          <span className="absolute w-[30px] h-[30px] bg-white rotate-45 top-[-15px] left-[335px]"></span>
+                          <p className="text-[#492CE1] font-GothamMedium text-lg font-medium">
+                            No Shops are created!!!
+                          </p>
+                        </>
+                      )}
                     </>
                   )}
                 </div>
@@ -125,26 +145,37 @@ function Plant() {
             )}
             {show === 'machine' && (
               <>
-                <div className="border p-[30px] shadow-card-shadow rounded-2xl absolute bottom-0 bg-white w-full top-[505px] h-fit translate-y-[-64%] delay-200 ">
+                <div className={machine_container}>
                   {machines?.loading ? (
                     <Loading />
                   ) : (
                     <>
-                      <span className="absolute w-[30px] h-[30px] bg-white rotate-45 top-[-15px] left-[335px]"></span>
-                      <p className="text-[#492CE1] font-GothamMedium text-lg font-medium">
-                        Lets us know which machine line are you working on ?
-                      </p>
-                      <div className="overflow-auto flex gap-6">
-                        {machines?.data?.map((machine: any) => (
-                          <div
-                            key={machine?.machineLineId}
-                            className="flex gap-4 w-fit cursor-pointer"
-                            onClick={() => navigate('/machines')}
-                          >
-                            <Cards name={machine?.machineLineName} image={machine?.image} />
+                      {machines?.data?.length > 0 ? (
+                        <>
+                          <span className="absolute w-[30px] h-[30px] bg-white rotate-45 top-[-15px] left-[335px]"></span>
+                          <p className="text-[#492CE1] font-GothamMedium text-lg font-medium">
+                            Lets us know which machine line are you working on ?
+                          </p>
+                          <div className="overflow-auto flex gap-6">
+                            {machines?.data?.map((machine: any) => (
+                              <div
+                                key={machine?.machineLineId}
+                                className="flex gap-4 w-fit cursor-pointer"
+                                onClick={() => navigate('/machines')}
+                              >
+                                <Cards name={machine?.machineLineName} image={machine?.image} />
+                              </div>
+                            ))}
                           </div>
-                        ))}
-                      </div>
+                        </>
+                      ) : (
+                        <>
+                          <span className="absolute w-[30px] h-[30px] bg-white rotate-45 top-[-15px] left-[335px]"></span>
+                          <p className="text-[#492CE1] font-GothamMedium text-lg font-medium">
+                            No Machines are present
+                          </p>
+                        </>
+                      )}
                     </>
                   )}
                 </div>
