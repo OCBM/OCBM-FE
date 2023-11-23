@@ -55,7 +55,7 @@ function Plant() {
   );
 
   const plant_card = classNames(
-    ` bg-white flex flex-col items-center pt-[10px] pb-5 px-[10px] border-white rounded-2xl shadow-lg w-[220px] h-[244px] cursor-pointer`,
+    ` bg-white flex flex-col items-center pt-[10px] pb-5 px-[10px] border-white rounded-2xl shadow-lg w-[220px] h-full cursor-pointer justify-evenly`,
   );
   const machine_container = classNames(
     'border p-[30px] shadow-card-shadow rounded-2xl absolute bottom-0 bg-white w-full top-[505px] h-fit translate-y-[-64%] delay-200',
@@ -111,7 +111,7 @@ function Plant() {
             </div>
             {show === 'shop' && (
               <>
-                <div className="border p-[30px] shadow-card-shadow rounded-2xl absolute bottom-0 bg-white w-full top-[505px] h-fit translate-y-[-64%] delay-200">
+                <div className="border p-[30px] shadow-card-shadow rounded-2xl absolute bottom-0 bg-white w-full top-[536px] h-fit translate-y-[-64%] delay-200">
                   {shops?.loading ? (
                     <Loading />
                   ) : (

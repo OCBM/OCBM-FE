@@ -27,6 +27,7 @@ function UsersList() {
     password: '',
   };
   const [userdata, setUserdate] = useState([]);
+  const [userCount, setUserCount] = useState();
   const [edit, setEdit] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<UserTypes>(initialState);
   const [showEditUserModal, setShowEditUserModal] = useState<boolean>(false);
@@ -45,6 +46,7 @@ function UsersList() {
   const fetchUserDataByRole = async (page: number, limit: number) => {
     if (loggedUser) {
       const res = await USER_SERVICES.getAllUsers(page, limit);
+      setUserCount(res.count);
       setUserdate(res?.message);
     }
   };
@@ -52,7 +54,7 @@ function UsersList() {
   useEffect(() => {
     fetchUserDataByRole(page?.pageNumber, page?.pageSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [page]);
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
@@ -209,7 +211,7 @@ function UsersList() {
         pagination={{
           pageSize: page.pageSize,
           current: page.pageNumber,
-          total: userdata?.length,
+          total: userCount,
           onChange: (pages, pageSize) => {
             setpage({
               ...page,
