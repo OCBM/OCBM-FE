@@ -64,7 +64,9 @@ const LoginCard = () => {
       setShowForgotPassword(!showForgotPassword);
     }
   };
-
+  const disablingLoginButton = () => {
+    return formData.userName && formData.password ? false : true;
+  };
   const loginBtnClass = classNames(`w-full
   ${formData?.userName.length < 6 || formData?.password.length < 8 ? 'cursor-not-allowed' : 'cursor-pointer'}`);
 
@@ -114,7 +116,12 @@ const LoginCard = () => {
                       <i>Forgot Password</i>
                     </p>
                     <div className="w-full">
-                      <Button label="Log In" className={loginBtnClass} onClick={loginSubmit} />
+                      <Button
+                        disabled={disablingLoginButton()}
+                        label="Log In"
+                        className={loginBtnClass}
+                        onClick={loginSubmit}
+                      />
                     </div>
                   </div>
                 </div>
