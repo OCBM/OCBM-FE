@@ -104,7 +104,7 @@ function UsersList() {
       key: 'role',
     },
     {
-      title: 'Action',
+      title: 'Actions',
       dataIndex: 'action',
       key: 'action',
       render: (_: any, data: any) => {
