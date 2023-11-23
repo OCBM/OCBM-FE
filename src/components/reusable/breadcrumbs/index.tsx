@@ -23,6 +23,8 @@ function Breadcrumbs({ className, crumbs }: BreadcrumbsType) {
         return 'hydraulic System';
       case 'LubricationSystem':
         return 'Lubrication System';
+      case 'manualEntry':
+        return 'manual entry';
       default:
         return data;
     }

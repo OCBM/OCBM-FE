@@ -35,21 +35,25 @@ function Element() {
     {
       title: 'Element Description',
       dataIndex: 'description',
+      width: '20%',
       key: 'description',
     },
     {
       title: 'Element ID',
       dataIndex: 'elementId',
+      width: '30%',
       key: 'id',
     },
     {
       title: 'Image',
       dataIndex: 'image',
+      width: '20%',
       key: 'image',
     },
     {
       title: 'Actions',
       dataIndex: 'actions',
+      width: '10%',
       key: 'actions',
       render: () => {
         return (
@@ -73,6 +77,7 @@ function Element() {
       <div>
         <div className="flex justify-center gap-[16px] mb-6">
           <Input
+            disabled
             className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
             placeholder="Element Name*"
             type="text"
@@ -81,12 +86,14 @@ function Element() {
           />
           <Input
             className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-            placeholder="Element descriptions"
+            placeholder="Element description"
+            disabled
             type="text"
             value=""
-            name="descriptions"
+            name="description"
           />
           <Dropdown
+            disabled
             options={[]}
             className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
             placeholder="Select Machine"
@@ -106,12 +113,12 @@ function Element() {
         </div>
         <div className="flex justify-start flex-row w-full gap-4 mt-8 mb-8">
           <Button
-            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
+            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
             label="Clear"
             variant="secondary"
           />
           <Button
-            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
+            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
             label="Add"
             disabled
           />
@@ -119,7 +126,7 @@ function Element() {
       </div>
       <div>
         <>
-          <Table columns={columns} dataSource={dataSource} pagination={false} />
+          <Table columns={columns} dataSource={dataSource} />
         </>
       </div>
     </div>

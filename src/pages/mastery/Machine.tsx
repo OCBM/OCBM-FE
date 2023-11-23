@@ -199,21 +199,25 @@ const Machine = () => {
     {
       title: 'Machine Description',
       dataIndex: 'machineDescription',
+      width: '20%',
       key: 'machineDescription',
     },
     {
       title: 'Machine ID',
       dataIndex: 'machineId',
+      width: '30%',
       key: 'machineId',
     },
     {
       title: 'Image',
       dataIndex: 'imageName',
+      width: '20%',
       key: 'imageName',
     },
     {
       title: 'Action',
       dataIndex: 'action',
+      width: '10%',
       key: 'action',
       render: (_: any, data: any) => {
         return (
@@ -402,7 +406,7 @@ const Machine = () => {
           mandatory={true}
         />
         <Input
-          placeholder="Machine Descriptions"
+          placeholder="Machine Description"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"
@@ -442,13 +446,13 @@ const Machine = () => {
       <div className="flex gap-4 mt-8 mb-8">
         <Button
           variant="secondary"
-          className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
+          className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
           label="Clear"
           onClick={handleClear}
         />
         <Button
           variant="primary"
-          className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
+          className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
           label="Add"
           disabled={disablingAdd()}
           onClick={createMachine}
@@ -456,7 +460,7 @@ const Machine = () => {
       </div>
       {/* Table for listing Machines */}
       <>
-        <Table columns={columns} dataSource={machineList} pagination={false} />
+        <Table columns={columns} dataSource={machineList} />
       </>
     </div>
   );

@@ -41,7 +41,7 @@ function Plant() {
   // fetching All Plant data by organizationId
   const fetchPlantDataByOrgId = async () => {
     if (loggedUser) {
-      const res = await PLANT_SERVICES.getAllPlants(orgID);
+      const res = await PLANT_SERVICES.getAllPlants();
       setPlantData(res?.message);
     }
   };
@@ -104,21 +104,25 @@ function Plant() {
     {
       title: 'Plant Description',
       dataIndex: 'description',
+      width: '20%',
       key: 'description',
     },
     {
       title: 'Plant ID',
       dataIndex: 'plantId',
+      width: '30%',
       key: 'id',
     },
     {
       title: 'Image',
       dataIndex: 'imageName',
+      width: '20%',
       key: 'image',
     },
     {
       title: 'Actions',
       dataIndex: 'actions',
+      width: '10%',
       key: 'actions',
       render: (_: any, data: any) => {
         return (
@@ -172,6 +176,7 @@ function Plant() {
       plantName: newPlant.plantName,
       description: newPlant.description,
       image: newPlant.image,
+      imageName: newPlant.imageName,
     };
     const res = await PLANT_SERVICES.updatePlantbyId(orgID, newPlant.plantId, body);
     if (res.statusCode === 200) {
@@ -202,7 +207,7 @@ function Plant() {
           />
           <Input
             className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-            placeholder="Plant Descriptions*"
+            placeholder="Plant Description"
             type="text"
             name="description"
             value={newPlant.description}
@@ -227,12 +232,12 @@ function Plant() {
               setFileName('');
               setImageURl('');
             }}
-            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
+            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
             label="Clear"
             variant="secondary"
           />
           <Button
-            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-GothamMedium"
+            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
             label="Add"
             disabled={disablingNewPlant()}
             onClick={createPlant}
@@ -248,7 +253,7 @@ function Plant() {
       */}
 
       <>
-        <Table columns={columns} dataSource={plantData} pagination={false} />
+        <Table columns={columns} dataSource={plantData} />
       </>
 
       <Modal

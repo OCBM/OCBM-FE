@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { DropdownPropsType } from './types';
 import { ChevronDownIcon } from '@/assets/icons';
+import useOnClickOutside from '@/hooks/useOnClickOutside';
 
 const Dropdown = ({
   options,
@@ -23,11 +24,15 @@ const Dropdown = ({
 
   const inputRef = useRef(null);
   const iconRef = useRef(null);
+  const dropdownClick = useRef(null);
 
   useEffect(() => {
     document.addEventListener('click', toggle);
     return () => document.removeEventListener('click', toggle);
   }, []);
+  useOnClickOutside(dropdownClick, () => {
+    setIsOpen(false);
+  });
 
   const selectOption = (option: any) => {
     setQuery('');
@@ -48,6 +53,7 @@ const Dropdown = ({
       }
     }
   }
+
   const getDisplayValue = () => {
     // If we edit the text field that text will be displayed
     if (query) {
@@ -86,6 +92,7 @@ const Dropdown = ({
         </label>
       )}
       <div
+        ref={dropdownClick}
         className={
           type === 'secondary'
             ? `flex items-center justify-between border-b-2 ${className} cursor-pointer`
@@ -124,7 +131,7 @@ const Dropdown = ({
         </span>
       </div>
       {isOpen && (
-        <div className="absolute border-4 w-full my-3 border-white rounded-b-2xl rounded-l-2xl shadow-lg z-[99] bg-white">
+        <div className="absolute border-4 w-full my-3 border-white rounded-b-2xl rounded-l-2xl overflow-y-auto max-h-[277px] shadow-lg z-[99] bg-white">
           {filterOptions(options)?.map((option: any) => {
             if (optionLabel) {
               return (

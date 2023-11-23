@@ -17,6 +17,7 @@ export const SITEMAP = {
   },
   mastery: {
     index: '/mastery',
+    manualEntry: '/mastery/manualEntry',
   },
   setStandards: {
     index: '/setStandards',
