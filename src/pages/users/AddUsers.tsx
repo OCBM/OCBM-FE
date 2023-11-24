@@ -51,15 +51,13 @@ function Addusers() {
       const group = await GROUP_SERVICES.getAllGroups();
       setGroupsData(group.message);
     }
-
     getOrganizations();
     getGroups();
   }, []);
 
   async function getPlants(value: any) {
-    console.log(value, 'orgid');
-    const plants = await PLANT_SERVICES.getAllPlants(value.organizationId);
-    setPlantsData(plants.message);
+    const plants = await PLANT_SERVICES.getAllPlantsByOrgId(value.organizationId);
+    setPlantsData(plants?.message);
   }
 
   const handleChange = (event: any) => {
