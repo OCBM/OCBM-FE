@@ -110,8 +110,8 @@ const LoginCard = () => {
                       />
                     </div>
                     <p
-                      className="py-5 font-medium text-base text-textThemeColor cursor-pointer"
-                      onClick={() => handleForgotPassword(true)}
+                      className=" opacity-50 cursor-not-allowed py-5 font-medium text-base text-textThemeColor "
+                      // onClick={() => handleForgotPassword(true)}
                     >
                       <i>Forgot Password</i>
                     </p>
