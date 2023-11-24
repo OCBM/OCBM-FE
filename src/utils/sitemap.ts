@@ -10,9 +10,14 @@ export const SITEMAP = {
   },
   machines: {
     index: '/machines',
+    machinesbyId: '/machines/:id',
+    hydraulicSystem: '/machines/:id/hydraulicSystem',
+    SpindleCoolingSystem: '/machines/:id/SpindleCoolingSystem',
+    LubricationSystem: '/machines/:id/LubricationSystem',
   },
   mastery: {
     index: '/mastery',
+    manualEntry: '/mastery/manualEntry',
   },
   setStandards: {
     index: '/setStandards',
@@ -42,6 +47,27 @@ export const SERVICES = {
   },
   plants: {
     get: '/plant',
+    add: '/plant',
+    delete: '/plant',
+    update: '/plant',
+  },
+  machineLine: {
+    get: '/machineline',
+    add: '/machineline',
+    update: '/machineline',
+    delete: '/machineline',
+  },
+  shops: {
+    get: '/shop',
+    add: '/shop',
+    update: '/shop',
+    delete: 'shop',
+  },
+  machines: {
+    get: '/machine',
+    add: '/machine',
+    update: '/machine',
+    delete: '/machine',
   },
   groups: {
     get: '/group',

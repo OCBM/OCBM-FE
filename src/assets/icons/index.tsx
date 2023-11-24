@@ -420,8 +420,8 @@ export const SquareIcon = ({ critical, low, medium, active, color = 'black', cla
   return (
     <svg
       className={className}
-      width="143"
-      height="143"
+      // width="30"
+      // height="30"
       viewBox="0 0 143 143"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -538,7 +538,7 @@ export const PlusIcon = ({ className }: IconsPropType) => {
   );
 };
 
-export const QuesionMarkIcon = ({ className }: IconsPropType) => {
+export const QuestionMarkIcon = ({ className }: IconsPropType) => {
   return (
     <svg
       className={className}
@@ -564,6 +564,7 @@ export const OmnexIcon = ({ className = 'fill-white' }: IconsPropType) => {
     </svg>
   );
 };
+
 export const AddUserIcon = ({ className = 'fill-white' }: IconsPropType) => {
   return (
     <svg className={className} width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
@@ -577,6 +578,261 @@ export const DividerIcon = ({ className = 'fill-white' }: IconsPropType) => {
   return (
     <svg className={className} width="2" height="18" viewBox="0 0 2 18" fill="none" xmlns="http://www.w3.org/2000/svg">
       <line x1="0.95459" y1="-2.18557e-08" x2="0.954591" y2="18" stroke="black" />
+    </svg>
+  );
+};
+export const BulkUploadIcon = ({ className = 'fill-white' }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      width="84"
+      height="66"
+      viewBox="0 0 84 66"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g clipPath="url(#clip0_983_2500)">
+        <path
+          d="M70.05 29.2102C70.5785 27.8309 70.875 26.3227 70.875 24.75C70.875 17.918 65.332 12.375 58.5 12.375C55.9605 12.375 53.5887 13.1484 51.6293 14.4633C48.0586 8.27578 41.3941 4.125 33.75 4.125C22.3547 4.125 13.125 13.3547 13.125 24.75C13.125 25.098 13.1379 25.4461 13.1508 25.7941C5.93203 28.3336 0.75 35.2172 0.75 43.3125C0.75 53.5605 9.06445 61.875 19.3125 61.875H66.75C75.8637 61.875 83.25 54.4887 83.25 45.375C83.25 37.3957 77.5781 30.7313 70.05 29.2102ZM51.4617 37.125H43.0312V51.5625C43.0312 52.6969 42.1031 53.625 40.9688 53.625H34.7812C33.6469 53.625 32.7188 52.6969 32.7188 51.5625V37.125H24.2883C22.4449 37.125 21.5297 34.9078 22.8316 33.6059L36.4184 20.0191C37.2176 19.2199 38.5324 19.2199 39.3316 20.0191L52.9184 33.6059C54.2203 34.9078 53.2922 37.125 51.4617 37.125Z"
+          fill="#c8c8c8"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_983_2500">
+          <rect width="82.5" height="66" fill="white" transform="translate(0.75)" />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};
+
+export const ManualEntryIcon = ({ className = 'fill-white' }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      width="66"
+      height="66"
+      viewBox="0 0 66 66"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g clipPath="url(#clip0_987_2509)">
+        <path
+          d="M46.4253 7.82368H43.2368C41.6926 2.16701 35.855 -1.16676 30.1984 0.377458C28.4168 0.863838 26.7928 1.80652 25.4869 3.1124C24.1811 4.41829 23.2384 6.04221 22.752 7.82381H19.5747C13.0895 7.83 7.83376 13.0857 7.82758 19.571V54.2529C7.83376 60.7382 13.0895 65.9939 19.5747 66.0001H46.4253C52.9105 65.9939 58.1662 60.7382 58.1724 54.2529V19.5708C58.1662 13.0857 52.9105 7.82987 46.4253 7.82368ZM32.9999 5.02687C34.5447 5.02687 35.7969 6.27908 35.7969 7.82381C35.7969 9.36855 34.5447 10.6208 32.9999 10.6208C31.4552 10.6208 30.203 9.36855 30.203 7.82381C30.203 6.27908 31.4553 5.02687 32.9999 5.02687ZM45.6086 33.2199L32.0266 46.8017C30.935 47.8898 29.1689 47.8898 28.0773 46.8017L20.3915 39.1495C19.282 38.0746 19.2539 36.304 20.3285 35.1945C21.4034 34.085 23.174 34.0569 24.2835 35.1316C24.3067 35.1541 24.3295 35.177 24.3518 35.2002L30.0464 40.8948L41.648 29.2595C42.7416 28.1659 44.5148 28.1659 45.6084 29.2595C46.7022 30.353 46.7022 32.1262 45.6086 33.2199Z"
+          fill="#605BFF"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_987_2509">
+          <rect width="66" height="66" fill="white" />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};
+export const ReportIcon = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      width="25"
+      height="25"
+      viewBox="0 0 25 25"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g clipPath="url(#clip0_464_13878)">
+        <path
+          d="M20.5 8.20239V17.9524C20.5 20.9524 18.71 21.9524 16.5 21.9524H8.5C6.29 21.9524 4.5 20.9524 4.5 17.9524V8.20239C4.5 4.95239 6.29 4.20239 8.5 4.20239C8.5 4.82239 8.75 5.38239 9.16 5.79239C9.57 6.20239 10.13 6.45239 10.75 6.45239H14.25C15.49 6.45239 16.5 5.44239 16.5 4.20239C18.71 4.20239 20.5 4.95239 20.5 8.20239Z"
+          stroke="#0134CA"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M8.5 12.9524H12.5M8.5 16.9524H16.5M16.5 4.20239C16.5 5.44239 15.49 6.45239 14.25 6.45239H10.75C10.13 6.45239 9.57 6.20239 9.16 5.79239C8.75 5.38239 8.5 4.82239 8.5 4.20239C8.5 2.96239 9.51 1.95239 10.75 1.95239H14.25C14.87 1.95239 15.43 2.20239 15.84 2.61239C16.25 3.02239 16.5 3.58239 16.5 4.20239Z"
+          stroke="#0134CA"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_464_13878">
+          <rect width="24" height="24" fill="white" transform="translate(0.5 0.952393)" />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};
+export const OperatingRange = ({ className }: IconsPropType) => {
+  return (
+    <svg className={className} width="30" height="2" viewBox="0 0 30 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line y1="1.45239" x2="30" y2="1.45239" stroke="#A299D2" />
+    </svg>
+  );
+};
+export const ThresholdValue = ({ className }: IconsPropType) => {
+  return (
+    <svg className={className} width="30" height="2" viewBox="0 0 30 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0.5" y1="1.45239" x2="29.5" y2="1.45239" stroke="#A299D2" strokeLinecap="round" strokeDasharray="4 4" />
+    </svg>
+  );
+};
+//status for the machines
+export const OutOfSpec = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+    >
+      <rect
+        x="0.5"
+        y="15.5"
+        width="15"
+        height="15"
+        rx="3.5"
+        transform="rotate(-90 0.5 15.5)"
+        fill="white"
+        stroke="#FF3831"
+      />
+      <rect x="3" y="13" width="10" height="10" rx="3" transform="rotate(-90 3 13)" fill="#FF3831" />
+    </svg>
+  );
+};
+export const Thresholdlimit = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+    >
+      <rect
+        x="0.5"
+        y="15.5"
+        width="15"
+        height="15"
+        rx="3.5"
+        transform="rotate(-90 0.5 15.5)"
+        fill="white"
+        stroke="#FFFF54"
+      />
+      <rect x="3" y="13" width="10" height="10" rx="3" transform="rotate(-90 3 13)" fill="#FFFF54" />
+    </svg>
+  );
+};
+export const WithinSpec = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+    >
+      <rect
+        x="0.5"
+        y="15.5"
+        width="15"
+        height="15"
+        rx="3.5"
+        transform="rotate(-90 0.5 15.5)"
+        fill="white"
+        stroke="#74F94B"
+      />
+      <rect x="3" y="13" width="10" height="10" rx="3" transform="rotate(-90 3 13)" fill="#74F94B" />
+    </svg>
+  );
+};
+export const OutOfSpecUnselected = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="15px"
+      height="15px"
+      viewBox="0 0 143 143"
+      fill="none"
+    >
+      <rect x="4.92708" y="5.37362" width="132.812" height="132.812" rx="25.9301" fill="white" />
+      <rect
+        x="4.92708"
+        y="5.37362"
+        width="132.812"
+        height="132.812"
+        rx="25.9301"
+        stroke="#EF4040"
+        strokeWidth="8.85417"
+      />
+    </svg>
+  );
+};
+export const ThresholdlimitUnselected = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="15px"
+      height="15px"
+      viewBox="0 0 143 142"
+      fill="none"
+    >
+      <rect x="4.90316" y="4.71419" width="132.812" height="132.812" rx="25.9301" fill="white" />
+      <rect
+        x="4.90316"
+        y="4.71419"
+        width="132.812"
+        height="132.812"
+        rx="25.9301"
+        stroke="#FFFF54"
+        strokeWidth="8.85417"
+      />
+    </svg>
+  );
+};
+export const WithinSpecUnselected = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="15px"
+      height="15px"
+      viewBox="0 0 143 142"
+      fill="none"
+    >
+      <rect x="5.23665" y="4.55208" width="132.812" height="132.812" rx="25.9301" fill="white" />
+      <rect
+        x="5.23665"
+        y="4.55208"
+        width="132.812"
+        height="132.812"
+        rx="25.9301"
+        stroke="#74F94B"
+        strokeWidth="8.85417"
+      />
+    </svg>
+  );
+};
+
+export const RunningIcon = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      width="17"
+      height="17"
+      viewBox="0 0 17 17"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="8.88132" cy="8.51743" r="8.09751" fill="#15AC7F" fillOpacity="0.13" />
+      <circle cx="8.88154" cy="8.51728" r="4.62715" fill="#15AC7F" />
     </svg>
   );
 };

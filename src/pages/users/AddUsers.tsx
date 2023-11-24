@@ -51,14 +51,13 @@ function Addusers() {
       const group = await GROUP_SERVICES.getAllGroups();
       setGroupsData(group.message);
     }
-
     getOrganizations();
     getGroups();
   }, []);
 
   async function getPlants(value: any) {
-    const plants = await PLANT_SERVICES.getAllPlants(value.organizationId);
-    setPlantsData(plants.message);
+    const plants = await PLANT_SERVICES.getAllPlantsByOrgId(value.organizationId);
+    setPlantsData(plants?.message);
   }
 
   const handleChange = (event: any) => {
@@ -128,6 +127,7 @@ function Addusers() {
           <div className="w-[95%] mx-auto">
             <div className="flex justify-between flex-row w-full gap-[20px] mt-5  mb-9">
               <Input
+                parentClassName=" !w-full "
                 className="rounded-[50px] border-[1px] border-grey-dark w-full h-[50px] mt-2 px-3"
                 labelClassName="text-[#492CE1] text-[14px] font-medium"
                 label="Employee Name"
@@ -139,7 +139,8 @@ function Addusers() {
                 mandatory={true}
               />
               <Input
-                className="rounded-[50px] border-[1px] border-grey-dark w-full h-[50px] mt-2 px-3"
+                className="rounded-[50px] border-[1px] border-grey-dark !w-full h-[50px] mt-2 px-3"
+                parentClassName=" !w-full "
                 labelClassName="text-[#492CE1] text-[14px] font-medium"
                 label="Employee Id"
                 placeholder="Enter Employee Id"
@@ -151,6 +152,7 @@ function Addusers() {
               />
 
               <Input
+                parentClassName=" !w-full "
                 className="rounded-[50px] border-[1px] border-grey-dark w-full h-[50px] mt-2 px-3"
                 labelClassName="text-[#492CE1] text-[14px] font-medium"
                 label="Position"
@@ -213,6 +215,7 @@ function Addusers() {
                 label="User Name"
                 placeholder="Enter Full Name"
                 type="text"
+                parentClassName=" !w-full "
                 name="userName"
                 value={user?.userName}
                 onChange={handleChange}
@@ -220,6 +223,7 @@ function Addusers() {
               />
 
               <Input
+                parentClassName=" !w-full "
                 className="rounded-[50px] border-[1px] border-grey-dark w-full h-[50px] mt-2 px-3"
                 labelClassName="text-[#492CE1] text-[14px] font-medium"
                 label="Email"
@@ -233,6 +237,7 @@ function Addusers() {
               <Input
                 className="rounded-[50px] border-[1px] border-grey-dark w-full h-[50px] mt-2 px-3"
                 labelClassName="text-[#492CE1] text-[14px] font-medium"
+                parentClassName=" !w-full "
                 label="Password"
                 placeholder="Enter Password"
                 type="password"

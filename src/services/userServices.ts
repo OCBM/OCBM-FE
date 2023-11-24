@@ -14,9 +14,9 @@ export const USER_SERVICES = {
       console.log(error);
     }
   },
-  getAllUsers: async () => {
+  getAllUsers: async (page: number, limit: number) => {
     try {
-      const res = await apiInstance.get(`${SERVICES.user.get}?page=1&limit=10`);
+      const res = await apiInstance.get(`${SERVICES.user.get}?page=${page || 1}&limit=${limit || 1000}`);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
@@ -24,7 +24,7 @@ export const USER_SERVICES = {
       console.log(error);
     }
   },
-  getUserbyId: async (id: string) => {
+  getUserById: async (id: string) => {
     try {
       const res = await apiInstance.get(`${SERVICES.user.get}/${id}`);
       return res.data;

@@ -15,4 +15,5 @@ export type InputType = {
   inputClassName?: string;
   disabled?: boolean;
   mandatory?: boolean;
+  parentClassName?: string;
 };

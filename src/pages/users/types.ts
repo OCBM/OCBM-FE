@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 
 export type UserGroupTypes = {
   groupId: string;
@@ -29,17 +29,20 @@ export type UserTypes = {
   email: string;
   groups: UserGroupTypes[];
   plants: UserPlantTypes[];
+  plantValue?: UserPlantTypes | any;
+  groupValue?: UserGroupTypes | any;
+  organizationValue?: UserOrganizationTypes | any;
   organization: UserOrganizationTypes[];
   password: string;
 };
 
 export type EditUserType = {
-  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleChange: (event: ChangeEvent<HTMLInputElement> | UserPlantTypes) => void;
   updateUser: () => void;
   onCloseEditModal: () => void;
   edit: boolean;
   selectedUser: UserTypes;
-  setSelectedUser: (state: UserTypes) => void;
+  setSelectedUser: Dispatch<SetStateAction<UserTypes>>;
 };
 
 export type DeleteUserType = {

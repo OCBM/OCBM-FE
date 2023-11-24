@@ -64,7 +64,9 @@ const LoginCard = () => {
       setShowForgotPassword(!showForgotPassword);
     }
   };
-
+  const disablingLoginButton = () => {
+    return formData.userName && formData.password ? false : true;
+  };
   const loginBtnClass = classNames(`w-full
   ${formData?.userName.length < 6 || formData?.password.length < 8 ? 'cursor-not-allowed' : 'cursor-pointer'}`);
 
@@ -88,31 +90,38 @@ const LoginCard = () => {
                     <p className="font-GothamMedium text-base font-medium italic text-black pt-[50px]">Login</p>
                     <div className="pt-10 w-full">
                       <Input
+                        parentClassName="w-full"
                         name="userName"
                         value={formData.userName}
                         placeholder="User Name*"
-                        className="p-5 border text-[#444444] border-grey-dark"
+                        className="h-[54px] px-2 border text-[#444444] border-grey-dark"
                         onChange={inputHandler}
                       />
                     </div>
                     <div className="pt-[18px] w-full">
                       <Input
+                        parentClassName="w-full"
                         type="password"
                         name="password"
                         value={formData.password}
                         placeholder="Password*"
-                        className="p-5 border  text-[#444444] border-grey-dark"
+                        className="h-[54px] px-2 border  text-[#444444] border-grey-dark"
                         onChange={inputHandler}
                       />
                     </div>
                     <p
-                      className="py-5 font-medium text-base text-textThemeColor cursor-pointer"
-                      onClick={() => handleForgotPassword(true)}
+                      className=" opacity-50 cursor-not-allowed py-5 font-medium text-base text-textThemeColor "
+                      // onClick={() => handleForgotPassword(true)}
                     >
                       <i>Forgot Password</i>
                     </p>
                     <div className="w-full">
-                      <Button label="Log In" className={loginBtnClass} onClick={loginSubmit} />
+                      <Button
+                        disabled={disablingLoginButton()}
+                        label="Log In"
+                        className={loginBtnClass}
+                        onClick={loginSubmit}
+                      />
                     </div>
                   </div>
                 </div>
