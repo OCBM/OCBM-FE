@@ -194,7 +194,7 @@ function UsersList() {
     if (selectedUser.password) {
       body.password = selectedUser.password;
     }
-    console.log(body, 'user update');
+
     // const body = {
     //   name: selectedUser.name,
     //   position: selectedUser.position,
