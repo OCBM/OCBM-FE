@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 function SpindleCoolingSystem() {
   const navigate = useNavigate();
   return (
-    <div className="shadow-[0px_4px_20px_0px_#0000000F] border-[1px] border-[#44444440] rounded-[16px] p-[24px] h-full">
+    <div className="shadow-[0px_4px_20px_0px_#0000000F] border-[1px] border-[#44444440] rounded-[16px] p-[24px] ">
       <div className="flex justify-between mb-8 items-center">
         <div
           onClick={() => {
@@ -38,7 +38,7 @@ function SpindleCoolingSystem() {
           <p className="text-[14px] text-[#444444]">Threshold Value</p>
         </div>
       </div>
-      <div className="flex justify-center gap-[20px] w-[100%] h-auto">
+      <div className="flex gap-2 flex-wrap ">
         {graphData.map((item) => (
           <div key={item.id} className="w-[33%]">
             <Card tag="high" className="w-full shadow-lg h-full bg-white p-[15px] rounded-[9px]">
