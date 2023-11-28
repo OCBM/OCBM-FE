@@ -9,7 +9,6 @@ export const ELEMENT_SERVICES = {
       const res = await apiInstance.get(
         `${SERVICES.element.get}?page=${page || 1}&limit=${limit || 1000}&sort=${sort || 'desc'}`,
       );
-      console.log(res.data, 'services');
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error?.response?.data?.message) || error?.message;
