@@ -21,6 +21,7 @@ const LoginCard = () => {
     confirmPassword: '',
     reset: false,
   });
+  console.log(formData, 'form');
 
   const { user } = useAppSelector((store: RootState) => store?.auth) || {};
   const dispatch = useAppDispatch();

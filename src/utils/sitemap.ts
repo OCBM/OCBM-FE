@@ -21,6 +21,7 @@ export const SITEMAP = {
   },
   setStandards: {
     index: '/setStandards',
+    NewSetStandards: '/setStandards/NewSetStandards',
   },
   reports: {
     index: '/reports',

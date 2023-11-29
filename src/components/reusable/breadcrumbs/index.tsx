@@ -25,6 +25,8 @@ function Breadcrumbs({ className, crumbs }: BreadcrumbsType) {
         return 'Lubrication System';
       case 'manualEntry':
         return 'manual entry';
+      case 'NewSetStandards':
+        return 'New Set Standards';
       default:
         return data;
     }
