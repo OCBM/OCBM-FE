@@ -5,20 +5,6 @@ import { Input } from '@/components';
 import { Checkbox } from 'antd';
 
 const SetStandardsCreate = () => {
-  //   interface DataType {
-  //     key: React.Key;
-  //     machineLine: string;
-  //     ElementName: string;
-  //     SensorDescription: string;
-  //     SensorID: string;
-  //     OperatingRange: number;
-  //     ThresholdValue: number;
-  //     UOM: string;
-  //     Interval: string;
-  //     Trigger: string;
-  //     Criticality: string;
-  //   }
-
   const columns = [
     {
       title: 'Machine line',
