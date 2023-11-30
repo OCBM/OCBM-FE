@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Line } from 'react-chartjs-2';
 
 function LineCharts({ item }: any) {
   const data: any = {
-    type: 'line',
     labels: ['4am', '8am', '12pm', '4pm', '8pm', '0am', '4am', '8am', '12pm', '4pm', '8pm', '0am'],
     datasets: [
       {
@@ -37,6 +37,9 @@ function LineCharts({ item }: any) {
         grid: {
           display: false,
         },
+        border: {
+          color: 'transparent',
+        },
       },
       y: {
         min: item.min,
@@ -44,6 +47,32 @@ function LineCharts({ item }: any) {
         ticks: {
           stepSize: item.stepSize,
           callback: (value: any) => value + ' ' + item.value,
+          color: (event: any) => {
+            return event?.tick?.value === item.min || event?.tick?.value === item.max ? 'green' : 'red';
+          },
+        },
+        border: {
+          dash: [10, 5],
+          color: 'transparent',
+        },
+        grid: {
+          color: '#A299D2',
+        },
+      },
+      y1: {
+        min: 0,
+        max: 60,
+        ticks: {
+          stepSize: item.stepSize,
+          callback: (value: any) => value + ' ' + item.value,
+          color: '#A299D2',
+        },
+        position: 'right',
+        border: {
+          color: 'transparent',
+        },
+        grid: {
+          color: '#A299D2',
         },
       },
     },
