@@ -29,6 +29,12 @@ const MachineLine = () => {
     shopId: '',
     machineLineDescription: '',
   };
+  type PaginationDataType = {
+    current_page: number;
+    item_count?: number;
+    totalPage?: number;
+    total_items?: number;
+  };
 
   const [upload, setUpload] = useState<FileUploadStatusType>('upload');
   const [newMachineLine, setNewMachineLine] = useState<InitialStateType>(initialState);
@@ -40,16 +46,20 @@ const MachineLine = () => {
   const [showDeleteMachineLineModal, setShowDeleteMachineLineModal] = useState<boolean>(false);
   const [showEditMachineLineModal, setShowEditMachineLineModal] = useState<boolean>(false);
   const [showEditSuccessModal, setShowEditSuccessModal] = useState<boolean>(false);
+  const [paginationData, setPaginationData] = useState<PaginationDataType>({
+    current_page: 1,
+  });
 
   //useEffect for shops and machine line api fetch
   useEffect(() => {
-    fetchAllMachineLine();
+    fetchAllMachineLine(1);
     fetchAllShops();
   }, []);
   //all machine line api fetch
-  const fetchAllMachineLine = async () => {
-    const res = await MACHINE_LINE_SERVICES.getAllMachineLine();
+  const fetchAllMachineLine = async (page: number) => {
+    const res = await MACHINE_LINE_SERVICES.getAllMachineLine(page);
     setMachineLineList(res?.message);
+    setPaginationData(res?.meta);
   };
 
   //all shops api fetch
@@ -181,7 +191,7 @@ const MachineLine = () => {
         setImageURl('');
         setShowEditMachineLineModal(false);
         setShowEditSuccessModal(true);
-        fetchAllMachineLine();
+        fetchAllMachineLine(paginationData?.current_page);
       }
     }
   };
@@ -193,7 +203,7 @@ const MachineLine = () => {
       const res = await MACHINE_LINE_SERVICES.deleteMachineLineById(machineLineId, shopId);
       toast.success(res.message);
       setShowDeleteMachineLineModal(false);
-      fetchAllMachineLine();
+      fetchAllMachineLine(paginationData?.current_page);
     }
   };
   //create machine line
@@ -212,7 +222,7 @@ const MachineLine = () => {
       setFileName('');
       setImageURl('');
       toast.success('Machine Line added successfully');
-      fetchAllMachineLine();
+      fetchAllMachineLine(1);
     }
   };
 
@@ -405,7 +415,17 @@ const MachineLine = () => {
         />
       </div>
       <>
-        <Table columns={tableData} dataSource={machineLineList} />
+        <Table
+          columns={tableData}
+          dataSource={machineLineList}
+          pagination={{
+            pageSize: paginationData?.item_count,
+            total: paginationData?.total_items,
+            onChange: (page) => {
+              fetchAllMachineLine(page);
+            },
+          }}
+        />
       </>
     </div>
   );
