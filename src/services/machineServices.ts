@@ -10,7 +10,9 @@ export const MACHINE_SERVICES = {
         `${SERVICES.machines.get}?page=${page || 1}&limit=${limit || 10}&sort=${sort || 'desc'}`,
       );
       return res.data;
-    } catch (error) {
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
       console.log(error);
     }
   },
@@ -19,7 +21,9 @@ export const MACHINE_SERVICES = {
     try {
       const res = await apiInstance.get(`${SERVICES.machines.get}/machineLineId=${id}`);
       return res.data;
-    } catch (error) {
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
       console.log(error);
     }
   },
