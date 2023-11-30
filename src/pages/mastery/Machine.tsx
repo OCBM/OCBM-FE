@@ -34,6 +34,13 @@ type InitialMachineStateType = {
   machineId: string;
 };
 
+type PaginationDataType = {
+  current_page: number;
+  item_count?: number;
+  totalPage?: number;
+  total_items?: number;
+};
+
 // Delete Modal
 const DeleteModal = ({ onCloseDeleteModal, deleteMachine }: DeleteMachineType) => {
   return (
@@ -172,16 +179,21 @@ const Machine = () => {
   // constants to delete a Machine
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 
+  // constants for pagination
+  const [paginationData, setPaginationData] = useState<PaginationDataType>({
+    current_page: 1,
+  });
+
   /* To get machineLines and Machines */
   useEffect(() => {
     fetchAllMachineLines();
-    fetchAllMachines();
+    fetchAllMachines(1);
   }, []);
 
-  const fetchAllMachines = async () => {
-    const res = await MACHINE_SERVICES.getAllMachines();
+  const fetchAllMachines = async (page: number) => {
+    const res = await MACHINE_SERVICES.getAllMachines(page);
     setMachineList(res?.message);
-    console.log(res?.message, 'res');
+    setPaginationData(res?.meta);
   };
 
   const fetchAllMachineLines = async () => {
@@ -295,7 +307,7 @@ const Machine = () => {
       setFileName('');
       setImageURl('');
       toast.success('Machine added successfully');
-      fetchAllMachines();
+      fetchAllMachines(1);
     }
   };
 
@@ -324,7 +336,7 @@ const Machine = () => {
         handleClear();
         setShowEditModal(false);
         setShowEditSuccessModal(true);
-        fetchAllMachines();
+        fetchAllMachines(paginationData?.current_page);
       }
     }
   };
@@ -345,7 +357,7 @@ const Machine = () => {
       const res = await MACHINE_SERVICES.deleteMachineById(machineLineId, machineId);
       toast.success(res.message);
       setShowDeleteModal(false);
-      fetchAllMachines();
+      fetchAllMachines(paginationData?.current_page);
     }
   };
 
@@ -460,7 +472,17 @@ const Machine = () => {
       </div>
       {/* Table for listing Machines */}
       <>
-        <Table columns={columns} dataSource={machineList} />
+        <Table
+          columns={columns}
+          dataSource={machineList}
+          pagination={{
+            pageSize: paginationData?.item_count,
+            total: paginationData?.total_items,
+            onChange: (page) => {
+              fetchAllMachines(page);
+            },
+          }}
+        />
       </>
     </div>
   );
