@@ -16,6 +16,7 @@ import HydraulicSystem from './pages/machines/HydraulicSystem';
 import SpindleCoolingSystem from './pages/machines/SpindleCoolingSystem';
 import LubricationSystem from './pages/machines/LubricationSystem';
 import ManualEntry from './pages/mastery/ManualEntry';
+import Reports from './pages/reports';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
             }
           >
             <Route path={SITEMAP.mastery.index} element={<Mastery />} />
+            <Route path={SITEMAP.reports.index} element={<Reports />} />
             <Route path={SITEMAP.mastery.manualEntry} element={<ManualEntry />} />
             <Route path={SITEMAP.users.addUser} element={<Addusers />} />
             <Route path={SITEMAP.users.index} element={<UsersList />} />
