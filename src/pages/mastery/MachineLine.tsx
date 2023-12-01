@@ -60,6 +60,9 @@ const MachineLine = () => {
     const res = await MACHINE_LINE_SERVICES.getAllMachineLine(page);
     setMachineLineList(res?.message);
     setPaginationData(res?.meta);
+    if (res?.Error && paginationData?.current_page > 1) {
+      fetchAllMachineLine(paginationData?.current_page - 1);
+    }
   };
 
   //all shops api fetch
@@ -421,6 +424,7 @@ const MachineLine = () => {
           pagination={{
             pageSize: paginationData?.item_count,
             total: paginationData?.total_items,
+            current: paginationData?.current_page,
             onChange: (page) => {
               fetchAllMachineLine(page);
             },

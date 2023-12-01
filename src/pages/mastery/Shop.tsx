@@ -195,6 +195,9 @@ const Shop = () => {
     const res = await SHOP_SERVICES.getAllShops(page);
     setShopList(res?.message);
     setPaginationData(res?.meta);
+    if (res?.Error && paginationData?.current_page > 1) {
+      fetchAllShops(paginationData?.current_page - 1);
+    }
   };
 
   const fetchAllPlants = async () => {
@@ -478,6 +481,7 @@ const Shop = () => {
           pagination={{
             pageSize: paginationData?.item_count,
             total: paginationData?.total_items,
+            current: paginationData?.current_page,
             onChange: (page) => {
               fetchAllShops(page);
             },
