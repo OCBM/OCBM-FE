@@ -1,4 +1,4 @@
-import { MACHINE_SERVICES } from '@/services/machineService';
+import { MACHINE_LINE_SERVICES } from '@/services/machineLineServices';
 import { PLANT_SERVICES } from '@/services/plantServices';
 import { SHOP_SERVICES } from '@/services/shopServices';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
@@ -31,8 +31,8 @@ export const fetchShopsByPlantId = createAsyncThunk('shops/fetchShopsByPlantId',
   return SHOP_SERVICES.getAllShopsByPlantId(data);
 });
 
-export const fetchMachineByShopId = createAsyncThunk('machineLine/fetchMachineByShopId', (data: any) => {
-  return MACHINE_SERVICES.getAllMachinesbyShopid(data);
+export const fetchMachineLineByShopId = createAsyncThunk('machineLine/fetchMachineLineByShopId', (data: any) => {
+  return MACHINE_LINE_SERVICES.getMachineLinesByShopId(data);
 });
 
 const PlantSlice = createSlice({
@@ -77,10 +77,10 @@ const PlantSlice = createSlice({
         state.shops.loading = false;
         state.shops.data = payload.message;
       })
-      .addCase(fetchMachineByShopId.pending, (state: any) => {
+      .addCase(fetchMachineLineByShopId.pending, (state: any) => {
         state.machines.loading = true;
       })
-      .addCase(fetchMachineByShopId.fulfilled, (state, { payload }) => {
+      .addCase(fetchMachineLineByShopId.fulfilled, (state, { payload }) => {
         state.machines.loading = false;
         state.machines.data = payload.message;
       });

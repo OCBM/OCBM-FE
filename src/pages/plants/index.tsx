@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import NoPlants from './NoPlants';
 import PlantCard from './PlantCard';
 import {
-  fetchMachineByShopId,
+  fetchMachineLineByShopId,
   fetchShopsByPlantId,
   plantData,
   resetPlantData,
@@ -46,7 +46,7 @@ function Plant() {
 
   const shopCardBtn = (data: any) => {
     dispatch(toggleShopOpen('machine'));
-    dispatch(fetchMachineByShopId(data?.shopId));
+    dispatch(fetchMachineLineByShopId(data?.shopId));
     dispatch(setSelectedShop(data));
   };
 
@@ -101,7 +101,6 @@ function Plant() {
               )}
               {show === 'plant' &&
                 plants?.data?.map((plant: any) => {
-                  console.log('==plant', plant);
                   return (
                     <div key={plant?.plantId} className={`${plant_card}`}>
                       <PlantCard name={plant?.plantName} image={plant?.image} onClick={() => plantBtn(plant)} />
