@@ -194,6 +194,9 @@ const Machine = () => {
     const res = await MACHINE_SERVICES.getAllMachines(page);
     setMachineList(res?.message);
     setPaginationData(res?.meta);
+    if (res?.Error && paginationData?.current_page > 1) {
+      fetchAllMachines(paginationData?.current_page - 1);
+    }
   };
 
   const fetchAllMachineLines = async () => {
@@ -351,8 +354,6 @@ const Machine = () => {
   // API call to delete a Machine
   const deleteMachine = async (machineLineId: string, machineId: string) => {
     setShowDeleteModal(true);
-    console.log(machineLineId, 'mlid');
-    console.log(machineId, 'mid');
     if (machineLineId && machineId) {
       const res = await MACHINE_SERVICES.deleteMachineById(machineLineId, machineId);
       toast.success(res.message);
@@ -478,6 +479,7 @@ const Machine = () => {
           pagination={{
             pageSize: paginationData?.item_count,
             total: paginationData?.total_items,
+            current: paginationData?.current_page,
             onChange: (page) => {
               fetchAllMachines(page);
             },

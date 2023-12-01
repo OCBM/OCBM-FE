@@ -54,6 +54,9 @@ function Plant() {
       const res = await PLANT_SERVICES.getAllPlants(page);
       setPlantData(res?.message);
       setPaginationData(res?.meta);
+      if (res?.Error && paginationData?.current_page > 1) {
+        fetchPlantDataByOrgId(paginationData?.current_page - 1);
+      }
     }
   };
 
@@ -261,6 +264,7 @@ function Plant() {
           pagination={{
             pageSize: paginationData?.item_count,
             total: paginationData?.total_items,
+            current: paginationData?.current_page,
             onChange: (page) => {
               fetchPlantDataByOrgId(page);
             },
