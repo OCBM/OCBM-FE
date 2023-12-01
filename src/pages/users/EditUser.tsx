@@ -1,9 +1,16 @@
 import { ChevronCancelIcon } from '@/assets/icons';
 import { Button, Dropdown, Input } from '@/components';
-import { EditUserType } from './types';
+import { EditUserType, UserGroupTypes, UserOrganizationTypes, UserPlantTypes, UserTypes } from './types';
 import { USERS_PAGE_CONSTANTS } from './constants';
 
-const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUser }: EditUserType) => {
+const EditUser = ({
+  handleChange,
+  updateUser,
+  onCloseEditModal,
+  edit,
+  selectedUser,
+  setSelectedUser,
+}: EditUserType) => {
   return (
     <div className="w-[870px] rounded-[16px] p-[50px] relative">
       <div
@@ -62,11 +69,17 @@ const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUs
               className="w-[385px] h-[54px] rounded-[50px] border-gray-400 border-[1px] p-[15px] mb-5 mt-2"
               placeholder="Organization"
               label="Organization"
+              optionLabel="organizationName"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
               options={selectedUser.organization}
-              value={selectedUser.organization?.length ? selectedUser.organization[0].organizationName : ''}
-              disabled={edit}
+              value={selectedUser.organizationValue}
               mandatory={true}
+              handleChange={(value) => {
+                setSelectedUser((prev: UserTypes) => ({
+                  ...prev,
+                  organization: [value as unknown as UserOrganizationTypes],
+                }));
+              }}
             />
 
             <Dropdown
@@ -75,9 +88,12 @@ const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUs
               label="Group"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
               options={selectedUser.groups}
-              value={selectedUser.groups?.length ? selectedUser.groups[0].groupName : ''}
-              disabled={edit}
+              optionLabel="groupName"
+              value={selectedUser.groupValue}
               mandatory={true}
+              handleChange={(value) => {
+                setSelectedUser((prev: UserTypes) => ({ ...prev, groups: [value as unknown as UserGroupTypes] }));
+              }}
             />
           </div>
 
@@ -102,9 +118,13 @@ const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUs
               label="Access Type"
               value={selectedUser.role}
               options={USERS_PAGE_CONSTANTS.ROLE_ACCESS_TYPES}
+              handleChange={(value) => {
+                setSelectedUser((prev: any) => ({ ...prev, role: value }));
+              }}
+              optionLabel="role"
+              optionValue="role"
               placeholder="Enter Type"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
-              disabled={edit}
             />
             <Input
               className="w-[349px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
@@ -121,9 +141,12 @@ const EditUser = ({ handleChange, updateUser, onCloseEditModal, edit, selectedUs
               placeholder="Plant"
               label="Plant"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
+              optionLabel="plantName"
               options={selectedUser.plants}
-              value={selectedUser.plants?.length ? selectedUser.plants[0].plantName : ''}
-              disabled={edit}
+              handleChange={(value) => {
+                setSelectedUser((prev: UserTypes) => ({ ...prev, plants: [value as unknown as UserPlantTypes] }));
+              }}
+              value={selectedUser.plantValue}
               mandatory={true}
             />
           </div>

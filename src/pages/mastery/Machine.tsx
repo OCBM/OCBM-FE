@@ -215,10 +215,10 @@ const Machine = () => {
       key: 'imageName',
     },
     {
-      title: 'Action',
-      dataIndex: 'action',
+      title: 'Actions',
+      dataIndex: 'actions',
       width: '10%',
-      key: 'action',
+      key: 'actions',
       render: (_: any, data: any) => {
         return (
           <div className="flex justify-start gap-3">

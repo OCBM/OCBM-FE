@@ -9,6 +9,8 @@ import { UserTypes } from './types';
 import DeleteUser from './DeleteUser';
 import { useAppSelector } from '@/hooks';
 import { USERS_PAGE_CONSTANTS } from './constants';
+import classNames from 'classnames';
+import { USER_ROLES } from '@/utils/constants';
 
 // changes
 
@@ -26,35 +28,35 @@ function UsersList() {
     plants: [],
     password: '',
   };
-  const [userdata, setUserdate] = useState([]);
-  const [userCount, setUserCount] = useState();
+  const [userData, setUserData] = useState([]);
   const [edit, setEdit] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<UserTypes>(initialState);
   const [showEditUserModal, setShowEditUserModal] = useState<boolean>(false);
   const [showEditSuccessModal, setShowEditSuccessModal] = useState<boolean>(false);
   const [showDeleteUserModal, setShowDeleteUserModal] = useState<boolean>(false);
-  const [page, setpage] = useState<{
-    pageNumber: number;
-    pageSize: number;
-  }>({
-    pageNumber: 1,
-    pageSize: 10,
-  });
+  const auth = useAppSelector((state) => state.auth.user);
+  // const [page, setpage] = useState<{
+  //   pageNumber: number;
+  //   pageSize: number;
+  // }>({
+  //   pageNumber: 1,
+  //   pageSize: 10,
+  // });
   const loggedUser = useAppSelector((state) => state.auth?.user);
 
   // fetching users data by role
   const fetchUserDataByRole = async (page: number, limit: number) => {
     if (loggedUser) {
       const res = await USER_SERVICES.getAllUsers(page, limit);
-      setUserCount(res.count);
-      setUserdate(res?.message);
+      setUserData(res?.message);
     }
   };
 
   useEffect(() => {
-    fetchUserDataByRole(page?.pageNumber, page?.pageSize);
+    fetchUserDataByRole(1, 1000);
+    // fetchUserDataByRole(page?.pageNumber, page?.pageSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, []);
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
@@ -64,12 +66,21 @@ function UsersList() {
     }));
   };
 
-  const Edituser = async (data: UserTypes) => {
+  const editUser = async (data: UserTypes) => {
     setEdit(true);
     if (data.userId) {
-      const res = await USER_SERVICES.getUserbyId(data.userId);
+      const res = await USER_SERVICES.getUserById(data.userId);
       setShowEditUserModal(true);
-      setSelectedUser(res.message);
+      const plantValue = res.message.plants[0];
+      const organizationValue = res.message.organization[0];
+      const groupValue = res.message.groups[0];
+      const userData = {
+        ...res?.message,
+        plantValue,
+        organizationValue,
+        groupValue,
+      };
+      setSelectedUser(userData);
     }
   };
   const onDeleteUser = async (id: string) => {
@@ -77,9 +88,14 @@ function UsersList() {
     if (id) {
       const res = await USER_SERVICES.deleteUserById(id);
       toast.success(res.message);
-      fetchUserDataByRole(page?.pageNumber, page?.pageSize);
+      fetchUserDataByRole(1, 1000);
+      // fetchUserDataByRole(page?.pageNumber, page?.pageSize);
       setShowDeleteUserModal(false);
     }
+  };
+
+  const isAdmin = () => {
+    return auth?.role === USER_ROLES.ADMIN;
   };
 
   const columns = [
@@ -110,11 +126,18 @@ function UsersList() {
       render: (_: any, data: any) => {
         return (
           <div className="flex justify-start gap-3">
-            <div className="cursor-pointer" onClick={() => Edituser(data)}>
+            <div
+              className={classNames('cursor-pointer', {
+                ' opacity-50 pointer-events-none ': !isAdmin(),
+              })}
+              onClick={() => editUser(data)}
+            >
               <PencilIcon className="w-[20px] h-[20px]" />
             </div>
             <div
-              className="cursor-pointer"
+              className={classNames('cursor-pointer', {
+                ' opacity-50 pointer-events-none ': !isAdmin(),
+              })}
               onClick={() => {
                 setSelectedUser(data);
                 setShowDeleteUserModal(true);
@@ -133,14 +156,54 @@ function UsersList() {
   };
 
   const updateUser = async () => {
-    const body = {
+    type bodyType = {
+      name: string;
+      position: string;
+      role: string;
+      password?: string;
+      groups: Object;
+      organization: Object;
+      plants: Object;
+    };
+    const body: bodyType = {
       name: selectedUser.name,
       position: selectedUser.position,
-      password: selectedUser.password,
+      role: selectedUser.role,
+      groups: {
+        connect: [
+          {
+            groupId: (selectedUser.groups.length && selectedUser.groups[0]?.groupId) || '',
+          },
+        ],
+      },
+      organization: {
+        connect: [
+          {
+            organizationId: (selectedUser.organization.length && selectedUser.organization[0]?.organizationId) || '',
+          },
+        ],
+      },
+      plants: {
+        connect: [
+          {
+            plantId: (selectedUser.plants.length && selectedUser.plants[0]?.plantId) || '',
+          },
+        ],
+      },
     };
+    if (selectedUser.password) {
+      body.password = selectedUser.password;
+    }
+
+    // const body = {
+    //   name: selectedUser.name,
+    //   position: selectedUser.position,
+    //   password: selectedUser.password,
+    // };
     const res = await USER_SERVICES.updateUserbyId(selectedUser.userId, body);
     if (res.statusCode === 200) {
-      fetchUserDataByRole(page?.pageNumber, page?.pageSize);
+      fetchUserDataByRole(1, 1000);
+      // fetchUserDataByRole(page?.pageNumber, page?.pageSize);
       setShowEditUserModal(false);
       setShowEditSuccessModal(true);
     }
@@ -206,20 +269,20 @@ function UsersList() {
       </div> */}
       <Table
         className="w-full mx-auto"
-        dataSource={userdata}
+        dataSource={userData}
         columns={columns}
-        pagination={{
-          pageSize: page.pageSize,
-          current: page.pageNumber,
-          total: userCount,
-          onChange: (pages, pageSize) => {
-            setpage({
-              ...page,
-              pageNumber: pages,
-              pageSize: pageSize,
-            });
-          },
-        }}
+        // pagination={{
+        //   pageSize: page.pageSize,
+        //   current: page.pageNumber,
+        //   total: userData?.length,
+        //   onChange: (pages, pageSize) => {
+        //     setpage({
+        //       ...page,
+        //       pageNumber: pages,
+        //       pageSize: pageSize,
+        //     });
+        //   },
+        // }}
       />
     </div>
   );

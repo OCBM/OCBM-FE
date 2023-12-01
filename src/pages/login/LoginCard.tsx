@@ -64,7 +64,9 @@ const LoginCard = () => {
       setShowForgotPassword(!showForgotPassword);
     }
   };
-
+  const disablingLoginButton = () => {
+    return formData.userName && formData.password ? false : true;
+  };
   const loginBtnClass = classNames(`w-full
   ${formData?.userName.length < 6 || formData?.password.length < 8 ? 'cursor-not-allowed' : 'cursor-pointer'}`);
 
@@ -108,13 +110,18 @@ const LoginCard = () => {
                       />
                     </div>
                     <p
-                      className="py-5 font-medium text-base text-textThemeColor cursor-pointer"
-                      onClick={() => handleForgotPassword(true)}
+                      className=" opacity-50 cursor-not-allowed py-5 font-medium text-base text-textThemeColor "
+                      // onClick={() => handleForgotPassword(true)}
                     >
                       <i>Forgot Password</i>
                     </p>
                     <div className="w-full">
-                      <Button label="Log In" className={loginBtnClass} onClick={loginSubmit} />
+                      <Button
+                        disabled={disablingLoginButton()}
+                        label="Log In"
+                        className={loginBtnClass}
+                        onClick={loginSubmit}
+                      />
                     </div>
                   </div>
                 </div>

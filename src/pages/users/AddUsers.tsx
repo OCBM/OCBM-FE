@@ -51,15 +51,13 @@ function Addusers() {
       const group = await GROUP_SERVICES.getAllGroups();
       setGroupsData(group.message);
     }
-
     getOrganizations();
     getGroups();
   }, []);
 
   async function getPlants(value: any) {
-    console.log(value, 'orgid');
-    const plants = await PLANT_SERVICES.getAllPlants(value.organizationId);
-    setPlantsData(plants.message);
+    const plants = await PLANT_SERVICES.getAllPlantsByOrgId(value.organizationId);
+    setPlantsData(plants?.message);
   }
 
   const handleChange = (event: any) => {
@@ -124,7 +122,7 @@ function Addusers() {
   return (
     <>
       <div className="shadow-md w-full p-[20px] rounded-[16px] mx-auto mb-8 overflow-x-hidden">
-        <h2 className="uppercase text-[24px] text-[#444444] font-medium">Add User</h2>
+        <h2 className="text-[24px] text-[#444444] font-medium">Add user</h2>
         <form>
           <div className="w-[95%] mx-auto">
             <div className="flex justify-between flex-row w-full gap-[20px] mt-5  mb-9">

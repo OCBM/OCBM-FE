@@ -40,6 +40,18 @@ export const PLANT_SERVICES = {
     }
   },
 
+  getAllPlantsByOrgId: async (orgId: string) => {
+    try {
+      // limit is 1000 temporarily, since I did not get the meta data from backend. So setting a large limit.
+      const res = await apiInstance.get(`${SERVICES.plants.get}/organizationId=${orgId}`);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
+
   updatePlantbyId: async (orgId: string, plantId: any, body: any) => {
     try {
       const res = await apiInstance.put(`${SERVICES.plants.update}/organizationId=${orgId}&plantId=${plantId}`, body);
