@@ -820,7 +820,26 @@ export const WithinSpecUnselected = ({ className }: IconsPropType) => {
     </svg>
   );
 };
-
+export const DownloadIcon = ({ className }: IconsPropType) => {
+  return (
+    <svg
+      className={className}
+      width="19"
+      height="19"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g id="Download">
+        <path
+          id="Vector"
+          d="M7.99984 10.6663L4.6665 7.33293L5.59984 6.36626L7.33317 8.09959V2.66626H8.6665V8.09959L10.3998 6.36626L11.3332 7.33293L7.99984 10.6663ZM2.6665 13.3329V9.99959H3.99984V11.9996H11.9998V9.99959H13.3332V13.3329H2.6665Z"
+          fill="white"
+        />
+      </g>
+    </svg>
+  );
+};
 export const RunningIcon = ({ className }: IconsPropType) => {
   return (
     <svg
