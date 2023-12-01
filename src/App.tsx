@@ -16,7 +16,7 @@ import HydraulicSystem from './pages/machines/HydraulicSystem';
 import SpindleCoolingSystem from './pages/machines/SpindleCoolingSystem';
 import LubricationSystem from './pages/machines/LubricationSystem';
 import ManualEntry from './pages/mastery/ManualEntry';
-import SetStandard from './pages/setStandards';
+import SetStandard from './pages/setstandards';
 
 function App() {
   return (
