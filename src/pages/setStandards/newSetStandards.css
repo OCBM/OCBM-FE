@@ -1,0 +1,35 @@
+.headerColor .ant-table-thead {
+  background-color: #cdcdcd;
+}
+
+.ant-pagination-item-active a {
+  background-color: #5f2eea;
+  color: white !important;
+}
+table {
+  margin-bottom: 12px;
+}
+.headerColor .ant-table-cell {
+  color: #444444 !important;
+  font-weight: 400;
+  font-family: 'Gotham-light';
+  font-size: 16px;
+}
+.checkbox1 .ant-checkbox {
+  border: 1.8px solid #492ce1;
+}
+.checkbox1 .ant-checkbox .ant-checkbox-input {
+  opacity: 30;
+  accent-color: #492ce1;
+}
+.checkbox2 .ant-checkbox .ant-checkbox-input {
+  opacity: 30;
+  accent-color: white;
+}
+.checkbox2 .ant-checkbox .ant-checkbox-input:before {
+  content: '\f00c';
+  font-size: 15px;
+  color: transparent !important;
+  display: block;
+  border: 1px solid black;
+}
