@@ -17,6 +17,17 @@ export const MACHINE_LINE_SERVICES = {
     }
   },
 
+  getMachineLinesByShopId: async (id: string) => {
+    try {
+      const res = await apiInstance.get(`${SERVICES.machineLine.get}/shopId=${id}`);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
+
   updateMachineLineById: async (machineLineId: string, shopId: string, body: any) => {
     try {
       const res = await apiInstance.put(
