@@ -1,6 +1,7 @@
 import { ChevronCancelIcon, ChevronSuccessIcon, DeleteIcon, PencilIcon, QuestionMarkIcon } from '@/assets/icons';
 import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
+import Loader from '@/components/reusable/loader';
 import { Table } from '@/components/reusable/table';
 import { MACHINE_LINE_SERVICES } from '@/services/machineLineServices';
 import { SHOP_SERVICES } from '@/services/shopServices';
@@ -40,6 +41,7 @@ const MachineLine = () => {
   const [showDeleteMachineLineModal, setShowDeleteMachineLineModal] = useState<boolean>(false);
   const [showEditMachineLineModal, setShowEditMachineLineModal] = useState<boolean>(false);
   const [showEditSuccessModal, setShowEditSuccessModal] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   //useEffect for shops and machine line api fetch
   useEffect(() => {
@@ -54,8 +56,10 @@ const MachineLine = () => {
 
   //all shops api fetch
   const fetchAllShops = async () => {
+    setIsLoading(true);
     const res = await SHOP_SERVICES.getAllShops();
     setShopList(res?.message);
+    setIsLoading(false);
   };
 
   //DATA FOR MACHINE LINE TABLE
@@ -405,7 +409,14 @@ const MachineLine = () => {
         />
       </div>
       <>
-        <Table columns={tableData} dataSource={machineLineList} />
+        <Table
+          columns={tableData}
+          dataSource={machineLineList}
+          loading={{
+            indicator: <Loader />,
+            spinning: isLoading,
+          }}
+        />
       </>
     </div>
   );

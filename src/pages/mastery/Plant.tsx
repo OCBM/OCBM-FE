@@ -7,6 +7,7 @@ import { PLANT_SERVICES } from '@/services/plantServices';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { MASTERY_PAGE_CONSTANTS, USERS_PAGE_CONSTANTS } from '../users/constants';
+import Loader from '@/components/reusable/loader';
 
 function Plant() {
   const orgID: string = '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d';
@@ -35,14 +36,17 @@ function Plant() {
   const [selectedPlant, setSelectedPlant] = useState<string>('');
   const [showEditSuccessModal, setShowEditSuccessModal] = useState<boolean>(false);
   const loggedUser = useAppSelector((state) => state.auth?.user);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [fileName, setFileName] = useState<string>('');
   const [imageURL, setImageURl] = useState<string>('');
+
   // fetching All Plant data by organizationId
   const fetchPlantDataByOrgId = async () => {
     if (loggedUser) {
+      setIsLoading(true);
       const res = await PLANT_SERVICES.getAllPlants();
       setPlantData(res?.message);
+      setIsLoading(false);
     }
   };
 
@@ -253,7 +257,14 @@ function Plant() {
       */}
 
       <>
-        <Table columns={columns} dataSource={plantData} />
+        <Table
+          columns={columns}
+          dataSource={plantData}
+          loading={{
+            indicator: <Loader />,
+            spinning: isLoading,
+          }}
+        />
       </>
 
       <Modal
