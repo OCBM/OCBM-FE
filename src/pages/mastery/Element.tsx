@@ -6,6 +6,7 @@ import { MACHINE_SERVICES } from '@/services/machineServices';
 import { ELEMENT_SERVICES } from '@/services/elementServices';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import Loader from '@/components/reusable/loader';
 
 export type DeleteElementType = {
   onCloseDeleteModal: () => void;
@@ -32,6 +33,13 @@ type InitialElementStateType = {
   elementDescription: string;
   machineId: string;
   elementId: string;
+};
+
+type PaginationDataType = {
+  current_page: number;
+  item_count?: number;
+  totalPage?: number;
+  total_items?: number;
 };
 
 // Delete Modal
@@ -171,11 +179,17 @@ const Element = () => {
 
   // constants to delete a element
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  // constants for pagination
+  const [paginationData, setPaginationData] = useState<PaginationDataType>({
+    current_page: 1,
+  });
+  // constants to set loading state
+  const [isLoading, setIsLoading] = useState(false);
 
   /* To get elements and machines */
   useEffect(() => {
     fetchAllMachines();
-    fetchAllElements();
+    fetchAllElements(1);
   }, []);
 
   const fetchAllMachines = async () => {
@@ -183,9 +197,15 @@ const Element = () => {
     setMachineList(res?.message);
   };
 
-  const fetchAllElements = async () => {
-    const res = await ELEMENT_SERVICES.getAllElements();
+  const fetchAllElements = async (page: number) => {
+    setIsLoading(true);
+    const res = await ELEMENT_SERVICES.getAllElements(page);
     setElementList(res?.message);
+    setIsLoading(false);
+    setPaginationData(res?.meta);
+    if (res?.Error && paginationData?.current_page > 1) {
+      fetchAllElements(paginationData?.current_page - 1);
+    }
   };
 
   /* Columns and Data for table */
@@ -294,7 +314,7 @@ const Element = () => {
       setFileName('');
       setImageURl('');
       toast.success('Element added successfully');
-      fetchAllElements();
+      fetchAllElements(1);
     }
   };
 
@@ -325,7 +345,7 @@ const Element = () => {
         handleClear();
         setShowEditModal(false);
         setShowEditSuccessModal(true);
-        fetchAllElements();
+        fetchAllElements(paginationData?.current_page);
       }
     }
   };
@@ -344,7 +364,7 @@ const Element = () => {
       const res = await ELEMENT_SERVICES.deleteElementById(machineId, elementId);
       toast.success(res.message);
       setShowDeleteModal(false);
-      fetchAllElements();
+      fetchAllElements(paginationData?.current_page);
     }
   };
 
@@ -455,7 +475,22 @@ const Element = () => {
       </div>
       {/* Table for listing Machines */}
       <>
-        <Table columns={columns} dataSource={elementList} />
+        <Table
+          columns={columns}
+          dataSource={elementList}
+          pagination={{
+            pageSize: paginationData?.item_count,
+            total: paginationData?.total_items,
+            current: paginationData?.current_page,
+            onChange: (page) => {
+              fetchAllElements(page);
+            },
+          }}
+          loading={{
+            indicator: <Loader />,
+            spinning: isLoading,
+          }}
+        />
       </>
     </div>
   );

@@ -35,6 +35,13 @@ type InitialMachineStateType = {
   machineId: string;
 };
 
+type PaginationDataType = {
+  current_page: number;
+  item_count?: number;
+  totalPage?: number;
+  total_items?: number;
+};
+
 // Delete Modal
 const DeleteModal = ({ onCloseDeleteModal, deleteMachine }: DeleteMachineType) => {
   return (
@@ -173,20 +180,28 @@ const Machine = () => {
   // constants to delete a Machine
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 
+  // constants for pagination
+  const [paginationData, setPaginationData] = useState<PaginationDataType>({
+    current_page: 1,
+  });
   // constants to set loading state
   const [isLoading, setIsLoading] = useState(false);
 
   /* To get machineLines and Machines */
   useEffect(() => {
     fetchAllMachineLines();
-    fetchAllMachines();
+    fetchAllMachines(1);
   }, []);
 
-  const fetchAllMachines = async () => {
+  const fetchAllMachines = async (page: number) => {
     setIsLoading(true);
-    const res = await MACHINE_SERVICES.getAllMachines();
+    const res = await MACHINE_SERVICES.getAllMachines(page);
     setMachineList(res?.message);
     setIsLoading(false);
+    setPaginationData(res?.meta);
+    if (res?.Error && paginationData?.current_page > 1) {
+      fetchAllMachines(paginationData?.current_page - 1);
+    }
   };
 
   const fetchAllMachineLines = async () => {
@@ -300,7 +315,7 @@ const Machine = () => {
       setFileName('');
       setImageURl('');
       toast.success('Machine added successfully');
-      fetchAllMachines();
+      fetchAllMachines(1);
     }
   };
 
@@ -329,7 +344,7 @@ const Machine = () => {
         handleClear();
         setShowEditModal(false);
         setShowEditSuccessModal(true);
-        fetchAllMachines();
+        fetchAllMachines(paginationData?.current_page);
       }
     }
   };
@@ -344,13 +359,11 @@ const Machine = () => {
   // API call to delete a Machine
   const deleteMachine = async (machineLineId: string, machineId: string) => {
     setShowDeleteModal(true);
-    console.log(machineLineId, 'mlid');
-    console.log(machineId, 'mid');
     if (machineLineId && machineId) {
       const res = await MACHINE_SERVICES.deleteMachineById(machineLineId, machineId);
       toast.success(res.message);
       setShowDeleteModal(false);
-      fetchAllMachines();
+      fetchAllMachines(paginationData?.current_page);
     }
   };
 
@@ -468,6 +481,14 @@ const Machine = () => {
         <Table
           columns={columns}
           dataSource={machineList}
+          pagination={{
+            pageSize: paginationData?.item_count,
+            total: paginationData?.total_items,
+            current: paginationData?.current_page,
+            onChange: (page) => {
+              fetchAllMachines(page);
+            },
+          }}
           loading={{
             indicator: <Loader />,
             spinning: isLoading,

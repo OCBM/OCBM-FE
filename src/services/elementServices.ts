@@ -7,7 +7,7 @@ export const ELEMENT_SERVICES = {
   getAllElements: async (page?: number, limit?: number, sort?: 'asc' | 'desc') => {
     try {
       const res = await apiInstance.get(
-        `${SERVICES.element.get}?page=${page || 1}&limit=${limit || 1000}&sort=${sort || 'desc'}`,
+        `${SERVICES.element.get}?page=${page || 1}&limit=${limit || 10}&sort=${sort || 'desc'}`,
       );
       return res.data;
     } catch (error: any) {
