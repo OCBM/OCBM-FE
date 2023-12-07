@@ -1,6 +1,7 @@
 import { DeleteIcon, PencilIcon, QuestionMarkIcon, ChevronCancelIcon, ChevronSuccessIcon } from '@/assets/icons';
 import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
+import Loader from '@/components/reusable/loader';
 import { Table } from '@/components/reusable/table';
 import { PLANT_SERVICES } from '@/services/plantServices';
 import { SHOP_SERVICES } from '@/services/shopServices';
@@ -184,6 +185,8 @@ const Shop = () => {
   const [paginationData, setPaginationData] = useState<PaginationDataType>({
     current_page: 1,
   });
+  // constant to set loading state
+  const [isLoading, setIsLoading] = useState(false);
 
   /* To get plants and shops */
   useEffect(() => {
@@ -192,8 +195,10 @@ const Shop = () => {
   }, []);
 
   const fetchAllShops = async (page: number) => {
+    setIsLoading(true);
     const res = await SHOP_SERVICES.getAllShops(page);
     setShopList(res?.message);
+    setIsLoading(false);
     setPaginationData(res?.meta);
     if (res?.Error && paginationData?.current_page > 1) {
       fetchAllShops(paginationData?.current_page - 1);
@@ -474,7 +479,6 @@ const Shop = () => {
       </div>
       {/* Table for listing shops */}
       <>
-        {/* current_page : 1 item_count : 10 totalPage : 2 total_items : 11 */}
         <Table
           columns={columns}
           dataSource={shopList}
@@ -485,6 +489,10 @@ const Shop = () => {
             onChange: (page) => {
               fetchAllShops(page);
             },
+          }}
+          loading={{
+            indicator: <Loader />,
+            spinning: isLoading,
           }}
         />
       </>

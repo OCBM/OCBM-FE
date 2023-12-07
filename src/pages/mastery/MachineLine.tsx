@@ -1,6 +1,7 @@
 import { ChevronCancelIcon, ChevronSuccessIcon, DeleteIcon, PencilIcon, QuestionMarkIcon } from '@/assets/icons';
 import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
+import Loader from '@/components/reusable/loader';
 import { Table } from '@/components/reusable/table';
 import { MACHINE_LINE_SERVICES } from '@/services/machineLineServices';
 import { SHOP_SERVICES } from '@/services/shopServices';
@@ -49,6 +50,7 @@ const MachineLine = () => {
   const [paginationData, setPaginationData] = useState<PaginationDataType>({
     current_page: 1,
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   //useEffect for shops and machine line api fetch
   useEffect(() => {
@@ -57,8 +59,10 @@ const MachineLine = () => {
   }, []);
   //all machine line api fetch
   const fetchAllMachineLine = async (page: number) => {
+    setIsLoading(true);
     const res = await MACHINE_LINE_SERVICES.getAllMachineLine(page);
     setMachineLineList(res?.message);
+    setIsLoading(false);
     setPaginationData(res?.meta);
     if (res?.Error && paginationData?.current_page > 1) {
       fetchAllMachineLine(paginationData?.current_page - 1);
@@ -428,6 +432,10 @@ const MachineLine = () => {
             onChange: (page) => {
               fetchAllMachineLine(page);
             },
+          }}
+          loading={{
+            indicator: <Loader />,
+            spinning: isLoading,
           }}
         />
       </>

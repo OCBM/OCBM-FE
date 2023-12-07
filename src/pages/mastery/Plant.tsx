@@ -7,6 +7,7 @@ import { PLANT_SERVICES } from '@/services/plantServices';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { MASTERY_PAGE_CONSTANTS, USERS_PAGE_CONSTANTS } from '../users/constants';
+import Loader from '@/components/reusable/loader';
 
 function Plant() {
   const orgID: string = '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d';
@@ -46,13 +47,17 @@ function Plant() {
     current_page: 1,
   });
 
+  const [isLoading, setIsLoading] = useState(false);
   const [fileName, setFileName] = useState<string>('');
   const [imageURL, setImageURl] = useState<string>('');
+
   // fetching All Plant data by organizationId
   const fetchPlantDataByOrgId = async (page: number) => {
     if (loggedUser) {
+      setIsLoading(true);
       const res = await PLANT_SERVICES.getAllPlants(page);
       setPlantData(res?.message);
+      setIsLoading(false);
       setPaginationData(res?.meta);
       if (res?.Error && paginationData?.current_page > 1) {
         fetchPlantDataByOrgId(paginationData?.current_page - 1);
@@ -268,6 +273,10 @@ function Plant() {
             onChange: (page) => {
               fetchPlantDataByOrgId(page);
             },
+          }}
+          loading={{
+            indicator: <Loader />,
+            spinning: isLoading,
           }}
         />
       </>
