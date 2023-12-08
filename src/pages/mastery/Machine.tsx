@@ -1,6 +1,7 @@
 import { DeleteIcon, PencilIcon, QuestionMarkIcon, ChevronCancelIcon, ChevronSuccessIcon } from '@/assets/icons';
 import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
+import Loader from '@/components/reusable/loader';
 import { Table } from '@/components/reusable/table';
 import { MACHINE_LINE_SERVICES } from '@/services/machineLineServices';
 import { MACHINE_SERVICES } from '@/services/machineServices';
@@ -32,6 +33,13 @@ type InitialMachineStateType = {
   machineDescription: string;
   machineLineId: string;
   machineId: string;
+};
+
+type PaginationDataType = {
+  current_page: number;
+  item_count?: number;
+  totalPage?: number;
+  total_items?: number;
 };
 
 // Delete Modal
@@ -172,16 +180,28 @@ const Machine = () => {
   // constants to delete a Machine
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 
+  // constants for pagination
+  const [paginationData, setPaginationData] = useState<PaginationDataType>({
+    current_page: 1,
+  });
+  // constants to set loading state
+  const [isLoading, setIsLoading] = useState(false);
+
   /* To get machineLines and Machines */
   useEffect(() => {
     fetchAllMachineLines();
-    fetchAllMachines();
+    fetchAllMachines(1);
   }, []);
 
-  const fetchAllMachines = async () => {
-    const res = await MACHINE_SERVICES.getAllMachines();
+  const fetchAllMachines = async (page: number) => {
+    setIsLoading(true);
+    const res = await MACHINE_SERVICES.getAllMachines(page);
     setMachineList(res?.message);
-    console.log(res?.message, 'res');
+    setIsLoading(false);
+    setPaginationData(res?.meta);
+    if (res?.Error && paginationData?.current_page > 1) {
+      fetchAllMachines(paginationData?.current_page - 1);
+    }
   };
 
   const fetchAllMachineLines = async () => {
@@ -215,10 +235,10 @@ const Machine = () => {
       key: 'imageName',
     },
     {
-      title: 'Action',
-      dataIndex: 'action',
+      title: 'Actions',
+      dataIndex: 'actions',
       width: '10%',
-      key: 'action',
+      key: 'actions',
       render: (_: any, data: any) => {
         return (
           <div className="flex justify-start gap-3">
@@ -295,7 +315,7 @@ const Machine = () => {
       setFileName('');
       setImageURl('');
       toast.success('Machine added successfully');
-      fetchAllMachines();
+      fetchAllMachines(1);
     }
   };
 
@@ -324,7 +344,7 @@ const Machine = () => {
         handleClear();
         setShowEditModal(false);
         setShowEditSuccessModal(true);
-        fetchAllMachines();
+        fetchAllMachines(paginationData?.current_page);
       }
     }
   };
@@ -339,13 +359,11 @@ const Machine = () => {
   // API call to delete a Machine
   const deleteMachine = async (machineLineId: string, machineId: string) => {
     setShowDeleteModal(true);
-    console.log(machineLineId, 'mlid');
-    console.log(machineId, 'mid');
     if (machineLineId && machineId) {
       const res = await MACHINE_SERVICES.deleteMachineById(machineLineId, machineId);
       toast.success(res.message);
       setShowDeleteModal(false);
-      fetchAllMachines();
+      fetchAllMachines(paginationData?.current_page);
     }
   };
 
@@ -460,7 +478,22 @@ const Machine = () => {
       </div>
       {/* Table for listing Machines */}
       <>
-        <Table columns={columns} dataSource={machineList} />
+        <Table
+          columns={columns}
+          dataSource={machineList}
+          pagination={{
+            pageSize: paginationData?.item_count,
+            total: paginationData?.total_items,
+            current: paginationData?.current_page,
+            onChange: (page) => {
+              fetchAllMachines(page);
+            },
+          }}
+          loading={{
+            indicator: <Loader />,
+            spinning: isLoading,
+          }}
+        />
       </>
     </div>
   );

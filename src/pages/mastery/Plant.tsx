@@ -7,6 +7,7 @@ import { PLANT_SERVICES } from '@/services/plantServices';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { MASTERY_PAGE_CONSTANTS, USERS_PAGE_CONSTANTS } from '../users/constants';
+import Loader from '@/components/reusable/loader';
 
 function Plant() {
   const orgID: string = '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d';
@@ -27,6 +28,13 @@ function Plant() {
     imageName: '',
   };
 
+  type PaginationDataType = {
+    current_page: number;
+    item_count?: number;
+    totalPage?: number;
+    total_items?: number;
+  };
+
   const [plantData, setPlantData] = useState([]);
   const [newPlant, setNewPlant] = useState<InitialStateType>(initialState);
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
@@ -35,19 +43,30 @@ function Plant() {
   const [selectedPlant, setSelectedPlant] = useState<string>('');
   const [showEditSuccessModal, setShowEditSuccessModal] = useState<boolean>(false);
   const loggedUser = useAppSelector((state) => state.auth?.user);
+  const [paginationData, setPaginationData] = useState<PaginationDataType>({
+    current_page: 1,
+  });
 
+  const [isLoading, setIsLoading] = useState(false);
   const [fileName, setFileName] = useState<string>('');
   const [imageURL, setImageURl] = useState<string>('');
+
   // fetching All Plant data by organizationId
-  const fetchPlantDataByOrgId = async () => {
+  const fetchPlantDataByOrgId = async (page: number) => {
     if (loggedUser) {
-      const res = await PLANT_SERVICES.getAllPlants();
+      setIsLoading(true);
+      const res = await PLANT_SERVICES.getAllPlants(page);
       setPlantData(res?.message);
+      setIsLoading(false);
+      setPaginationData(res?.meta);
+      if (res?.Error && paginationData?.current_page > 1) {
+        fetchPlantDataByOrgId(paginationData?.current_page - 1);
+      }
     }
   };
 
   useEffect(() => {
-    fetchPlantDataByOrgId();
+    fetchPlantDataByOrgId(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -87,7 +106,7 @@ function Plant() {
       const res = await PLANT_SERVICES.deletePlantById(orgId, plantId);
       toast.success(res.message);
       setShowDeleteUserModal(false);
-      fetchPlantDataByOrgId();
+      fetchPlantDataByOrgId(paginationData?.current_page);
     }
   };
 
@@ -132,7 +151,6 @@ function Plant() {
               onClick={() => {
                 setNewPlant(data);
                 setEditPlant(true);
-                console.log(data, 'table data');
               }}
             >
               <PencilIcon className="w-[20px] h-[20px]" />
@@ -142,7 +160,6 @@ function Plant() {
               onClick={() => {
                 setShowDeleteUserModal(true);
                 setSelectedPlant(data?.plantId);
-                console.log(data);
               }}
             >
               <DeleteIcon className="w-[20px] h-[20px]" />
@@ -167,7 +184,7 @@ function Plant() {
       setFileName('');
       setImageURl('');
       toast.success('Plant added successfully');
-      fetchPlantDataByOrgId();
+      fetchPlantDataByOrgId(1);
     }
   }
 
@@ -180,7 +197,7 @@ function Plant() {
     };
     const res = await PLANT_SERVICES.updatePlantbyId(orgID, newPlant.plantId, body);
     if (res.statusCode === 200) {
-      fetchPlantDataByOrgId();
+      fetchPlantDataByOrgId(paginationData?.current_page);
       setNewPlant(initialState);
       setEditPlant(false);
       setShowEditSuccessModal(true);
@@ -245,15 +262,23 @@ function Plant() {
         </div>
       </>
 
-      {/* 
-      <div>
-        <Table columns={columns} dataSource={plantData} pagination={false} />
-      </div> 
-      Changing this due t usage of empty div.
-      */}
-
       <>
-        <Table columns={columns} dataSource={plantData} />
+        <Table
+          columns={columns}
+          dataSource={plantData}
+          pagination={{
+            pageSize: paginationData?.item_count,
+            total: paginationData?.total_items,
+            current: paginationData?.current_page,
+            onChange: (page) => {
+              fetchPlantDataByOrgId(page);
+            },
+          }}
+          loading={{
+            indicator: <Loader />,
+            spinning: isLoading,
+          }}
+        />
       </>
 
       <Modal

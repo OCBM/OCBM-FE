@@ -1,6 +1,7 @@
 import { DeleteIcon, PencilIcon, QuestionMarkIcon, ChevronCancelIcon, ChevronSuccessIcon } from '@/assets/icons';
 import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
+import Loader from '@/components/reusable/loader';
 import { Table } from '@/components/reusable/table';
 import { PLANT_SERVICES } from '@/services/plantServices';
 import { SHOP_SERVICES } from '@/services/shopServices';
@@ -32,6 +33,13 @@ type EditModalType = {
   onEdit: () => void;
   newShop: InitialShopStateType;
   uploadStatus: FileUploadStatusType;
+};
+
+type PaginationDataType = {
+  current_page: number;
+  item_count?: number;
+  totalPage?: number;
+  total_items?: number;
 };
 
 // Edit Modal
@@ -173,15 +181,28 @@ const Shop = () => {
   // constants to delete a shop
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 
+  // constants for pagination
+  const [paginationData, setPaginationData] = useState<PaginationDataType>({
+    current_page: 1,
+  });
+  // constant to set loading state
+  const [isLoading, setIsLoading] = useState(false);
+
   /* To get plants and shops */
   useEffect(() => {
     fetchAllPlants();
-    fetchAllShops();
+    fetchAllShops(1);
   }, []);
 
-  const fetchAllShops = async () => {
-    const res = await SHOP_SERVICES.getAllShops();
+  const fetchAllShops = async (page: number) => {
+    setIsLoading(true);
+    const res = await SHOP_SERVICES.getAllShops(page);
     setShopList(res?.message);
+    setIsLoading(false);
+    setPaginationData(res?.meta);
+    if (res?.Error && paginationData?.current_page > 1) {
+      fetchAllShops(paginationData?.current_page - 1);
+    }
   };
 
   const fetchAllPlants = async () => {
@@ -215,10 +236,10 @@ const Shop = () => {
       key: 'imageName',
     },
     {
-      title: 'Action',
-      dataIndex: 'action',
+      title: 'Actions',
+      dataIndex: 'actions',
       width: '10%',
-      key: 'action',
+      key: 'actions',
       render: (_: any, data: any) => {
         return (
           <div className="flex justify-start gap-3">
@@ -295,7 +316,7 @@ const Shop = () => {
       setFileName('');
       setImageURl('');
       toast.success('Shop added successfully');
-      fetchAllShops();
+      fetchAllShops(1);
     }
   };
 
@@ -328,7 +349,7 @@ const Shop = () => {
         handleClear();
         setShowEditModal(false);
         setShowEditSuccessModal(true);
-        fetchAllShops();
+        fetchAllShops(paginationData.current_page);
       }
     }
   };
@@ -347,7 +368,7 @@ const Shop = () => {
       const res = await SHOP_SERVICES.deleteShopById(plantId, shopId);
       toast.success(res.message);
       setShowDeleteModal(false);
-      fetchAllShops();
+      fetchAllShops(paginationData?.current_page);
     }
   };
 
@@ -458,7 +479,22 @@ const Shop = () => {
       </div>
       {/* Table for listing shops */}
       <>
-        <Table columns={columns} dataSource={shopList} />
+        <Table
+          columns={columns}
+          dataSource={shopList}
+          pagination={{
+            pageSize: paginationData?.item_count,
+            total: paginationData?.total_items,
+            current: paginationData?.current_page,
+            onChange: (page) => {
+              fetchAllShops(page);
+            },
+          }}
+          loading={{
+            indicator: <Loader />,
+            spinning: isLoading,
+          }}
+        />
       </>
     </div>
   );

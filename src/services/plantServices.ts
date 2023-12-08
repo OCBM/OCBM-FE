@@ -28,9 +28,8 @@ export const PLANT_SERVICES = {
 
   getAllPlants: async (page?: number, limit?: number, sort?: 'asc' | 'desc') => {
     try {
-      // limit is 1000 temporarily, since I did not get the meta data from backend. So setting a large limit.
       const res = await apiInstance.get(
-        `${SERVICES.plants.get}?page=${page || 1}&limit=${limit || 1000}&sort=${sort || 'desc'}`,
+        `${SERVICES.plants.get}?page=${page || 1}&limit=${limit || 10}&sort=${sort || 'desc'}`,
       );
       return res.data;
     } catch (error: any) {
@@ -42,7 +41,6 @@ export const PLANT_SERVICES = {
 
   getAllPlantsByOrgId: async (orgId: string) => {
     try {
-      // limit is 1000 temporarily, since I did not get the meta data from backend. So setting a large limit.
       const res = await apiInstance.get(`${SERVICES.plants.get}/organizationId=${orgId}`);
       return res.data;
     } catch (error: any) {
