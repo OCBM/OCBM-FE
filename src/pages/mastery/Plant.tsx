@@ -363,7 +363,6 @@ function Plant() {
                 name="description"
                 placeholder="Enter Plant Description"
                 value={newPlant?.description}
-                // value={showEditModal ? '' : newShop.description}
                 onChange={handleChange}
               />
               <FileUploader
