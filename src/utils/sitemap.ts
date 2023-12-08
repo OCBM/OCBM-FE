@@ -70,6 +70,12 @@ export const SERVICES = {
     update: '/machine',
     delete: '/machine',
   },
+  element: {
+    get: '/element',
+    add: '/element',
+    update: '/element',
+    delete: '/element',
+  },
   groups: {
     get: '/group',
   },

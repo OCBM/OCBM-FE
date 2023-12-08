@@ -38,8 +38,8 @@ function Breadcrumbs({ className, crumbs }: BreadcrumbsType) {
         {crumbs?.map((data) => (
           <div
             key={data}
-            className={`${className || ''} flex pb-2 text-[18px] text-black capitalize last:text-[#492ce1] 
-		  after:content-['/'] last:after:content-[''] before:ml-[10px] after:ml-[10px] last:content-['']`}
+            className={ `${className || ''} flex pb-2 text-[18px] text-black capitalize last:font-bold last:text-[#492ce1] 
+		        after:content-['/'] last:after:content-[''] before:ml-[10px] after:ml-[10px] last:content-['']` }
           >
             {routerNameChange(data)}
           </div>
