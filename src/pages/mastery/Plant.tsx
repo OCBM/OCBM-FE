@@ -114,6 +114,13 @@ function Plant() {
     return newPlant.plantName && newPlant.description && newPlant.image ? false : true;
   };
 
+  // Clear button functionalities
+  const handleClear = () => {
+    setNewPlant(initialState);
+    setFileName('');
+    setImageURl('');
+  };
+
   const columns = [
     {
       title: 'Plant Name',
@@ -180,9 +187,7 @@ function Plant() {
     };
     const res = await PLANT_SERVICES.addPlant(body);
     if (res?.statusCode === 201) {
-      setNewPlant(initialState);
-      setFileName('');
-      setImageURl('');
+      handleClear();
       toast.success('Plant added successfully');
       fetchPlantDataByOrgId(1);
     }
@@ -198,14 +203,13 @@ function Plant() {
     const res = await PLANT_SERVICES.updatePlantbyId(orgID, newPlant.plantId, body);
     if (res.statusCode === 200) {
       fetchPlantDataByOrgId(paginationData?.current_page);
-      setNewPlant(initialState);
+      handleClear();
       setEditPlant(false);
       setShowEditSuccessModal(true);
     }
   };
 
   const onCloseEditModal = () => {
-    setNewPlant(initialState);
     setShowEditSuccessModal(false);
   };
 
@@ -218,7 +222,7 @@ function Plant() {
             className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
             placeholder="Plant Name*"
             type="text"
-            value={newPlant.plantName}
+            value={editPlant ? '' : newPlant?.plantName}
             name="plantName"
             onChange={handleChange}
           />
@@ -227,7 +231,7 @@ function Plant() {
             placeholder="Plant Description*"
             type="text"
             name="description"
-            value={newPlant.description}
+            value={editPlant ? '' : newPlant?.description}
             onChange={handleChange}
           />
         </div>
@@ -238,17 +242,13 @@ function Plant() {
             fileFormat=".jpg, .png"
             handleFile={handleFile}
             uploadStatus={uploadStatus}
-            image={imageURL}
-            fileName={fileName}
+            fileName={editPlant ? '' : fileName}
+            image={editPlant ? '' : imageURL}
           />
         </div>
         <div className="flex justify-start flex-row w-full gap-4 mt-8 mb-8">
           <Button
-            onClick={() => {
-              setNewPlant(initialState);
-              setFileName('');
-              setImageURl('');
-            }}
+            onClick={handleClear}
             className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
             label="Clear"
             variant="secondary"
@@ -328,6 +328,7 @@ function Plant() {
             className="absolute right-[10px] top-[10px] cursor-pointer"
             onClick={() => {
               setEditPlant(false);
+              handleClear();
             }}
           >
             <ChevronCancelIcon />
