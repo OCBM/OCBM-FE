@@ -49,11 +49,13 @@ function UsersList() {
 
   // fetching users data by role
   const fetchUserDataByRole = async (page: number, limit: number) => {
-    setIsLoading(true);
     if (loggedUser) {
+      setIsLoading(true);
       const res = await USER_SERVICES.getAllUsers(page, limit);
       setUserData(res?.message);
       setIsLoading(false);
+    } else {
+      console.error('user is not logged in');
     }
   };
 
