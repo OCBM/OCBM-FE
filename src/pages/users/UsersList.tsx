@@ -11,6 +11,7 @@ import { useAppSelector } from '@/hooks';
 import { USERS_PAGE_CONSTANTS } from './constants';
 import classNames from 'classnames';
 import { USER_ROLES } from '@/utils/constants';
+import Loader from '@/components/reusable/loader';
 
 // changes
 
@@ -34,6 +35,8 @@ function UsersList() {
   const [showEditUserModal, setShowEditUserModal] = useState<boolean>(false);
   const [showEditSuccessModal, setShowEditSuccessModal] = useState<boolean>(false);
   const [showDeleteUserModal, setShowDeleteUserModal] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const auth = useAppSelector((state) => state.auth.user);
   // const [page, setpage] = useState<{
   //   pageNumber: number;
@@ -46,9 +49,11 @@ function UsersList() {
 
   // fetching users data by role
   const fetchUserDataByRole = async (page: number, limit: number) => {
+    setIsLoading(true);
     if (loggedUser) {
       const res = await USER_SERVICES.getAllUsers(page, limit);
       setUserData(res?.message);
+      setIsLoading(false);
     }
   };
 
@@ -271,18 +276,10 @@ function UsersList() {
         className="w-full mx-auto"
         dataSource={userData}
         columns={columns}
-        // pagination={{
-        //   pageSize: page.pageSize,
-        //   current: page.pageNumber,
-        //   total: userData?.length,
-        //   onChange: (pages, pageSize) => {
-        //     setpage({
-        //       ...page,
-        //       pageNumber: pages,
-        //       pageSize: pageSize,
-        //     });
-        //   },
-        // }}
+        loading={{
+          indicator: <Loader />,
+          spinning: isLoading,
+        }}
       />
     </div>
   );
