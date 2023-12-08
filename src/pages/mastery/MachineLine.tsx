@@ -193,9 +193,7 @@ const MachineLine = () => {
         body,
       );
       if (res.statusCode === 200) {
-        setNewMachineLine(initialState);
-        setFileName('');
-        setImageURl('');
+        handleClear();
         setShowEditMachineLineModal(false);
         setShowEditSuccessModal(true);
         fetchAllMachineLine(paginationData?.current_page);
@@ -225,9 +223,7 @@ const MachineLine = () => {
 
     const res = await MACHINE_LINE_SERVICES.addMachineLine(body);
     if (res.statusCode === 201) {
-      setNewMachineLine(initialState);
-      setFileName('');
-      setImageURl('');
+      handleClear();
       toast.success('Machine Line added successfully');
       fetchAllMachineLine(1);
     }
@@ -274,6 +270,7 @@ const MachineLine = () => {
             className="absolute right-[10px] top-[10px] cursor-pointer"
             onClick={() => {
               setShowEditMachineLineModal(false);
+              handleClear();
             }}
           >
             <ChevronCancelIcon />
@@ -373,7 +370,7 @@ const MachineLine = () => {
           onChange={handleChange}
           type="text"
           name="machineLineName"
-          value={newMachineLine.machineLineName}
+          value={showEditMachineLineModal ? '' : newMachineLine?.machineLineName}
           mandatory={true}
         />
         <Input
@@ -382,7 +379,7 @@ const MachineLine = () => {
           name="description"
           type="text"
           onChange={handleChange}
-          value={newMachineLine.description}
+          value={showEditMachineLineModal ? '' : newMachineLine?.description}
           mandatory={true}
         />
         <Dropdown
@@ -403,8 +400,8 @@ const MachineLine = () => {
         fileFormat=".jpg, .png"
         handleFile={handleFile}
         uploadStatus={upload}
-        fileName={fileName}
-        image={imageURL}
+        fileName={showEditMachineLineModal ? '' : fileName}
+        image={showEditMachineLineModal ? '' : imageURL}
       />
       <div className="flex gap-4 mt-8 mb-8">
         <Button
