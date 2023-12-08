@@ -1,6 +1,7 @@
 import { DeleteIcon, PencilIcon, QuestionMarkIcon, ChevronCancelIcon, ChevronSuccessIcon } from '@/assets/icons';
 import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
+import Loader from '@/components/reusable/loader';
 import { Table } from '@/components/reusable/table';
 import { PLANT_SERVICES } from '@/services/plantServices';
 import { SHOP_SERVICES } from '@/services/shopServices';
@@ -173,6 +174,9 @@ const Shop = () => {
   // constants to delete a shop
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 
+  // constant to set loading state
+  const [isLoading, setIsLoading] = useState(false);
+
   /* To get plants and shops */
   useEffect(() => {
     fetchAllPlants();
@@ -180,8 +184,10 @@ const Shop = () => {
   }, []);
 
   const fetchAllShops = async () => {
+    setIsLoading(true);
     const res = await SHOP_SERVICES.getAllShops();
     setShopList(res?.message);
+    setIsLoading(false);
   };
 
   const fetchAllPlants = async () => {
@@ -215,10 +221,10 @@ const Shop = () => {
       key: 'imageName',
     },
     {
-      title: 'Action',
-      dataIndex: 'action',
+      title: 'Actions',
+      dataIndex: 'actions',
       width: '10%',
-      key: 'action',
+      key: 'actions',
       render: (_: any, data: any) => {
         return (
           <div className="flex justify-start gap-3">
@@ -458,7 +464,14 @@ const Shop = () => {
       </div>
       {/* Table for listing shops */}
       <>
-        <Table columns={columns} dataSource={shopList} />
+        <Table
+          columns={columns}
+          dataSource={shopList}
+          loading={{
+            indicator: <Loader />,
+            spinning: isLoading,
+          }}
+        />
       </>
     </div>
   );

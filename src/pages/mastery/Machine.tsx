@@ -1,6 +1,7 @@
 import { DeleteIcon, PencilIcon, QuestionMarkIcon, ChevronCancelIcon, ChevronSuccessIcon } from '@/assets/icons';
 import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
+import Loader from '@/components/reusable/loader';
 import { Table } from '@/components/reusable/table';
 import { MACHINE_LINE_SERVICES } from '@/services/machineLineServices';
 import { MACHINE_SERVICES } from '@/services/machineServices';
@@ -172,6 +173,9 @@ const Machine = () => {
   // constants to delete a Machine
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 
+  // constants to set loading state
+  const [isLoading, setIsLoading] = useState(false);
+
   /* To get machineLines and Machines */
   useEffect(() => {
     fetchAllMachineLines();
@@ -179,9 +183,10 @@ const Machine = () => {
   }, []);
 
   const fetchAllMachines = async () => {
+    setIsLoading(true);
     const res = await MACHINE_SERVICES.getAllMachines();
     setMachineList(res?.message);
-    console.log(res?.message, 'res');
+    setIsLoading(false);
   };
 
   const fetchAllMachineLines = async () => {
@@ -215,10 +220,10 @@ const Machine = () => {
       key: 'imageName',
     },
     {
-      title: 'Action',
-      dataIndex: 'action',
+      title: 'Actions',
+      dataIndex: 'actions',
       width: '10%',
-      key: 'action',
+      key: 'actions',
       render: (_: any, data: any) => {
         return (
           <div className="flex justify-start gap-3">
@@ -460,7 +465,14 @@ const Machine = () => {
       </div>
       {/* Table for listing Machines */}
       <>
-        <Table columns={columns} dataSource={machineList} />
+        <Table
+          columns={columns}
+          dataSource={machineList}
+          loading={{
+            indicator: <Loader />,
+            spinning: isLoading,
+          }}
+        />
       </>
     </div>
   );
