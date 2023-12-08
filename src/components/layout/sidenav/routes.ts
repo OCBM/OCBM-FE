@@ -17,8 +17,8 @@ export const sideNavRoutes = [
   {
     icon: MasteryIcon,
     title: 'Mastery',
-    path: SITEMAP.mastery.index,
-    key: SITEMAP.mastery.index,
+    path: SITEMAP.mastery.manualEntry,
+    key: SITEMAP.mastery.manualEntry,
   },
   {
     icon: SetStandardIcon,

@@ -4,7 +4,7 @@ import { DateRangePicker, Dropdown, Input } from '@/components';
 const Reports = () => {
   return (
     <div className="shadow-md w-full p-8 rounded-[16px] mx-auto mb-8 overflow-x-hidden">
-      <h2 className="uppercase text-[24px] text-[#444444] font-medium">CBM Date History</h2>
+      <h2 className="text-[24px] text-[#444444] font-medium">CBM Date History</h2>
       <form>
         <div className="w-[95%] mx-auto">
           <div className="flex justify-between flex-row w-full gap-[20px] mt-5  mb-9">
