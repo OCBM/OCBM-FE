@@ -57,14 +57,7 @@ function Breadcrumbs({ className, crumbs }: BreadcrumbsType) {
         </div>
       ) : null}
       {location.pathname === SITEMAP.mastery.manualEntry ? (
-        <div>
-          <Button
-            label="Bulk Upload"
-            className="py-[8px] px-[18px] text-[16px] font-medium"
-            variant="primary"
-            disabled
-          />
-        </div>
+        <Button label="Bulk Upload" className="py-[8px] px-[18px] text-[16px] font-medium" variant="primary" disabled />
       ) : null}
     </div>
   );
