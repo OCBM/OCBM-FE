@@ -76,7 +76,7 @@ function Sensor() {
         <div className="flex justify-center gap-[16px] mb-6">
           <Input
             className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-            placeholder="Sensor Name*"
+            placeholder="Sensor Name"
             type="text"
             value=""
             name="sensorName"
