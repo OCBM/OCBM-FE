@@ -202,6 +202,7 @@ const NewSetStandard = () => {
           <Dropdown
             placeholder="Select Machine"
             className="w-[200px] border-[1px] border-solid border-[#000000] rounded-[50px] mb-2 ml-[42.5%] mt-2 px-5 text-[14px] h-[55px] placeholder:text-[#BBBBBB]"
+            openClassName="ml-[545px] w-[100px]"
             options={mockData}
             optionLabel="MachineName"
             handleChange={(value: any) => {

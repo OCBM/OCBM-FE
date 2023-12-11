@@ -202,9 +202,9 @@ export const Tick = ({ className, stroke }: IconsPropType) => {
   return (
     <svg
       className={className}
-      width="800px"
-      height="800px"
-      viewBox="0 0 25 24"
+      width="900px"
+      height="900px"
+      viewBox="0 0 27 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >

@@ -8,24 +8,24 @@ const Checkbox = ({ label, stroke, variant = 'primary' }: CheckboxType) => {
   return (
     <label className="flex items-center gap-2">
       <div
-        className={`w-4 h-4 rounded-sm border cursor-pointer ${
+        className={`w-5 h-5 rounded-sm border cursor-pointer  ${
           variant == 'primary'
             ? isRemembered
-              ? 'border-[#492CE1] bg-[#492CE1]'
-              : 'border-[#492CE1] border-[2px] rounded'
+              ? 'border-[#492CE1] bg-[#492CE1] rounded-lg'
+              : 'border-[#492CE1] border-[2px] rounded-lg'
             : ' '
         } 
         ${
           variant == 'secondary'
             ? isRemembered
-              ? 'border-[black] bg-[white] cursor-pointer'
-              : 'border-[black] border-[1px] rounded'
+              ? 'border-[black] border-[2px] bg-transparent cursor-pointer rounded-lg'
+              : 'border-[black] border-[2px] rounded-lg'
             : ' '
         }`}
       >
         {isRemembered && (
           <div className="">
-            <Tick stroke={stroke} className=" w-4 h-4 pb-[2px]" />
+            <Tick stroke={stroke} className=" w-5 h-6 pb-[8px]  " />
           </div>
         )}
       </div>
