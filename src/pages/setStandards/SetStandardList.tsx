@@ -1,143 +1,9 @@
 import { DeleteIcon, PencilIcon, SearchIcon } from '@/assets/icons';
 import { Table } from '@/components/reusable/table';
 import { Button, Input } from '@/components';
+import { DATA_SOURCE } from './constants';
 
 const SetStandardList = () => {
-  const dataSource: any = [
-    {
-      machineName: 'HONOR VTC-15',
-      elementName: 'Hydrulic system',
-      sensorDescription: 'Oil Temp Outlet',
-      sensorID: 'Honor-15_LS',
-      operatingRange: '30   -   40',
-      thresholdValue: '0 - 40',
-      uom: 'Bar',
-      interval: '8hr',
-      trigger: 'Max',
-      criticality: 'Breakdown Defect',
-    },
-    {
-      machineName: 'HONOR VTC-15',
-      elementName: 'Hydrulic system',
-      sensorDescription: 'Oil Temp Outlet',
-      sensorID: 'Honor-15_LS',
-      operatingRange: '30   -   40',
-      thresholdValue: '0 - 40',
-      uom: 'Bar',
-      interval: '8hr',
-      trigger: 'Max',
-      criticality: 'Breakdown Defect',
-    },
-    {
-      machineName: 'HONOR VTC-15',
-      elementName: 'Hydrulic system',
-      sensorDescription: 'Oil Temp Outlet',
-      sensorID: 'Honor-15_LS',
-      operatingRange: '30   -   40',
-      thresholdValue: '0 - 40',
-      uom: 'Bar',
-      interval: '8hr',
-      trigger: 'Max',
-      criticality: 'Breakdown Defect',
-    },
-    {
-      machineName: 'HONOR VTC-15',
-      elementName: 'Hydrulic system',
-      sensorDescription: 'Oil Temp Outlet',
-      sensorID: 'Honor-15_LS',
-      operatingRange: '30   -   40',
-      thresholdValue: '0 - 40',
-      uom: 'Bar',
-      interval: '8hr',
-      trigger: 'Max',
-      criticality: 'Breakdown Defect',
-    },
-    {
-      machineName: 'HONOR VTC-15',
-      elementName: 'Hydrulic system',
-      sensorDescription: 'Oil Temp Outlet',
-      sensorID: 'Honor-15_LS',
-      operatingRange: '30   -   40',
-      thresholdValue: '0 - 40',
-      uom: 'Bar',
-      interval: '8hr',
-      trigger: 'Max',
-      criticality: 'Breakdown Defect',
-    },
-    {
-      machineName: 'HONOR VTC-15',
-      elementName: 'Hydrulic system',
-      sensorDescription: 'Oil Temp Outlet',
-      sensorID: 'Honor-15_LS',
-      operatingRange: '30   -   40',
-      thresholdValue: '0 - 40',
-      uom: 'Bar',
-      interval: '8hr',
-      trigger: 'Max',
-      criticality: 'Breakdown Defect',
-    },
-    {
-      machineName: 'HONOR VTC-15',
-      elementName: 'Hydrulic system',
-      sensorDescription: 'Oil Temp Outlet',
-      sensorID: 'Honor-15_LS',
-      operatingRange: '30   -   40',
-      thresholdValue: '0 - 40',
-      uom: 'Bar',
-      interval: '8hr',
-      trigger: 'Max',
-      criticality: 'Breakdown Defect',
-    },
-    {
-      machineName: 'HONOR VTC-15',
-      elementName: 'Hydrulic system',
-      sensorDescription: 'Oil Temp Outlet',
-      sensorID: 'Honor-15_LS',
-      operatingRange: '30   -   40',
-      thresholdValue: '0 - 40',
-      uom: 'Bar',
-      interval: '8hr',
-      trigger: 'Max',
-      criticality: 'Breakdown Defect',
-    },
-    {
-      machineName: 'HONOR VTC-15',
-      elementName: 'Hydrulic system',
-      sensorDescription: 'Oil Temp Outlet',
-      sensorID: 'Honor-15_LS',
-      operatingRange: '30   -   40',
-      thresholdValue: '0 - 40',
-      uom: 'Bar',
-      interval: '8hr',
-      trigger: 'Max',
-      criticality: 'Breakdown Defect',
-    },
-    {
-      machineName: 'HONOR VTC-15',
-      elementName: 'Hydrulic system',
-      sensorDescription: 'Oil Temp Outlet',
-      sensorID: 'Honor-15_LS',
-      operatingRange: '30   -   40',
-      thresholdValue: '0 - 40',
-      uom: 'Bar',
-      interval: '8hr',
-      trigger: 'Max',
-      criticality: 'Breakdown Defect',
-    },
-    {
-      machineName: 'HONOR VTC-15',
-      elementName: 'Hydrulic system',
-      sensorDescription: 'Oil Temp Outlet',
-      sensorID: 'Honor-15_LS',
-      operatingRange: `30   -   40`,
-      thresholdValue: '0 - 40',
-      uom: 'Bar',
-      interval: '8hr',
-      trigger: 'Max',
-      criticality: 'Breakdown Defect',
-    },
-  ];
-
   const columns: any = [
     {
       title: 'Machine Name',
@@ -230,18 +96,16 @@ const SetStandardList = () => {
           className="border-2 w-[340px] h-12 flex gap-3 text-sm p-4"
           leftIcon={<SearchIcon />}
           placeholder="Search Sensor, Machine..."
-        ></Input>
+        />
         <Button
           className="font-medium text-base w-52 h-10 leading-4 flex justify-center items-center"
           label="+ Create Standards"
+          type="button"
+          variant="primary"
         />
       </div>
-      <Table
-        columns={columns}
-        dataSource={dataSource}
-        scroll={{ x: 'calc(1500px + 50%)' }}
-        className="standard_table"
-      />
+
+      <Table className="set-table" columns={columns} dataSource={DATA_SOURCE} scroll={{ x: 'calc(1500px + 50%)' }} />
     </>
   );
 };

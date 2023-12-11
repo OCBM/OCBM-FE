@@ -1,33 +1,33 @@
-.operatingRange {
+.set-table .operatingRange {
   word-spacing: 1rem;
 }
 
-.thresholdValue {
+.set-table .thresholdValue {
   word-spacing: 1rem;
 }
 
-.ant-table-thead > tr > th:nth-child(6) {
+.set-table .ant-table-thead > tr > th:nth-child(6) {
   word-spacing: normal;
 }
-.ant-table-thead > tr > th:nth-child(5) {
+.set-table .ant-table-thead > tr > th:nth-child(5) {
   word-spacing: normal;
 }
 
-.ant-table-thead {
+.set-table .ant-table-thead {
   font-weight: 400;
   font-size: 16px;
   font-family: 'Gotham-medium';
 }
 
-table {
-  margin-bottom: 17px;
+.set-table table {
+  margin-bottom: 25px;
 }
 
-.ant-pagination-item-active a {
+.set-table .ant-pagination-item-active a {
   background-color: #5f2eea;
   color: white !important;
 }
-.ant-table-cell {
+.set-table .ant-table-cell {
   color: #444444;
   font-weight: 400;
   font-size: 16px;
