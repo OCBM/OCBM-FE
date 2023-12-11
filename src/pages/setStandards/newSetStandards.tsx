@@ -2,13 +2,23 @@ import { Table } from '@/components/reusable/table';
 import { Button } from '@/components';
 import { Dropdown } from '@/components';
 import { Input } from '@/components';
-import { Checkbox } from 'antd';
+import { Checkbox } from '@/components';
+import { useState } from 'react';
 import './newSetStandards.css';
+
 const NewSetStandard = () => {
+  type InitialStateType = {
+    machineId: any;
+    MachineName: string;
+  };
+  const initialState = {
+    machineId: '',
+    MachineName: '',
+  };
+  const [machineList, setMachineList] = useState<InitialStateType>(initialState);
   const mockData = [
-    { label: 'Option 1', value: 'option1' },
-    { label: 'Option 2', value: 'option2' },
-    { label: 'Option 3', value: 'option3' },
+    { MachineId: '1', MachineName: 'HMC1000' },
+    { MachineId: '2', MachineName: 'SL45 ' },
   ];
 
   const columns: any = [
@@ -20,10 +30,9 @@ const NewSetStandard = () => {
       align: 'center',
       render: () => {
         return (
-          <div className="flex justify-start gap-3">
+          <div className="flex justify-start gap-3 ml-3">
             <div className="flex gap-1">
-              <Checkbox className="checkbox1" />
-              <span>Honor Vtc-15</span>
+              <Checkbox variant="primary" stroke="white" label="Honor Vtc-15" />
             </div>
           </div>
         );
@@ -117,7 +126,7 @@ const NewSetStandard = () => {
         return (
           <div className="flex gap-3 ml-4">
             <div className=" border-b-[1px] border-[#A9A9A9] w-[34px]">
-              <Input placeholder="8hr" />
+              <Input type="string" name="Interval" mandatory={true} placeholder="8hr" />
             </div>
           </div>
         );
@@ -150,24 +159,15 @@ const NewSetStandard = () => {
     {
       title: 'Criticality',
       key: 'Criticality',
-      width: '16%',
+      width: '20%',
       dataIndex: 'Criticality',
       align: 'center',
       render: () => {
         return (
-          <div className="flex justify-center gap-3">
-            <div className="flex gap-1">
-              <Checkbox className="checkbox2" />
-              <p>Breakdown</p>
-            </div>
-            <div className="flex gap-1">
-              <Checkbox className="checkbox2" />
-              <p>Defect</p>
-            </div>
-            <div className="flex gap-1">
-              <Checkbox className="checkbox2" />
-              <p>Unsafe</p>
-            </div>
+          <div className="flex justify-center gap-3 text-[16px]">
+            <Checkbox variant="secondary" stroke="black" label="Breakdown" />
+            <Checkbox variant="secondary" stroke="black" label="Defect" />
+            <Checkbox variant="secondary" stroke="black" label="Unsafe" />
           </div>
         );
       },
@@ -195,17 +195,19 @@ const NewSetStandard = () => {
     <>
       <div className="rounded-[16px] shadow-md p-5 relative">
         <h2 className="font-GothamMedium text-[24px] text-[#444444]  ">New Set Standards</h2>
-        <div className="flex flex-col justify-center w-[1200px] mb-2 text-center">
+        <div className="flex flex-col justify-center w-[100%] mb-2 text-center">
           <h3 className="text-[#492CE1] font-medium mb-1 ">
             Machine Name <span className="text-red-400">*</span>
           </h3>
           <Dropdown
             placeholder="Select Machine"
-            className="w-[200px] border-[1px] border-solid border-[#000000] rounded-[50px] mb-2 ml-[41.5%] mt-2 px-5 text-[14px] h-[55px] placeholder:text-[#BBBBBB]"
+            className="w-[200px] border-[1px] border-solid border-[#000000] rounded-[50px] mb-2 ml-[42.5%] mt-2 px-5 text-[14px] h-[55px] placeholder:text-[#BBBBBB]"
             options={mockData}
             optionLabel="MachineName"
-            handleChange={() => {}}
-            value=""
+            handleChange={(value: any) => {
+              setMachineList((prev: any) => ({ ...prev, machineId: value?.machineId }));
+            }}
+            value={mockData?.find((machine: any) => machine.machineId === machineList.machineId)}
             mandatory={true}
           />
         </div>
@@ -213,11 +215,13 @@ const NewSetStandard = () => {
         <div className="flex gap-5 justify-center">
           <Button
             label="Cancel"
+            type="button"
             className="py-3 px-8 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
             variant="secondary"
           ></Button>
           <Button
             label="Create"
+            type="submit"
             className="py-3 px-8 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
           ></Button>
         </div>

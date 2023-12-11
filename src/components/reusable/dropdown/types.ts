@@ -1,6 +1,6 @@
 export type DropdownPropsType = {
   options: any;
-  value?: string;
+  value?: any;
   handleChange?: (val: string) => void;
   type?: 'primary' | 'secondary' | undefined;
   placeholder?: string;
