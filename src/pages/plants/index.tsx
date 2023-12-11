@@ -14,7 +14,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import Cards from './Cards';
 import { useNavigate } from 'react-router-dom';
-import { Loading } from '@/components';
+import Loader from '@/components/reusable/loader';
 
 function Plant() {
   const dispatch = useAppDispatch();
@@ -112,7 +112,7 @@ function Plant() {
               <>
                 <div className="border p-[30px] shadow-card-shadow rounded-2xl absolute bottom-0 bg-white w-full top-[536px] h-fit translate-y-[-64%] delay-200">
                   {shops?.loading ? (
-                    <Loading />
+                    <Loader />
                   ) : (
                     <>
                       {shops?.data?.length > 0 ? (
@@ -146,7 +146,7 @@ function Plant() {
               <>
                 <div className={machine_container}>
                   {machines?.loading ? (
-                    <Loading />
+                    <Loader />
                   ) : (
                     <>
                       {machines?.data?.length > 0 ? (
