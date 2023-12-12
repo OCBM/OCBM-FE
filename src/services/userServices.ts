@@ -14,9 +14,11 @@ export const USER_SERVICES = {
       console.log(error);
     }
   },
-  getAllUsers: async (page: number, limit: number) => {
+  getAllUsers: async (page: number, limit?: number, sort?: 'asc' | 'desc') => {
     try {
-      const res = await apiInstance.get(`${SERVICES.user.get}?page=${page || 1}&limit=${limit || 1000}`);
+      const res = await apiInstance.get(
+        `${SERVICES.user.get}?page=${page || 1}&limit=${limit || 1000}&sort=${sort || 'desc'}`,
+      );
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;

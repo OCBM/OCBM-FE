@@ -2,6 +2,7 @@ import { DeleteIcon, PencilIcon, QuestionMarkIcon, ChevronCancelIcon, ChevronSuc
 import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
 import Loader from '@/components/reusable/loader';
+import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 import { Table } from '@/components/reusable/table';
 import { PLANT_SERVICES } from '@/services/plantServices';
 import { SHOP_SERVICES } from '@/services/shopServices';
@@ -15,15 +16,6 @@ export type InitialShopStateType = {
   description: string;
   plantId: string;
   shopId: string;
-};
-
-type DeleteShopType = {
-  closeDeleteModal: () => void;
-  onDelete: () => void;
-};
-
-type EditSuccessModalType = {
-  closeEditSuccessModal: () => void;
 };
 
 type EditModalType = {
@@ -98,52 +90,6 @@ const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newShop, 
           />
         </div>
       </form>
-    </div>
-  );
-};
-
-// Edit success modal
-const EditSuccessModal = ({ closeEditSuccessModal }: EditSuccessModalType) => {
-  return (
-    <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
-      <div className="flex flex-col items-center justify-center">
-        <ChevronSuccessIcon className="w-[100px] h-[100px]" />
-        <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Changes are done</h2>
-        <div className="flex gap-[8px] justify-between">
-          <Button
-            label="Done"
-            variant="primary"
-            className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] py-[8px] px-[24px]"
-            onClick={closeEditSuccessModal}
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Delete Modal
-const DeleteModal = ({ closeDeleteModal, onDelete }: DeleteShopType) => {
-  return (
-    <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
-      <div className="flex flex-col items-center justify-center">
-        <QuestionMarkIcon />
-        <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Are you sure want to delete?</h2>
-        <div className="flex gap-[8px] justify-between">
-          <Button
-            label="Cancel"
-            variant="secondary"
-            className="rounded-[16px] text-[16px] font-medium text-[#605BFF] italic py-[8px] px-[24px] w-[104px]"
-            onClick={closeDeleteModal}
-          />
-          <Button
-            label="Yes"
-            variant="primary"
-            className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] italic py-[8px] px-[24px] w-[104px]"
-            onClick={onDelete}
-          />
-        </div>
-      </div>
     </div>
   );
 };
@@ -374,48 +320,6 @@ const Shop = () => {
 
   return (
     <div>
-      <Modal
-        isOpen={showEditModal}
-        onCancel={() => {
-          setShowEditModal(false);
-        }}
-        className="z-[99]"
-      >
-        <EditModal
-          closeEditModal={() => {
-            handleClear();
-            setShowEditModal(false);
-          }}
-          handleFile={handleFile}
-          onEdit={editShop}
-          handleChange={handleChange}
-          newShop={newShop}
-          uploadStatus={uploadStatus}
-        />
-      </Modal>
-      <Modal isOpen={showEditSuccessModal} onCancel={closeEditModal} className="z-[99]">
-        <EditSuccessModal
-          closeEditSuccessModal={() => {
-            setShowEditSuccessModal(false);
-          }}
-        />
-      </Modal>
-      <Modal
-        isOpen={showDeleteModal}
-        onCancel={() => {
-          setShowDeleteModal(false);
-        }}
-        className="z-[99]"
-      >
-        <DeleteModal
-          onDelete={() => {
-            deleteShop(selectedShop?.plantId, selectedShop?.shopId);
-          }}
-          closeDeleteModal={() => {
-            setShowDeleteModal(false);
-          }}
-        />
-      </Modal>
       <p className="text-xl text-[#444] font-medium leading-5 mb-8">Add Shop</p>
       {/* Fields to get shop name, shop description and shop image */}
       <div className="flex items-center justify-center gap-[16px] mb-6">
@@ -496,6 +400,48 @@ const Shop = () => {
           }}
         />
       </>
+      <Modal
+        isOpen={showEditModal}
+        onCancel={() => {
+          setShowEditModal(false);
+        }}
+        className="z-[99]"
+      >
+        <EditModal
+          closeEditModal={() => {
+            handleClear();
+            setShowEditModal(false);
+          }}
+          handleFile={handleFile}
+          onEdit={editShop}
+          handleChange={handleChange}
+          newShop={newShop}
+          uploadStatus={uploadStatus}
+        />
+      </Modal>
+      {/*Success message modal*/}
+      <PopupModal
+        primaryMessage={'Done'}
+        title={'Changes are done'}
+        isOpen={showEditSuccessModal}
+        icon={<ChevronSuccessIcon className="w-[100px] h-[100px]" />}
+        primaryPopup
+        handleClose={() => closeEditModal}
+        onCloseSuccessModal={() => setShowEditSuccessModal(false)}
+      />
+      {/*Delete message modal*/}
+      <PopupModal
+        title={'Are you sure want to delete?'}
+        isOpen={showDeleteModal}
+        icon={<QuestionMarkIcon />}
+        handleClose={() => setShowDeleteModal(false)}
+        handleDelete={() => {
+          deleteShop(selectedShop?.plantId, selectedShop?.shopId);
+        }}
+        onCloseDeleteModal={() => {
+          setShowDeleteModal(false);
+        }}
+      />
     </div>
   );
 };

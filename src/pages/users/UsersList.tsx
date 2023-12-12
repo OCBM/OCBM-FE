@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react';
-import { DeleteIcon, PencilIcon, ChevronSuccessIcon } from '@/assets/icons';
-import { Button, Modal } from '@/components';
+import { DeleteIcon, PencilIcon, ChevronSuccessIcon, QuestionMarkIcon } from '@/assets/icons';
+import { Modal } from '@/components';
 import { Table } from '@/components/reusable/table';
 import { USER_SERVICES } from '@/services/userServices';
 import { toast } from 'react-toastify';
 import EditUser from './EditUser';
 import { UserTypes } from './types';
-import DeleteUser from './DeleteUser';
 import { useAppSelector } from '@/hooks';
-import { USERS_PAGE_CONSTANTS } from './constants';
 import classNames from 'classnames';
 import { USER_ROLES } from '@/utils/constants';
 import Loader from '@/components/reusable/loader';
+import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 
 // changes
 
@@ -228,52 +227,29 @@ function UsersList() {
           updateUser={updateUser}
         />
       </Modal>
-      <Modal
+      {/*Delete message modal*/}
+      <PopupModal
+        title={'Are you sure want to delete?'}
         isOpen={showDeleteUserModal}
-        onCancel={() => {
+        icon={<QuestionMarkIcon />}
+        handleClose={() => setShowDeleteUserModal(false)}
+        handleDelete={() => {
+          onDeleteUser(selectedUser.userId);
+        }}
+        onCloseDeleteModal={() => {
           setShowDeleteUserModal(false);
         }}
-        className="z-[99]"
-      >
-        <DeleteUser
-          deleteUser={() => {
-            onDeleteUser(selectedUser.userId);
-          }}
-          onCloseDeleteModal={() => {
-            setShowDeleteUserModal(false);
-          }}
-        />
-      </Modal>
-
-      <Modal isOpen={showEditSuccessModal} onCancel={onCloseEditModal} className="z-[99]">
-        <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
-          <div className="flex flex-col items-center justify-center">
-            <ChevronSuccessIcon className="w-[100px] h-[100px]" />
-            <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">
-              {USERS_PAGE_CONSTANTS.EDIT_USER_DIALOG.message}
-            </h2>
-            <div className="flex gap-[8px] justify-between">
-              <Button
-                label="Done"
-                variant="primary"
-                className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] py-[8px] px-[24px]"
-                onClick={() => {
-                  setShowEditSuccessModal(false);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </Modal>
-      {/* <div className="absolute top-[14%] right-[2%]">
-        <Button
-          leftIcon={<PlusIcon />}
-          label="Create"
-          className="py-[8px] px-[18px] text-[16px] font-medium"
-          variant="primary"
-          onClick={OnAddUserPage}
-        />
-      </div> */}
+      />
+      {/*Success message modal*/}
+      <PopupModal
+        primaryMessage={'Done'}
+        title={'Changes are done'}
+        isOpen={showEditSuccessModal}
+        icon={<ChevronSuccessIcon className="w-[100px] h-[100px]" />}
+        primaryPopup
+        handleClose={() => onCloseEditModal}
+        onCloseSuccessModal={() => setShowEditSuccessModal(false)}
+      />
       <Table
         className="w-full mx-auto"
         dataSource={userData}
