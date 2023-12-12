@@ -17,8 +17,9 @@ const NewSetStandard = () => {
   };
   const [machineList, setMachineList] = useState<InitialStateType>(initialState);
   const mockData = [
-    { MachineId: '1', MachineName: 'HMC1000' },
-    { MachineId: '2', MachineName: 'SL45 ' },
+    { MachineId: '1', MachineName: 'HONOR VTC-15' },
+    { MachineId: '2', MachineName: 'HMC1000' },
+    { MachineId: '3', MachineName: 'SL45 ' },
   ];
 
   const columns: any = [
@@ -107,6 +108,7 @@ const NewSetStandard = () => {
                 placeholder="Bar"
                 className="w-[74px] border-transparent px-2 text-[14px] h-[25px] placeholder:text-[#BBBBBB]"
                 options=""
+                disabled
                 handleChange={() => {}}
                 optionLabel="uom"
                 value=""
@@ -145,6 +147,7 @@ const NewSetStandard = () => {
                 placeholder="Max"
                 className="w-[80px] border-transparent px-2 text-[14px] h-[25px] placeholder:text-[#BBBBBB]"
                 options=""
+                disabled
                 optionLabel="uom"
                 handleChange={() => {}}
                 value=""
@@ -201,7 +204,7 @@ const NewSetStandard = () => {
           </h3>
           <Dropdown
             placeholder="Select Machine"
-            className="w-[200px] border-[1px] border-solid border-[#000000] rounded-[50px] mb-2 ml-[42.5%] mt-2 px-5 text-[14px] h-[55px] placeholder:text-[#BBBBBB]"
+            className="w-[200px] border-[1px] border-solid border-[#000000] rounded-[50px] mb-2 ml-[42.5%] mt-2 px-5 text-[#444] text-[14px] h-[55px] placeholder:text-[#BBBBBB]"
             openClassName="ml-[545px] w-[100px]"
             options={mockData}
             optionLabel="MachineName"
