@@ -4,7 +4,6 @@ import { Dropdown } from '@/components';
 import { Input } from '@/components';
 import { Checkbox } from '@/components';
 import { useState } from 'react';
-import './newSetStandards.css';
 
 const NewSetStandard = () => {
   type InitialStateType = {
@@ -198,23 +197,25 @@ const NewSetStandard = () => {
     <>
       <div className="rounded-[16px] shadow-md p-5 relative">
         <h2 className="font-GothamMedium text-[24px] text-[#444444]  ">New Set Standards</h2>
-        <div className="flex flex-col justify-center w-[100%] mb-2 text-center">
-          <h3 className="text-[#492CE1] font-medium mb-1 ">
-            Machine Name <span className="text-red-400">*</span>
-          </h3>
-          <Dropdown
-            placeholder="Select Machine"
-            className="w-[200px] border-[1px] border-solid border-[#000000] rounded-[50px] mb-2 ml-[42.5%] mt-2 px-5 text-[#444] text-[14px] h-[55px] placeholder:text-[#BBBBBB]"
-            openClassName="ml-[545px] w-[100px]"
-            options={mockData}
-            optionLabel="MachineName"
-            handleChange={(value: any) => {
-              setMachineList((prev: any) => ({ ...prev, machineId: value?.machineId }));
-            }}
-            value={mockData?.find((machine: any) => machine.machineId === machineList.machineId)}
-            mandatory={true}
-          />
+
+        <div className="flex justify-center flex-row gap-[20px] mt-5 mb-9">
+          <div className="w-[30%]">
+            <Dropdown
+              labelClassName="flex items-center justify-center"
+              label="Machine Name"
+              placeholder="Select Machine"
+              className="w-[100%] border-[1px] h-[50px] px-3"
+              options={mockData}
+              optionLabel="MachineName"
+              handleChange={(value: any) => {
+                setMachineList((prev: any) => ({ ...prev, machineId: value?.machineId }));
+              }}
+              value={mockData?.find((machine: any) => machine.machineId === machineList.machineId)}
+              mandatory={true}
+            />
+          </div>
         </div>
+
         <Table className="headerColor" columns={columns} dataSource={data} scroll={{ x: 'calc(1000px + 60%)' }} />
         <div className="flex gap-5 justify-center">
           <Button
