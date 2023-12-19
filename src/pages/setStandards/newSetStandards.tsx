@@ -199,9 +199,9 @@ const NewSetStandard = () => {
         <h2 className="font-GothamMedium text-[24px] text-[#444444]  ">New Set Standards</h2>
 
         <div className="flex justify-center flex-row gap-[20px] mt-5 mb-9">
-          <div className="w-[30%]">
+          <div className="w-[12%]  h-[60px]">
             <Dropdown
-              labelClassName="flex items-center justify-center"
+              labelClassName="flex items-center justify-center text-[14px]"
               label="Machine Name"
               placeholder="Select Machine"
               className="w-[100%] border-[1px] h-[50px] px-3"
