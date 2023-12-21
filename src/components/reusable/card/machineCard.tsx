@@ -40,7 +40,9 @@ const MachineCard = ({
           </div>
         ) : null}
       </div>
-      <img src={image} alt="machine" className="pt-7"></img>
+      <div className="">
+        <img src={image} alt="machine" className="pt-7 h-36"></img>
+      </div>
       {showValues ? (
         <div className="pt-7 flex justify-center gap-5">
           <div className="flex flex-col w-[20%] gap-1">
@@ -69,8 +71,8 @@ const MachineCard = ({
           disabled={disabled}
           label="View"
           className={`${
-            !disabled && `bg-gradient-to-r from-[#605BFF] to-[#0A03D9]`
-          } text-white text-base font-bold py-4 px-20 w-[282px] rounded-t-none rounded-b-2xl items-center`}
+            !disabled && `bg-gradient-to-r from-[#605BFF] to-[#0A03D9] `
+          } text-white  text-base font-bold py-4 px-20 w-[282px] rounded-t-none rounded-b-2xl items-center`}
         />
       </div>
     </div>

@@ -1,11 +1,7 @@
-import SetStandardList from "./SetStandardList";
-import './index.css'
-
+import SetStandardList from '../setStandards/SetStandardList';
+import '../setStandards/index.css';
 
 const SetStandard = () => {
-  
-  return (
-     <SetStandardList/>
-  );
+  return <SetStandardList />;
 };
 export default SetStandard;

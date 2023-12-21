@@ -1,7 +1,7 @@
 import { DeleteIcon, PencilIcon, SearchIcon } from '@/assets/icons';
 import { Table } from '@/components/reusable/table';
 import { Button, Input } from '@/components';
-import { DATA_SOURCE } from './constants';
+import { DATA_SOURCE } from '../../utils/setStandardsconstants';
 
 const SetStandardList = () => {
   const columns: any = [
