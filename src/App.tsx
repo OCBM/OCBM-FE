@@ -16,7 +16,9 @@ import HydraulicSystem from './pages/machines/HydraulicSystem';
 import SpindleCoolingSystem from './pages/machines/SpindleCoolingSystem';
 import LubricationSystem from './pages/machines/LubricationSystem';
 import ManualEntry from './pages/mastery/ManualEntry';
+import SetStandard from './pages/setstandards';
 import Reports from './pages/reports';
+
 
 function App() {
   return (
@@ -54,6 +56,7 @@ function App() {
             <Route path={SITEMAP.machines.LubricationSystem} element={<LubricationSystem />} />
             <Route path={SITEMAP.machines.index} element={<Machines />} />
             <Route path={SITEMAP.machines.machinesbyId} element={<MachineInfo />} />
+            <Route path={SITEMAP.setStandards.index} element={<SetStandard />} />
             <Route index element={<Home />} />
             <Route path={SITEMAP.notFound} element={<h1>Not found</h1>} />
           </Route>
