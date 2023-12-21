@@ -1,3 +1,4 @@
+
 import { SITEMAP } from '@/utils/sitemap';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,3 +17,15 @@ const SetStandards = () => {
 };
 
 export default SetStandards;
+import SetStandardList from "./SetStandardList";
+import './index.css'
+
+
+const SetStandard = () => {
+  
+  return (
+     <SetStandardList/>
+  );
+};
+export default SetStandard;
+

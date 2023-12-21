@@ -1,0 +1,35 @@
+.set-table .operatingRange {
+  word-spacing: 1rem;
+}
+
+.set-table .thresholdValue {
+  word-spacing: 1rem;
+}
+
+.set-table .ant-table-thead > tr > th:nth-child(6) {
+  word-spacing: normal;
+}
+.set-table .ant-table-thead > tr > th:nth-child(5) {
+  word-spacing: normal;
+}
+
+.set-table .ant-table-thead {
+  font-weight: 400;
+  font-size: 16px;
+  font-family: 'Gotham-medium';
+}
+
+.set-table table {
+  margin-bottom: 25px;
+}
+
+.set-table .ant-pagination-item-active a {
+  background-color: #5f2eea;
+  color: white !important;
+}
+.set-table .ant-table-cell {
+  color: #444444;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: 'Gotham-light';
+}

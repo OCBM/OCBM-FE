@@ -18,7 +18,9 @@ import LubricationSystem from './pages/machines/LubricationSystem';
 import ManualEntry from './pages/mastery/ManualEntry';
 import SetStandards from './pages/setStandards';
 import NewSetStandards from './pages/setStandards/newSetStandards';
+import SetStandard from './pages/setstandards';
 import Reports from './pages/reports';
+
 
 function App() {
   return (
@@ -58,7 +60,7 @@ function App() {
             <Route path={SITEMAP.machines.machinesbyId} element={<MachineInfo />} />
             <Route path={SITEMAP.setStandards.index} element={<SetStandards />} />
             <Route path={SITEMAP.setStandards.NewSetStandards} element={<NewSetStandards />} />
-
+            <Route path={SITEMAP.setStandards.index} element={<SetStandard />} />
             <Route index element={<Home />} />
             <Route path={SITEMAP.notFound} element={<h1>Not found</h1>} />
           </Route>
