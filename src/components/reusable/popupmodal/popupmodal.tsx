@@ -22,7 +22,7 @@ const PopupModal = ({
             <div className="flex gap-[8px] justify-between">
               {primaryPopup ? (
                 <Button
-                  label={primaryMessage}
+                  label={primaryMessage as string}
                   variant="primary"
                   className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] italic py-[8px] px-[24px] w-[104px]"
                   onClick={onCloseSuccessModal}

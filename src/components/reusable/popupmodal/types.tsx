@@ -6,6 +6,6 @@ export type PopUpModalTypes = {
   handleClose?: () => void;
   title?: string;
   primaryPopup?: boolean;
-  primaryMessage?: any;
+  primaryMessage?: string;
   icon?: any;
 };
