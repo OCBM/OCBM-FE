@@ -11,7 +11,7 @@ const Reports = () => {
             <Input
               parentClassName=" !w-full "
               className="rounded-[50px] border-[1px] border-grey-dark w-[80%] h-[50px] mt-2 px-3"
-              labelClassName="text-[#492CE1] text-[14px] font-medium"
+              labelClassName="text-[#492CE1] text-[14px] font-semibold"
               label="Machine Name"
               placeholder="Enter Machine Name"
               type="text"
@@ -21,7 +21,7 @@ const Reports = () => {
             <Input
               parentClassName=" !w-full "
               className="rounded-[50px] border-[1px] border-grey-dark w-[80%] h-[50px] mt-2 px-3"
-              labelClassName="text-[#492CE1] text-[14px] font-medium"
+              labelClassName="text-[#492CE1] text-[14px] font-semibold"
               label="Sensor Name"
               placeholder="Enter Sensor Name"
               type="text"

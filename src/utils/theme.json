@@ -1,0 +1,19 @@
+{
+    "components": {
+      "Pagination": {
+        "colorPrimary": "rgb(253, 253, 253)",
+        "itemActiveBg": "rgb(95, 46, 234)",
+        "colorText": "rgb(95, 46, 234)",
+        "colorPrimaryBorder": "rgb(255, 255, 255)",
+        "colorPrimaryHover": "rgb(255, 255, 255)",
+        "colorBgTextHover": "rgb(242, 239, 255)",
+        "colorBgTextActive": "rgb(242, 239, 255)",
+        "colorBorder": "rgb(242, 239, 255)",
+        "itemDefaultBg": "rgb(242,239,255)"
+      }
+    },
+    "token": {
+      "colorPrimary": "#5f2eea",
+      "colorInfo": "#5f2eea"
+    }
+  }

@@ -52,3 +52,7 @@ body,
     display: none;
   }
 }
+.ant-pagination-item:not(.ant-pagination-item-active) {
+  background-color: #F7F6F9;
+  font-weight: 600; /* Set the background color for inactive buttons */
+}
