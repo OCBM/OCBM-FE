@@ -30,16 +30,26 @@ function Breadcrumbs({ className, crumbs }: BreadcrumbsType) {
     }
   };
   const navigate = useNavigate();
+  const handleNavigate = (data: string) => {
+    const index = crumbs?.indexOf(data)
+    let path: string | undefined = ''
+    if (index !== -1 && index !== undefined) {
+      path = crumbs?.slice(0, index + 1).join('/')
+    } else {
+      path = '/'
+    }
+    navigate(`/${path}`)
+  }
   return (
     <div className=" flex justify-between items-center">
       <div className=" flex justify-start">
         {crumbs?.map((data) => (
           <div
             key={data}
-            className={`${
-              className || ''
-            } flex pb-2 text-[18px] text-black capitalize last:font-medium last:text-[#492ce1] 
+            className={`${className || ''
+              } flex pb-2 text-[18px] text-black capitalize font-medium last:font-medium last:text-[#492ce1] cursor-pointer 
 		        after:content-['/'] last:after:content-[''] before:ml-[10px] after:ml-[10px] last:content-['']`}
+            onClick={() => handleNavigate(data)}
           >
             {routerNameChange(data)}
           </div>

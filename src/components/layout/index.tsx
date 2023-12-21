@@ -27,7 +27,7 @@ export function Layout() {
 
           {show !== 'shop' && show !== 'machine' && (
             <div className="my-8">
-              <Breadcrumbs crumbs={['home', ...list]} />
+              <Breadcrumbs crumbs={[ ...list]} />
             </div>
           )}
           <Outlet />
