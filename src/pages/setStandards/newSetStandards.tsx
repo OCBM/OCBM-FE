@@ -216,7 +216,12 @@ const NewSetStandard = () => {
           </div>
         </div>
 
-        <Table className="headerColor" columns={columns} dataSource={data} scroll={{ x: 'calc(1000px + 60%)' }} />
+        <Table
+          className="create-machine-line-table"
+          columns={columns}
+          dataSource={data}
+          scroll={{ x: 'calc(1000px + 60%)' }}
+        />
         <div className="flex gap-5 justify-center">
           <Button
             label="Cancel"

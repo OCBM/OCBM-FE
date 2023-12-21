@@ -1,15 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
 @font-face {
   font-family: 'Gotham-light';
-  src: url('./assets/fonts/gotham/GothamLight.ttf');
+  src: url('./ascreates/fonts/gotham/GothamLight.ttf');
 }
 @font-face {
   font-family: 'Gotham-medium';
-  src: url('./assets/fonts/gotham/GothamMedium.ttf');
+  src: url('./ascreates/fonts/gotham/GothamMedium.ttf');
 }
 @font-face {
   font-family: 'Gotham-bold';
-  src: url('./assets/fonts/gotham/GothamBold.ttf');
+  src: url('./ascreates/fonts/gotham/GothamBold.ttf');
 }
 
 @tailwind base;
@@ -52,23 +52,23 @@ body,
     display: none;
   }
 }
-.headerColor .ant-table-thead {
+.create-machine-line-table .ant-table-thead {
   background-color: #cdcdcd;
 }
-.ant-pagination-item-active a {
+.create-machine-line-table .ant-pagination-item-active a {
   background-color: #5f2eea;
   color: white !important;
 }
-table {
+.create-machine-line-table table {
   margin-bottom: 12px;
 }
-.headerColor .ant-table-cell {
+.create-machine-line-table .ant-table-cell {
   color: #444444 !important;
   font-weight: 200;
   font-family: 'Gotham-medium';
   font-size: 16px;
 }
 
-::-webkit-scrollbar {
+.create-machine-line-table ::-webkit-scrollbar {
   height: 8px;
 }
