@@ -7,14 +7,11 @@ import { ELEMENT_SERVICES } from '@/services/elementServices';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import Loader from '@/components/reusable/loader';
+import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 
 export type DeleteElementType = {
   onCloseDeleteModal: () => void;
   deleteElement: () => void;
-};
-
-type EditSuccessModalType = {
-  closeEditSuccessModal: () => void;
 };
 
 type EditModalType = {
@@ -40,32 +37,6 @@ type PaginationDataType = {
   item_count?: number;
   totalPage?: number;
   total_items?: number;
-};
-
-// Delete Modal
-const DeleteModal = ({ onCloseDeleteModal, deleteElement }: DeleteElementType) => {
-  return (
-    <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
-      <div className="flex flex-col items-center justify-center">
-        <QuestionMarkIcon />
-        <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Are you sure want to delete?</h2>
-        <div className="flex gap-[8px] justify-between">
-          <Button
-            label="Cancel"
-            variant="secondary"
-            className="rounded-[16px] text-[16px] font-medium text-[#605BFF] italic py-[8px] px-[24px] w-[104px]"
-            onClick={onCloseDeleteModal}
-          />
-          <Button
-            label="Yes"
-            variant="primary"
-            className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] italic py-[8px] px-[24px] w-[104px]"
-            onClick={deleteElement}
-          />
-        </div>
-      </div>
-    </div>
-  );
 };
 
 // Edit Modal
@@ -124,26 +95,6 @@ const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newElemen
           />
         </div>
       </form>
-    </div>
-  );
-};
-
-// EditSuccessModal
-const EditSuccessModal = ({ closeEditSuccessModal }: EditSuccessModalType) => {
-  return (
-    <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
-      <div className="flex flex-col items-center justify-center">
-        <ChevronSuccessIcon className="w-[100px] h-[100px]" />
-        <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Changes are done</h2>
-        <div className="flex gap-[8px] justify-between">
-          <Button
-            label="Done"
-            variant="primary"
-            className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] py-[8px] px-[24px]"
-            onClick={closeEditSuccessModal}
-          />
-        </div>
-      </div>
     </div>
   );
 };
@@ -370,48 +321,6 @@ const Element = () => {
 
   return (
     <div>
-      <Modal
-        isOpen={showEditModal}
-        onCancel={() => {
-          setShowEditModal(false);
-        }}
-        className="z-[99]"
-      >
-        <EditModal
-          closeEditModal={() => {
-            handleClear();
-            setShowEditModal(false);
-          }}
-          handleChange={handleChange}
-          handleFile={handleFile}
-          onEdit={editMachine}
-          newElement={newElement}
-          uploadStatus={uploadStatus}
-        />
-      </Modal>
-      <Modal isOpen={showEditSuccessModal} onCancel={closeEditModal} className="z-[99]">
-        <EditSuccessModal
-          closeEditSuccessModal={() => {
-            setShowEditSuccessModal(false);
-          }}
-        />
-      </Modal>
-      <Modal
-        isOpen={showDeleteModal}
-        onCancel={() => {
-          setShowDeleteModal(false);
-        }}
-        className="z-[99]"
-      >
-        <DeleteModal
-          deleteElement={() => {
-            deleteElement(selectedElement?.machineId, selectedElement?.elementId);
-          }}
-          onCloseDeleteModal={() => {
-            setShowDeleteModal(false);
-          }}
-        />
-      </Modal>
       <p className="text-xl font-medium leading-5 mb-8">Add Element</p>
       {/* Fields to get Element name, Element description and Element image */}
       <div className="flex items-center justify-between gap-[16px] mb-6">
@@ -492,6 +401,48 @@ const Element = () => {
           }}
         />
       </>
+      <Modal
+        isOpen={showEditModal}
+        onCancel={() => {
+          setShowEditModal(false);
+        }}
+        className="z-[99]"
+      >
+        <EditModal
+          closeEditModal={() => {
+            handleClear();
+            setShowEditModal(false);
+          }}
+          handleChange={handleChange}
+          handleFile={handleFile}
+          onEdit={editMachine}
+          newElement={newElement}
+          uploadStatus={uploadStatus}
+        />
+      </Modal>
+      {/*Success message modal*/}
+      <PopupModal
+        primaryMessage={'Done'}
+        title={'Changes are done'}
+        isOpen={showEditSuccessModal}
+        icon={<ChevronSuccessIcon className="w-[100px] h-[100px]" />}
+        primaryPopup
+        handleClose={() => closeEditModal}
+        onCloseSuccessModal={() => setShowEditSuccessModal(false)}
+      />
+      {/*Delete message modal*/}
+      <PopupModal
+        title={'Are you sure want to delete?'}
+        isOpen={showDeleteModal}
+        icon={<QuestionMarkIcon />}
+        handleClose={() => setShowDeleteModal(false)}
+        handleDelete={() => {
+          deleteElement(selectedElement?.machineId, selectedElement?.elementId);
+        }}
+        onCloseDeleteModal={() => {
+          setShowDeleteModal(false);
+        }}
+      />
     </div>
   );
 };

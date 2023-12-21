@@ -2,15 +2,13 @@ import { ChevronCancelIcon, ChevronSuccessIcon, DeleteIcon, PencilIcon, Question
 import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
 import Loader from '@/components/reusable/loader';
+import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 import { Table } from '@/components/reusable/table';
 import { MACHINE_LINE_SERVICES } from '@/services/machineLineServices';
 import { SHOP_SERVICES } from '@/services/shopServices';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-export type DeleteMachineLineType = {
-  onCloseDeleteModal: () => void;
-  deleteMachineLine: () => void;
-};
+
 const MachineLine = () => {
   type InitialStateType = {
     machineLineName: string;
@@ -229,139 +227,8 @@ const MachineLine = () => {
     }
   };
 
-  //Delete popup modal component
-  const DeleteMachineLine = ({ onCloseDeleteModal, deleteMachineLine }: DeleteMachineLineType) => {
-    return (
-      <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
-        <div className="flex flex-col items-center justify-center">
-          <QuestionMarkIcon />
-          <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Are you sure want to delete?</h2>
-          <div className="flex gap-[8px] justify-between">
-            <Button
-              label="Cancel"
-              variant="secondary"
-              className="rounded-[16px] text-[16px] font-medium text-[#605BFF] italic py-[8px] px-[24px] w-[104px]"
-              onClick={onCloseDeleteModal}
-            />
-            <Button
-              label="Yes"
-              variant="primary"
-              className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] italic py-[8px] px-[24px] w-[104px]"
-              onClick={deleteMachineLine}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div>
-      {/*Edit Modal for machine Line*/}
-      <Modal
-        isOpen={showEditMachineLineModal}
-        onCancel={() => {
-          setShowEditMachineLineModal(false);
-        }}
-        className="z-[99]"
-      >
-        <div className="w-[485px] rounded-[16px] p-[50px] relative">
-          <div
-            className="absolute right-[10px] top-[10px] cursor-pointer"
-            onClick={() => {
-              setShowEditMachineLineModal(false);
-              handleClear();
-            }}
-          >
-            <ChevronCancelIcon />
-          </div>
-
-          <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-[36px]">Edit Details</h2>
-
-          <form>
-            <div>
-              <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-6">Organization Details</h4>
-              <Input
-                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
-                label="Machine Line Name"
-                labelClassName="text-[#492CE1] text-[14px] font-medium"
-                mandatory={true}
-                type="text"
-                name="machineLineName"
-                placeholder="Enter Machine Line Name"
-                value={newMachineLine?.machineLineName}
-                onChange={handleChange}
-              />
-              <Input
-                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
-                label="Machine Line Description"
-                labelClassName="text-[#492CE1] text-[14px] font-medium"
-                mandatory={true}
-                type="text"
-                name="machineLineDescription"
-                placeholder="Enter Machine Line Description"
-                value={newMachineLine?.machineLineDescription}
-                onChange={handleChange}
-              />
-              <FileUploader
-                label="Image"
-                labelClassName="text-[#492CE1] text-[14px] font-medium"
-                className="w-[385px] py-6 mt-2"
-                mastery
-                fileFormat=".jpg, .png"
-                handleFile={handleFile}
-                uploadStatus={upload}
-                image={newMachineLine?.image}
-                fileName={newMachineLine.imageName}
-              />
-            </div>
-            <div className="text-center mt-[36px]">
-              <Button
-                onClick={updateMachineLine}
-                variant="primary"
-                label="Submit"
-                className="py-[8px] px-[24px] rounded-[16px] font-normal text-[16px]"
-              />
-            </div>
-          </form>
-        </div>
-      </Modal>
-      {/*Success message modal*/}
-      <Modal isOpen={showEditSuccessModal} onCancel={onCloseEditModal} className="z-[99]">
-        <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
-          <div className="flex flex-col items-center justify-center">
-            <ChevronSuccessIcon className="w-[100px] h-[100px]" />
-            <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">Changes are done</h2>
-            <div className="flex gap-[8px] justify-between">
-              <Button
-                label="Done"
-                variant="primary"
-                className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] py-[8px] px-[24px]"
-                onClick={() => {
-                  setShowEditSuccessModal(false);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </Modal>
-      {/*Delete message modal*/}
-      <Modal
-        isOpen={showDeleteMachineLineModal}
-        onCancel={() => {
-          setShowDeleteMachineLineModal(false);
-        }}
-        className="z-[99]"
-      >
-        <DeleteMachineLine
-          deleteMachineLine={() => {
-            onDeleteMachineLine(selectedMachineLine?.shopId, selectedMachineLine?.machineLineId);
-          }}
-          onCloseDeleteModal={() => {
-            setShowDeleteMachineLineModal(false);
-          }}
-        />
-      </Modal>
       <p className="text-xl text-[#444] font-medium leading-5 mb-8">Add Machine Line</p>
       <div className="flex items-center justify-center gap-[16px] mb-6">
         <Input
@@ -436,6 +303,96 @@ const MachineLine = () => {
           }}
         />
       </>
+      {/*Edit Modal for machine Line*/}
+      <Modal
+        isOpen={showEditMachineLineModal}
+        onCancel={() => {
+          setShowEditMachineLineModal(false);
+        }}
+        className="z-[99]"
+      >
+        <div className="w-[485px] rounded-[16px] p-[50px] relative">
+          <div
+            className="absolute right-[10px] top-[10px] cursor-pointer"
+            onClick={() => {
+              setShowEditMachineLineModal(false);
+              handleClear();
+            }}
+          >
+            <ChevronCancelIcon />
+          </div>
+          <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-[36px]">Edit Details</h2>
+          <form>
+            <div>
+              <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-6">Organization Details</h4>
+              <Input
+                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
+                label="Machine Line Name"
+                labelClassName="text-[#492CE1] text-[14px] font-medium"
+                mandatory={true}
+                type="text"
+                name="machineLineName"
+                placeholder="Enter Machine Line Name"
+                value={newMachineLine?.machineLineName}
+                onChange={handleChange}
+              />
+              <Input
+                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
+                label="Machine Line Description"
+                labelClassName="text-[#492CE1] text-[14px] font-medium"
+                mandatory={true}
+                type="text"
+                name="machineLineDescription"
+                placeholder="Enter Machine Line Description"
+                value={newMachineLine?.machineLineDescription}
+                onChange={handleChange}
+              />
+              <FileUploader
+                label="Image"
+                labelClassName="text-[#492CE1] text-[14px] font-medium"
+                className="w-[385px] py-6 mt-2"
+                mastery
+                fileFormat=".jpg, .png"
+                handleFile={handleFile}
+                uploadStatus={upload}
+                image={newMachineLine?.image}
+                fileName={newMachineLine.imageName}
+              />
+            </div>
+            <div className="text-center mt-[36px]">
+              <Button
+                onClick={updateMachineLine}
+                variant="primary"
+                label="Submit"
+                className="py-[8px] px-[24px] rounded-[16px] font-normal text-[16px]"
+              />
+            </div>
+          </form>
+        </div>
+      </Modal>
+      {/*Success message modal*/}
+      <PopupModal
+        primaryMessage={'Done'}
+        title={'Changes are done'}
+        isOpen={showEditSuccessModal}
+        icon={<ChevronSuccessIcon className="w-[100px] h-[100px]" />}
+        primaryPopup
+        handleClose={() => onCloseEditModal}
+        onCloseSuccessModal={() => setShowEditSuccessModal(false)}
+      />
+      {/*Delete message modal*/}
+      <PopupModal
+        title={'Are you sure want to delete?'}
+        isOpen={showDeleteMachineLineModal}
+        icon={<QuestionMarkIcon />}
+        handleClose={() => setShowDeleteMachineLineModal(false)}
+        handleDelete={() => {
+          onDeleteMachineLine(selectedMachineLine?.shopId, selectedMachineLine?.machineLineId);
+        }}
+        onCloseDeleteModal={() => {
+          setShowDeleteMachineLineModal(false);
+        }}
+      />
     </div>
   );
 };

@@ -6,8 +6,9 @@ import { useAppSelector } from '@/hooks';
 import { PLANT_SERVICES } from '@/services/plantServices';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { MASTERY_PAGE_CONSTANTS, USERS_PAGE_CONSTANTS } from '../users/constants';
+import { MASTERY_PAGE_CONSTANTS } from '../users/constants';
 import Loader from '@/components/reusable/loader';
+import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 
 function Plant() {
   const orgID: string = '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d';
@@ -282,41 +283,6 @@ function Plant() {
       </>
 
       <Modal
-        isOpen={showDeleteUserModal}
-        onCancel={() => {
-          setShowDeleteUserModal(false);
-        }}
-        className="z-[99]"
-      >
-        <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
-          <div className="flex flex-col items-center justify-center">
-            <QuestionMarkIcon />
-            <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">
-              {USERS_PAGE_CONSTANTS.DELETE_USER_DIALOG.message}
-            </h2>
-            <div className="flex gap-[8px] justify-between">
-              <Button
-                label="Cancel"
-                variant="secondary"
-                className="rounded-[16px] text-[16px] font-medium text-[#605BFF] italic py-[8px] px-[24px] w-[104px]"
-                onClick={() => {
-                  setShowDeleteUserModal(false);
-                }}
-              />
-              <Button
-                label="Yes"
-                variant="primary"
-                className="rounded-[16px] text-[16px] font-medium text-[#ffffff] italic py-[8px] px-[24px] w-[104px]"
-                onClick={() => {
-                  onDeletePlant(orgID, selectedPlant);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </Modal>
-
-      <Modal
         isOpen={editPlant}
         onCancel={() => {
           setEditPlant(false);
@@ -388,27 +354,29 @@ function Plant() {
           </form>
         </div>
       </Modal>
-
-      <Modal isOpen={showEditSuccessModal} onCancel={onCloseEditModal} className="z-[99]">
-        <div className="w-[393px] rounded-[16px] py-[50px] px-[86px] relative">
-          <div className="flex flex-col items-center justify-center">
-            <ChevronSuccessIcon className="w-[100px] h-[100px]" />
-            <h2 className="text-[24px] text-center text-[#272332] font-medium mt-2 mb-4">
-              {USERS_PAGE_CONSTANTS.EDIT_USER_DIALOG.message}
-            </h2>
-            <div className="flex gap-[8px] justify-between">
-              <Button
-                label="Done"
-                variant="primary"
-                className="rounded-[16px] text-[16px] font-medium tex-[#ffffff] py-[8px] px-[24px]"
-                onClick={() => {
-                  setShowEditSuccessModal(false);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </Modal>
+      {/*Success message modal*/}
+      <PopupModal
+        primaryMessage={'Done'}
+        title={'Changes are done'}
+        isOpen={showEditSuccessModal}
+        icon={<ChevronSuccessIcon className="w-[100px] h-[100px]" />}
+        primaryPopup
+        handleClose={() => onCloseEditModal}
+        onCloseSuccessModal={() => setShowEditSuccessModal(false)}
+      />
+      {/*Delete message modal*/}
+      <PopupModal
+        title={'Are you sure want to delete?'}
+        isOpen={showDeleteUserModal}
+        icon={<QuestionMarkIcon />}
+        handleClose={() => setShowDeleteUserModal(false)}
+        handleDelete={() => {
+          onDeletePlant(orgID, selectedPlant);
+        }}
+        onCloseDeleteModal={() => {
+          setShowDeleteUserModal(false);
+        }}
+      />
     </>
   );
 }
