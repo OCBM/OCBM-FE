@@ -63,7 +63,7 @@ const NewSetStandard = () => {
       align: 'center',
       render: () => {
         return (
-          <div className="flex gap-3 ml-7 ">
+          <div className="flex gap-3 justify-center ">
             <div className=" border-b-[1px] border-[#A9A9A9] w-[30px]">
               <Input placeholder="30" />
             </div>
@@ -82,7 +82,7 @@ const NewSetStandard = () => {
       align: 'center',
       render: () => {
         return (
-          <div className="flex gap-3 ml-6 ">
+          <div className="flex gap-3 justify-center">
             <div className=" border-b-[1px] border-[#A9A9A9] w-[30px]">
               <Input placeholder="30" />
             </div>
@@ -101,7 +101,7 @@ const NewSetStandard = () => {
       align: 'center',
       render: () => {
         return (
-          <div className="flex justify-start gap-3 border-b-[1px] ml-4 border-[#A9A9A9] w-[70px]">
+          <div className="flex justify-center ml-12 gap-3 border-b-[1px] border-[#A9A9A9] w-[70px]">
             <div>
               <Dropdown
                 placeholder="Bar"
@@ -125,7 +125,7 @@ const NewSetStandard = () => {
       align: 'center',
       render: () => {
         return (
-          <div className="flex gap-3 ml-4">
+          <div className="flex gap-3 justify-center">
             <div className=" border-b-[1px] border-[#A9A9A9] w-[34px]">
               <Input type="string" name="Interval" mandatory={true} placeholder="8hr" />
             </div>
@@ -140,7 +140,7 @@ const NewSetStandard = () => {
       align: 'center',
       render: () => {
         return (
-          <div className="flex justify-start gap-3 ml-5 border-b-[1px] border-[#A9A9A9] w-[70px]">
+          <div className="flex gap-3 ml-8 border-b-[1px] border-[#A9A9A9] w-[70px]">
             <div>
               <Dropdown
                 placeholder="Max"
@@ -196,7 +196,7 @@ const NewSetStandard = () => {
   return (
     <>
       <div className="rounded-[16px] shadow-md p-5 relative">
-        <h2 className="font-GothamMedium text-[24px] text-[#444444]  ">New Set Standards</h2>
+        <h2 className="text-[24px] text-[#444444] font-medium">New Set Standards</h2>
 
         <div className="flex justify-center flex-row gap-[20px] mt-5 mb-9">
           <div className="w-[12%]  h-[60px]">
