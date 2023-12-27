@@ -33,3 +33,23 @@
   font-size: 16px;
   font-family: 'Gotham-light';
 }
+.create-machine-line-table .ant-table-thead {
+  background-color: #cdcdcd;
+}
+.create-machine-line-table .ant-pagination-item-active a {
+  background-color: #5f2eea;
+  color: white !important;
+}
+.create-machine-line-table table {
+  margin-bottom: 12px;
+}
+.create-machine-line-table .ant-table-cell {
+  color: #444444 !important;
+  font-weight: 200;
+  font-family: 'Gotham-medium';
+  font-size: 16px;
+}
+
+.create-machine-line-table ::-webkit-scrollbar {
+  height: 8px;
+}
