@@ -25,7 +25,7 @@ const EditUser = ({
         {USERS_PAGE_CONSTANTS.EDIT_USER_DIALOG.label}
       </h2>
       <form>
-        <div className="flex gap-[36px] justify-between h-[485px] overflow-y-auto disable-scrollbar">
+        <div className="flex gap-[36px] z-30 justify-between h-[485px] overflow-y-auto disable-scrollbar">
           <div>
             <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-4">
               {USERS_PAGE_CONSTANTS.EDIT_USER_DIALOG.leftLabel}
@@ -83,7 +83,7 @@ const EditUser = ({
             />
 
             <Dropdown
-              className="w-[385px] h-[54px] rounded-[50px] border-gray-400 border-[1px] p-[15px] mb-5 mt-2"
+              className="w-[385px] h-[54px] bg-white rounded-[50px] border-gray-400 border-[1px] p-[15px] mb-5 mt-2"
               placeholder="Group"
               label="Group"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
@@ -91,6 +91,7 @@ const EditUser = ({
               optionLabel="groupName"
               value={selectedUser.groupValue}
               mandatory={true}
+              wrapClassName="last:pb-20"
               handleChange={(value) => {
                 setSelectedUser((prev: UserTypes) => ({ ...prev, groups: [value as unknown as UserGroupTypes] }));
               }}
@@ -156,7 +157,7 @@ const EditUser = ({
             variant="primary"
             label="Submit"
             onClick={updateUser}
-            className="py-[8px] px-[24px] rounded-[16px] font-normal text-[16px]"
+            className="py-[8px] -z-50 px-[24px] rounded-[16px] font-normal text-[16px]"
           />
         </div>
       </form>

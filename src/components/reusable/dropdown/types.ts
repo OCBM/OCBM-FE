@@ -9,6 +9,7 @@ export type DropdownPropsType = {
   labelClassName?: string;
   inputClassName?: string;
   openClassName?: string;
+  wrapClassName?: string;
   optionLabel?: string;
   optionValue?: string;
   mandatory?: boolean;
