@@ -23,7 +23,6 @@ const Dropdown = ({
 }: DropdownPropsType) => {
   const [query, setQuery] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
   const inputRef = useRef(null);
   const iconRef = useRef(null);
   const dropdownClick = useRef(null);
@@ -32,9 +31,12 @@ const Dropdown = ({
     document.addEventListener('click', toggle);
     return () => document.removeEventListener('click', toggle);
   }, []);
-  useOnClickOutside(dropdownClick, () => {
+
+  const handleClickOutside = () => {
     setIsOpen(false);
-  });
+  };
+
+  useOnClickOutside(dropdownClick, handleClickOutside);
 
   const selectOption = (option: any) => {
     setQuery('');
@@ -106,6 +108,7 @@ const Dropdown = ({
       )}
       <div
         ref={dropdownClick}
+        onClick={() => setIsOpen(!isOpen)}
         className={
           type === 'secondary'
             ? `flex items-center justify-between border-b-2 ${className} cursor-pointer`
