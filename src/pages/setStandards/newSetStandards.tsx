@@ -4,8 +4,10 @@ import { Dropdown } from '@/components';
 import { Input } from '@/components';
 import { Checkbox } from '@/components';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const NewSetStandard = () => {
+  const navigate = useNavigate();
   type InitialStateType = {
     machineId: any;
     MachineName: string;
@@ -228,6 +230,9 @@ const NewSetStandard = () => {
             type="button"
             className="py-3 px-8 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
             variant="secondary"
+            onClick={() => {
+              navigate(-1);
+            }}
           ></Button>
           <Button
             label="Create"
