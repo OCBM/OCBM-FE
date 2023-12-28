@@ -1,1 +1,5 @@
 @import url('./components/reusable/table/index.css');
+
+.hiddenScroll::-webkit-scrollbar {
+  display: none;
+}
