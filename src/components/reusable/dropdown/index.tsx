@@ -92,10 +92,10 @@ const Dropdown = ({
 
   return (
     <div
-      className={`relative w-full ${wrapClassName}`}
-      onClick={(e) => {
-        e.stopPropagation();
-        toggle(e);
+      className={`relative w-full ${wrapClassName || ' '}`}
+      onClick={(event) => {
+        event.stopPropagation();
+        toggle(event);
       }}
     >
       {label && (

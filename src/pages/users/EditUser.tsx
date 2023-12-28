@@ -157,7 +157,7 @@ const EditUser = ({
             variant="primary"
             label="Submit"
             onClick={updateUser}
-            className="py-[8px] px-[24px] -z-50 rounded-[16px] font-normal text-[16px]"
+            className="py-[8px] px-[24px] rounded-[16px] font-normal text-[16px]"
           />
         </div>
       </form>
