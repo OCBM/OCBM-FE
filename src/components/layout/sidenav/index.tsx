@@ -21,7 +21,7 @@ const SideNav = () => {
       >
         <OmnexIcon />
       </div>
-      <div className="flex flex-col justify-center items-center gap-[10px] overflow-y-auto">
+      <div className="flex flex-col justify-center items-center gap-[10px]">
         {sideNavRoutes.map((option) => (
           <div
             key={option.key}
