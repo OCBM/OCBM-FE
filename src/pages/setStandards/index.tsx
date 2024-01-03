@@ -1,5 +1,5 @@
-import SetStandardList from '../setStandards/SetStandardList';
-import '../setStandards/index.css';
+import SetStandardList from './SetStandardList';
+import './index.css';
 
 const SetStandard = () => {
   return <SetStandardList />;

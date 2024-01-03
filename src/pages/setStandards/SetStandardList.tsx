@@ -2,8 +2,12 @@ import { DeleteIcon, PencilIcon, SearchIcon } from '@/assets/icons';
 import { Table } from '@/components/reusable/table';
 import { Button, Input } from '@/components';
 import { DATA_SOURCE } from '../../utils/setStandardsconstants';
+import { useNavigate } from 'react-router-dom';
+import { SITEMAP } from '@/utils/sitemap';
 
 const SetStandardList = () => {
+  const navigate = useNavigate();
+
   const columns: any = [
     {
       title: 'Machine Name',
@@ -102,6 +106,7 @@ const SetStandardList = () => {
           label="+ Create Standards"
           type="button"
           variant="primary"
+          onClick={() => navigate(SITEMAP.setStandards.NewSetStandards)}
         />
       </div>
 

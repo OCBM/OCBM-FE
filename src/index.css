@@ -1,15 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
 @font-face {
   font-family: 'Gotham-light';
-  src: url('./assets/fonts/gotham/GothamLight.ttf');
+  src: url('./ascreates/fonts/gotham/GothamLight.ttf');
 }
 @font-face {
   font-family: 'Gotham-medium';
-  src: url('./assets/fonts/gotham/GothamMedium.ttf');
+  src: url('./ascreates/fonts/gotham/GothamMedium.ttf');
 }
 @font-face {
   font-family: 'Gotham-bold';
-  src: url('./assets/fonts/gotham/GothamBold.ttf');
+  src: url('./ascreates/fonts/gotham/GothamBold.ttf');
 }
 
 @tailwind base;
@@ -57,7 +57,9 @@ body,
     display: none;
   }
 }
+
 .ant-pagination-item:not(.ant-pagination-item-active) {
   background-color: #F7F6F9;
   font-weight: 600; /* Set the background color for inactive buttons */
 }
+

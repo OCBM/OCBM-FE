@@ -1,5 +1,6 @@
 export type IconsPropType = {
   className?: string;
+  stroke?: string;
 };
 
 export type SquareIconPropTypes = {
