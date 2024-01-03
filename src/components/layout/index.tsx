@@ -22,12 +22,12 @@ export function Layout() {
         })} flex h-full w-full overflow-hidden py-[14px] px-[14px]`}
       >
         <SideNav />
-        <div className="px-[30px] w-full h-auto overflow-y-auto flex flex-col">
+        <div className="px-[30px] w-full h-auto  flex flex-col">
           <Header hideAvatar={show !== 'plant'} />
 
           {show !== 'shop' && show !== 'machine' && (
             <div className="my-8">
-              <Breadcrumbs crumbs={[ ...list]} />
+              <Breadcrumbs crumbs={[...list]} />
             </div>
           )}
           <Outlet />
