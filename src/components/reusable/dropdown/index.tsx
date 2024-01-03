@@ -23,7 +23,6 @@ const Dropdown = ({
 }: DropdownPropsType) => {
   const [query, setQuery] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
   const inputRef = useRef(null);
   const iconRef = useRef(null);
   const dropdownClick = useRef(null);
@@ -32,9 +31,12 @@ const Dropdown = ({
     document.addEventListener('click', toggle);
     return () => document.removeEventListener('click', toggle);
   }, []);
-  useOnClickOutside(dropdownClick, () => {
+
+  const handleClickOutside = () => {
     setIsOpen(false);
-  });
+  };
+
+  useOnClickOutside(dropdownClick, handleClickOutside);
 
   const selectOption = (option: any) => {
     setQuery('');
@@ -93,6 +95,7 @@ const Dropdown = ({
   return (
     <div
       className={`relative w-full ${wrapClassName || ' '}`}
+      ref={dropdownClick}
       onClick={(event) => {
         event.stopPropagation();
         toggle(event);
