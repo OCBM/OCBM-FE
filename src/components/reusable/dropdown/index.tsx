@@ -109,7 +109,6 @@ const Dropdown = ({
       )}
       <div
         ref={dropdownClick}
-        onClick={() => setIsOpen(!isOpen)}
         className={
           type === 'secondary'
             ? `flex items-center justify-between border-b-2 ${className} cursor-pointer`
