@@ -79,4 +79,8 @@ export const SERVICES = {
   groups: {
     get: '/group',
   },
+  setStandards: {
+    get: '/sensor-properties',
+    post: '/sensor-properties',
+  },
 };

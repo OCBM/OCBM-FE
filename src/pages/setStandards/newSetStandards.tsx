@@ -3,11 +3,20 @@ import { Button } from '@/components';
 import { Dropdown } from '@/components';
 import { Input } from '@/components';
 import { Checkbox } from '@/components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { SETSTANDARDS_SERVICES } from '@/services/setStandardsServices';
 
 const NewSetStandard = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function test() {
+      const res = await SETSTANDARDS_SERVICES.getAllSetstandards();
+      console.log(res, 'response');
+    }
+    test();
+  }, []);
   type InitialStateType = {
     machineId: any;
     MachineName: string;
