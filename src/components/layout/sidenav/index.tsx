@@ -12,7 +12,7 @@ const SideNav = () => {
   }
 
   return (
-    <div className="bg-[#605BFF] rounded-2xl flex flex-col items-center px-5 py-[50px]">
+    <div className="bg-[#605BFF] rounded-2xl flex flex-col items-center px-5 py-[50px] ">
       <div
         className="p-[10px] mb-10 cursor-pointer"
         onClick={() => {
@@ -21,7 +21,7 @@ const SideNav = () => {
       >
         <OmnexIcon />
       </div>
-      <div className="flex flex-col justify-center items-center gap-[10px] overflow-y-auto">
+      <div className="flex flex-col justify-center items-center gap-[10px] overflow-y-auto hiddenScroll">
         {sideNavRoutes.map((option) => (
           <div
             key={option.key}
