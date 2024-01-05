@@ -19,7 +19,7 @@ export type InitialSetstandardStateType = {
   uomName: string;
   interval: string;
   triggerName: string;
-  criticality: object;
+  criticality: any;
 };
 
 const NewSetStandard = () => {
@@ -38,13 +38,24 @@ const NewSetStandard = () => {
   };
 
   const navigate = useNavigate();
-  const [isChecked, setIsChecked] = useState({
-    breakdown: false,
-  });
-  console.log(isChecked, 'checked');
-
+  const [machineList, setMachineList] = useState<InitialSetstandardStateType>(initialState);
   const [newSetstandards, setNewSetstandards] = useState<InitialSetstandardStateType>(initialState);
   console.log(newSetstandards, 'new');
+
+  const uomData = [
+    { uomId: '1', uomName: 'Bar' },
+    { uomId: '2', uomName: 'Pie' },
+    { uomId: '3', uomName: 'Line' },
+  ];
+  const triggerData = [
+    { triggerId: '1', triggerName: 'Max' },
+    { triggerId: '2', triggerName: 'Min' },
+  ];
+  const mockData = [
+    { MachineId: '1', MachineName: 'HONOR VTC-15' },
+    { MachineId: '2', MachineName: 'HMC1000' },
+    { MachineId: '3', MachineName: 'SL45 ' },
+  ];
 
   // useEffect(() => {
   //   async function test() {
@@ -80,27 +91,15 @@ const NewSetStandard = () => {
     }));
   };
 
-  const [machineList, setMachineList] = useState<InitialSetstandardStateType>(initialState);
-  // const [triggerList, setTriggerList] = useState<InitialSetstandardStateType>(initialState);
-  // const [uomList, setUomList] = useState<InitialSetstandardStateType>(initialState);
-
-  const uomData = [
-    { uomId: '1', uomName: 'Bar' },
-    { uomId: '2', uomName: 'Pie' },
-    { uomId: '3', uomName: 'Line' },
-  ];
-  const triggerData = [
-    { triggerId: '1', triggerName: 'Max' },
-    { triggerId: '2', triggerName: 'Min' },
-  ];
-  const mockData = [
-    { MachineId: '1', MachineName: 'HONOR VTC-15' },
-    { MachineId: '2', MachineName: 'HMC1000' },
-    { MachineId: '3', MachineName: 'SL45 ' },
-  ];
-
   const handleCheckboxChange = (event: any, type: string) => {
-    setIsChecked({ ...isChecked, [type]: event.target.checked });
+    // setIsChecked({ ...isChecked, [type]: event.target.checked });
+    setNewSetstandards((initialState: InitialSetstandardStateType) => ({
+      ...initialState,
+      criticality: {
+        ...initialState.criticality,
+        [type]: event.target.checked,
+      },
+    }));
   };
 
   const columns: any = [
@@ -183,7 +182,7 @@ const NewSetStandard = () => {
       align: 'center',
       render: () => {
         return (
-          <div className="flex justify-center ml-12 gap-3 border-b-[1px] border-[#A9A9A9] w-[70px]">
+          <div className="flex justify-center ml-12 gap-3 border-[#A9A9A9] w-[70px]">
             <div>
               <Dropdown
                 placeholder="Bar"
@@ -191,7 +190,7 @@ const NewSetStandard = () => {
                 options={uomData}
                 optionLabel="uomName"
                 handleChange={(value: any) => {
-                  setNewSetstandards((prev: any) => ({ ...prev, uomId: value?.uomId }));
+                  setNewSetstandards((prev: any) => ({ ...prev, uomId: value?.uomId, uomName: value?.uomName }));
                 }}
                 value={uomData?.find((uom: any) => uom.uomId === newSetstandards.uomId)}
                 mandatory={true}
@@ -231,7 +230,11 @@ const NewSetStandard = () => {
                 options={triggerData}
                 optionLabel="triggerName"
                 handleChange={(value: any) => {
-                  setNewSetstandards((prev: any) => ({ ...prev, triggerId: value?.triggerId }));
+                  setNewSetstandards((prev: any) => ({
+                    ...prev,
+                    triggerId: value?.triggerId,
+                    triggerName: value?.triggerName,
+                  }));
                 }}
                 value={triggerData?.find((trigger: any) => trigger.triggerId === newSetstandards.triggerId)}
                 mandatory={true}
@@ -254,12 +257,24 @@ const NewSetStandard = () => {
             <Checkbox
               variant="secondary"
               stroke="black"
-              label="Breakdown"
-              checked={isChecked.breakdown}
-              onChange={(e) => handleCheckboxChange(e, 'breakdown')}
+              label="breakDown"
+              checked={newSetstandards.criticality.breakDown}
+              onChange={(e) => handleCheckboxChange(e, 'breakDown')}
             />
-            <Checkbox variant="secondary" stroke="black" label="Defect" />
-            <Checkbox variant="secondary" stroke="black" label="Unsafe" />
+            <Checkbox
+              variant="secondary"
+              stroke="black"
+              label="Defect"
+              checked={newSetstandards.criticality.defect}
+              onChange={(e) => handleCheckboxChange(e, 'defect')}
+            />
+            <Checkbox
+              variant="secondary"
+              stroke="black"
+              label="Unsafe"
+              checked={newSetstandards.criticality.unSafe}
+              onChange={(e) => handleCheckboxChange(e, 'unSafe')}
+            />
           </div>
         );
       },
@@ -267,7 +282,7 @@ const NewSetStandard = () => {
   ];
 
   const data: any = [];
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 1; i++) {
     data.push({
       key: i,
       machineLine: '',
