@@ -87,7 +87,7 @@ const LoginCard = () => {
                 <Logo className="w-full" />
                 <div className="w-full">
                   <div className="flex justify-center items-center flex-col">
-                    <p className="font-GothamMedium text-base font-medium italic text-black pt-[50px]">Login</p>
+                    <p className="text-base font-medium italic text-black pt-[50px]">Login</p>
                     <div className="pt-10 w-full">
                       <Input
                         parentClassName="w-full"

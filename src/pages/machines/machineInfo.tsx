@@ -49,7 +49,7 @@ const MachineInfo = () => {
             <Link to={SITEMAP?.machines?.SpindleCoolingSystem} key={element.elementId} className="w-full">
               <button
                 key={element.elementId}
-                className="w-full py-4 px-10 text-lg font-bold font-GothamMedium text-[#444444] text-center border-2 border-solid border-[(rgba(68, 68, 68, 0.40))] rounded-2xl shadow-[0_4px_20px_0_rgba(0,0,0,0.06)] mr-3"
+                className="w-full py-4 px-10 text-lg font-bold tracking-[0.32px] text-[#444444] text-center border-2 border-solid border-[(rgba(68, 68, 68, 0.40))] rounded-2xl shadow-[0_4px_20px_0_rgba(0,0,0,0.06)] mr-3"
               >
                 {element.elementName}
               </button>

@@ -22,19 +22,19 @@ const MachinesPage = () => {
   };
   return (
     <div className="flex gap-6 flex-wrap">
-      {machineList.map((machineData: machineDataTypes) => (
+      {machineList?.map((machineData: machineDataTypes) => (
         <MachineCard
           machineName=""
           sensorCard={false}
-          key={machineData.machineName}
+          key={machineData?.machineName}
           handleView={() => navigate(`/machines/${machineData.machineId}`, { state: machineData.machineId })}
-          title={machineData.machineName}
+          title={machineData?.machineName}
           showValues
           showSignals
           outOfSpecValue="03"
           thresholdValue="02"
           withinSpecValue="01"
-          image={machineData.image}
+          image={machineData?.image}
         />
       ))}
     </div>
