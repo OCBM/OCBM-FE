@@ -44,12 +44,12 @@ const MachineInfo = () => {
           </div>
           <Button disabled label="View Details" className="px-5 py-[10px] rounded-2xl" />
         </div>
-        <div className="flex flex-col my-[50px] gap-5 overflow-x-hidden h-[325px] webkit-scrollbar-w-5px ">
+        <div className="flex flex-col my-[50px] overflow-x-hidden h-[325px] webkit-scrollbar-w-5px ">
           {machineElementList?.map((element: any) => (
             <Link to={SITEMAP?.machines?.SpindleCoolingSystem} key={element.elementId} className="w-full">
               <button
                 key={element.elementId}
-                className="w-full py-4 px-10 text-lg font-bold tracking-[0.32px] text-[#444444] text-center border-2 border-solid border-[(rgba(68, 68, 68, 0.40))] rounded-2xl shadow-[0_4px_20px_0_rgba(0,0,0,0.06)] mr-3"
+                className="w-full py-4 px-10 text-lg font-bold tracking-[0.32px] text-[#444444] text-center border-2 border-solid border-[(rgba(68, 68, 68, 0.40))]   mr-3"
               >
                 {element.elementName}
               </button>
