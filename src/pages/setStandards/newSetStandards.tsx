@@ -3,34 +3,105 @@ import { Button } from '@/components';
 import { Dropdown } from '@/components';
 import { Input } from '@/components';
 import { Checkbox } from '@/components';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SETSTANDARDS_SERVICES } from '@/services/setStandardsServices';
+import { toast } from 'react-toastify';
+
+export type InitialSetstandardStateType = {
+  MachineId: any;
+  triggerId: any;
+  uomId: any;
+  minOperatingRange: string;
+  maxOperatingRange: string;
+  minThresholdValue: string;
+  maxThresholdValue: string;
+  uomName: string;
+  interval: string;
+  triggerName: string;
+  criticality: object;
+};
 
 const NewSetStandard = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    async function test() {
-      const res = await SETSTANDARDS_SERVICES.getAllSetstandards();
-      console.log(res, 'response');
-    }
-    test();
-  }, []);
-  type InitialStateType = {
-    machineId: any;
-    MachineName: string;
-  };
   const initialState = {
-    machineId: '',
-    MachineName: '',
+    minOperatingRange: '',
+    maxOperatingRange: '',
+    minThresholdValue: '',
+    maxThresholdValue: '',
+    uomName: '',
+    interval: '',
+    triggerName: '',
+    criticality: { breakDown: false, defect: false, unSafe: false },
+    MachineId: '',
+    triggerId: '',
+    uomId: '',
   };
-  const [machineList, setMachineList] = useState<InitialStateType>(initialState);
+
+  const navigate = useNavigate();
+  const [isChecked, setIsChecked] = useState({
+    breakdown: false,
+  });
+  console.log(isChecked, 'checked');
+
+  const [newSetstandards, setNewSetstandards] = useState<InitialSetstandardStateType>(initialState);
+  console.log(newSetstandards, 'new');
+
+  // useEffect(() => {
+  //   async function test() {
+  //     const res = await SETSTANDARDS_SERVICES.getAllSetstandards();
+  //     console.log(res, 'response');
+  //   }
+  //   test();
+  // }, []);
+
+  const createSetstandards = async () => {
+    const body = {
+      minOperatingRange: newSetstandards.minOperatingRange,
+      maxOperatingRange: newSetstandards.maxOperatingRange,
+      minThresholdValue: newSetstandards.minThresholdValue,
+      maxThresholdValue: newSetstandards.maxThresholdValue,
+      uomName: newSetstandards.uomName,
+      interval: newSetstandards.interval,
+      triggerName: newSetstandards.triggerName,
+      criticality: newSetstandards.criticality,
+    };
+
+    const res = await SETSTANDARDS_SERVICES.addSetdstandards(body);
+    if (res.statusCode === 201) {
+      setNewSetstandards(initialState);
+      toast.success('setstandard added successfully');
+    }
+  };
+  const handleChange = (event: any) => {
+    const { name, value } = event.target;
+    setNewSetstandards((initialState: InitialSetstandardStateType) => ({
+      ...initialState,
+      [name]: value,
+    }));
+  };
+
+  const [machineList, setMachineList] = useState<InitialSetstandardStateType>(initialState);
+  // const [triggerList, setTriggerList] = useState<InitialSetstandardStateType>(initialState);
+  // const [uomList, setUomList] = useState<InitialSetstandardStateType>(initialState);
+
+  const uomData = [
+    { uomId: '1', uomName: 'Bar' },
+    { uomId: '2', uomName: 'Pie' },
+    { uomId: '3', uomName: 'Line' },
+  ];
+  const triggerData = [
+    { triggerId: '1', triggerName: 'Max' },
+    { triggerId: '2', triggerName: 'Min' },
+  ];
   const mockData = [
     { MachineId: '1', MachineName: 'HONOR VTC-15' },
     { MachineId: '2', MachineName: 'HMC1000' },
     { MachineId: '3', MachineName: 'SL45 ' },
   ];
+
+  const handleCheckboxChange = (event: any, type: string) => {
+    setIsChecked({ ...isChecked, [type]: event.target.checked });
+  };
 
   const columns: any = [
     {
@@ -76,11 +147,11 @@ const NewSetStandard = () => {
         return (
           <div className="flex gap-3 justify-center ">
             <div className=" border-b-[1px] border-[#A9A9A9] w-[30px]">
-              <Input placeholder="30" />
+              <Input placeholder="30" name="minOperatingRange" onChange={handleChange} />
             </div>
             <p>-</p>
             <div className=" border-b-[1px] border-[#A9A9A9] w-[30px]">
-              <Input placeholder="40" />
+              <Input placeholder="40" name="maxOperatingRange" onChange={handleChange} />
             </div>
           </div>
         );
@@ -95,11 +166,11 @@ const NewSetStandard = () => {
         return (
           <div className="flex gap-3 justify-center">
             <div className=" border-b-[1px] border-[#A9A9A9] w-[30px]">
-              <Input placeholder="30" />
+              <Input placeholder="30" name="minThresholdValue" onChange={handleChange} />
             </div>
             <p>-</p>
             <div className=" border-b-[1px] border-[#A9A9A9] w-[30px]">
-              <Input placeholder="40" />
+              <Input placeholder="40" name="maxThresholdValue" onChange={handleChange} />
             </div>
           </div>
         );
@@ -117,11 +188,12 @@ const NewSetStandard = () => {
               <Dropdown
                 placeholder="Bar"
                 className="w-[74px] border-transparent px-2 text-[14px] h-[25px] placeholder:text-[#BBBBBB]"
-                options=""
-                disabled
-                handleChange={() => {}}
-                optionLabel="uom"
-                value=""
+                options={uomData}
+                optionLabel="uomName"
+                handleChange={(value: any) => {
+                  setNewSetstandards((prev: any) => ({ ...prev, uomId: value?.uomId }));
+                }}
+                value={uomData?.find((uom: any) => uom.uomId === newSetstandards.uomId)}
                 mandatory={true}
               />
             </div>
@@ -138,7 +210,7 @@ const NewSetStandard = () => {
         return (
           <div className="flex gap-3 justify-center">
             <div className=" border-b-[1px] border-[#A9A9A9] w-[34px]">
-              <Input type="string" name="Interval" mandatory={true} placeholder="8hr" />
+              <Input type="string" name="Interval" mandatory={true} placeholder="8hr" onChange={handleChange} />
             </div>
           </div>
         );
@@ -155,12 +227,13 @@ const NewSetStandard = () => {
             <div>
               <Dropdown
                 placeholder="Max"
-                className="w-[80px] border-transparent px-2 text-[14px] h-[25px] placeholder:text-[#BBBBBB]"
-                options=""
-                disabled
-                optionLabel="uom"
-                handleChange={() => {}}
-                value=""
+                className="w-[100%] border-transparent px-2 text-[14px] h-[25px] placeholder:text-[#BBBBBB]"
+                options={triggerData}
+                optionLabel="triggerName"
+                handleChange={(value: any) => {
+                  setNewSetstandards((prev: any) => ({ ...prev, triggerId: value?.triggerId }));
+                }}
+                value={triggerData?.find((trigger: any) => trigger.triggerId === newSetstandards.triggerId)}
                 mandatory={true}
               />
             </div>
@@ -178,7 +251,13 @@ const NewSetStandard = () => {
       render: () => {
         return (
           <div className="flex justify-center gap-3 text-[16px]">
-            <Checkbox variant="secondary" stroke="black" label="Breakdown" />
+            <Checkbox
+              variant="secondary"
+              stroke="black"
+              label="Breakdown"
+              checked={isChecked.breakdown}
+              onChange={(e) => handleCheckboxChange(e, 'breakdown')}
+            />
             <Checkbox variant="secondary" stroke="black" label="Defect" />
             <Checkbox variant="secondary" stroke="black" label="Unsafe" />
           </div>
@@ -219,9 +298,9 @@ const NewSetStandard = () => {
               options={mockData}
               optionLabel="MachineName"
               handleChange={(value: any) => {
-                setMachineList((prev: any) => ({ ...prev, machineId: value?.machineId }));
+                setMachineList((prev: any) => ({ ...prev, MachineId: value?.MachineId }));
               }}
-              value={mockData?.find((machine: any) => machine.machineId === machineList.machineId)}
+              value={mockData?.find((machine: any) => machine.MachineId === machineList.MachineId)}
               mandatory={true}
             />
           </div>
@@ -247,6 +326,7 @@ const NewSetStandard = () => {
             label="Create"
             type="submit"
             className="py-3 px-8 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
+            onClick={createSetstandards}
           ></Button>
         </div>
       </div>
