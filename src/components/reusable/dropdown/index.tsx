@@ -16,14 +16,12 @@ const Dropdown = ({
   openClassName = '',
   optionLabel = '',
   optionValue = '',
-  wrapClassName = '',
   mandatory = false,
   disabled = false,
   editable = false,
 }: DropdownPropsType) => {
   const [query, setQuery] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
   const inputRef = useRef(null);
   const iconRef = useRef(null);
   const dropdownClick = useRef(null);
@@ -32,9 +30,12 @@ const Dropdown = ({
     document.addEventListener('click', toggle);
     return () => document.removeEventListener('click', toggle);
   }, []);
-  useOnClickOutside(dropdownClick, () => {
+
+  const handleClickOutside = () => {
     setIsOpen(false);
-  });
+  };
+
+  useOnClickOutside(dropdownClick, handleClickOutside);
 
   const selectOption = (option: any) => {
     setQuery('');
@@ -47,7 +48,12 @@ const Dropdown = ({
   };
 
   function toggle(event: any) {
-    if ((event && event.target === inputRef.current) || event.target === iconRef.current) {
+    if (
+      (event && event.target === inputRef.current) ||
+      event.target === iconRef.current ||
+      event.target === dropdownClick.current ||
+      event.target.parentElement.parentElement.parentElement === iconRef.current
+    ) {
       if (isOpen) {
         setIsOpen(false);
       } else {
@@ -86,13 +92,7 @@ const Dropdown = ({
   };
 
   return (
-    <div
-      className={`relative w-full ${wrapClassName}`}
-      onClick={(e) => {
-        e.stopPropagation();
-        toggle(e);
-      }}
-    >
+    <div className="relative w-full">
       {label && (
         <label className={`${labelClassName || ''} text-[#492CE1] text-[14px] font-medium block mb-2`}>
           {label}
@@ -106,6 +106,10 @@ const Dropdown = ({
             ? `flex items-center justify-between border-b-2 ${className} cursor-pointer`
             : `flex border-2 overflow-hidden w-2/6 rounded-[50px] gap-3 items-center justify-between border-[#444444] cursor-pointer ${className} cursor-pointer`
         }
+        onClick={(e) => {
+          e.stopPropagation();
+          toggle(e);
+        }}
       >
         {editable ? (
           <input
@@ -137,7 +141,7 @@ const Dropdown = ({
       </div>
       {isOpen && (
         <div
-          className={`absolute border-4 w-full my-3 border-white rounded-b-2xl rounded-2xl overflow-y-auto max-h-[277px] top-20 shadow-lg z-[99] bg-white ${openClassName}`}
+          className={`absolute border-4 w-full my-3 border-white rounded-b-2xl rounded -2xl overflow-y-auto max-h-[277px] shadow-lg z-[99] bg-white ${openClassName}`}
         >
           {filterOptions(options)?.map((option: any) => {
             if (optionLabel) {

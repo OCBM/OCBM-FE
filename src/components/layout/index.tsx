@@ -22,7 +22,7 @@ export function Layout() {
         })} flex h-full w-full overflow-hidden py-[14px] px-[14px]`}
       >
         <SideNav />
-        <div className="px-[30px] w-full h-auto  flex flex-col">
+        <div className="px-[30px] w-full h-auto flex flex-col overflow-y-auto hiddenScroll">
           <Header hideAvatar={show !== 'plant'} />
 
           {show !== 'shop' && show !== 'machine' && (

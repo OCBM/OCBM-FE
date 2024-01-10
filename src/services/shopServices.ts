@@ -20,6 +20,7 @@ export const SHOP_SERVICES = {
   getAllShopsByPlantId: async (id: string) => {
     try {
       const res = await apiInstance.get(`${SERVICES.shops.get}/plantId=${id}`);
+      console.log('shop', res.data);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
