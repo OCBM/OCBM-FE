@@ -20,6 +20,11 @@
   width: 12px;
 }
 
+.webkit-scrollbar-w-5px {
+  &::-webkit-scrollbar {
+    width: 5px !important;
+  }
+}
 *::-webkit-scrollbar-track {
   background: rgba(68, 68, 68, 0.25);
   border-radius: 8px;

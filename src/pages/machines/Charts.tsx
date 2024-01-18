@@ -1,13 +1,16 @@
 import { CategoryScale, Chart as ChartJS, LineElement, LinearScale, PointElement } from 'chart.js';
 // import { Line } from 'react-chartjs-2';
-import LineCharts from './LineCharts';
+//import LineCharts from './LineCharts';
 import { SquareIcon } from '@/assets/icons';
+import SensorChart from './SensorChart';
+//import SocketTest from './socketTest';
+//import socketIoClient from './socket.io-client';
 // import { ChartData } from './chart';
 // import { graphData } from './MockData';
 
 ChartJS.register(LineElement, LinearScale, PointElement, CategoryScale);
 
-const Charts = ({ item, index }: any) => {
+const Charts = ({ item }: any) => {
   return (
     <div className="w-full h-auto">
       {/* {graphData.map((item) => ( */}
@@ -23,8 +26,9 @@ const Charts = ({ item, index }: any) => {
           </div>
         </div>
         <div className="">
-          <LineCharts item={item} index={index} />
+          <SensorChart />
           {/* <ChartData /> */}
+          {/* <SocketTest /> */}
         </div>
       </>
       {/* ))} */}
