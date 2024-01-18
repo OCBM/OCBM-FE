@@ -3,96 +3,108 @@ import { Button } from '@/components';
 import { Dropdown } from '@/components';
 import { Input } from '@/components';
 import { Checkbox } from '@/components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SETSTANDARDS_SERVICES } from '@/services/setStandardsServices';
 import { toast } from 'react-toastify';
+import { USER_SERVICES } from '@/services/userServices';
 
 export type InitialSetstandardStateType = {
-  MachineId: any;
+  machineId: any;
   triggerId: any;
   uomId: any;
-  minOperatingRange: string;
-  maxOperatingRange: string;
-  minThresholdValue: string;
-  maxThresholdValue: string;
+  macAddress: string;
+  minOperatingRange: number;
+  maxOperatingRange: number;
+  minThresholdValue: number;
+  maxThresholdValue: number;
   uomName: string;
-  interval: string;
+  interval: number;
   triggerName: string;
   criticality: any;
 };
 
 const NewSetStandard = () => {
   const initialState = {
-    minOperatingRange: '',
-    maxOperatingRange: '',
-    minThresholdValue: '',
-    maxThresholdValue: '',
+    macAddress: '12sensor1234',
+    minOperatingRange: 0,
+    maxOperatingRange: 0,
+    minThresholdValue: 0,
+    maxThresholdValue: 0,
     uomName: '',
-    interval: '',
+    interval: 0,
     triggerName: '',
     criticality: { breakDown: false, defect: false, unSafe: false },
-    MachineId: '',
+    machineId: '',
     triggerId: '',
     uomId: '',
   };
 
   const navigate = useNavigate();
-  const [machineList, setMachineList] = useState<InitialSetstandardStateType>(initialState);
+  const [machineList, setMachineList] = useState<any[]>([]);
+  console.log(machineList, 'list');
   const [newSetstandards, setNewSetstandards] = useState<InitialSetstandardStateType>(initialState);
-  console.log(newSetstandards, 'new');
 
-  const uomData = [
-    { uomId: '1', uomName: 'Bar' },
-    { uomId: '2', uomName: 'Pie' },
-    { uomId: '3', uomName: 'Line' },
-  ];
-  const triggerData = [
-    { triggerId: '1', triggerName: 'Max' },
-    { triggerId: '2', triggerName: 'Min' },
-  ];
-  const mockData = [
-    { MachineId: '1', MachineName: 'HONOR VTC-15' },
-    { MachineId: '2', MachineName: 'HMC1000' },
-    { MachineId: '3', MachineName: 'SL45 ' },
+  const uomData = ['Bar', '°C'];
+  const triggerData = ['MAX', 'MIN', 'Both'];
+
+  const dropdownData = [
+    {
+      id: 1,
+      name: 'ADMIN',
+    },
+    {
+      id: 2,
+      name: 'USER',
+    },
   ];
 
-  // useEffect(() => {
-  //   async function test() {
-  //     const res = await SETSTANDARDS_SERVICES.getAllSetstandards();
-  //     console.log(res, 'response');
-  //   }
-  //   test();
-  // }, []);
+  useEffect(() => {
+    fetchSample(1, 1000);
+  }, []);
 
+  //NEED TO DELETE SAMPLE
+  const fetchSample = async (page: 1, limit: 1000) => {
+    const res = await USER_SERVICES.getAllUsers(page, limit);
+    setMachineList(res.message);
+  };
+
+  const fetch = async (role: any) => {
+    const res = await USER_SERVICES.getUserByRole(role);
+    setMachineList(res.message);
+  };
+
+  //post setstandards data
   const createSetstandards = async () => {
     const body = {
+      macAddress: newSetstandards.macAddress,
       minOperatingRange: newSetstandards.minOperatingRange,
       maxOperatingRange: newSetstandards.maxOperatingRange,
       minThresholdValue: newSetstandards.minThresholdValue,
       maxThresholdValue: newSetstandards.maxThresholdValue,
-      uomName: newSetstandards.uomName,
+      uom: newSetstandards.uomName,
       interval: newSetstandards.interval,
-      triggerName: newSetstandards.triggerName,
+      trigger: newSetstandards.triggerName,
       criticality: newSetstandards.criticality,
     };
-
-    const res = await SETSTANDARDS_SERVICES.addSetdstandards(body);
-    if (res.statusCode === 201) {
+    const create_setstandards = await SETSTANDARDS_SERVICES.addSetstandards(body);
+    if (create_setstandards) {
       setNewSetstandards(initialState);
       toast.success('setstandard added successfully');
     }
   };
+
+  //input value onchange
   const handleChange = (event: any) => {
     const { name, value } = event.target;
     setNewSetstandards((initialState: InitialSetstandardStateType) => ({
       ...initialState,
-      [name]: value,
+      [name]: parseInt(value),
     }));
   };
 
+  // checkbox
   const handleCheckboxChange = (event: any, type: string) => {
-    // setIsChecked({ ...isChecked, [type]: event.target.checked });
     setNewSetstandards((initialState: InitialSetstandardStateType) => ({
       ...initialState,
       criticality: {
@@ -102,18 +114,36 @@ const NewSetStandard = () => {
     }));
   };
 
+  //disable button
+  const disablingSetStandards = () => {
+    return newSetstandards.macAddress &&
+      newSetstandards.minOperatingRange &&
+      newSetstandards.maxOperatingRange &&
+      newSetstandards.minThresholdValue &&
+      newSetstandards.maxThresholdValue &&
+      newSetstandards.uomName &&
+      newSetstandards.interval &&
+      newSetstandards.triggerName
+      ? false
+      : true;
+  };
+
+  //machine dropdown data
+  // const machineLine = machineList?.find((machine: any) => machine.userId === newSetstandards.machineId);
+  // console.log(machineLine, 'machine');
+
   const columns: any = [
     {
-      title: 'Machine line',
-      key: 'machineLine',
-      dataIndex: 'machineLine',
+      title: 'Machine Name',
+      key: 'machinenName',
+      dataIndex: 'machineName',
       width: '10%',
       align: 'center',
-      render: () => {
+      render: (_: any, data: any) => {
         return (
-          <div className="flex justify-start gap-3 ml-3">
+          <div className="flex justify-start gap-3 ">
             <div className="flex gap-1">
-              <Checkbox variant="primary" stroke="white" label="Honor Vtc-15" />
+              <Checkbox variant="primary" stroke="white" checked={data?.userId ? true : false} label={data?.name} />
             </div>
           </div>
         );
@@ -124,18 +154,39 @@ const NewSetStandard = () => {
       key: 'ElementName',
       dataIndex: 'ElementName',
       align: 'center',
+      render: (_: any, data: any) => {
+        return (
+          <div className="flex justify-center gap-3 ">
+            <h1>{data?.role}</h1>
+          </div>
+        );
+      },
     },
     {
       title: 'Sensor Description',
       key: 'SensorDescription',
       dataIndex: 'SensorDescription',
       align: 'center',
+      render: (_: any, data: any) => {
+        return (
+          <div className="flex justify-center gap-3">
+            <h1>{data?.position}</h1>
+          </div>
+        );
+      },
     },
     {
       title: 'Sensor ID',
       key: 'SensorID',
       dataIndex: 'SensorID',
       align: 'center',
+      render: (_: any, data: any) => {
+        return (
+          <div className="flex justify-center gap-3">
+            <h1>{data?.employeeId}</h1>
+          </div>
+        );
+      },
     },
     {
       title: 'Operating Range',
@@ -180,22 +231,24 @@ const NewSetStandard = () => {
       key: 'UOM',
       dataIndex: 'UOM',
       align: 'center',
-      render: () => {
+      render: (_: any, data: any) => {
         return (
-          <div className="flex justify-center ml-12 gap-3 border-[#A9A9A9] w-[70px]">
-            <div>
-              <Dropdown
-                placeholder="Bar"
-                className="w-[74px] border-transparent px-2 text-[14px] h-[25px] placeholder:text-[#BBBBBB]"
-                options={uomData}
-                optionLabel="uomName"
-                handleChange={(value: any) => {
-                  setNewSetstandards((prev: any) => ({ ...prev, uomId: value?.uomId, uomName: value?.uomName }));
-                }}
-                value={uomData?.find((uom: any) => uom.uomId === newSetstandards.uomId)}
-                mandatory={true}
-              />
-            </div>
+          <div className="flex justify-center ml-12 border-b-[1px] border-[#A9A9A9] w-[80px]">
+            <Dropdown
+              placeholder="Bar"
+              openClassName="top-5 w-[85px]"
+              menuClassName="p-2"
+              className="w-[74px] border-transparent px-2 text-[14px] h-[25px] placeholder:text-[#BBBBBB]"
+              options={uomData}
+              handleChange={(value: any) => {
+                const machineData = [...machineList];
+                const updateMachineId = machineData.findIndex((machine) => machine.userId === data.userId);
+                machineData[updateMachineId]['uomName'] = value;
+                setMachineList(machineData);
+              }}
+              value={machineList?.find((machine: any) => machine.userId === data.userId)?.uomName}
+              mandatory={true}
+            />
           </div>
         );
       },
@@ -209,7 +262,7 @@ const NewSetStandard = () => {
         return (
           <div className="flex gap-3 justify-center">
             <div className=" border-b-[1px] border-[#A9A9A9] w-[34px]">
-              <Input type="string" name="Interval" mandatory={true} placeholder="8hr" onChange={handleChange} />
+              <Input type="string" name="interval" placeholder="8hr" onChange={handleChange} />
             </div>
           </div>
         );
@@ -220,26 +273,24 @@ const NewSetStandard = () => {
       key: 'Trigger',
       dataIndex: 'Trigger',
       align: 'center',
-      render: () => {
+      render: (_: any, data: any) => {
         return (
-          <div className="flex gap-3 ml-8 border-b-[1px] border-[#A9A9A9] w-[70px]">
-            <div>
-              <Dropdown
-                placeholder="Max"
-                className="w-[100%] border-transparent px-2 text-[14px] h-[25px] placeholder:text-[#BBBBBB]"
-                options={triggerData}
-                optionLabel="triggerName"
-                handleChange={(value: any) => {
-                  setNewSetstandards((prev: any) => ({
-                    ...prev,
-                    triggerId: value?.triggerId,
-                    triggerName: value?.triggerName,
-                  }));
-                }}
-                value={triggerData?.find((trigger: any) => trigger.triggerId === newSetstandards.triggerId)}
-                mandatory={true}
-              />
-            </div>
+          <div className="flex gap-3 ml-8 border-b-[1px] border-[#A9A9A9] w-[80px]">
+            <Dropdown
+              placeholder="Max"
+              openClassName="top-5 w-[80px]"
+              menuClassName="p-2"
+              className="w-[100%] border-transparent px-2 text-[14px] h-[25px] placeholder:text-[#BBBBBB]"
+              options={triggerData}
+              handleChange={(value: any) => {
+                const machineData = [...machineList];
+                const updateMachineId = machineData.findIndex((machine) => machine.userId === data.userId);
+                machineData[updateMachineId]['trigger'] = value;
+                setMachineList(machineData);
+              }}
+              value={machineList?.find((trigger: any) => trigger.userId === data.userId)?.trigger}
+              mandatory={true}
+            />
           </div>
         );
       },
@@ -257,7 +308,7 @@ const NewSetStandard = () => {
             <Checkbox
               variant="secondary"
               stroke="black"
-              label="breakDown"
+              label="BreakDown"
               checked={newSetstandards.criticality.breakDown}
               onChange={(e) => handleCheckboxChange(e, 'breakDown')}
             />
@@ -281,22 +332,19 @@ const NewSetStandard = () => {
     },
   ];
 
-  const data: any = [];
-  for (let i = 0; i < 1; i++) {
-    data.push({
-      key: i,
-      machineLine: '',
-      ElementName: 'Hydraulic System',
-      SensorDescription: 'Oil Temp Out',
-      SensorID: 'Honor-15_LS',
-      OperatingRange: 30,
-      ThresholdValue: 40,
-      UOM: 'Bar',
-      Interval: '8hr',
-      Trigger: 'Max',
-      Criticality: '',
-    });
-  }
+  // const data: any = [];
+  // for (let i = 0; i < 4; i++) {
+  //   data.push({
+  //     key: i,
+  //     ElementName: 'Hydraulic System',
+  //     SensorDescription: 'Oil Temp Out',
+  //     SensorID: 'Honor-15_LS',
+  //     UOM: 'Bar',
+  //     Interval: '8hr',
+  //     Trigger: 'Max',
+  //     Criticality: '',
+  //   });
+  // }
 
   return (
     <>
@@ -309,13 +357,17 @@ const NewSetStandard = () => {
               labelClassName="flex items-center justify-center text-[14px]"
               label="Machine Name"
               placeholder="Select Machine"
-              className="w-[100%] border-[1px] h-[50px] px-3"
-              options={mockData}
-              optionLabel="MachineName"
+              className="w-[100%] border-[1px] h-[50px] px-3 pl-4"
+              options={dropdownData}
+              optionLabel="name"
               handleChange={(value: any) => {
-                setMachineList((prev: any) => ({ ...prev, MachineId: value?.MachineId }));
+                fetch(value.name);
+                setNewSetstandards((prev: any) => ({
+                  ...prev,
+                  machineId: value?.id,
+                }));
               }}
-              value={mockData?.find((machine: any) => machine.MachineId === machineList.MachineId)}
+              value={dropdownData?.find((machine: any) => machine.id === newSetstandards.machineId)}
               mandatory={true}
             />
           </div>
@@ -324,7 +376,7 @@ const NewSetStandard = () => {
         <Table
           className="create-machine-line-table"
           columns={columns}
-          dataSource={data}
+          dataSource={machineList}
           scroll={{ x: 'calc(1000px + 60%)' }}
         />
         <div className="flex gap-5 justify-center">
@@ -341,6 +393,7 @@ const NewSetStandard = () => {
             label="Create"
             type="submit"
             className="py-3 px-8 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
+            disabled={disablingSetStandards()}
             onClick={createSetstandards}
           ></Button>
         </div>

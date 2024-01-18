@@ -15,6 +15,7 @@ const Dropdown = ({
   inputClassName = '',
   openClassName = '',
   wrapClassName = '',
+  menuClassName = '',
   optionLabel = '',
   optionValue = '',
   mandatory = false,
@@ -151,7 +152,7 @@ const Dropdown = ({
               return (
                 <div
                   onClick={() => selectOption(option)}
-                  className="p-4 cursor-pointer transition-all hover:bg-[#f4f4f4] rounded-r-xl"
+                  className={`p-4 cursor-pointer transition-all hover:bg-[#f4f4f4] rounded-r-xl ${menuClassName}`}
                   key={option[optionLabel]}
                 >
                   {option[optionLabel]}

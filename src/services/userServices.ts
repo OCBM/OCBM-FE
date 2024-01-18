@@ -36,6 +36,16 @@ export const USER_SERVICES = {
       console.log(error);
     }
   },
+  getUserByRole: async (role: string) => {
+    try {
+      const res = await apiInstance.get(`${SERVICES.user.get}/role=${role}`);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
   updateUserbyId: async (id: string, body: any) => {
     try {
       const res = await apiInstance.put(`${SERVICES.user.update}/${id}`, body);

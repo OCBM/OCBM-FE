@@ -15,7 +15,7 @@ export const SETSTANDARDS_SERVICES = {
     }
   },
 
-  addSetdstandards: async (body: any) => {
+  addSetstandards: async (body: any) => {
     try {
       const res = await apiInstance2.post(SERVICES.setStandards.post, body);
       return res.data;
