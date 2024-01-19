@@ -7,7 +7,7 @@ import { SENSOR_SERVICES } from '@/services/sensorServices';
 Chart.register(zoomPlugin);
 const SensorChart: React.FC = () => {
   const chartRef = useRef<HTMLCanvasElement>(null);
-  const chartInstance = useRef<Chart | null>(null);
+  const chartInstance = useRef<any>(null);
   const [sensorApi, setsensorApi] = useState();
   const [sensorReadingsData, setSensorReadingsData] = useState<any>([]);
   const date = new Date();
@@ -80,6 +80,8 @@ const SensorChart: React.FC = () => {
             },
             scales: {
               x: {
+                min: 0,
+                max: 10,
                 grid: {
                   display: false,
                 },
@@ -88,6 +90,7 @@ const SensorChart: React.FC = () => {
                 },
               },
               y: {
+                beginAtZero: true,
                 // min: item.min,
                 // max: item.max,
                 // ticks: {
@@ -130,15 +133,28 @@ const SensorChart: React.FC = () => {
             },
           },
         });
+        const scroller = (scroll: any, chart: any) => {
+          console.log('object', scroll, chart);
+        };
+
+        chartInstance.current.canvas.addEventListener('wheel', (event: any) => {
+          scroller(event, chartInstance.current);
+        });
+
         // Mock data update - Replace with actual data fetching logic
         const interval = setInterval(() => {
           const newData = Math.random() * 100; // Mock sensor data
           const newLabel = timeString; // Mock time label
           if (chartInstance.current) {
-            chartInstance?.current?.data?.labels?.push(newLabel);
-            chartInstance.current.data.datasets.forEach((dataset) => {
+            chartInstance.current.data.labels.push(newLabel);
+            chartInstance.current.data.datasets.forEach((dataset: any) => {
               dataset.data.push(newData);
             });
+
+            // Update the maxTicks based on the length of labels
+            const maxTicks = Math.min(5, chartInstance.current.data.labels.length);
+            chartInstance.current.options.scales.x.maxTicks = maxTicks;
+
             chartInstance.current.update();
           }
         }, 1000);
