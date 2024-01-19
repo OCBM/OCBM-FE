@@ -3,7 +3,7 @@ import { CategoryScale, Chart as ChartJS, LineElement, LinearScale, PointElement
 //import LineCharts from './LineCharts';
 import { SquareIcon } from '@/assets/icons';
 import SensorChart from './SensorChart';
-import AntdChart from './antdchart';
+// import AntdChart from './antdchart';
 //import SocketTest from './socketTest';
 //import socketIoClient from './socket.io-client';
 // import { ChartData } from './chart';
