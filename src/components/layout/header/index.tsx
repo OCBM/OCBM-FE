@@ -1,12 +1,16 @@
+import { BellIcon } from '@/assets/icons';
 import { Dropdown } from '@/components';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { logoutUser } from '@/redux/slices/authSlice';
 import classNames from 'classnames';
+import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import socketIOClient from 'socket.io-client';
 
 const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
+  const [showOpenNotificationModal, setShowNotificationModal] = useState(false);
   // const options = [
   //   {
   //     key: 'plants',
@@ -39,6 +43,48 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
       dispatch(logoutUser());
     }, 1000);
   };
+
+  const ALERTS_SOCKET_CONNECTION_URL = 'http://localhost:9130/alerts';
+
+  const [alertsSocket, setAlertsSocket] = useState<any>(null);
+  const [alertsData, setAlertsData] = useState<any>([]);
+
+  useEffect(() => {
+    connectToAlertsSocket();
+    return () => {
+      if (alertsSocket) {
+        alertsSocket.disconnect();
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (alertsSocket) {
+      listenToAlerts();
+    }
+  }, [alertsSocket]);
+
+  function connectToAlertsSocket() {
+    const _socket = socketIOClient(ALERTS_SOCKET_CONNECTION_URL, {
+      rejectUnauthorized: false,
+    });
+    _socket.on('connection-success', ({ socketId }) => {
+      setAlertsSocket(_socket);
+      console.log('alert-socketId', socketId);
+    });
+  }
+
+  function listenToAlerts() {
+    alertsSocket.emit('sensor-alerts', {
+      sensors: ['MAC-ADDRESS-001', 'MAC-ADDRESS-002'],
+    });
+
+    alertsSocket.on('sensor-alert', (data: any) => {
+      toast.error(`${data.alert.macAddress} reached ${data.alert.trigger} value`);
+      setAlertsData((prevData: any) => [...prevData, data]);
+    });
+  }
 
   return (
     <>
@@ -74,9 +120,23 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
             })} px-[20px] py-[10px] w-[230px] border border-solid border-[#444]`}
           /> */}
         {/* </div> */}
-        <div
-          className={` ${classNames({ invisible: hideAvatar })} flex items-center gap-[10px] w-[138px] justify-end `}
-        >
+        <div className={` ${classNames({ invisible: hideAvatar })} flex items-center gap-4 w-[138px] justify-end `}>
+          <div className="relative" onClick={() => setShowNotificationModal(!showOpenNotificationModal)}>
+            <BellIcon className="shrink-0" />
+            {showOpenNotificationModal ? (
+              <div className="absolute h-[250px] w-[300px] left-[-110px] overflow-auto shadow-lg rounded-2xl top-10 bg-white">
+                {alertsData?.length > 0 ? (
+                  alertsData?.slice(-10)?.map((data: any) => (
+                    <p key={data?.alert?.macAddress} className="p-3">
+                      {`${data?.alert?.macAddress} reached ${data?.alert?.trigger} value. Humidity : ${data?.alert?.humidity} temperatureC: ${data?.alert?.temperatureC}`}
+                    </p>
+                  ))
+                ) : (
+                  <p className="h-full w-full flex justify-center items-center">No Notification</p>
+                )}
+              </div>
+            ) : null}
+          </div>
           <div className="bg-[#492CE1] text-white p-3 text-center w-[40px] h-[40px] rounded-[30px] flex items-center justify-center">
             <span className="text-center w-[40px]">{user?.name ? user?.name.charAt(0) : 'U'}</span>
           </div>
