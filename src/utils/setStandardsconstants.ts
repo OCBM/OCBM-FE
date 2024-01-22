@@ -132,3 +132,40 @@ export const DATA_SOURCE: any = [
     criticality: 'Breakdown Defect',
   },
 ];
+
+export const sensorData: any = {
+  sensor: {
+    sensor_Id: '6aff7b8b-39a0-4299-87d7-30c0ec6eb4dd',
+    sensorId: 'test',
+    sensorName: 'sensor1',
+    sensorDescription: 'sensor3s-dis',
+    image: 'https://omnex-be-image-upload.s3.ap-southeast-1.amazonaws.com/elements/6277_test1.jpg',
+    imageKey: '',
+    imageName: 'sensor1image',
+    createdAt: '2024-01-05T10:29:05.250Z',
+    updatedAt: '2024-01-05T10:29:05.250Z',
+    elementId: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+    elements: {
+      elementId: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+      elementName: 'E1',
+      elementDescription: 'E1-dis\n',
+      image: 'E1.png',
+      imageKey: '',
+      imageName: 'E1image',
+      createdAt: '2024-01-05T15:57:59.446Z',
+      updatedAt: null,
+      machineId: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+      machines: {
+        machineId: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+        machineName: 'Mac1',
+        machineDescription: 'Mac1-dis',
+        image: 'Mac1.png',
+        imageKey: '',
+        imageName: 'mac1image',
+        createdAt: '2024-01-05T15:57:02.842Z',
+        updatedAt: null,
+        machineLineId: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+      },
+    },
+  },
+};
