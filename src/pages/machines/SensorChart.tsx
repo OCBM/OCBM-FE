@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Chart from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
-import socketIOClient from 'socket.io-client';
 import { SENSOR_SERVICES } from '@/services/sensorServices';
 
 Chart.register(zoomPlugin);
@@ -9,7 +8,7 @@ const SensorChart: React.FC = () => {
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstance = useRef<any>(null);
   const [sensorApi, setsensorApi] = useState();
-  const [sensorReadingsData, setSensorReadingsData] = useState<any>([]);
+  const [sensorReadingsData] = useState<any>([]);
   const date = new Date();
   const hours = date.getHours();
   const timeString = hours > 12 ? `${hours - 12}pm` : `${hours}am`;
