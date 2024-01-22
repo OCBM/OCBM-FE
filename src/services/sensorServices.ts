@@ -17,4 +17,14 @@ export const SENSOR_SERVICES = {
       console.log(error);
     }
   },
+  getAllSensor: async () => {
+    try {
+      const res = await iotApiInstance.get(`/sensor-reading/getAllSensors`);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error?.response?.data?.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
 };

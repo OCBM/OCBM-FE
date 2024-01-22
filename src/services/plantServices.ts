@@ -1,7 +1,7 @@
-import apiInstance from '@/lib/axios';
 import { SERVICES } from '@/utils/sitemap';
 import { HELPER_SERVICES } from './helperServices';
 import { toast } from 'react-toastify';
+import { apiInstance } from '@/lib/axios';
 
 export const PLANT_SERVICES = {
   getAllPlantsbyUserid: async (id: string) => {

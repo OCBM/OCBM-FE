@@ -231,7 +231,7 @@ const Element = () => {
     setFileName(event[0].name);
     setUploadStatus('success');
     const base64String: any = await convertToBase64(event[0]);
-    setNewElement((prev: any) => ({ ...prev, image: base64String, imageName: event[0].name }));
+    setNewElement((prev: any) => ({ ...prev, image: event[0], imageName: event[0].name }));
     setImageURl(base64String);
   };
 

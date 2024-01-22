@@ -16,22 +16,22 @@ const SensorChart: React.FC = () => {
   var currentDate = new Date();
   currentDate.setHours(currentDate.getHours() - 12);
   var isoString = currentDate.toISOString();
-  useEffect(() => {
-    const _socket: any = socketIOClient('http://localhost:9130/sensor-readings', {
-      rejectUnauthorized: false,
-    });
-    // _socket.on('connection-success', ({ socketId }: any) => {
-    //   setSensorReadingsSocket(_socket);
-    // });
-    // console.log('first1', _socket);
-    _socket.emit('sensor-readings', {
-      sensors: ['MAC-ADDRESS-001'], // sensor mac-address to listen
-    });
-    _socket.on('sensor-reading', (data: any) => {
-      console.log('first-called', data);
-      setSensorReadingsData((prevData: any) => [...prevData, data.sensorReading]);
-    });
-  }, []);
+  // useEffect(() => {
+  //   const _socket: any = socketIOClient('http://localhost:9130/sensor-readings', {
+  //     rejectUnauthorized: false,
+  //   });
+  //   // _socket.on('connection-success', ({ socketId }: any) => {
+  //   //   setSensorReadingsSocket(_socket);
+  //   // });
+  //   // console.log('first1', _socket);
+  //   _socket.emit('sensor-readings', {
+  //     sensors: ['MAC-ADDRESS-001'], // sensor mac-address to listen
+  //   });
+  //   _socket.on('sensor-reading', (data: any) => {
+  //     console.log('first-called', data);
+  //     setSensorReadingsData((prevData: any) => [...prevData, data.sensorReading]);
+  //   });
+  // }, []);
   console.log('first', sensorReadingsData);
   const fetchAllSensor = async (minTimestamp: string, macAddress: string) => {
     const res = await SENSOR_SERVICES.getSensorData(minTimestamp, macAddress);
@@ -39,8 +39,8 @@ const SensorChart: React.FC = () => {
   };
   useEffect(() => {
     fetchAllSensor(`${isoString}`, 'MAC-ADDRESS-001');
-  });
-  console.log(sensorApi);
+  }, []);
+  console.log('sensorApi', sensorApi);
   useEffect(() => {
     if (chartRef.current) {
       const ctx = chartRef.current.getContext('2d');

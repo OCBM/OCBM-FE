@@ -2,10 +2,12 @@ import { DeleteIcon, PencilIcon } from '@/assets/icons';
 import { Button, Dropdown, FileUploader, Input } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
 import { Table } from '@/components/reusable/table';
-import { useState } from 'react';
+import { SENSOR_SERVICES } from '@/services/sensorServices';
+import { useEffect, useState } from 'react';
 
 function Sensor() {
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
+  const [sensorList, setSensorList] = useState<any>([]);
 
   const handleFile = () => {
     setUploadStatus('success');
@@ -69,17 +71,27 @@ function Sensor() {
     },
   ];
 
+  const fetchAllSensors = async () => {
+    const res = await SENSOR_SERVICES.getAllSensor();
+    setSensorList(res);
+  };
+
+  useEffect(() => {
+    fetchAllSensors();
+  }, []);
+
   return (
     <div>
       <h2 className="text-xl font-medium leading-5 text-[#444] mb-8">Add Sensor</h2>
       <div>
         <div className="flex justify-center gap-[16px] mb-6">
-          <Input
+          <Dropdown
+            options={sensorList}
             className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-            placeholder="Sensor Name"
-            type="text"
+            placeholder="Select Sensor"
+            handleChange={() => {}}
             value=""
-            name="sensorName"
+            mandatory={true}
           />
           <Input
             className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"

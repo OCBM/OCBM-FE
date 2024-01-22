@@ -18,6 +18,8 @@ function getToken() {
   return null;
 }
 
+console.log('TEST API ENDPOINT', Config.OMNEX_BACKEND_URL);
+
 const apiInstance = axios.create({
   baseURL: `${Config.OMNEX_BACKEND_URL}`,
 });
@@ -43,6 +45,4 @@ iotApiInstance.interceptors.request.use((config) => {
   return config;
 });
 
-export { iotApiInstance };
-
-export default apiInstance;
+export { iotApiInstance, apiInstance };

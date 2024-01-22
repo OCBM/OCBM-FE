@@ -72,7 +72,7 @@ const MachineLine = () => {
     const res = await SHOP_SERVICES.getAllShops();
     setShopList(res?.message);
   };
-
+  console.log('shopList', shopList);
   //DATA FOR MACHINE LINE TABLE
   const tableData = [
     {
@@ -144,7 +144,7 @@ const MachineLine = () => {
     setFileName(event[0].name);
     setUpload('success');
     const base64String: any = await convertToBase64(event[0]);
-    setNewMachineLine((prev: any) => ({ ...prev, image: base64String, imageName: event[0].name }));
+    setNewMachineLine((prev: any) => ({ ...prev, image: event[0], imageName: event[0].name }));
     setImageURl(base64String);
   };
 
