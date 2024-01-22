@@ -21,7 +21,7 @@ const apiInstance = axios.create({
   baseURL: `${Config.OMNEX_BACKEND_URL}`,
 });
 
-export const apiInstance2 = axios.create({
+const apiInstance2 = axios.create({
   baseURL: `${Config.SENSOR_BACKEND_URL}`,
 });
 
@@ -35,3 +35,13 @@ apiInstance.interceptors.request.use((config) => {
 });
 
 export default apiInstance;
+
+apiInstance2.interceptors.request.use((config) => {
+  const token = getToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export { apiInstance2 };

@@ -152,7 +152,7 @@ const Dropdown = ({
               return (
                 <div
                   onClick={() => selectOption(option)}
-                  className={`p-4 cursor-pointer transition-all hover:bg-[#f4f4f4] rounded-r-xl ${menuClassName}`}
+                  className="p-4 cursor-pointer transition-all hover:bg-[#f4f4f4] rounded-r-xl"
                   key={option[optionLabel]}
                 >
                   {option[optionLabel]}
@@ -162,7 +162,7 @@ const Dropdown = ({
               return (
                 <div
                   onClick={() => selectOption(option)}
-                  className="py-4 px-2 cursor-pointer transition-all hover:bg-[#f4f4f4] rounded-r-xl"
+                  className={` px-2 cursor-pointer transition-all hover:bg-[#f4f4f4] rounded-r-xl ${menuClassName}`}
                   key={option}
                 >
                   {option}

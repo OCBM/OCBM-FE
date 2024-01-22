@@ -11,8 +11,6 @@ import { USER_SERVICES } from '@/services/userServices';
 
 export type InitialSetstandardStateType = {
   machineId: any;
-  triggerId: any;
-  uomId: any;
   macAddress: string;
   minOperatingRange: number;
   maxOperatingRange: number;
@@ -36,13 +34,11 @@ const NewSetStandard = () => {
     triggerName: '',
     criticality: { breakDown: false, defect: false, unSafe: false },
     machineId: '',
-    triggerId: '',
-    uomId: '',
   };
 
   const navigate = useNavigate();
   const [machineList, setMachineList] = useState<any[]>([]);
-  console.log(machineList, 'list');
+  console.log(machineList, 'machine');
   const [newSetstandards, setNewSetstandards] = useState<InitialSetstandardStateType>(initialState);
 
   const uomData = ['Bar', '°C'];
@@ -74,63 +70,92 @@ const NewSetStandard = () => {
     setMachineList(res.message);
   };
 
+  const updateData = machineList.map((data) => {
+    return {
+      macAddress: data.userId,
+      minOperatingRange: data.minOperatingRange,
+      maxOperatingRange: data.maxOperatingRange,
+      minThresholdValue: data.minThresholdValue,
+      maxThresholdValue: data.maxThresholdValue,
+      uom: data.uom,
+      interval: data.interval,
+      trigger: data.trigger,
+      criticality: {
+        breakDown: data.breakdown,
+        defect: data.defect,
+        unSafe: data.unSafe,
+      },
+    };
+  });
+  console.log(updateData, 'update');
+
+  {
+    data: [
+      {
+        macAddress: 'string',
+        minOperatingRange: 0,
+        maxOperatingRange: 0,
+        minThresholdValue: 0,
+        maxThresholdValue: 0,
+        uom: 'string',
+        interval: 0,
+        trigger: 'MAX',
+        criticality: {
+          breakDown: true,
+          defect: true,
+          unSafe: true,
+        },
+      },
+    ];
+  }
+
   //post setstandards data
   const createSetstandards = async () => {
-    const body = {
-      macAddress: newSetstandards.macAddress,
-      minOperatingRange: newSetstandards.minOperatingRange,
-      maxOperatingRange: newSetstandards.maxOperatingRange,
-      minThresholdValue: newSetstandards.minThresholdValue,
-      maxThresholdValue: newSetstandards.maxThresholdValue,
-      uom: newSetstandards.uomName,
-      interval: newSetstandards.interval,
-      trigger: newSetstandards.triggerName,
-      criticality: newSetstandards.criticality,
-    };
+    const body = updateData;
     const create_setstandards = await SETSTANDARDS_SERVICES.addSetstandards(body);
     if (create_setstandards) {
-      setNewSetstandards(initialState);
+      setMachineList(updateData);
       toast.success('setstandard added successfully');
     }
   };
 
-  //input value onchange
-  const handleChange = (event: any) => {
-    const { name, value } = event.target;
-    setNewSetstandards((initialState: InitialSetstandardStateType) => ({
-      ...initialState,
-      [name]: parseInt(value),
-    }));
+  //Input value onchange
+  const handleInputChange = (event: any, type: string, data: any) => {
+    const machineData = [...machineList];
+    const updateMachineId = machineData.findIndex((machine) => machine.userId === data.userId);
+    machineData[updateMachineId][type] = parseInt(event.target.value);
+    setMachineList(machineData);
   };
 
-  // checkbox
-  const handleCheckboxChange = (event: any, type: string) => {
-    setNewSetstandards((initialState: InitialSetstandardStateType) => ({
-      ...initialState,
-      criticality: {
-        ...initialState.criticality,
-        [type]: event.target.checked,
-      },
-    }));
+  //Dropdown onChange
+  const handleDropdownChange = (value: any, type: string, data: any) => {
+    const machineData = [...machineList];
+    const updateMachineId = machineData.findIndex((machine) => machine.userId === data.userId);
+    machineData[updateMachineId][type] = value;
+    setMachineList(machineData);
+  };
+
+  // Checkbox onChange
+  const handleCheckboxChange = (event: any, type: string, data: any) => {
+    const machineData = [...machineList];
+    const updateMachineId = machineData.findIndex((machine) => machine.userId === data.userId);
+    machineData[updateMachineId][type] = event.target.checked;
+    setMachineList(machineData);
   };
 
   //disable button
-  const disablingSetStandards = () => {
-    return newSetstandards.macAddress &&
-      newSetstandards.minOperatingRange &&
-      newSetstandards.maxOperatingRange &&
-      newSetstandards.minThresholdValue &&
-      newSetstandards.maxThresholdValue &&
-      newSetstandards.uomName &&
-      newSetstandards.interval &&
-      newSetstandards.triggerName
-      ? false
-      : true;
-  };
-
-  //machine dropdown data
-  // const machineLine = machineList?.find((machine: any) => machine.userId === newSetstandards.machineId);
-  // console.log(machineLine, 'machine');
+  // const disablingSetStandards = () => {
+  //   return newSetstandards.macAddress &&
+  //     newSetstandards.minOperatingRange &&
+  //     newSetstandards.maxOperatingRange &&
+  //     newSetstandards.minThresholdValue &&
+  //     newSetstandards.maxThresholdValue &&
+  //     newSetstandards.uomName &&
+  //     newSetstandards.interval &&
+  //     newSetstandards.triggerName
+  //     ? false
+  //     : true;
+  // };
 
   const columns: any = [
     {
@@ -193,15 +218,23 @@ const NewSetStandard = () => {
       key: 'OperatingRange',
       dataIndex: 'OperatingRange',
       align: 'center',
-      render: () => {
+      render: (_: any, data: any) => {
         return (
           <div className="flex gap-3 justify-center ">
             <div className=" border-b-[1px] border-[#A9A9A9] w-[30px]">
-              <Input placeholder="30" name="minOperatingRange" onChange={handleChange} />
+              <Input
+                placeholder="30"
+                name="minOperatingRange"
+                onChange={(event) => handleInputChange(event, 'minOperatingRange', data)}
+              />
             </div>
             <p>-</p>
             <div className=" border-b-[1px] border-[#A9A9A9] w-[30px]">
-              <Input placeholder="40" name="maxOperatingRange" onChange={handleChange} />
+              <Input
+                placeholder="40"
+                name="maxOperatingRange"
+                onChange={(event) => handleInputChange(event, 'maxOperatingRange', data)}
+              />
             </div>
           </div>
         );
@@ -212,15 +245,23 @@ const NewSetStandard = () => {
       key: 'ThresholdValue',
       dataIndex: 'ThresholdValue',
       align: 'center',
-      render: () => {
+      render: (_: any, data: any) => {
         return (
           <div className="flex gap-3 justify-center">
             <div className=" border-b-[1px] border-[#A9A9A9] w-[30px]">
-              <Input placeholder="30" name="minThresholdValue" onChange={handleChange} />
+              <Input
+                placeholder="30"
+                name="minThresholdValue"
+                onChange={(event) => handleInputChange(event, 'minThresholdValue', data)}
+              />
             </div>
             <p>-</p>
             <div className=" border-b-[1px] border-[#A9A9A9] w-[30px]">
-              <Input placeholder="40" name="maxThresholdValue" onChange={handleChange} />
+              <Input
+                placeholder="40"
+                name="maxThresholdValue"
+                onChange={(event) => handleInputChange(event, 'maxThresholdValue', data)}
+              />
             </div>
           </div>
         );
@@ -237,16 +278,11 @@ const NewSetStandard = () => {
             <Dropdown
               placeholder="Bar"
               openClassName="top-5 w-[85px]"
-              menuClassName="p-2"
+              menuClassName="py-1"
               className="w-[74px] border-transparent px-2 text-[14px] h-[25px] placeholder:text-[#BBBBBB]"
               options={uomData}
-              handleChange={(value: any) => {
-                const machineData = [...machineList];
-                const updateMachineId = machineData.findIndex((machine) => machine.userId === data.userId);
-                machineData[updateMachineId]['uomName'] = value;
-                setMachineList(machineData);
-              }}
-              value={machineList?.find((machine: any) => machine.userId === data.userId)?.uomName}
+              handleChange={(value) => handleDropdownChange(value, 'UOM', data)}
+              value={machineList?.find((machine: any) => machine.userId === data.userId)?.UOM}
               mandatory={true}
             />
           </div>
@@ -258,11 +294,16 @@ const NewSetStandard = () => {
       key: 'Interval',
       dataIndex: 'Interval',
       align: 'center',
-      render: () => {
+      render: (_: any, data: any) => {
         return (
           <div className="flex gap-3 justify-center">
             <div className=" border-b-[1px] border-[#A9A9A9] w-[34px]">
-              <Input type="string" name="interval" placeholder="8hr" onChange={handleChange} />
+              <Input
+                type="string"
+                name="interval"
+                placeholder="8hr"
+                onChange={(event) => handleInputChange(event, 'interval', data)}
+              />
             </div>
           </div>
         );
@@ -279,16 +320,10 @@ const NewSetStandard = () => {
             <Dropdown
               placeholder="Max"
               openClassName="top-5 w-[80px]"
-              menuClassName="p-2"
               className="w-[100%] border-transparent px-2 text-[14px] h-[25px] placeholder:text-[#BBBBBB]"
               options={triggerData}
-              handleChange={(value: any) => {
-                const machineData = [...machineList];
-                const updateMachineId = machineData.findIndex((machine) => machine.userId === data.userId);
-                machineData[updateMachineId]['trigger'] = value;
-                setMachineList(machineData);
-              }}
-              value={machineList?.find((trigger: any) => trigger.userId === data.userId)?.trigger}
+              handleChange={(value) => handleDropdownChange(value, 'Trigger', data)}
+              value={machineList?.find((trigger: any) => trigger.userId === data.userId)?.Trigger}
               mandatory={true}
             />
           </div>
@@ -302,49 +337,35 @@ const NewSetStandard = () => {
       width: '20%',
       dataIndex: 'Criticality',
       align: 'center',
-      render: () => {
+      render: (_: any, data: any) => {
         return (
           <div className="flex justify-center gap-3 text-[16px]">
             <Checkbox
               variant="secondary"
               stroke="black"
               label="BreakDown"
-              checked={newSetstandards.criticality.breakDown}
-              onChange={(e) => handleCheckboxChange(e, 'breakDown')}
+              checked={data?.breakdown}
+              onChange={(event) => handleCheckboxChange(event, 'breakdown', data)}
             />
             <Checkbox
               variant="secondary"
               stroke="black"
               label="Defect"
-              checked={newSetstandards.criticality.defect}
-              onChange={(e) => handleCheckboxChange(e, 'defect')}
+              checked={data?.defect}
+              onChange={(event) => handleCheckboxChange(event, 'defect', data)}
             />
             <Checkbox
               variant="secondary"
               stroke="black"
               label="Unsafe"
-              checked={newSetstandards.criticality.unSafe}
-              onChange={(e) => handleCheckboxChange(e, 'unSafe')}
+              checked={data?.unSafe}
+              onChange={(event) => handleCheckboxChange(event, 'unSafe', data)}
             />
           </div>
         );
       },
     },
   ];
-
-  // const data: any = [];
-  // for (let i = 0; i < 4; i++) {
-  //   data.push({
-  //     key: i,
-  //     ElementName: 'Hydraulic System',
-  //     SensorDescription: 'Oil Temp Out',
-  //     SensorID: 'Honor-15_LS',
-  //     UOM: 'Bar',
-  //     Interval: '8hr',
-  //     Trigger: 'Max',
-  //     Criticality: '',
-  //   });
-  // }
 
   return (
     <>
@@ -393,7 +414,7 @@ const NewSetStandard = () => {
             label="Create"
             type="submit"
             className="py-3 px-8 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
-            disabled={disablingSetStandards()}
+            // disabled={disablingSetStandards()}
             onClick={createSetstandards}
           ></Button>
         </div>

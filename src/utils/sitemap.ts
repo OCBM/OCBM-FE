@@ -82,5 +82,6 @@ export const SERVICES = {
   setStandards: {
     get: '/sensor-properties',
     post: '/sensor-properties',
+    bulk: '/sensor-properties/bulk',
   },
 };

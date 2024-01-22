@@ -25,4 +25,14 @@ export const SETSTANDARDS_SERVICES = {
       console.log(error);
     }
   },
+  addSetstandardsBulk: async (body: any) => {
+    try {
+      const res = await apiInstance2.post(SERVICES.setStandards.bulk, body);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
 };
