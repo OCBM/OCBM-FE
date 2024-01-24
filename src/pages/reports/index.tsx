@@ -40,7 +40,6 @@ const Reports = () => {
       macAddress: sensor,
     });
     if (res) {
-      console.log('object', res);
       setLoading(false);
     }
   };
@@ -78,7 +77,7 @@ const Reports = () => {
           <div className="flex justify-between flex-row w-full gap-[20px] mt-5  mb-9">
             <Dropdown
               label="Sensors"
-              className="w-[80%] border-[1px] h-[50px] px-3"
+              className="w-[270px] border-[1px] h-[50px] px-3"
               placeholder="Enter Sensor data Type"
               mandatory={true}
               options={sensorList}

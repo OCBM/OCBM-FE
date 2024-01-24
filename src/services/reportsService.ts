@@ -5,8 +5,8 @@ import { iotApiInstance } from '@/lib/axios';
 export const REPORTS_SERVICE = {
   getAllReports: async (request: { minTimestamp: string; maxTimestamp: string; macAddress: string }) => {
     try {
-      const minTimestampEncodedString = encodeURIComponent(request.minTimestamp);
-      const maxTimestampEncodedString = encodeURIComponent(request.maxTimestamp);
+      const minTimestampEncodedString = encodeURIComponent('2024-01-22T07:05:31.588+00:00');
+      const maxTimestampEncodedString = encodeURIComponent('2024-01-22T07:07:31.741+00:00');
       const res = await iotApiInstance.get(
         `/sensor-reading/report/${request.macAddress}/range?minTimestamp=${minTimestampEncodedString}&maxTimestamp=${maxTimestampEncodedString}`,
       );

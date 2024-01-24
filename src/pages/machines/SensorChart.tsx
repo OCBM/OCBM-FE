@@ -1,20 +1,18 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
-import { SENSOR_SERVICES } from '@/services/sensorServices';
 
 Chart.register(zoomPlugin);
 const SensorChart: React.FC = () => {
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstance = useRef<any>(null);
-  const [sensorApi, setsensorApi] = useState();
-  const [sensorReadingsData] = useState<any>([]);
+  // const [sensorApi, setsensorApi] = useState();
   const date = new Date();
   const hours = date.getHours();
   const timeString = hours > 12 ? `${hours - 12}pm` : `${hours}am`;
   var currentDate = new Date();
   currentDate.setHours(currentDate.getHours() - 12);
-  var isoString = currentDate.toISOString();
+  // var isoString = currentDate.toISOString();
   // useEffect(() => {
   //   const _socket: any = socketIOClient('http://localhost:9130/sensor-readings', {
   //     rejectUnauthorized: false,
@@ -31,15 +29,13 @@ const SensorChart: React.FC = () => {
   //     setSensorReadingsData((prevData: any) => [...prevData, data.sensorReading]);
   //   });
   // }, []);
-  console.log('first', sensorReadingsData);
-  const fetchAllSensor = async (minTimestamp: string, macAddress: string) => {
-    const res = await SENSOR_SERVICES.getSensorData(minTimestamp, macAddress);
-    setsensorApi(res);
-  };
-  useEffect(() => {
-    fetchAllSensor(`${isoString}`, 'MAC-ADDRESS-001');
-  }, []);
-  console.log('sensorApi', sensorApi);
+  // const fetchAllSensor = async (minTimestamp: string, macAddress: string) => {
+  //   const res = await SENSOR_SERVICES.getSensorData(minTimestamp, macAddress);
+  //   setsensorApi(res);
+  // };
+  // useEffect(() => {
+  //   fetchAllSensor(`${isoString}`, 'MAC-ADDRESS-001');
+  // }, []);
   useEffect(() => {
     if (chartRef.current) {
       const ctx = chartRef.current.getContext('2d');

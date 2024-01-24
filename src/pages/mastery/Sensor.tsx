@@ -1,41 +1,97 @@
-import { DeleteIcon, PencilIcon } from '@/assets/icons';
-import { Button, Dropdown, FileUploader, Input } from '@/components';
+import { ChevronCancelIcon, ChevronSuccessIcon, DeleteIcon, PencilIcon, QuestionMarkIcon } from '@/assets/icons';
+import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
+import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 import { Table } from '@/components/reusable/table';
+import { ELEMENT_SERVICES } from '@/services/elementServices';
 import { SENSOR_SERVICES } from '@/services/sensorServices';
+import { Avatar } from 'antd';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+
+const initialState = {
+  sensorId: '',
+  sensorDescription: '',
+  elementId: '',
+  image: '',
+};
+const sensorInitialState = {
+  sensor_Id: '',
+  sensorId: '',
+  sensorDescription: '',
+  image: '',
+  imageKey: '',
+  imageName: '',
+  createdAt: '',
+  updatedAt: '',
+  elementId: '',
+};
 
 function Sensor() {
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
   const [sensorList, setSensorList] = useState<any>([]);
+  const [sensorData, setSensorData] = useState<any>(initialState);
+  const [elementList, setElementList] = useState<any>([]);
+  const [imageUrl, setImageUrl] = useState<any>('');
+  const [fileName, setFileName] = useState<string>('');
+  const [paginationData, setPaginationData] = useState<any>({});
+  const [ocbmSensorList, setOcbmSensorList] = useState<any>([]);
+  const [showEditSuccessModal, setShowEditSuccessModal] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [image, setImage] = useState<any>('');
+  const [selectedSensor, setSelectedSensor] = useState<any>({});
+  const [showDeleteSensorModal, setShowDeleteSensorModal] = useState<boolean>(false);
+  const [showEditSensorModal, setShowEditSensorModal] = useState<boolean>(false);
+  const [newSensor, setNewSensor] = useState<any>(sensorInitialState);
 
-  const handleFile = () => {
+  const handleFile = async (event: any) => {
+    setFileName(event[0].name);
     setUploadStatus('success');
+    const base64String: any = await convertToBase64(event[0]);
+    setSensorData({ ...sensorData, image: event[0] });
+    setImage(event[0]);
+    setImageUrl(base64String);
   };
 
-  const dataSource: any = [
-    {
-      sensorName: 'Sensor 1',
-      description: 'Sensor1-desc',
-      elementId: '123456',
-      image: 'Image-1',
-    },
-    {
-      sensorName: 'Sensor 2',
-      description: 'Sensor2-desc',
-      elementId: '123456',
-      image: 'Image-2',
-    },
-  ];
+  const handleUpdate = async (event: any) => {
+    setFileName(event[0].name);
+    setUploadStatus('success');
+    const base64String: any = await convertToBase64(event[0]);
+    setImage(event[0]);
+    setNewSensor({ ...newSensor, image: base64String });
+  };
+
+  const convertToBase64 = (file: any) => {
+    return new Promise((resolve) => {
+      let baseURL: string | ArrayBuffer | null = '';
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        baseURL = reader.result;
+        resolve(baseURL);
+        return baseURL;
+      };
+    });
+  };
+
+  const handleSubmit = async () => {
+    const res = await SENSOR_SERVICES.postSensorOcbm({ ...sensorData, imageName: fileName });
+    if (res.statusCode === 201) {
+      setSensorData(initialState);
+      toast.success('Machine Line added successfully');
+      fetchAllSensorsOcbm(1);
+    }
+  };
+
   const columns = [
     {
       title: 'Sensor Name',
-      dataIndex: 'sensorName',
+      dataIndex: 'sensorId',
       key: 'sensorName',
     },
     {
       title: 'Sensor Description',
-      dataIndex: 'description',
+      dataIndex: 'sensorDescription',
       width: '20%',
       key: 'description',
     },
@@ -50,19 +106,34 @@ function Sensor() {
       dataIndex: 'image',
       width: '20%',
       key: 'image',
+      render: (image: any) => {
+        return <Avatar shape="square" size={64} src={image} />;
+      },
     },
     {
       title: 'Actions',
       dataIndex: 'actions',
       width: '10%',
       key: 'actions',
-      render: () => {
+      render: (_: any, data: any) => {
         return (
           <div className="flex justify-start gap-3">
-            <div className="cursor-pointer">
+            <div
+              className="cursor-pointer"
+              onClick={() => {
+                setShowEditSensorModal(true);
+                setNewSensor(data);
+              }}
+            >
               <PencilIcon className="w-[20px] h-[20px]" />
             </div>
-            <div className="cursor-pointer">
+            <div
+              className="cursor-pointer"
+              onClick={() => {
+                setSelectedSensor(data);
+                setShowDeleteSensorModal(true);
+              }}
+            >
               <DeleteIcon className="w-[20px] h-[20px]" />
             </div>
           </div>
@@ -76,66 +147,202 @@ function Sensor() {
     setSensorList(res);
   };
 
+  const fetchAllElements = async () => {
+    const res = await ELEMENT_SERVICES.getAllElements();
+    setElementList(res?.message);
+  };
+  const fetchAllSensorsOcbm = async (page: number) => {
+    setLoading(true);
+    const res = await SENSOR_SERVICES.getAllSensorOcbm(page);
+    setOcbmSensorList(res?.message);
+    setLoading(false);
+    setPaginationData(res?.meta);
+    if (res?.Error && paginationData?.current_page > 1) {
+      fetchAllSensorsOcbm(paginationData?.current_page - 1);
+    }
+  };
+
+  //delete machine line
+  const onDeleteSensor = async (elementId: string, sensorId: string) => {
+    setShowDeleteSensorModal(true);
+    if (elementId && sensorId) {
+      const res = await SENSOR_SERVICES.deleteSensorOcbm(elementId, sensorId);
+      toast.success(res.message);
+      setShowDeleteSensorModal(false);
+      fetchAllSensorsOcbm(1);
+    }
+  };
+
+  const handleChange = (event: any) => {
+    const { name, value } = event.target;
+    setNewSensor((initialState: any) => ({
+      ...initialState,
+      [name]: value,
+    }));
+  };
+
+  const updateMachineLine = async () => {
+    if (newSensor?.sensorId) {
+      const body = {
+        sensorDescription: newSensor.sensorDescription,
+        image: image || newSensor.image,
+        imageName: fileName || newSensor.imageName,
+      };
+      const res = await SENSOR_SERVICES.updateSensorOcbm(newSensor?.elementId, newSensor?.sensorId, body);
+      if (res.statusCode === 200) {
+        setNewSensor(sensorInitialState);
+        setShowEditSensorModal(false);
+        setShowEditSuccessModal(true);
+        fetchAllSensorsOcbm(1);
+      }
+    }
+  };
+
   useEffect(() => {
     fetchAllSensors();
+    fetchAllElements();
+    fetchAllSensorsOcbm(1);
   }, []);
 
   return (
     <div>
       <h2 className="text-xl font-medium leading-5 text-[#444] mb-8">Add Sensor</h2>
-      <div>
-        <div className="flex justify-center gap-[16px] mb-6">
-          <Dropdown
-            options={sensorList}
-            className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-            placeholder="Select Sensor"
-            handleChange={() => {}}
-            value=""
-            mandatory={true}
-          />
-          <Input
-            className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-            placeholder="Sensor description"
-            type="text"
-            value=""
-            name="description"
-          />
-          <Dropdown
-            options={[]}
-            className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-            placeholder="Select Element"
-            handleChange={() => {}}
-            value=""
-            mandatory={true}
-          />
-        </div>
-        <div>
-          <FileUploader
-            className="w-[560px] py-6"
-            mastery
-            fileFormat=".jpg, .png"
-            handleFile={handleFile}
-            uploadStatus={uploadStatus}
-          />
-        </div>
-        <div className="flex justify-start flex-row w-full gap-4 mt-8 mb-8">
-          <Button
-            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
-            label="Clear"
-            variant="secondary"
-          />
-          <Button
-            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
-            label="Add"
-            disabled
-          />
-        </div>
+
+      <div className="flex  gap-[16px] mb-6">
+        <Dropdown
+          options={sensorList}
+          className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
+          placeholder="Select Sensor"
+          handleChange={(sensor) => setSensorData({ ...sensorData, sensorId: sensor })}
+          value={sensorList?.find((machine: any) => machine === sensorData.sensorId)}
+          mandatory={true}
+        />
+        <Input
+          className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
+          placeholder="Sensor description"
+          type="text"
+          value={sensorData.sensorDescription}
+          name="description"
+          onChange={(e) => setSensorData({ ...sensorData, sensorDescription: e.target.value })}
+        />
+        <Dropdown
+          options={elementList}
+          className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
+          placeholder="Select Element"
+          optionLabel="elementName"
+          optionValue="elementId"
+          handleChange={(element) => setSensorData({ ...sensorData, elementId: element })}
+          value={elementList?.find((data: any) => data?.elementId === sensorData.elementId)?.elementName}
+          mandatory={true}
+        />
       </div>
       <div>
-        <>
-          <Table columns={columns} dataSource={dataSource} />
-        </>
+        <FileUploader
+          className="w-[560px] py-6"
+          mastery
+          fileFormat=".jpg, .png"
+          image={imageUrl}
+          handleFile={handleFile}
+          uploadStatus={uploadStatus}
+        />
       </div>
+      <div className="flex justify-start flex-row w-full gap-4 mt-8 mb-8">
+        <Button
+          className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
+          label="Clear"
+          variant="secondary"
+          onClick={() => {
+            setSensorData(initialState);
+            setImageUrl('');
+            setFileName('');
+          }}
+        />
+        <Button
+          className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
+          label="Add"
+          onClick={handleSubmit}
+          disabled={!sensorData.sensorId || !sensorData.sensorDescription || !sensorData.elementId || !sensorData.image}
+        />
+      </div>
+
+      <Table loading={loading} columns={columns} dataSource={ocbmSensorList} />
+      <Modal
+        isOpen={showEditSensorModal}
+        onCancel={() => {
+          setShowEditSensorModal(false);
+        }}
+        className="z-[99]"
+      >
+        <div className="w-[485px] rounded-[16px] p-[50px] relative">
+          <div
+            className="absolute right-[10px] top-[10px] cursor-pointer"
+            onClick={() => {
+              setShowEditSensorModal(false);
+              setSensorData(initialState);
+            }}
+          >
+            <ChevronCancelIcon />
+          </div>
+          <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-[36px]">Edit Details</h2>
+          <form>
+            <div className="flex flex-col gap-3">
+              <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-6">Organization Details</h4>
+              <Input
+                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
+                label="Sensor description"
+                labelClassName="text-[#492CE1] text-[14px] font-medium"
+                mandatory={true}
+                type="text"
+                name="sensorDescription"
+                placeholder="Enter sensor description"
+                value={newSensor?.sensorDescription}
+                onChange={handleChange}
+              />
+              <FileUploader
+                label="Image"
+                labelClassName="text-[#492CE1] text-[14px] font-medium"
+                className="w-[385px] py-6 mt-2"
+                mastery
+                fileFormat=".jpg, .png"
+                handleFile={handleUpdate}
+                uploadStatus={uploadStatus}
+                image={newSensor.image}
+                fileName={fileName || newSensor.imageName}
+              />
+            </div>
+            <div className="text-center mt-[36px]">
+              <Button
+                onClick={updateMachineLine}
+                variant="primary"
+                label="Submit"
+                className="py-[8px] px-[24px] rounded-[16px] font-normal text-[16px]"
+              />
+            </div>
+          </form>
+        </div>
+      </Modal>
+      {/*Success message modal*/}
+      <PopupModal
+        primaryMessage={'Done'}
+        title={'Changes are done'}
+        isOpen={showEditSuccessModal}
+        icon={<ChevronSuccessIcon className="w-[100px] h-[100px]" />}
+        primaryPopup
+        handleClose={() => setShowEditSensorModal(false)}
+        onCloseSuccessModal={() => setShowEditSuccessModal(false)}
+      />
+      <PopupModal
+        title={'Are you sure want to delete?'}
+        isOpen={showDeleteSensorModal}
+        icon={<QuestionMarkIcon />}
+        handleClose={() => setShowDeleteSensorModal(false)}
+        handleDelete={() => {
+          onDeleteSensor(selectedSensor?.elementId, selectedSensor?.sensorId);
+        }}
+        onCloseDeleteModal={() => {
+          setShowDeleteSensorModal(false);
+        }}
+      />
     </div>
   );
 }
