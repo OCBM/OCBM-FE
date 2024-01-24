@@ -51,7 +51,7 @@ function Plant() {
   };
 
   const plant_container = classNames(
-    `w-full h-[76%] container mx-auto font-GothamMedium text-2xl font-medium shadow-2xl rounded-2xl p-6`,
+    `w-full h-[76%] container mx-auto text-2xl font-medium shadow-2xl rounded-2xl p-6`,
   );
 
   const plant_card = classNames(
@@ -68,7 +68,7 @@ function Plant() {
           <div className=" relative flex flex-col gap-6 w-full ">
             <div className="py-2">
               {show === 'plant' && (
-                <h2 className="text-[#492CE1] font-GothamMedium text-2xl font-medium">
+                <h2 className="text-[#492CE1] text-2xl font-medium">
                   Can you tell us which plant are you looking at ?
                 </h2>
               )}
@@ -118,9 +118,7 @@ function Plant() {
                       {shops?.data?.length > 0 ? (
                         <>
                           <span className="absolute w-[30px] h-[30px] bg-white rotate-45 top-[-15px] left-[95px]"></span>
-                          <p className="text-[#492CE1] font-GothamMedium text-lg font-medium">
-                            Which shop are you in ?
-                          </p>
+                          <p className="text-[#492CE1] text-lg font-medium">Which shop are you in ?</p>
                           <div className="overflow-auto flex gap-6">
                             {shops?.data?.map((shop: any) => (
                               <div key={shop?.shopId} className="flex gap-4 w-fit cursor-pointer">
@@ -132,9 +130,7 @@ function Plant() {
                       ) : (
                         <>
                           <span className="absolute w-[30px] h-[30px] bg-white rotate-45 top-[-15px] left-[335px]"></span>
-                          <p className="text-[#492CE1] font-GothamMedium text-lg font-medium">
-                            No Shops are created!!!
-                          </p>
+                          <p className="text-[#492CE1] text-lg font-medium">No Shops are created!!!</p>
                         </>
                       )}
                     </>
@@ -152,7 +148,7 @@ function Plant() {
                       {machines?.data?.length > 0 ? (
                         <>
                           <span className="absolute w-[30px] h-[30px] bg-white rotate-45 top-[-15px] left-[335px]"></span>
-                          <p className="text-[#492CE1] font-GothamMedium text-lg font-medium">
+                          <p className="text-[#492CE1] text-lg font-medium">
                             Lets us know which machine line are you working on ?
                           </p>
                           <div className="overflow-auto flex gap-6">
@@ -170,9 +166,7 @@ function Plant() {
                       ) : (
                         <>
                           <span className="absolute w-[30px] h-[30px] bg-white rotate-45 top-[-15px] left-[335px]"></span>
-                          <p className="text-[#492CE1] font-GothamMedium text-lg font-medium">
-                            No Machines are present
-                          </p>
+                          <p className="text-[#492CE1] text-lg font-medium">No Machines are present</p>
                         </>
                       )}
                     </>

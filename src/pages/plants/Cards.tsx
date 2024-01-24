@@ -8,7 +8,7 @@ const Cards = ({ image, name, onClick }: CardType) => {
         onClick={onClick}
       >
         <img className="w-[144px] h-[130px]" src={image} alt={name} />
-        <p className="text-center pt-[10px] font-GothamMedium text-xs font-medium">{name}</p>
+        <p className="text-center pt-[10px] tracking-[0.32px] text-xs font-medium">{name}</p>
       </div>
     </>
   );

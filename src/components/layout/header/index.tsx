@@ -77,6 +77,7 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
 
   function listenToAlerts() {
     alertsSocket.emit('sensor-alerts', {
+      // Hardcoded the sensor IDs as of now, Once the API's available, I will change it.
       sensors: ['MAC-ADDRESS-001', 'MAC-ADDRESS-002'],
     });
 
