@@ -25,7 +25,7 @@ export const SENSOR_SERVICES = {
    */
   getAllSensor: async () => {
     try {
-      const res = await iotApiInstance.get(`/sensor-reading/getAllSensors`);
+      const res = await iotApiInstance.get(`/sensor-reading/get-all-sensors`);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error?.response?.data?.message) || error?.message;
