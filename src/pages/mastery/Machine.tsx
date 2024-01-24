@@ -322,7 +322,7 @@ const Machine = () => {
     <div>
       <p className="text-xl font-medium leading-5 mb-8">Add Machine</p>
       {/* Fields to get Machine name, Machine description and Machine image */}
-      <div className="flex items-center justify-between gap-[16px] mb-6">
+      <div className="flex items-center  gap-[16px] mb-6">
         <Input
           placeholder="Machine Name"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"

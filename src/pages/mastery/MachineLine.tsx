@@ -72,7 +72,7 @@ const MachineLine = () => {
     const res = await SHOP_SERVICES.getAllShops();
     setShopList(res?.message);
   };
-  console.log('shopList', shopList);
+
   //DATA FOR MACHINE LINE TABLE
   const tableData = [
     {
@@ -111,7 +111,6 @@ const MachineLine = () => {
               onClick={() => {
                 setShowEditMachineLineModal(true);
                 setNewMachineLine(data);
-                console.log(data);
               }}
             >
               <PencilIcon className="w-[20px] h-[20px]" />
@@ -230,7 +229,7 @@ const MachineLine = () => {
   return (
     <div>
       <p className="text-xl text-[#444] font-medium leading-5 mb-8">Add Machine Line</p>
-      <div className="flex items-center justify-center gap-[16px] mb-6">
+      <div className="flex items-center gap-[16px] mb-6">
         <Input
           placeholder="Machine line Name"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"

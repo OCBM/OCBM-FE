@@ -94,7 +94,7 @@ const Dropdown = ({
 
   return (
     <div
-      className={`relative w-full ${wrapClassName || ' '}`}
+      className={`relative  ${wrapClassName || ' '}`}
       ref={dropdownClick}
       onClick={(event) => {
         event.stopPropagation();
