@@ -5,7 +5,7 @@ import { Input } from '@/components';
 import { Checkbox } from '@/components';
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router';
-import { SETSTANDARDS_SERVICES } from '@/services/setStandardService';
+import { SETSTANDARDS_SERVICES } from '@/services/setStandardServices';
 import { toast } from 'react-toastify';
 import { MACHINE_SERVICES } from '@/services/machineServices';
 

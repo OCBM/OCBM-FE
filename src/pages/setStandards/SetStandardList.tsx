@@ -3,7 +3,7 @@ import { Table } from '@/components/reusable/table';
 import { Button } from '@/components';
 import { useNavigate } from 'react-router-dom';
 import { SITEMAP } from '@/utils/sitemap';
-import { SETSTANDARDS_SERVICES } from '@/services/setStandardService';
+import { SETSTANDARDS_SERVICES } from '@/services/setStandardServices';
 import { useEffect, useState } from 'react';
 import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 import { toast } from 'react-toastify';
