@@ -17,6 +17,17 @@ export const MACHINE_SERVICES = {
     }
   },
 
+  getAllMachinesByMachineId: async (id: string) => {
+    try {
+      const res = await apiInstance.get(`${SERVICES.machines.get}/machineId=${id}`);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
+
   getAllMachinesByMachineLineId: async (id: string) => {
     try {
       const res = await apiInstance.get(`${SERVICES.machines.get}/machineLineId=${id}`);

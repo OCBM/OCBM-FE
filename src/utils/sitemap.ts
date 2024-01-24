@@ -79,8 +79,11 @@ export const SERVICES = {
   groups: {
     get: '/group',
   },
-  setStandard: {
+  setStandards: {
     get: '/sensor-properties',
+    post: '/sensor-properties',
+    bulk: '/sensor-properties/bulk',
+    update: '/sensor-properties',
     delete: '/sensor-properties',
   },
 };
