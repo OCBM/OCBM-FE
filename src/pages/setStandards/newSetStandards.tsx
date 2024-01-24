@@ -72,6 +72,7 @@ const NewSetStandard = () => {
       const update_setstandards = await SETSTANDARDS_SERVICES.updateSetdstandards(data.sensorId, body);
       if (update_setstandards) {
         toast.success('setstandard updated successfully');
+        navigate(-1);
       }
     } else {
       const body = machineList
@@ -97,6 +98,7 @@ const NewSetStandard = () => {
       const create_setstandards = await SETSTANDARDS_SERVICES.addSetstandardsBulk({ data: body });
       if (create_setstandards) {
         toast.success('setstandard added successfully');
+        navigate(-1);
       }
     }
   };
