@@ -1,7 +1,7 @@
-import apiInstance from '@/lib/axios';
 import { SERVICES } from '@/utils/sitemap';
 import { toast } from 'react-toastify';
 import { HELPER_SERVICES } from './helperServices';
+import { apiInstance } from '@/lib/axios';
 
 export const USER_SERVICES = {
   addUser: async (body: any) => {

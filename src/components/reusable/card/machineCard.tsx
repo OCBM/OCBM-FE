@@ -1,13 +1,9 @@
-import { OutOfSpec, ThresholdlimitUnselected, WithinSpecUnselected } from '@/assets/icons';
 import { Button } from '@/components';
+import PlaceholderImage from '@/assets/images/machine-placeholeder.jpg';
+
 const MachineCard = ({
-  showValues,
-  showSignals,
   title,
-  outOfSpecValue,
-  thresholdValue,
   handleView,
-  withinSpecValue,
   image,
   disabled,
   machineName,
@@ -26,24 +22,28 @@ const MachineCard = ({
   handleView?: () => void;
 }) => {
   return (
-    <div className="flex flex-col items-center pt-[10px] px-[10px] border-[#19c18f] border rounded-2xl relative w-[284px] justify-between ">
+    <div className="flex flex-col items-center pt-[10px] px-[10px] shadow-md hover:shadow-2xl border rounded-2xl relative w-[284px] justify-between ">
       <div className="flex w-full justify-center relative">
         <div className="flex flex-col">
           {sensorCard ? <span className="text-center text-[#444444] font-medium text-sm">{machineName}</span> : null}
           <div className="text-lg font-bold tracking-[0.32px] pt-3 flex justify-center text-center">{title}</div>
         </div>
-        {showSignals ? (
+        {/* {showSignals ? (
           <div className="absolute right-4 top-1">
             <OutOfSpec />
             <ThresholdlimitUnselected />
             <WithinSpecUnselected />
           </div>
-        ) : null}
+        ) : null} */}
       </div>
       <div className="">
-        <img src={image} alt="machine" className="pt-7 h-36" />
+        {image ? (
+          <img src={image} alt="machine" className="pt-7 h-36" />
+        ) : (
+          <img src={PlaceholderImage} alt="machine" className="pt-7 h-36" />
+        )}
       </div>
-      {showValues ? (
+      {/* {showValues ? (
         <div className="pt-7 flex justify-center gap-5">
           <div className="flex flex-col w-[20%] gap-1">
             <span className="border border-[#E93B3B] rounded-lg p-3 text-base font-bold text-[#E93B3B] items-center flex justify-center">
@@ -64,8 +64,8 @@ const MachineCard = ({
             <span className="text-xs text-center">Within spec</span>
           </div>
         </div>
-      ) : null}
-      <div className="pt-7">
+      ) : null} */}
+      <div className="pt-7 ">
         <Button
           onClick={handleView}
           disabled={disabled}

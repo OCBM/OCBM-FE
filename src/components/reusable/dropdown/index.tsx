@@ -81,8 +81,8 @@ const Dropdown = ({
 
   const filterOptions = (options: any) => {
     if (optionLabel) {
-      return options?.filter(
-        (option: any) => option[optionLabel]?.toString()?.toLowerCase().includes(query.toLowerCase()),
+      return options?.filter((option: any) =>
+        option[optionLabel]?.toString()?.toLowerCase().includes(query.toLowerCase()),
       );
     } else if (!optionLabel && !optionValue) {
       return options?.filter(
@@ -94,7 +94,7 @@ const Dropdown = ({
 
   return (
     <div
-      className={`relative w-full ${wrapClassName || ' '}`}
+      className={`relative  ${wrapClassName || ' '}`}
       ref={dropdownClick}
       onClick={(event) => {
         event.stopPropagation();

@@ -1,7 +1,8 @@
 import { toast } from 'react-toastify';
 import { HELPER_SERVICES } from './helperServices';
-import apiInstance from '@/lib/axios';
+
 import { LoginDataType } from '@/redux/slices/authSlice/auth.types';
+import { apiInstance } from '@/lib/axios';
 
 export const AUTH_SERVICES = {
   login: async (url: string, user: LoginDataType, thunkAPI: any) => {

@@ -20,6 +20,7 @@ const MachinesPage = () => {
     const res = await MACHINE_SERVICES.getAllMachines(page);
     setMachineList(res?.message);
   };
+
   return (
     <div className="flex gap-6 flex-wrap">
       {machineList?.map((machineData: machineDataTypes) => (
