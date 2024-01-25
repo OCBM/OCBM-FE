@@ -25,7 +25,7 @@ const NewSetStandard = () => {
   const [dropdownData, setdropdownData] = useState([]);
 
   const uomData = ['Bar', '°C'];
-  const triggerData = ['MAX', 'MIN', 'Both'];
+  const triggerData = ['MAX', 'MIN', 'BOTH'];
 
   useEffect(() => {
     if (state) {
@@ -40,7 +40,6 @@ const NewSetStandard = () => {
     const res = await MACHINE_SERVICES.getAllMachines(1, 1000);
     console.log(res.message);
     setdropdownData(res.message);
-    // setMachineList(res.message);
   };
 
   const fetchMachine = async (id: any) => {
@@ -120,10 +119,22 @@ const NewSetStandard = () => {
   };
 
   // Checkbox onChange
-  const handleCheckboxChange = (event: any, type: string, data: any) => {
+  const handleMachineChange = (event: any, type: string, data: any) => {
     const machineData = [...machineList];
     const updateMachineId = machineData.findIndex((machine) => machine.sensorId === data.sensorId);
     machineData[updateMachineId][type] = event.target.checked;
+    setMachineList(machineData);
+  };
+
+  const handleCheckboxChange = (event: any, type: string, data: any) => {
+    const machineData = [...machineList];
+    const updateMachineId = machineData.findIndex((machine) => machine.sensorId === data.sensorId);
+    if ('criticality' in machineData[updateMachineId]) {
+      machineData[updateMachineId]['criticality'][type] = event.target.checked;
+    } else {
+      machineData[updateMachineId]['criticality'] = {};
+      machineData[updateMachineId]['criticality'][type] = event.target.checked;
+    }
     setMachineList(machineData);
   };
 
@@ -183,7 +194,7 @@ const NewSetStandard = () => {
                   variant="primary"
                   stroke="white"
                   checked={data.isChecked}
-                  onChange={(event) => handleCheckboxChange(event, 'isChecked', data)}
+                  onChange={(event) => handleMachineChange(event, 'isChecked', data)}
                   label={data?.machine}
                 />
               </div>
@@ -370,7 +381,7 @@ const NewSetStandard = () => {
               stroke="black"
               label="BreakDown"
               checked={data?.breakdown || data?.criticality?.breakDown}
-              onChange={(event) => handleCheckboxChange(event, 'breakdown', data)}
+              onChange={(event) => handleCheckboxChange(event, 'breakDown', data)}
             />
             <Checkbox
               variant="secondary"
