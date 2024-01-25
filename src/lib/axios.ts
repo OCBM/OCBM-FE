@@ -9,7 +9,7 @@ export const injectStore = (_store: Store) => {
   reduxStore = _store;
 };
 
-function getToken() {
+export function getToken() {
   const isUser = reduxStore.getState()?.auth?.user;
 
   if (isUser) {

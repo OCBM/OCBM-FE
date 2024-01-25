@@ -1,41 +1,60 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Chart from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
+import socketIOClient from 'socket.io-client';
+import { getToken } from '@/lib/axios';
 
 Chart.register(zoomPlugin);
 const SensorChart: React.FC = () => {
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstance = useRef<any>(null);
-  // const [sensorApi, setsensorApi] = useState();
+  const [sensorReadingsData, setSensorReadingsData] = useState<any>([]);
+  const [sensorData, setSensorData] = useState<any>([]);
   const date = new Date();
   const hours = date.getHours();
   const timeString = hours > 12 ? `${hours - 12}pm` : `${hours}am`;
   var currentDate = new Date();
   currentDate.setHours(currentDate.getHours() - 12);
-  // var isoString = currentDate.toISOString();
-  // useEffect(() => {
-  //   const _socket: any = socketIOClient('http://localhost:9130/sensor-readings', {
-  //     rejectUnauthorized: false,
-  //   });
-  //   // _socket.on('connection-success', ({ socketId }: any) => {
-  //   //   setSensorReadingsSocket(_socket);
-  //   // });
-  //   // console.log('first1', _socket);
-  //   _socket.emit('sensor-readings', {
-  //     sensors: ['MAC-ADDRESS-001'], // sensor mac-address to listen
-  //   });
-  //   _socket.on('sensor-reading', (data: any) => {
-  //     console.log('first-called', data);
-  //     setSensorReadingsData((prevData: any) => [...prevData, data.sensorReading]);
-  //   });
-  // }, []);
-  // const fetchAllSensor = async (minTimestamp: string, macAddress: string) => {
-  //   const res = await SENSOR_SERVICES.getSensorData(minTimestamp, macAddress);
-  //   setsensorApi(res);
-  // };
-  // useEffect(() => {
-  //   fetchAllSensor(`${isoString}`, 'MAC-ADDRESS-001');
-  // }, []);
+
+  useEffect(() => {
+    const token = getToken();
+    const AUTHORIZATION = `Bearer ${token}`;
+    // _socket.emit('sensor-readings', {
+    //   sensors: ['MAC-ADDRESS-001'], // sensor mac-address to listen
+    // });
+    // _socket.on('sensor-reading', (data: any) => {
+    //   console.log('first-called', data);
+    //   setSensorReadingsData([...sensorReadingsData, data]);
+    // });
+    const _socket = socketIOClient('http://localhost:9130/sensor-readings', {
+      rejectUnauthorized: false,
+      extraHeaders: {
+        authorization: AUTHORIZATION,
+      },
+    });
+    _socket.on('connection-status', ({ socketId, success, error }) => {
+      console.log('first-called0', socketId, success, error);
+      if (success === true) {
+        setSensorReadingsData(_socket);
+      } else {
+        console.warn('else', socketId, success, error);
+        _socket.removeAllListeners();
+        _socket.disconnect();
+      }
+    });
+    _socket.emit('sensor-readings', {
+      sensors: ['MAC-ADDRESS-001'], // sensor mac-address to listen
+    });
+    _socket.on('sensor-reading', (data: any) => {
+      setSensorData((prevData: any) => [...prevData, data.sensorReading]);
+    });
+    _socket.on('disconnect', (reason) => {
+      console.log('disconnect', reason);
+    });
+  }, []);
+
+  console.log('sensorReadingsData', sensorData);
+
   useEffect(() => {
     if (chartRef.current) {
       const ctx = chartRef.current.getContext('2d');
