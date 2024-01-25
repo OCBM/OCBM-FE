@@ -8,7 +8,7 @@ Chart.register(zoomPlugin);
 const SensorChart: React.FC = () => {
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstance = useRef<any>(null);
-  const [sensorReadingsData, setSensorReadingsData] = useState<any>([]);
+  const [, setSensorReadingsData] = useState<any>([]);
   const [sensorData, setSensorData] = useState<any>([]);
   const date = new Date();
   const hours = date.getHours();
