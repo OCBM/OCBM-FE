@@ -16,7 +16,7 @@ const SensorChart: React.FC = () => {
   useEffect(() => {
     const token = getToken();
     const AUTHORIZATION = `Bearer ${token}`;
-    const _socket = socketIOClient('http://localhost:9130/sensor-readings', {
+    const _socket = socketIOClient('http://13.215.76.32:9130/sensor-readings', {
       rejectUnauthorized: false,
       extraHeaders: {
         authorization: AUTHORIZATION,
