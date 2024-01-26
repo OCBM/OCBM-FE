@@ -12,22 +12,10 @@ const SensorChart: React.FC = () => {
   const chartTempFInstance = useRef<any>(null);
   const [, setSensorReadingsData] = useState<any>([]);
   const [sensorData, setSensorData] = useState<any>([]);
-  // const date = new Date();
-  // const hours = date.getHours();
-  // const timeString = hours > 12 ? `${hours - 12}pm` : `${hours}am`;
-  // var currentDate = new Date();
-  // currentDate.setHours(currentDate.getHours() - 12);
 
   useEffect(() => {
     const token = getToken();
     const AUTHORIZATION = `Bearer ${token}`;
-    // _socket.emit('sensor-readings', {
-    //   sensors: ['MAC-ADDRESS-001'], // sensor mac-address to listen
-    // });
-    // _socket.on('sensor-reading', (data: any) => {
-    //   console.log('first-called', data);
-    //   setSensorReadingsData([...sensorReadingsData, data]);
-    // });
     const _socket = socketIOClient('http://localhost:9130/sensor-readings', {
       rejectUnauthorized: false,
       extraHeaders: {
@@ -55,7 +43,6 @@ const SensorChart: React.FC = () => {
     });
   }, []);
 
-  console.log('sensorReadingsData', sensorData);
   const dateFormat = (date: any) => {
     const nDate = new Date(date);
     let hours: number = nDate.getHours();
@@ -101,15 +88,6 @@ const SensorChart: React.FC = () => {
           },
           y: {
             beginAtZero: true,
-            // min: item.min,
-            // max: item.max,
-            // ticks: {
-            //   stepSize: item.stepSize,
-            //   callback: (value: any) => value + ' ' + item.value,
-            //   color: (event: any) => {
-            //     return event?.tick?.value === item.min || event?.tick?.value === item.max ? 'green' : 'red';
-            //   },
-            // },
 
             // Y Axis Min and Max value
             suggestedMin: 0,
@@ -127,13 +105,6 @@ const SensorChart: React.FC = () => {
             },
           },
           y1: {
-            // min: 0,
-            // max: 60,
-            // ticks: {
-            //   stepSize: chartData?.stepSize,
-            //   callback: (value: any) => value + ' ' + chartData?.value,
-            //   color: '#A299D2',
-            // },
             ticks: {
               color: '#A299D2',
             },
@@ -174,26 +145,7 @@ const SensorChart: React.FC = () => {
           scroller(event, chartInstance.current);
         });
 
-        // Mock data update - Replace with actual data fetching logic
-        // const interval = setInterval(() => {
-        //   const newData = Math.random() * 100; // Mock sensor data
-        //   const newLabel = timeString; // Mock time label
-        //   if (chartInstance.current) {
-        //     chartInstance.current.data.labels.push(newLabel);
-        //     chartInstance.current.data.datasets.forEach((dataset: any) => {
-        //       dataset.data.push(newData);
-        //     });
-
-        //     // Update the maxTicks based on the length of labels
-        //     const maxTicks = Math.min(5, chartInstance.current.data.labels.length);
-        //     chartInstance.current.options.scales.x.maxTicks = maxTicks;
-
-        //     chartInstance.current.update();
-        //   }
-        // }, 1000);
-
         return () => {
-          // clearInterval(interval);
           if (chartInstance.current) {
             chartInstance.current.destroy();
           }
