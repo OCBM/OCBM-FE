@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { MASTERY_PAGE_CONSTANTS } from '../users/constants';
 import Loader from '@/components/reusable/loader';
+import { Avatar } from 'antd';
 import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 
 function Plant() {
@@ -83,7 +84,7 @@ function Plant() {
     setUploadStatus('success');
     setFileName(event[0].name);
     const base64String: any = await convertToBase64(event[0]);
-    setNewPlant((prev: any) => ({ ...prev, image: base64String, imageName: event[0].name }));
+    setNewPlant((prev: any) => ({ ...prev, image: event[0], imageName: event[0].name }));
     setImageURl(base64String);
   };
 
@@ -145,6 +146,9 @@ function Plant() {
       dataIndex: 'imageName',
       width: '20%',
       key: 'image',
+      render: (image: any, img: any) => {
+        return <Avatar shape="square" size={64} src={img.image} alt={image} />;
+      },
     },
     {
       title: 'Actions',

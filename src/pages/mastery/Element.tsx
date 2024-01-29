@@ -7,6 +7,7 @@ import { ELEMENT_SERVICES } from '@/services/elementServices';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import Loader from '@/components/reusable/loader';
+import { Avatar } from 'antd';
 import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 
 export type DeleteElementType = {
@@ -183,6 +184,9 @@ const Element = () => {
       dataIndex: 'imageName',
       width: '20%',
       key: 'imageName',
+      render: (image: any, img: any) => {
+        return <Avatar shape="square" size={64} src={img.image} alt={image} />;
+      },
     },
     {
       title: 'Actions',
