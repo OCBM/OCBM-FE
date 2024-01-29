@@ -1,0 +1,50 @@
+{
+    "graphData": [{
+        "id": 1,
+        "label": "MOTOR FIN SURFACE TEMPERATURE",
+        "data": [
+            0,
+            34,
+            41,
+            65,
+            99
+        ],
+        "borderColor": "green",
+        "min": -30,
+        "max": 90,
+        "stepSize": 30,
+        "value": "BAR"
+    },
+    {
+        "id": 2,
+        "label": "MOTOR FIN SURFACE TEMPERATURE",
+        "data": [
+            0,
+            33,
+            41,
+            35,
+            59
+        ],
+        "borderColor": "green",
+        "min": -30,
+        "max": 90,
+        "stepSize": 30,
+        "value": "BAR"
+    },
+    {
+        "id": 3,
+        "label": "MOTOR FIN SURFACE TEMPERATURE",
+        "data": [
+            0,
+            33,
+            41,
+            35,
+            59
+        ],
+        "borderColor": "green",
+        "min": -30,
+        "max": 90,
+        "stepSize": 30,
+        "value": "BAR"
+    }]
+}

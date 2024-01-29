@@ -1,4 +1,4 @@
-import apiInstance from '@/lib/axios';
+import { apiInstance } from '@/lib/axios';
 import { SERVICES } from '@/utils/sitemap';
 
 export const GROUP_SERVICES = {
