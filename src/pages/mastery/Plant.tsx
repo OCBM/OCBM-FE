@@ -83,7 +83,7 @@ function Plant() {
     setUploadStatus('success');
     setFileName(event[0].name);
     const base64String: any = await convertToBase64(event[0]);
-    setNewPlant((prev: any) => ({ ...prev, image: base64String, imageName: event[0].name }));
+    setNewPlant((prev: any) => ({ ...prev, image: event[0], imageName: event[0].name }));
     setImageURl(base64String);
   };
 
