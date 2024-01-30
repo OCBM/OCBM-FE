@@ -228,7 +228,7 @@ const Shop = () => {
     setFileName(event[0].name);
     setUploadStatus('success');
     const base64String: any = await convertToBase64(event[0]);
-    setNewShop((prev: any) => ({ ...prev, image: base64String, imageName: event[0].name }));
+    setNewShop((prev: any) => ({ ...prev, image: event[0], imageName: event[0].name }));
     setImageURl(base64String);
   };
 
@@ -322,7 +322,7 @@ const Shop = () => {
     <div>
       <p className="text-xl text-[#444] font-medium leading-5 mb-8">Add Shop</p>
       {/* Fields to get shop name, shop description and shop image */}
-      <div className="flex items-center justify-center gap-[16px] mb-6">
+      <div className="flex items-center gap-[16px] mb-6">
         <Input
           placeholder="Shop Name"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"

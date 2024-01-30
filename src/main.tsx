@@ -6,6 +6,7 @@ import App from './App.tsx';
 import './index.css';
 import { ConfigProvider } from 'antd';
 import Theme from './utils/theme.json';
+//import App2 from './pages/machines/socket.tsx';
 
 const container = document.getElementById('root')! as HTMLElement;
 

@@ -15,6 +15,7 @@ const Dropdown = ({
   inputClassName = '',
   openClassName = '',
   wrapClassName = '',
+  menuClassName = '',
   optionLabel = '',
   optionValue = '',
   mandatory = false,
@@ -94,7 +95,7 @@ const Dropdown = ({
 
   return (
     <div
-      className={`relative w-full ${wrapClassName || ' '}`}
+      className={`relative  ${wrapClassName || ' '}`}
       ref={dropdownClick}
       onClick={(event) => {
         event.stopPropagation();
@@ -161,7 +162,7 @@ const Dropdown = ({
               return (
                 <div
                   onClick={() => selectOption(option)}
-                  className="py-4 px-2 cursor-pointer transition-all hover:bg-[#f4f4f4] rounded-r-xl"
+                  className={` px-2 cursor-pointer transition-all hover:bg-[#f4f4f4] rounded-r-xl ${menuClassName}`}
                   key={option}
                 >
                   {option}

@@ -1,7 +1,7 @@
-import apiInstance from '@/lib/axios';
 import { SERVICES } from '@/utils/sitemap';
 import { HELPER_SERVICES } from './helperServices';
 import { toast } from 'react-toastify';
+import { apiInstance } from '@/lib/axios';
 
 export const PLANT_SERVICES = {
   getAllPlantsbyUserid: async (id: string) => {
@@ -17,7 +17,18 @@ export const PLANT_SERVICES = {
 
   addPlant: async (body: any) => {
     try {
-      const res = await apiInstance.post(SERVICES.plants.add, body);
+      const formData = new FormData();
+
+      for (const key in body) {
+        if (Object.prototype.hasOwnProperty.call(body, key)) {
+          formData.append(key, body[key]);
+        }
+      }
+      const res = await apiInstance.post(SERVICES.plants.add, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
@@ -52,7 +63,21 @@ export const PLANT_SERVICES = {
 
   updatePlantbyId: async (orgId: string, plantId: any, body: any) => {
     try {
-      const res = await apiInstance.put(`${SERVICES.plants.update}/organizationId=${orgId}&plantId=${plantId}`, body);
+      const formData = new FormData();
+      for (const key in body) {
+        if (Object.prototype.hasOwnProperty.call(body, key)) {
+          formData.append(key, body[key]);
+        }
+      }
+      const res = await apiInstance.put(
+        `${SERVICES.plants.update}/organizationId=${orgId}&plantId=${plantId}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
@@ -64,6 +89,28 @@ export const PLANT_SERVICES = {
   deletePlantById: async (orgId: string, plantId: string) => {
     try {
       const res = await apiInstance.delete(`${SERVICES.plants.delete}/organizationId=${orgId}&plantId=${plantId}`);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
+
+  getAllPlantsSets: async (id: string) => {
+    try {
+      const res = await apiInstance.get(`${SERVICES.plants.get}/plantId=${id}`);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
+
+  getAllPlantByUserId: async (id: string | undefined) => {
+    try {
+      const res = await apiInstance.get(`${SERVICES.plants.get}/userId=${id}`);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;

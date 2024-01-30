@@ -1,7 +1,7 @@
-import apiInstance from '@/lib/axios';
 import { SERVICES } from '@/utils/sitemap';
 import { HELPER_SERVICES } from './helperServices';
 import { toast } from 'react-toastify';
+import { apiInstance } from '@/lib/axios';
 
 export const SHOP_SERVICES = {
   getAllShops: async (page?: number, limit?: number, sort?: 'asc' | 'desc') => {
@@ -30,7 +30,17 @@ export const SHOP_SERVICES = {
 
   addShop: async (body: any) => {
     try {
-      const res = await apiInstance.post(SERVICES.shops.add, body);
+      const formData = new FormData();
+      for (const key in body) {
+        if (Object.prototype.hasOwnProperty.call(body, key)) {
+          formData.append(key, body[key]);
+        }
+      }
+      const res = await apiInstance.post(SERVICES.shops.add, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
@@ -41,7 +51,17 @@ export const SHOP_SERVICES = {
 
   updateShopById: async (plantId: string, shopId: string, body: any) => {
     try {
-      const res = await apiInstance.put(`${SERVICES.shops.update}/plantId=${plantId}&shopId=${shopId}`, body);
+      const formData = new FormData();
+      for (const key in body) {
+        if (Object.prototype.hasOwnProperty.call(body, key)) {
+          formData.append(key, body[key]);
+        }
+      }
+      const res = await apiInstance.put(`${SERVICES.shops.update}/plantId=${plantId}&shopId=${shopId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
