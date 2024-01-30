@@ -26,12 +26,12 @@ const EditUser = ({
       </h2>
       <form>
         <div className="flex gap-[36px] z-30 justify-between h-[485px] overflow-y-auto disable-scrollbar">
-          <div>
+          <div className="flex justify-between flex-col  w-full gap-[20px] mt-5 mb-9">
             <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-4">
               {USERS_PAGE_CONSTANTS.EDIT_USER_DIALOG.leftLabel}
             </h4>
             <Input
-              className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
+              className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mt-2"
               label="Employee Name"
               placeholder="Enter Full Name"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
@@ -42,7 +42,7 @@ const EditUser = ({
               mandatory={true}
             />
             <Input
-              className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
+              className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mt-2"
               label="Employee ID"
               placeholder="Enter Employee ID"
               disabled={edit}
@@ -54,7 +54,7 @@ const EditUser = ({
               mandatory={true}
             />
             <Input
-              className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
+              className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mt-2"
               placeholder="Select Position"
               label="Position"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
@@ -66,7 +66,7 @@ const EditUser = ({
             />
 
             <Dropdown
-              className="w-[385px] h-[54px] rounded-[50px] border-gray-400 border-[1px] p-[15px] mb-5 mt-2"
+              className="w-[385px] h-[54px] rounded-[50px] border-gray-400 border-[1px] p-[15px] mt-2"
               placeholder="Organization"
               label="Organization"
               optionLabel="organizationName"
@@ -83,7 +83,7 @@ const EditUser = ({
             />
 
             <Dropdown
-              className="w-[385px] h-[54px] bg-white rounded-[50px] border-gray-400 border-[1px] p-[15px] mb-5 mt-2"
+              className="w-[385px] h-[54px] bg-white rounded-[50px] border-gray-400 border-[1px] p-[15px] mt-2"
               placeholder="Group"
               label="Group"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
@@ -98,12 +98,12 @@ const EditUser = ({
             />
           </div>
 
-          <div>
+          <div className="flex justify-between flex-col  w-full gap-[20px] mt-5 mb-9">
             <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-4">
               {USERS_PAGE_CONSTANTS.EDIT_USER_DIALOG.rightLabel}
             </h4>
             <Input
-              className="w-[349px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
+              className="w-[349px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mt-2"
               label="User Name"
               placeholder="Enter Full Name"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
@@ -115,7 +115,7 @@ const EditUser = ({
             />
 
             <Dropdown
-              className="w-[349px] h-[54px] rounded-[50px] border-gray-400 border-[1px] p-[15px] mb-5 mt-2"
+              className="w-[349px] h-[54px] rounded-[50px] border-gray-400 border-[1px] p-[15px] mt-2"
               label="Access Type"
               value={selectedUser.role}
               options={USERS_PAGE_CONSTANTS.ROLE_ACCESS_TYPES}
@@ -128,7 +128,7 @@ const EditUser = ({
               labelClassName="text-[#492CE1] text-[14px] font-medium"
             />
             <Input
-              className="w-[349px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-5 mt-2"
+              className="w-[349px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mt-2"
               label="Set New Password"
               value={selectedUser.password}
               name="password"
@@ -138,7 +138,7 @@ const EditUser = ({
               onChange={handleChange}
             />
             <Dropdown
-              className="w-[349px] h-[54px] rounded-[50px] border-gray-400 border-[1px] p-[15px] mb-5 mt-2"
+              className="w-[349px] h-[54px] rounded-[50px] border-gray-400 border-[1px] p-[15px] mt-2"
               placeholder="Plant"
               label="Plant"
               labelClassName="text-[#492CE1] text-[14px] font-medium"
