@@ -180,7 +180,7 @@ const NewSetStandard = () => {
 
   const columns: any = [
     {
-      title: 'Machine Name',
+      title: 'Machine Number',
       key: 'machinenName',
       dataIndex: 'machineName',
       width: '10%',
@@ -219,19 +219,6 @@ const NewSetStandard = () => {
       },
     },
     {
-      title: 'Sensor Description',
-      key: 'SensorDescription',
-      dataIndex: 'SensorDescription',
-      align: 'center',
-      render: (_: any, data: any) => {
-        return (
-          <div className="flex justify-center gap-3">
-            <h1>{data?.sensorDescription}</h1>
-          </div>
-        );
-      },
-    },
-    {
       title: 'Sensor ID',
       key: 'SensorID',
       dataIndex: 'SensorID',
@@ -240,6 +227,19 @@ const NewSetStandard = () => {
         return (
           <div className="flex justify-center gap-3">
             <h1>{data?.sensorId}</h1>
+          </div>
+        );
+      },
+    },
+    {
+      title: 'Sensor Description',
+      key: 'SensorDescription',
+      dataIndex: 'SensorDescription',
+      align: 'center',
+      render: (_: any, data: any) => {
+        return (
+          <div className="flex justify-center gap-3">
+            <h1>{data?.sensorDescription}</h1>
           </div>
         );
       },
@@ -274,7 +274,7 @@ const NewSetStandard = () => {
       },
     },
     {
-      title: 'Threshold Value',
+      title: 'Threshold Range',
       key: 'ThresholdValue',
       dataIndex: 'ThresholdValue',
       align: 'center',
@@ -303,7 +303,7 @@ const NewSetStandard = () => {
       },
     },
     {
-      title: 'uom',
+      title: 'UOM',
       key: 'uom',
       dataIndex: 'uom',
       align: 'center',

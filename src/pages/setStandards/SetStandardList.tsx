@@ -58,15 +58,6 @@ const SetStandardList = () => {
     fullData();
   }, []);
 
-  const fetchAllSet = async () => {
-    const res = await SETSTANDARDS_SERVICES.getAllSetStandard();
-    setSetStandardList(res);
-  };
-
-  useEffect(() => {
-    fetchAllSet();
-  }, []);
-
   // delete plant
   const onDeletePlant = async (macAddress: any) => {
     setShowDeleteUserModal(true);
@@ -77,9 +68,18 @@ const SetStandardList = () => {
     }
   };
 
+  // const fetchAllSet = async () => {
+  //   const res = await SETSTANDARDS_SERVICES.getAllSetStandard();
+  //   setSetStandardList(res);
+  // };
+
+  // useEffect(() => {
+  //   fetchAllSet();
+  // }, []);
+
   const columns: any = [
     {
-      title: 'Machine Name',
+      title: 'Machine Number',
       dataIndex: 'machine',
       key: 'machine',
       align: 'center',
@@ -92,15 +92,15 @@ const SetStandardList = () => {
       align: 'center',
     },
     {
-      title: 'Sensor Description',
-      dataIndex: 'sensorDescription',
-      key: 'sensorDescription',
-      align: 'center',
-    },
-    {
       title: 'Sensor ID',
       dataIndex: 'macAddress',
       key: 'macAddress',
+      align: 'center',
+    },
+    {
+      title: 'Sensor Description',
+      dataIndex: 'sensorDescription',
+      key: 'sensorDescription',
       align: 'center',
     },
     {
@@ -118,7 +118,7 @@ const SetStandardList = () => {
       },
     },
     {
-      title: 'Threshold value',
+      title: 'Threshold Range ',
       dataIndex: ['minThresholdValue', 'maxThresholdValue'],
       key: 'minThresholdValue',
       className: 'thresholdValue',
@@ -152,7 +152,7 @@ const SetStandardList = () => {
       render: (_: any, data: any) => {
         return (
           <div className="flex justify-center gap-3">
-            <span>{data.interval}</span>
+            <span>{data.interval}hr</span>
           </div>
         );
       },
@@ -175,21 +175,21 @@ const SetStandardList = () => {
         const criticalityDefect = data?.criticality?.defect;
         const criticalityUnsafe = data?.criticality?.unSafe;
 
-        let criticalityData = '';
+        let criticalityData: any = [];
 
         if (criticalityBreakDown) {
-          criticalityData += 'BreakDown ';
+          criticalityData.push('BreakDown');
         }
 
         if (criticalityDefect) {
-          criticalityData += 'Defect ';
+          criticalityData.push('Defect');
         }
 
         if (criticalityUnsafe) {
-          criticalityData += 'Unsafe';
+          criticalityData.push('Unsafe');
         }
 
-        criticalityData = criticalityData.trim();
+        criticalityData = criticalityData.join(',');
 
         if (!criticalityBreakDown && !criticalityDefect && !criticalityUnsafe) {
           criticalityData = 'Non';
@@ -200,8 +200,8 @@ const SetStandardList = () => {
     },
     {
       title: 'Actions',
-      dataIndex: 'criticality',
-      key: 'criticality',
+      dataIndex: 'Actions',
+      key: 'Actions',
       align: 'center',
 
       render: (_: any, data: any) => {

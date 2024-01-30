@@ -22,7 +22,7 @@ export const sideNavRoutes = [
   },
   {
     icon: SetStandardIcon,
-    title: 'Set Standards',
+    title: 'Set PM Standards',
     path: SITEMAP.setStandards.index,
     key: SITEMAP.setStandards.index,
   },
