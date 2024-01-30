@@ -1,7 +1,9 @@
 import { BellIcon } from '@/assets/icons';
 import { Dropdown } from '@/components';
+import { Config } from '@/config';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { logoutUser } from '@/redux/slices/authSlice';
+import { SENSOR_SERVICES } from '@/services/sensorServices';
 import classNames from 'classnames';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
@@ -11,6 +13,7 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
   const [showOpenNotificationModal, setShowNotificationModal] = useState(false);
+  const [sensorIdList, setSensorIdList] = useState([]);
   // const options = [
   //   {
   //     key: 'plants',
@@ -44,7 +47,14 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
     }, 1000);
   };
 
-  const ALERTS_SOCKET_CONNECTION_URL = 'http://localhost:9130/alerts';
+  const fetchAllSensors = async () => {
+    const res = await SENSOR_SERVICES.getAllSensor();
+    setSensorIdList(res);
+  };
+
+  useEffect(() => {
+    fetchAllSensors();
+  }, []);
 
   const [alertsSocket, setAlertsSocket] = useState<any>(null);
   const [alertsData, setAlertsData] = useState<any>([]);
@@ -66,19 +76,31 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
   }, [alertsSocket]);
 
   function connectToAlertsSocket() {
-    const _socket = socketIOClient(ALERTS_SOCKET_CONNECTION_URL, {
+    const _socket = socketIOClient(`${Config.OMNEX_SENSOR_URL}/alerts`, {
       rejectUnauthorized: false,
+      extraHeaders: {
+        authorization: `Bearer ${user?.accessToken}`,
+      },
     });
-    _socket.on('connection-success', ({ socketId }) => {
-      setAlertsSocket(_socket);
-      console.log('alert-socketId', socketId);
+    _socket.on('connection-status', ({ socketId, success, error }) => {
+      if (success === true) {
+        console.log(socketId);
+        setAlertsSocket(_socket);
+      } else {
+        console.error(error);
+        _socket.removeAllListeners();
+        _socket.disconnect();
+        _socket.destroy();
+      }
+      _socket.on('disconnect', (reason) => {
+        console.log('disconnect', reason);
+      });
     });
   }
 
   function listenToAlerts() {
     alertsSocket.emit('sensor-alerts', {
-      // Hardcoded the sensor IDs as of now, Once the API's available, I will change it.
-      sensors: ['MAC-ADDRESS-001', 'MAC-ADDRESS-002'],
+      sensors: sensorIdList,
     });
 
     alertsSocket.on('sensor-alert', (data: any) => {
@@ -89,12 +111,8 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
 
   return (
     <>
-      {/* I don't feel like there should be a padding here changing 
-      <div className="flex items-center justify-end gap-5 pb-6 ">
-       */}
       <div className="flex items-center justify-end gap-5">
-        {/* 
-        Keep this commented code as it will be used later implementation
+        {/* Keep this commented code as it will be used later implementation
         <div
           className={` ${classNames({
             hidden: hideFilters,
@@ -111,16 +129,16 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
               />
             </div>
           ))}
-        </div> */}
-        {/* <div className="header-search">
+        </div>
+        <div className="header-search">
           <Input
             placeholder="Search"
             leftIcon={<SearchIcon className="w-[20px] mr-[10px]" />}
             className={` ${classNames({
               ' bg-white ': hideAvatar,
             })} px-[20px] py-[10px] w-[230px] border border-solid border-[#444]`}
-          /> */}
-        {/* </div> */}
+          />
+        </div> */}
         <div className={` ${classNames({ invisible: hideAvatar })} flex items-center gap-4 w-[138px] justify-end `}>
           <div className="relative" onClick={() => setShowNotificationModal(!showOpenNotificationModal)}>
             <BellIcon className="shrink-0" />
