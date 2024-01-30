@@ -62,9 +62,9 @@ const NewSetStandard = () => {
         interval: data.interval,
         trigger: data.trigger,
         criticality: {
-          breakDown: data.criticality.breakDown,
-          defect: data.criticality.defect,
-          unSafe: data.criticality.unSafe,
+          breakDown: data.criticality.breakDown || false,
+          defect: data.criticality.defect || false,
+          unSafe: data.criticality.unSafe || false,
         },
       };
       console.log(body);
@@ -87,9 +87,9 @@ const NewSetStandard = () => {
             interval: data.interval,
             trigger: data.trigger,
             criticality: {
-              breakDown: data.breakdown,
-              defect: data.defect,
-              unSafe: data.unSafe,
+              breakDown: data.criticality.breakDown || false,
+              defect: data.criticality.defect || false,
+              unSafe: data.criticality.unSafe || false,
             },
           };
         });
@@ -137,7 +137,7 @@ const NewSetStandard = () => {
     }
     setMachineList(machineData);
   };
-
+  console.log('object1233', machineList);
   //disable button
   const disablingSetStandards = () => {
     if (state) {

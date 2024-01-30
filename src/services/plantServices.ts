@@ -17,7 +17,18 @@ export const PLANT_SERVICES = {
 
   addPlant: async (body: any) => {
     try {
-      const res = await apiInstance.post(SERVICES.plants.add, body);
+      const formData = new FormData();
+
+      for (const key in body) {
+        if (Object.prototype.hasOwnProperty.call(body, key)) {
+          formData.append(key, body[key]);
+        }
+      }
+      const res = await apiInstance.post(SERVICES.plants.add, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
@@ -52,7 +63,21 @@ export const PLANT_SERVICES = {
 
   updatePlantbyId: async (orgId: string, plantId: any, body: any) => {
     try {
-      const res = await apiInstance.put(`${SERVICES.plants.update}/organizationId=${orgId}&plantId=${plantId}`, body);
+      const formData = new FormData();
+      for (const key in body) {
+        if (Object.prototype.hasOwnProperty.call(body, key)) {
+          formData.append(key, body[key]);
+        }
+      }
+      const res = await apiInstance.put(
+        `${SERVICES.plants.update}/organizationId=${orgId}&plantId=${plantId}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
