@@ -145,7 +145,7 @@ const Dropdown = ({
       </div>
       {isOpen && (
         <div
-          className={`absolute border-4 w-full my-3 border-white rounded-b-2xl rounded-2xl top-20 overflow-y-auto max-h-[277px] shadow-lg z-[99] bg-white ${openClassName}`}
+          className={`absolute border-4 w-full border-white rounded-b-2xl rounded-2xl top-15 overflow-y-auto max-h-[277px] shadow-lg z-[99] bg-white ${openClassName}`}
         >
           {filterOptions(options)?.map((option: any) => {
             if (optionLabel) {
