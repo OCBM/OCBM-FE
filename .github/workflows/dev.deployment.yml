@@ -19,7 +19,7 @@ jobs:
           node-version: '16.17.0' # Adjust the Node.js version as needed
 
       - name: Install dependencies
-        run: npm install # Use yarn if you prefer
+        run: npm install --legacy-peer-deps # Use yarn if you prefer
 
       - name: Build the Vite application
         run: |

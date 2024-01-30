@@ -15,6 +15,7 @@ const Dropdown = ({
   inputClassName = '',
   openClassName = '',
   wrapClassName = '',
+  menuClassName = '',
   optionLabel = '',
   optionValue = '',
   mandatory = false,
@@ -81,8 +82,8 @@ const Dropdown = ({
 
   const filterOptions = (options: any) => {
     if (optionLabel) {
-      return options?.filter((option: any) =>
-        option[optionLabel]?.toString()?.toLowerCase().includes(query.toLowerCase()),
+      return options?.filter(
+        (option: any) => option[optionLabel]?.toString()?.toLowerCase().includes(query.toLowerCase()),
       );
     } else if (!optionLabel && !optionValue) {
       return options?.filter(
@@ -161,7 +162,7 @@ const Dropdown = ({
               return (
                 <div
                   onClick={() => selectOption(option)}
-                  className="py-4 px-2 cursor-pointer transition-all hover:bg-[#f4f4f4] rounded-r-xl"
+                  className={` px-2 cursor-pointer transition-all hover:bg-[#f4f4f4] rounded-r-xl ${menuClassName}`}
                   key={option}
                 >
                   {option}
