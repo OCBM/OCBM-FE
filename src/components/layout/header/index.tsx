@@ -90,7 +90,6 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
         console.error(error);
         _socket.removeAllListeners();
         _socket.disconnect();
-        _socket.destroy();
       }
       _socket.on('disconnect', (reason) => {
         console.log('disconnect', reason);
