@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 import { toast } from 'react-toastify';
 import { PLANT_SERVICES } from '@/services/plantServices';
-import { useAppSelector } from '@/hooks';
+// import { useAppSelector } from '@/hooks';
 
 export type updatedData = {
   sensor: any;
@@ -27,21 +27,21 @@ const SetStandardList = () => {
   const [selectedStandard, setSelectedStandard] = useState<string>('');
 
   // To get userId
-  const user = useAppSelector((state) => state.auth.user);
-  const UserID = user?.userId;
+  // const user = useAppSelector((state) => state.auth.user);
+  // const UserID = user?.userId;
+  const plantId = 'd977c8f7-1028-4be1-a98b-75ab6b74b617';
 
   // To Get Two API in one Variable
   useEffect(() => {
     const fullData = async () => {
-      const getPlantId = await PLANT_SERVICES.getAllPlantByUserId(UserID);
-      console.log(getPlantId.message[0].plantId, 'plant');
-      const plantId = getPlantId.message[0].plantId;
+      // const getPlantId = await PLANT_SERVICES.getAllPlantByUserId(UserID);
+      // console.log(getPlantId.message[0].plantId, 'plant');
+      // const plantId = getPlantId.message[0].plantId;
       const details = await PLANT_SERVICES.getAllPlantsSets(plantId);
-      console.log('updated', details.message);
+      console.log('updated', details);
 
       const updatedData = await Promise.all(
         details.message.map(async (data: { sensorId: string }) => {
-          console.log(data);
           const standardDetails = await SETSTANDARDS_SERVICES.getAllSetsbyid(data.sensorId);
           return {
             ...data,
@@ -49,6 +49,7 @@ const SetStandardList = () => {
           };
         }),
       );
+      console.log('dee', updatedData);
 
       // Filtering to Get Full values Even after deleting sensor data
       const finalData = updatedData.filter((data: { uom: any }) => data.uom);
@@ -67,15 +68,6 @@ const SetStandardList = () => {
       setShowDeleteUserModal(false);
     }
   };
-
-  // const fetchAllSet = async () => {
-  //   const res = await SETSTANDARDS_SERVICES.getAllSetStandard();
-  //   setSetStandardList(res);
-  // };
-
-  // useEffect(() => {
-  //   fetchAllSet();
-  // }, []);
 
   const columns: any = [
     {
@@ -145,22 +137,23 @@ const SetStandardList = () => {
       },
     },
     {
-      title: 'Interval',
+      title: 'Interval (minutes)',
       dataIndex: 'interval',
       key: 'interval',
       align: 'center',
       render: (_: any, data: any) => {
         return (
           <div className="flex justify-center gap-3">
-            <span>{data.interval}hr</span>
+            <span>{data.interval}</span>
           </div>
         );
       },
     },
     {
-      title: 'Trigger',
+      title: 'Trigger (Threshold Value)',
       dataIndex: 'trigger',
       key: 'trigger',
+      width: '11%',
       align: 'center',
     },
     {

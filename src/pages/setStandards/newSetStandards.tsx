@@ -21,6 +21,7 @@ const NewSetStandard = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [machineList, setMachineList] = useState<any[]>([]);
+  console.log(machineList, 'machine');
   const [newSetstandards, setNewSetstandards] = useState<InitialSetstandardStateType>(initialState);
   const [dropdownData, setdropdownData] = useState([]);
 
@@ -59,7 +60,7 @@ const NewSetStandard = () => {
         minThresholdValue: data.minThresholdValue,
         maxThresholdValue: data.maxThresholdValue,
         uom: data.uom,
-        interval: data.interval,
+        interval: data?.interval || 0,
         trigger: data.trigger,
         criticality: {
           breakDown: data.criticality.breakDown || false,
@@ -108,6 +109,14 @@ const NewSetStandard = () => {
     const updateMachineId = machineData.findIndex((machine) => machine.sensorId === data.sensorId);
     machineData[updateMachineId][type] = parseInt(event.target.value);
     setMachineList(machineData);
+  };
+  const handleIntervalInputChange = (event: any, type: string, data: any) => {
+    const machineData = [...machineList];
+    const updateMachineId = machineData.findIndex((machine) => machine.sensorId === data.sensorId);
+    machineData[updateMachineId][type] = parseInt(event.target.value);
+    if (machineData[updateMachineId][type] >= 1 && machineData[updateMachineId][type] <= 480) {
+      setMachineList(machineData);
+    }
   };
 
   //Dropdown onChange
@@ -309,7 +318,7 @@ const NewSetStandard = () => {
       align: 'center',
       render: (_: any, data: any) => {
         return (
-          <div className="flex justify-center ml-12 border-b-[1px] border-[#A9A9A9] w-[80px]">
+          <div className="flex justify-center ml-8 border-b-[1px] border-[#A9A9A9] w-[80px]">
             <Dropdown
               placeholder="Bar"
               openClassName="top-5 w-[85px]"
@@ -325,7 +334,7 @@ const NewSetStandard = () => {
       },
     },
     {
-      title: 'Interval',
+      title: 'Interval (minutes)',
       key: 'Interval',
       dataIndex: 'Interval',
       align: 'center',
@@ -338,7 +347,7 @@ const NewSetStandard = () => {
                 name="interval"
                 placeholder="8hr"
                 value={data.interval || ''}
-                onChange={(event) => handleInputChange(event, 'interval', data)}
+                onChange={(event) => handleIntervalInputChange(event, 'interval', data)}
               />
             </div>
           </div>
@@ -346,13 +355,14 @@ const NewSetStandard = () => {
       },
     },
     {
-      title: 'Trigger',
+      title: 'Trigger (Threshold Value)',
       key: 'trigger',
       dataIndex: 'trigger',
+      width: '11%',
       align: 'center',
       render: (_: any, data: any) => {
         return (
-          <div className="flex gap-3 ml-8 border-b-[1px] border-[#A9A9A9] w-[80px]">
+          <div className="flex gap-3 ml-14 border-b-[1px] border-[#A9A9A9] w-[80px]">
             <Dropdown
               placeholder="Max"
               openClassName="top-5 w-[80px]"
@@ -406,7 +416,7 @@ const NewSetStandard = () => {
   return (
     <>
       <div className="rounded-[16px] shadow-md p-5 relative">
-        <h2 className="text-[24px] text-[#444444] font-medium">New Set Standards</h2>
+        <h2 className="text-[24px] text-[#444444] font-medium">New Set PM Standards</h2>
 
         {!state ? (
           <div className="flex justify-center flex-row gap-[20px] mt-5 mb-9">
