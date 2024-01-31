@@ -2,9 +2,10 @@ import { CategoryScale, Chart as ChartJS, LineElement, LinearScale, PointElement
 // import { Line } from 'react-chartjs-2';
 //import LineCharts from './LineCharts';
 import { SquareIcon } from '@/assets/icons';
-import SensorChart from './SensorChart';
+// import SensorChart from './SensorChart';
 // import AntdChart from './antdchart';
-//import SocketTest from './socketTest';
+import SocketTest from './socketTest';
+import SensorChart from './SensorChart';
 //import socketIoClient from './socket.io-client';
 // import { ChartData } from './chart';
 // import { graphData } from './MockData';
@@ -27,10 +28,10 @@ const Charts = ({ item }: any) => {
           </div>
         </div>
         <div className="">
-          <SensorChart />
+          {/* <SensorChart /> */}
           {/* <AntdChart /> */}
           {/* <ChartData /> */}
-          {/* <SocketTest /> */}
+          <SocketTest />
         </div>
       </>
       {/* ))} */}
