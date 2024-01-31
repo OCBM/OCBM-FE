@@ -95,4 +95,26 @@ export const PLANT_SERVICES = {
       console.log(error);
     }
   },
+
+  getAllPlantsSets: async (id: string) => {
+    try {
+      const res = await apiInstance.get(`${SERVICES.plants.get}/plantId=${id}`);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
+
+  getAllPlantByUserId: async (id: string | undefined) => {
+    try {
+      const res = await apiInstance.get(`${SERVICES.plants.get}/userId=${id}`);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
 };

@@ -147,6 +147,7 @@ function Plant() {
       width: '20%',
       key: 'image',
       render: (image: any, img: any) => {
+        console.log('imgurl', img.image);
         return <Avatar shape="square" size={64} src={img.image} alt={image} />;
       },
     },
