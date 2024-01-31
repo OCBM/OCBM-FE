@@ -1,9 +1,32 @@
 import { useState, useEffect } from 'react';
 import Chart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
+import socketIOClient from 'socket.io-client';
+import { getToken } from '@/lib/axios';
 import { format } from 'date-fns';
 const SensorChart = () => {
   const [sensorData, setSensorData] = useState<any>([]);
+  useEffect(() => {
+    const token = getToken();
+    const AUTHORIZATION = `Bearer ${token}`;
+    const _socket = socketIOClient(`http://13.213.123.212:9130/sensor-readings`, {
+      rejectUnauthorized: false,
+      extraHeaders: {
+        authorization: AUTHORIZATION,
+      },
+    });
+
+    _socket.emit('sensor-readings', {
+      sensors: ['MAC-ADDRESS-002'], // sensor mac-address to listen
+    });
+
+    _socket.on('sensor-reading', (data: any) => {
+      setSensorData((prevData: any) => [...prevData, data.sensorReading]);
+    });
+    return () => {
+      _socket.disconnect();
+    };
+  }, []);
   const [chartOptions] = useState<ApexOptions>({
     chart: {
       id: 'realtime',
@@ -65,6 +88,30 @@ const SensorChart = () => {
     },
     stroke: {
       curve: 'smooth',
+      colors: ['#66bb6a'],
+    },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        type: 'vertical',
+        colorStops: [
+          {
+            offset: 30,
+            color: '#66bb6a',
+            opacity: 1,
+          },
+          {
+            offset: 40,
+            color: '#FF0000',
+            opacity: 1,
+          },
+          {
+            offset: 60,
+            color: ' #66bb6a',
+            opacity: 1,
+          },
+        ],
+      },
     },
     title: {
       text: 'Dynamic Updating Chart',
@@ -130,7 +177,6 @@ const SensorChart = () => {
       clearInterval(interval);
     };
   }, [sensorData]);
-
   return (
     <div>
       <div id="chart">
