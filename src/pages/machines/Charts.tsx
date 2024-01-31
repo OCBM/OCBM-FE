@@ -5,7 +5,6 @@ import { SquareIcon } from '@/assets/icons';
 // import SensorChart from './SensorChart';
 // import AntdChart from './antdchart';
 import SocketTest from './socketTest';
-import SensorChart from './SensorChart';
 //import socketIoClient from './socket.io-client';
 // import { ChartData } from './chart';
 // import { graphData } from './MockData';
