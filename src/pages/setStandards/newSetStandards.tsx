@@ -113,8 +113,9 @@ const NewSetStandard = () => {
   const handleIntervalInputChange = (event: any, type: string, data: any) => {
     const machineData = [...machineList];
     const updateMachineId = machineData.findIndex((machine) => machine.sensorId === data.sensorId);
-    machineData[updateMachineId][type] = parseInt(event.target.value);
-    if (machineData[updateMachineId][type] >= 1 && machineData[updateMachineId][type] <= 480) {
+    machineData[updateMachineId][type] = parseInt(event.target.value || 0);
+    console.log(event.target.value || 0, 'value');
+    if (machineData[updateMachineId][type] >= 0 && machineData[updateMachineId][type] <= 480) {
       setMachineList(machineData);
     }
   };
