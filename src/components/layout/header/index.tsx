@@ -1,11 +1,22 @@
 import { Dropdown } from '@/components';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { logoutUser } from '@/redux/slices/authSlice';
+import { setCurrentPlant } from '@/redux/slices/plantSlice';
+import { RootState } from '@/redux/store';
+import { PLANT_SERVICES } from '@/services/plantServices';
+import { Select } from 'antd';
 import classNames from 'classnames';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const loggedUser = useSelector((state: RootState) => state.auth?.user);
+  const { currentPlant } = useAppSelector((state) => state.plantRegistration);
+  const [plantsData, setPlantsData] = useState([]);
   const user = useAppSelector((state) => state.auth.user);
   // const options = [
   //   {
@@ -40,40 +51,47 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
     }, 1000);
   };
 
+  const fetchPlantsbyUserId = async () => {
+    const res = await PLANT_SERVICES.getAllPlantByUserId(loggedUser?.userId);
+    const formattedData = res?.message.map((el: any) => {
+      return {
+        value: el.plantId,
+        label: el.plantName,
+      };
+    });
+    dispatch(setCurrentPlant(formattedData?.[0].value));
+    setPlantsData(formattedData);
+  };
+
+  useEffect(() => {
+    fetchPlantsbyUserId();
+  }, []);
+
+  const handlePlantChange = (plantId: string) => {
+    dispatch(setCurrentPlant(plantId));
+    navigate('/plant');
+  };
+
   return (
-    <>
-      {/* I don't feel like there should be a padding here changing 
-      <div className="flex items-center justify-end gap-5 pb-6 ">
-       */}
+    <div className="flex">
+      <div className="w-full flex justify-center">
+        {loggedUser?.role !== 'USER' ? (
+          <div className="flex gap-3 w-full items-center justify-start">
+            <span className="text-[#8B9298]">Current plant</span>
+            <span className="text-[#8B9298]">{`>`}</span>
+            <Select
+              size="small"
+              onChange={handlePlantChange}
+              value={currentPlant}
+              style={{ width: 200 }}
+              options={plantsData}
+            />
+          </div>
+        ) : (
+          ''
+        )}
+      </div>
       <div className="flex items-center justify-end gap-5">
-        {/* 
-        Keep this commented code as it will be used later implementation
-        <div
-          className={` ${classNames({
-            hidden: hideFilters,
-          })} flex justify-between items-center [&>*:nth-child(4)]:border-0 [&>*:nth-child(1)]:pl-0 [&>*:nth-child(4)]:pr-0`}
-        >
-          {options.map((option) => (
-            <div key={option?.key} className="flex border-r-2 px-[52px] border-black">
-              <Dropdown
-                type="secondary"
-                placeholder={option?.text}
-                className={`border-none`}
-                inputClassName={`placeholder:text-[#444444]  ${option.className}`}
-                options={[]}
-              />
-            </div>
-          ))}
-        </div> */}
-        {/* <div className="header-search">
-          <Input
-            placeholder="Search"
-            leftIcon={<SearchIcon className="w-[20px] mr-[10px]" />}
-            className={` ${classNames({
-              ' bg-white ': hideAvatar,
-            })} px-[20px] py-[10px] w-[230px] border border-solid border-[#444]`}
-          /> */}
-        {/* </div> */}
         <div
           className={` ${classNames({ invisible: hideAvatar })} flex items-center gap-[10px] w-[138px] justify-end `}
         >
@@ -91,7 +109,7 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

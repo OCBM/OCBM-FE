@@ -16,11 +16,18 @@ interface UserGroupsType {
   createdAt: string;
   updatedAt: string;
 }
+interface Organization {
+  createdAt: string;
+  organizationId: string;
+  organizationName: string;
+  updatedAt: string;
+}
 
 export interface AuthInitialState {
   loggedIn: boolean;
   isLoading: boolean;
   user: LoggedInUserType | null;
+  organization: Organization | null;
 }
 export interface LoginDataType {
   userName: string;

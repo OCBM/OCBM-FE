@@ -8,10 +8,12 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { MASTERY_PAGE_CONSTANTS } from '../users/constants';
 import Loader from '@/components/reusable/loader';
+import { Avatar } from 'antd';
 import PopupModal from '@/components/reusable/popupmodal/popupmodal';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 function Plant() {
-  const orgID: string = '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d';
   type InitialStateType = {
     plantName: string | undefined;
     organizationId: string | undefined;
@@ -35,7 +37,7 @@ function Plant() {
     totalPage?: number;
     total_items?: number;
   };
-
+  const data = useSelector((state: RootState) => state.auth.organization);
   const [plantData, setPlantData] = useState([]);
   const [newPlant, setNewPlant] = useState<InitialStateType>(initialState);
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
@@ -51,7 +53,7 @@ function Plant() {
   const [isLoading, setIsLoading] = useState(false);
   const [fileName, setFileName] = useState<string>('');
   const [imageURL, setImageURl] = useState<string>('');
-
+  console.log('data', data);
   // fetching All Plant data by organizationId
   const fetchPlantDataByOrgId = async (page: number) => {
     if (loggedUser) {
@@ -145,6 +147,10 @@ function Plant() {
       dataIndex: 'imageName',
       width: '20%',
       key: 'image',
+      render: (image: any, img: any) => {
+        console.log('imgurl', img.image);
+        return <Avatar shape="square" size={64} src={img.image} alt={image} />;
+      },
     },
     {
       title: 'Actions',
@@ -183,7 +189,7 @@ function Plant() {
       image: newPlant.image,
       plantName: newPlant.plantName,
       description: newPlant.description,
-      organizationId: orgID,
+      organizationId: data?.organizationId,
       imageName: newPlant.imageName,
     };
     const res = await PLANT_SERVICES.addPlant(body);
@@ -201,7 +207,7 @@ function Plant() {
       image: newPlant.image,
       imageName: newPlant.imageName,
     };
-    const res = await PLANT_SERVICES.updatePlantbyId(orgID, newPlant.plantId, body);
+    const res = await PLANT_SERVICES.updatePlantbyId(data?.organizationId || '', newPlant.plantId, body);
     if (res.statusCode === 200) {
       fetchPlantDataByOrgId(paginationData?.current_page);
       handleClear();
@@ -371,7 +377,7 @@ function Plant() {
         icon={<QuestionMarkIcon />}
         handleClose={() => setShowDeleteUserModal(false)}
         handleDelete={() => {
-          onDeletePlant(orgID, selectedPlant);
+          onDeletePlant(data?.organizationId || '', selectedPlant);
         }}
         onCloseDeleteModal={() => {
           setShowDeleteUserModal(false);

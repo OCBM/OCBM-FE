@@ -28,6 +28,19 @@ export const MACHINE_LINE_SERVICES = {
     }
   },
 
+  getMachineLinesByPlantId: async (id: string, page?: number, limit?: number, sort?: 'asc' | 'desc') => {
+    try {
+      const res = await apiInstance.get(
+        `${SERVICES.machineLine.get}/plantId=${id}?page=${page || 1}&limit=${limit || 10}&sort=${sort || 'desc'}`,
+      );
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
+
   updateMachineLineById: async (machineLineId: string, shopId: string, body: any) => {
     try {
       const formData = new FormData();
