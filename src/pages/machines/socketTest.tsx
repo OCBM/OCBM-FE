@@ -4,12 +4,16 @@ import { ApexOptions } from 'apexcharts';
 import socketIOClient from 'socket.io-client';
 import { getToken } from '@/lib/axios';
 import { format } from 'date-fns';
+import { Config } from '@/config';
+import { SENSOR_SERVICES } from '@/services/sensorServices';
+
 const SensorChart = () => {
   const [sensorData, setSensorData] = useState<any>([]);
+  const [sensorIdList, setSensorIdList] = useState([]);
   useEffect(() => {
     const token = getToken();
     const AUTHORIZATION = `Bearer ${token}`;
-    const _socket = socketIOClient(`http://13.213.123.212:9130/sensor-readings`, {
+    const _socket = socketIOClient(`${Config.OMNEX_SENSOR_URL}/sensor-readings`, {
       rejectUnauthorized: false,
       extraHeaders: {
         authorization: AUTHORIZATION,
@@ -17,16 +21,28 @@ const SensorChart = () => {
     });
 
     _socket.emit('sensor-readings', {
-      sensors: ['MAC-ADDRESS-002'], // sensor mac-address to listen
+      sensors: sensorIdList, // sensor mac-address to listen
     });
 
     _socket.on('sensor-reading', (data: any) => {
       setSensorData((prevData: any) => [...prevData, data.sensorReading]);
+      console.log(data, 'data');
     });
+
     return () => {
       _socket.disconnect();
     };
   }, []);
+  const fetchAllSensors = async () => {
+    const res = await SENSOR_SERVICES.getAllSensor();
+    console.log(res, 'res');
+    setSensorIdList(res);
+  };
+
+  useEffect(() => {
+    fetchAllSensors();
+  }, []);
+  console.log(sensorData, 'sensorData');
   const [chartOptions] = useState<ApexOptions>({
     chart: {
       id: 'realtime',
@@ -64,7 +80,7 @@ const SensorChart = () => {
           y: 40,
           y2: 60,
           borderColor: '#000',
-          fillColor: '#FEB019',
+          fillColor: '#A299D2',
           opacity: 0.2,
           label: {
             borderColor: '#333',
@@ -85,8 +101,10 @@ const SensorChart = () => {
     // ],
     dataLabels: {
       enabled: false,
+      offsetY: 30,
     },
     stroke: {
+      width: 4,
       curve: 'smooth',
       colors: ['#66bb6a'],
     },
@@ -113,10 +131,6 @@ const SensorChart = () => {
         ],
       },
     },
-    title: {
-      text: 'Dynamic Updating Chart',
-      align: 'left',
-    },
     markers: {
       size: 0,
     },
@@ -128,17 +142,57 @@ const SensorChart = () => {
         },
       },
     },
-    yaxis: {
-      max: 100,
-      labels: {
-        formatter: function (value: any) {
-          return parseInt(value) + ' °C';
+    yaxis: [
+      {
+        max: 100,
+        min: 0,
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: '#FF1654',
+        },
+        labels: {
+          formatter: function (value: any) {
+            return parseInt(value) + ' °C';
+          },
+          style: {
+            colors: '#FF1654',
+          },
         },
       },
-    },
-    legend: {
-      show: false,
-    },
+      {
+        opposite: true,
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: '#A299D2',
+        },
+        labels: {
+          formatter: function (value: any) {
+            return parseInt(value) + ' °C';
+          },
+          style: {
+            colors: '#A299D2',
+          },
+        },
+      },
+    ],
+    // yaxis: {
+    //   max: 100,
+    //   min: 0,
+    //   labels: {
+    //     formatter: function (value: any) {
+    //       return parseInt(value) + ' °C';
+    //     },
+    //   },
+    // },
+    // legend: {
+    //   show: false,
+    // },
   });
 
   const [chartSeries, setChartSeries] = useState([
