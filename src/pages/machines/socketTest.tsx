@@ -6,11 +6,21 @@ import { getToken } from '@/lib/axios';
 import { format } from 'date-fns';
 import { Config } from '@/config';
 import { SENSOR_SERVICES } from '@/services/sensorServices';
+import { Select } from 'antd';
 
 const SensorChart = ({ sensorId }: { sensorId: string }) => {
   const [sensorData, setSensorData] = useState<any>([]);
   const [sensorProperties, setSensorProperties] = useState();
+  const [selectedDuration, setSelectedDuration] = useState('live');
   // const [sensorIdList, setSensorIdList] = useState([]);
+
+  const fetchSensorPreviousData = async () => {
+    var date = new Date();
+    date.setDate(date?.getDate() - parseInt(selectedDuration));
+    const timeStamp = encodeURIComponent(date?.toISOString());
+    const res = await SENSOR_SERVICES?.getSensorData(timeStamp, sensorId);
+    setSensorData(res);
+  };
 
   useEffect(() => {
     const token = getToken();
@@ -21,28 +31,22 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
         authorization: AUTHORIZATION,
       },
     });
-
-    _socket.emit('sensor-readings', {
-      sensors: sensorId, // sensor mac-address to listen
-    });
-
-    _socket.on('sensor-reading', (data: any) => {
-      setSensorData((prevData: any) => [...prevData, data.sensorReading]);
-    });
+    if (selectedDuration === 'live') {
+      _socket.emit('sensor-readings', {
+        sensors: [sensorId?.toUpperCase()], // sensor mac-address to listen
+      });
+      _socket.on('sensor-reading', (data: any) => {
+        setSensorData((prevData: any) => [...prevData, data?.sensorReading]);
+      });
+    } else {
+      _socket.disconnect();
+      fetchSensorPreviousData();
+    }
 
     return () => {
       _socket.disconnect();
     };
-  }, [sensorId]);
-
-  // const fetchAllSensors = async () => {
-  //   const res = await SENSOR_SERVICES.getAllSensor();
-  //   setSensorIdList(res);
-  // };
-
-  // useEffect(() => {
-  //   fetchAllSensors();
-  // }, []);
+  }, [sensorId, selectedDuration]);
 
   const getSensorProperties = async () => {
     const res = await SENSOR_SERVICES.getSensorProperties(sensorId);
@@ -50,12 +54,13 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
   };
 
   console.log(sensorProperties);
+  console.log('sensorData', sensorData);
 
   useEffect(() => {
     getSensorProperties();
   }, [sensorId]);
 
-  const [chartOptions] = useState<ApexOptions>({
+  const chartInitialConfig: ApexOptions = {
     chart: {
       id: 'realtime',
       type: 'line',
@@ -93,7 +98,8 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
           y2: 60,
           borderColor: '#000',
           fillColor: '#A299D2',
-          opacity: 0.2,
+          opacity: 0.3,
+          strokeDashArray: 10,
           label: {
             borderColor: '#333',
             style: {
@@ -106,11 +112,6 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
         },
       ],
     },
-    // series: [
-    //   {
-    //     data: sensorData.slice(),
-    //   },
-    // ],
     dataLabels: {
       enabled: false,
       offsetY: 30,
@@ -149,104 +150,185 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
     xaxis: {
       type: 'datetime',
       labels: {
-        formatter: function (value) {
+        formatter: function (value: any) {
           return format(new Date(value), 'HH:mm, dd/MMM');
         },
       },
     },
-    yaxis: [
-      {
-        max: 100,
-        min: 0,
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: '#FF1654',
-        },
-        labels: {
-          formatter: function (value: any) {
-            return parseInt(value) + ' °C';
-          },
-          style: {
-            colors: '#FF1654',
-          },
-        },
-      },
-      {
-        opposite: true,
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          color: '#A299D2',
-        },
-        labels: {
-          formatter: function (value: any) {
-            return parseInt(value) + ' °C';
-          },
-          style: {
-            colors: '#A299D2',
-          },
-        },
-      },
-    ],
-    // yaxis: {
-    //   max: 100,
-    //   min: 0,
-    //   labels: {
-    //     formatter: function (value: any) {
-    //       return parseInt(value) + ' °C';
-    //     },
-    //   },
-    // },
-    // legend: {
-    //   show: false,
-    // },
-  });
-
-  const [chartSeries, setChartSeries] = useState([
-    {
-      name: 'series1',
-      data: [],
-    },
-  ]);
+  };
+  const [temperatureChartOptions, setTemperatureChartOptions] = useState<ApexOptions>(chartInitialConfig);
+  const [humidityChartOptions, setHumidityChartOptions] = useState<ApexOptions>(chartInitialConfig);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      // Replace this with your API call to fetch sensor data
-      const fakeSensorReading = {
-        msgTimeStamp: new Date(),
-        value: Math.random() * 100,
-      };
-
-      setSensorData((prevData: any) => {
-        // Keep only the last 10 data points
-        const updatedData = [...prevData, fakeSensorReading].slice(-10);
-        return updatedData;
-      });
-
-      setChartSeries([
-        {
-          name: 'series1',
-          data: sensorData.map((sensor: any) => ({
-            x: new Date(sensor.msgTimeStamp).getTime(),
-            y: parseInt(sensor.value),
-          })),
+    setTemperatureChartOptions({
+      ...chartInitialConfig,
+      chart: {
+        ...chartInitialConfig?.chart,
+        toolbar: {
+          show: selectedDuration !== 'live',
         },
-      ]);
-    }, 2200);
+        zoom: {
+          enabled: selectedDuration !== 'live',
+        },
+      },
+      yaxis: [
+        {
+          max: 100,
+          min: 0,
+          axisTicks: {
+            show: true,
+          },
+          axisBorder: {
+            show: true,
+            color: '#FF1654',
+          },
+          labels: {
+            formatter: function (value: any) {
+              return parseInt(value) + ' °C';
+            },
+            style: {
+              colors: '#FF1654',
+            },
+          },
+        },
+        {
+          opposite: true,
+          axisTicks: {
+            show: true,
+          },
+          axisBorder: {
+            show: true,
+            color: '#A299D2',
+          },
+          labels: {
+            formatter: function (value: any) {
+              return parseInt(value) + ' °C';
+            },
+            style: {
+              colors: '#A299D2',
+            },
+          },
+        },
+      ],
+    });
+    setHumidityChartOptions({
+      ...chartInitialConfig,
+      chart: {
+        ...chartInitialConfig?.chart,
+        toolbar: {
+          show: selectedDuration !== 'live',
+        },
+        zoom: {
+          enabled: selectedDuration !== 'live',
+        },
+      },
+      yaxis: [
+        {
+          max: 100,
+          min: 0,
+          axisTicks: {
+            show: true,
+          },
+          axisBorder: {
+            show: true,
+            color: '#FF1654',
+          },
+          labels: {
+            formatter: function (value: any) {
+              return parseInt(value) + ' Bar';
+            },
+            style: {
+              colors: '#FF1654',
+            },
+          },
+        },
+        {
+          opposite: true,
+          axisTicks: {
+            show: true,
+          },
+          axisBorder: {
+            show: true,
+            color: '#A299D2',
+          },
+          labels: {
+            formatter: function (value: any) {
+              return parseInt(value) + ' Bar';
+            },
+            style: {
+              colors: '#A299D2',
+            },
+          },
+        },
+      ],
+    });
+  }, [selectedDuration, sensorData]);
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [sensorData]);
   return (
     <div>
-      <div id="chart">
-        <Chart options={chartOptions} series={chartSeries} type="line" height={350} />
+      <div className="flex gap-3">
+        <Select
+          style={{ width: 150 }}
+          placeholder="Select"
+          value={selectedDuration}
+          options={[
+            {
+              value: 'live',
+              label: 'Live',
+            },
+            {
+              value: '1',
+              label: 'Last 1 day',
+            },
+            {
+              value: '5',
+              label: 'Last 5 days',
+            },
+            {
+              value: '10',
+              label: 'Last 10 days',
+            },
+            {
+              value: '15',
+              label: 'Last 15 days',
+            },
+          ]}
+          onSelect={(value) => {
+            setSelectedDuration(value);
+          }}
+        />
+      </div>
+      <div id="chart" className="flex gap-6 flex-wrap">
+        <Chart
+          options={temperatureChartOptions}
+          series={[
+            {
+              name: 'Temperature',
+              data: sensorData?.map((sensor: any) => ({
+                x: new Date(sensor?.msgTimeStamp)?.getTime(),
+                y: parseInt(sensor?.temperatureC),
+              })),
+            },
+          ]}
+          type="line"
+          height={350}
+          width={700}
+        />
+        <Chart
+          options={humidityChartOptions}
+          series={[
+            {
+              name: 'Humidity',
+              data: sensorData?.map((sensor: any) => ({
+                x: new Date(sensor?.msgTimeStamp)?.getTime(),
+                y: parseInt(sensor?.humidity),
+              })),
+            },
+          ]}
+          type="line"
+          height={350}
+          width={700}
+        />
       </div>
       <div id="html-dist"></div>
     </div>

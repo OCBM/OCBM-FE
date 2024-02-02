@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import Charts from './Charts';
-import { useLocation, useParams } from 'react-router-dom';
 import { SENSOR_SERVICES } from '@/services/sensorServices';
 import { Card } from '@/components';
+import { useParams } from 'react-router-dom';
 
 const SensorChart: React.FC = () => {
   const [sensorData, setSensorData] = useState<any>([]);
   const { id } = useParams();
-  const location = useLocation();
 
   const fetchSensorData = async () => {
     const res = await SENSOR_SERVICES?.getSensorsBySensorId(id as string);
-    setSensorData(res ? res : location?.state?.sensor);
+    setSensorData(res?.message);
   };
 
   useEffect(() => {
     fetchSensorData();
-  }, [id, location?.state]);
+  }, [id]);
 
   return (
     <div id="chart">

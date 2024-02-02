@@ -29,19 +29,19 @@ const SensorPage = () => {
       {loading ? (
         <LoadingOutlined />
       ) : (
-        ocbmSensorList.map((sensorData: any) => (
+        ocbmSensorList?.map((sensorData: any) => (
           <MachineCard
-            machineName={sensorData.sensorId}
+            machineName={sensorData?.sensorId}
             sensorCard={true}
-            key={sensorData.title}
+            key={sensorData?.title}
             handleView={() => navigate(`/sensor/${sensorData?.sensorId}`, { state: { sensor: sensorData } })}
-            title={sensorData.title}
+            title={sensorData?.title}
             showValues={false}
             showSignals={false}
             outOfSpecValue="03"
             thresholdValue="02"
             withinSpecValue="01"
-            image={sensorData.image}
+            image={sensorData?.image}
           />
         ))
       )}
