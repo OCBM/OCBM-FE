@@ -1,12 +1,19 @@
+import { BellIcon } from '@/assets/icons';
 import { Dropdown } from '@/components';
+import { Config } from '@/config';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { logoutUser } from '@/redux/slices/authSlice';
+import { SENSOR_SERVICES } from '@/services/sensorServices';
 import classNames from 'classnames';
+import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import socketIOClient from 'socket.io-client';
 
 const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
+  const [showOpenNotificationModal, setShowNotificationModal] = useState(false);
+  const [sensorIdList, setSensorIdList] = useState([]);
   // const options = [
   //   {
   //     key: 'plants',
@@ -40,14 +47,71 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
     }, 1000);
   };
 
+  const fetchAllSensors = async () => {
+    const res = await SENSOR_SERVICES.getAllSensor();
+    setSensorIdList(res);
+  };
+
+  useEffect(() => {
+    fetchAllSensors();
+  }, []);
+
+  const [alertsSocket, setAlertsSocket] = useState<any>(null);
+  const [alertsData, setAlertsData] = useState<any>([]);
+
+  useEffect(() => {
+    connectToAlertsSocket();
+    return () => {
+      if (alertsSocket) {
+        alertsSocket.disconnect();
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (alertsSocket) {
+      listenToAlerts();
+    }
+  }, [alertsSocket]);
+
+  function connectToAlertsSocket() {
+    const _socket = socketIOClient(`${Config.OMNEX_SENSOR_URL}/alerts`, {
+      rejectUnauthorized: false,
+      extraHeaders: {
+        authorization: `Bearer ${user?.accessToken}`,
+      },
+    });
+    _socket.on('connection-status', ({ socketId, success, error }) => {
+      if (success === true) {
+        console.log(socketId);
+        setAlertsSocket(_socket);
+      } else {
+        console.error(error);
+        _socket.removeAllListeners();
+        _socket.disconnect();
+      }
+      _socket.on('disconnect', (reason) => {
+        console.log('disconnect', reason);
+      });
+    });
+  }
+
+  function listenToAlerts() {
+    alertsSocket.emit('sensor-alerts', {
+      sensors: sensorIdList,
+    });
+
+    alertsSocket.on('sensor-alert', (data: any) => {
+      toast.error(`${data.alert.macAddress} reached ${data.alert.trigger} value`);
+      setAlertsData((prevData: any) => [...prevData, data]);
+    });
+  }
+
   return (
     <>
-      {/* I don't feel like there should be a padding here changing 
-      <div className="flex items-center justify-end gap-5 pb-6 ">
-       */}
       <div className="flex items-center justify-end gap-5">
-        {/* 
-        Keep this commented code as it will be used later implementation
+        {/* Keep this commented code as it will be used later implementation
         <div
           className={` ${classNames({
             hidden: hideFilters,
@@ -64,19 +128,33 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
               />
             </div>
           ))}
-        </div> */}
-        {/* <div className="header-search">
+        </div>
+        <div className="header-search">
           <Input
             placeholder="Search"
             leftIcon={<SearchIcon className="w-[20px] mr-[10px]" />}
             className={` ${classNames({
               ' bg-white ': hideAvatar,
             })} px-[20px] py-[10px] w-[230px] border border-solid border-[#444]`}
-          /> */}
-        {/* </div> */}
-        <div
-          className={` ${classNames({ invisible: hideAvatar })} flex items-center gap-[10px] w-[138px] justify-end `}
-        >
+          />
+        </div> */}
+        <div className={` ${classNames({ invisible: hideAvatar })} flex items-center gap-4 w-[138px] justify-end `}>
+          <div className="relative" onClick={() => setShowNotificationModal(!showOpenNotificationModal)}>
+            <BellIcon className="shrink-0" />
+            {showOpenNotificationModal ? (
+              <div className="absolute h-[250px] w-[300px] left-[-110px] overflow-auto shadow-lg rounded-2xl top-10 bg-white">
+                {alertsData?.length > 0 ? (
+                  alertsData?.slice(-10)?.map((data: any) => (
+                    <p key={data?.alert?.macAddress} className="p-3">
+                      {`${data?.alert?.macAddress} reached ${data?.alert?.trigger} value. Humidity : ${data?.alert?.humidity} temperatureC: ${data?.alert?.temperatureC}`}
+                    </p>
+                  ))
+                ) : (
+                  <p className="h-full w-full flex justify-center items-center">No Notification</p>
+                )}
+              </div>
+            ) : null}
+          </div>
           <div className="bg-[#492CE1] text-white p-3 text-center w-[40px] h-[40px] rounded-[30px] flex items-center justify-center">
             <span className="text-center w-[40px]">{user?.name ? user?.name.charAt(0) : 'U'}</span>
           </div>
