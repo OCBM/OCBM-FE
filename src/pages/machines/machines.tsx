@@ -1,4 +1,5 @@
 import MachineCard from '@/components/reusable/card/machineCard';
+import { useAppSelector } from '@/hooks';
 import { MACHINE_SERVICES } from '@/services/machineServices';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -12,12 +13,13 @@ interface machineDataTypes {
 const MachinesPage = () => {
   const navigate = useNavigate();
   const [machineList, setMachineList] = useState([]);
+  const { currentPlant } = useAppSelector((state) => state.plantRegistration);
 
   useEffect(() => {
     fetchAllMachines(1);
   }, []);
   const fetchAllMachines = async (page: number) => {
-    const res = await MACHINE_SERVICES.getAllMachines(page);
+    const res = await MACHINE_SERVICES.getAllMachinesByPlantId(currentPlant, page);
     setMachineList(res?.message);
   };
 
