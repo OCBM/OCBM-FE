@@ -12,17 +12,17 @@ const ManualEntry = () => {
 
   const tabs = [
     {
-      title: 'Plant',
+      title: 'Business Unit',
       content: <Plant />,
       key: 'plant',
     },
     {
-      title: 'Shop',
+      title: 'Manufacturing Location',
       content: <Shop />,
       key: 'shop',
     },
     {
-      title: 'Machine Line',
+      title: 'Manufacturing Line',
       content: <MachineLine />,
       key: 'machine line',
     },
@@ -32,7 +32,7 @@ const ManualEntry = () => {
       key: 'machine',
     },
     {
-      title: 'Element',
+      title: 'Element / Subsystem',
       content: <Element />,
       key: 'element',
     },

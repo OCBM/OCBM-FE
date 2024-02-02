@@ -7,7 +7,9 @@ import { Table } from '@/components/reusable/table';
 import { MACHINE_LINE_SERVICES } from '@/services/machineLineServices';
 import { SHOP_SERVICES } from '@/services/shopServices';
 import { useState, useEffect } from 'react';
+import { Avatar } from 'antd';
 import { toast } from 'react-toastify';
+import { useAppSelector } from '@/hooks';
 
 const MachineLine = () => {
   type InitialStateType = {
@@ -34,7 +36,7 @@ const MachineLine = () => {
     totalPage?: number;
     total_items?: number;
   };
-
+  const { currentPlant } = useAppSelector((state) => state.plantRegistration);
   const [upload, setUpload] = useState<FileUploadStatusType>('upload');
   const [newMachineLine, setNewMachineLine] = useState<InitialStateType>(initialState);
   const [selectedMachineLine, setSelectedMachineLine] = useState<InitialStateType>(initialState);
@@ -58,7 +60,7 @@ const MachineLine = () => {
   //all machine line api fetch
   const fetchAllMachineLine = async (page: number) => {
     setIsLoading(true);
-    const res = await MACHINE_LINE_SERVICES.getAllMachineLine(page);
+    const res = await MACHINE_LINE_SERVICES.getMachineLinesByPlantId(currentPlant, page);
     setMachineLineList(res?.message);
     setIsLoading(false);
     setPaginationData(res?.meta);
@@ -69,7 +71,7 @@ const MachineLine = () => {
 
   //all shops api fetch
   const fetchAllShops = async () => {
-    const res = await SHOP_SERVICES.getAllShops();
+    const res = await SHOP_SERVICES.getAllShopsByPlantId(currentPlant);
     setShopList(res?.message);
   };
 
@@ -97,6 +99,9 @@ const MachineLine = () => {
       key: 'imageName',
       width: '20%',
       dataIndex: 'imageName',
+      render: (image: any, img: any) => {
+        return <Avatar shape="square" size={64} src={img.image} alt={image} />;
+      },
     },
     {
       title: 'Actions',

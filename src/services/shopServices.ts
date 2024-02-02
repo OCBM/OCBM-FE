@@ -17,9 +17,11 @@ export const SHOP_SERVICES = {
     }
   },
 
-  getAllShopsByPlantId: async (id: string) => {
+  getAllShopsByPlantId: async (id: string, page?: number, limit?: number, sort?: 'asc' | 'desc') => {
     try {
-      const res = await apiInstance.get(`${SERVICES.shops.get}/plantId=${id}`);
+      const res = await apiInstance.get(
+        `${SERVICES.shops.get}/plantId=${id}?page=${page || 1}&limit=${limit || 10}&sort=${sort || 'desc'}`,
+      );
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;

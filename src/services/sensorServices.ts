@@ -57,6 +57,19 @@ export const SENSOR_SERVICES = {
     }
   },
 
+  getAllSensorOcbmByPlantID: async (plantId: string, page?: number, limit?: number, sort?: 'asc' | 'desc') => {
+    try {
+      const res = await apiInstance.get(
+        `/sensor/plantId=${plantId}?page=${page || 1}&limit=${limit || 10}&sort=${sort || 'desc'}`,
+      );
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
+
   getSensorsBySensorId: async (id: string) => {
     try {
       const res = await apiInstance.get(`/sensor/sensorId=${id}`);

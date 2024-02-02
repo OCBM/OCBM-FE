@@ -4,9 +4,13 @@ import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
 import Loader from '@/components/reusable/loader';
 import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 import { Table } from '@/components/reusable/table';
+import { useAppSelector } from '@/hooks';
+import { RootState } from '@/redux/store';
 import { PLANT_SERVICES } from '@/services/plantServices';
 import { SHOP_SERVICES } from '@/services/shopServices';
+import { Avatar } from 'antd';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 export type InitialShopStateType = {
@@ -108,7 +112,8 @@ const Shop = () => {
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
   const [fileName, setFileName] = useState<string>('');
   const [imageURL, setImageURl] = useState<string>('');
-
+  const loggedUser = useSelector((state: RootState) => state.auth?.user);
+  const { currentPlant } = useAppSelector((state) => state.plantRegistration);
   // constants to store plants and shops
   const [shopList, setShopList] = useState([]);
   const [plantList, setPlantList] = useState([]);
@@ -142,7 +147,7 @@ const Shop = () => {
 
   const fetchAllShops = async (page: number) => {
     setIsLoading(true);
-    const res = await SHOP_SERVICES.getAllShops(page);
+    const res = await SHOP_SERVICES.getAllShopsByPlantId(currentPlant, page);
     setShopList(res?.message);
     setIsLoading(false);
     setPaginationData(res?.meta);
@@ -152,7 +157,7 @@ const Shop = () => {
   };
 
   const fetchAllPlants = async () => {
-    const res = await PLANT_SERVICES.getAllPlants();
+    const res = await PLANT_SERVICES.getAllPlantsbyUserid(loggedUser?.userId || '');
     setPlantList(res?.message);
   };
 
@@ -180,6 +185,9 @@ const Shop = () => {
       dataIndex: 'imageName',
       width: '20%',
       key: 'imageName',
+      render: (image: any, img: any) => {
+        return <Avatar shape="square" size={64} src={img.image} alt={image} />;
+      },
     },
     {
       title: 'Actions',

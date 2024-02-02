@@ -18,7 +18,6 @@ export const PLANT_SERVICES = {
   addPlant: async (body: any) => {
     try {
       const formData = new FormData();
-
       for (const key in body) {
         if (Object.prototype.hasOwnProperty.call(body, key)) {
           formData.append(key, body[key]);

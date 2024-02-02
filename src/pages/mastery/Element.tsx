@@ -7,7 +7,9 @@ import { ELEMENT_SERVICES } from '@/services/elementServices';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import Loader from '@/components/reusable/loader';
+import { Avatar } from 'antd';
 import PopupModal from '@/components/reusable/popupmodal/popupmodal';
+import { useAppSelector } from '@/hooks';
 
 export type DeleteElementType = {
   onCloseDeleteModal: () => void;
@@ -108,7 +110,7 @@ const Element = () => {
     machineId: '',
     elementId: '',
   };
-
+  const { currentPlant } = useAppSelector((state) => state.plantRegistration);
   // constants for file uploader
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
   const [fileName, setFileName] = useState<string>('');
@@ -144,13 +146,13 @@ const Element = () => {
   }, []);
 
   const fetchAllMachines = async () => {
-    const res = await MACHINE_SERVICES.getAllMachines();
+    const res = await MACHINE_SERVICES.getAllMachinesByPlantId(currentPlant);
     setMachineList(res?.message);
   };
 
   const fetchAllElements = async (page: number) => {
     setIsLoading(true);
-    const res = await ELEMENT_SERVICES.getAllElements(page);
+    const res = await ELEMENT_SERVICES.getAllElementsByPlantId(currentPlant, page);
     setElementList(res?.message);
     setIsLoading(false);
     setPaginationData(res?.meta);
@@ -183,6 +185,9 @@ const Element = () => {
       dataIndex: 'imageName',
       width: '20%',
       key: 'imageName',
+      render: (image: any, img: any) => {
+        return <Avatar shape="square" size={64} src={img.image} alt={image} />;
+      },
     },
     {
       title: 'Actions',

@@ -3,6 +3,7 @@ import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
 import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 import { Table } from '@/components/reusable/table';
+import { useAppSelector } from '@/hooks';
 import { ELEMENT_SERVICES } from '@/services/elementServices';
 import { SENSOR_SERVICES } from '@/services/sensorServices';
 import { Avatar } from 'antd';
@@ -28,6 +29,7 @@ const sensorInitialState = {
 };
 
 function Sensor() {
+  const { currentPlant } = useAppSelector((state) => state.plantRegistration);
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
   const [sensorList, setSensorList] = useState<any>([]);
   const [sensorData, setSensorData] = useState<any>(initialState);
@@ -148,12 +150,12 @@ function Sensor() {
   };
 
   const fetchAllElements = async () => {
-    const res = await ELEMENT_SERVICES.getAllElements();
+    const res = await ELEMENT_SERVICES.getAllElementsByPlantId(currentPlant);
     setElementList(res?.message);
   };
   const fetchAllSensorsOcbm = async (page: number) => {
     setLoading(true);
-    const res = await SENSOR_SERVICES.getAllSensorOcbm(page);
+    const res = await SENSOR_SERVICES.getAllSensorOcbmByPlantID(currentPlant, page);
     setOcbmSensorList(res?.message);
     setLoading(false);
     setPaginationData(res?.meta);
@@ -210,6 +212,17 @@ function Sensor() {
 
       <div className="flex  gap-[16px] mb-6">
         <Dropdown
+          options={elementList}
+          className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
+          placeholder="Select Element"
+          optionLabel="elementName"
+          optionValue="elementId"
+          handleChange={(element) => setSensorData({ ...sensorData, elementId: element })}
+          value={elementList?.find((data: any) => data?.elementId === sensorData.elementId)?.elementName}
+          mandatory={true}
+        />
+
+        <Dropdown
           options={sensorList}
           className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
           placeholder="Select Sensor"
@@ -224,16 +237,6 @@ function Sensor() {
           value={sensorData.sensorDescription}
           name="description"
           onChange={(e) => setSensorData({ ...sensorData, sensorDescription: e.target.value })}
-        />
-        <Dropdown
-          options={elementList}
-          className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-          placeholder="Select Element"
-          optionLabel="elementName"
-          optionValue="elementId"
-          handleChange={(element) => setSensorData({ ...sensorData, elementId: element })}
-          value={elementList?.find((data: any) => data?.elementId === sensorData.elementId)?.elementName}
-          mandatory={true}
         />
       </div>
       <div>
