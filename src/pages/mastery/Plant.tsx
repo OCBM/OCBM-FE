@@ -12,6 +12,7 @@ import { Avatar } from 'antd';
 import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import AccessManager from '@/components/accessManager';
 
 function Plant() {
   type InitialStateType = {
@@ -53,7 +54,7 @@ function Plant() {
   const [isLoading, setIsLoading] = useState(false);
   const [fileName, setFileName] = useState<string>('');
   const [imageURL, setImageURl] = useState<string>('');
-  console.log('data', data);
+
   // fetching All Plant data by organizationId
   const fetchPlantDataByOrgId = async (page: number) => {
     if (loggedUser) {
@@ -160,24 +161,28 @@ function Plant() {
       render: (_: any, data: any) => {
         return (
           <div className="flex justify-start gap-3">
-            <div
-              className="cursor-pointer"
-              onClick={() => {
-                setNewPlant(data);
-                setEditPlant(true);
-              }}
-            >
-              <PencilIcon className="w-[20px] h-[20px]" />
-            </div>
-            <div
-              className="cursor-pointer"
-              onClick={() => {
-                setShowDeleteUserModal(true);
-                setSelectedPlant(data?.plantId);
-              }}
-            >
-              <DeleteIcon className="w-[20px] h-[20px]" />
-            </div>
+            <AccessManager role={loggedUser?.role || 'USER'} category="Plant" accessNeeded="update">
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  setNewPlant(data);
+                  setEditPlant(true);
+                }}
+              >
+                <PencilIcon className="w-[20px] h-[20px]" />
+              </div>
+            </AccessManager>
+            <AccessManager role={loggedUser?.role || 'USER'} category="Plant" accessNeeded="delete">
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  setShowDeleteUserModal(true);
+                  setSelectedPlant(data?.plantId);
+                }}
+              >
+                <DeleteIcon className="w-[20px] h-[20px]" />
+              </div>
+            </AccessManager>
           </div>
         );
       },
@@ -222,52 +227,54 @@ function Plant() {
 
   return (
     <>
-      <h2 className="text-[20px] text-[#444444] leading-5 font-medium mb-8">Add Plant</h2>
-      <>
-        <div className="flex justify-start items-center gap-[16px] mb-6">
-          <Input
-            className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-            placeholder="Plant Name*"
-            type="text"
-            value={editPlant ? '' : newPlant?.plantName}
-            name="plantName"
-            onChange={handleChange}
-          />
-          <Input
-            className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-            placeholder="Plant Description*"
-            type="text"
-            name="description"
-            value={editPlant ? '' : newPlant?.description}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <FileUploader
-            className="w-[560px] py-6"
-            mastery
-            fileFormat=".jpg, .png"
-            handleFile={handleFile}
-            uploadStatus={uploadStatus}
-            fileName={editPlant ? '' : fileName}
-            image={editPlant ? '' : imageURL}
-          />
-        </div>
-        <div className="flex justify-start flex-row w-full gap-4 mt-8 mb-8">
-          <Button
-            onClick={handleClear}
-            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
-            label="Clear"
-            variant="secondary"
-          />
-          <Button
-            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
-            label="Add"
-            disabled={disablingNewPlant()}
-            onClick={createPlant}
-          />
-        </div>
-      </>
+      <AccessManager role={loggedUser?.role || 'USER'} category="Plant" accessNeeded="add">
+        <h2 className="text-[20px] text-[#444444] leading-5 font-medium mb-8">Add Plant</h2>
+        <>
+          <div className="flex justify-start items-center gap-[16px] mb-6">
+            <Input
+              className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
+              placeholder="Plant Name*"
+              type="text"
+              value={editPlant ? '' : newPlant?.plantName}
+              name="plantName"
+              onChange={handleChange}
+            />
+            <Input
+              className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
+              placeholder="Plant Description*"
+              type="text"
+              name="description"
+              value={editPlant ? '' : newPlant?.description}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <FileUploader
+              className="w-[560px] py-6"
+              mastery
+              fileFormat=".jpg, .png"
+              handleFile={handleFile}
+              uploadStatus={uploadStatus}
+              fileName={editPlant ? '' : fileName}
+              image={editPlant ? '' : imageURL}
+            />
+          </div>
+          <div className="flex justify-start flex-row w-full gap-4 mt-8 mb-8">
+            <Button
+              onClick={handleClear}
+              className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
+              label="Clear"
+              variant="secondary"
+            />
+            <Button
+              className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
+              label="Add"
+              disabled={disablingNewPlant()}
+              onClick={createPlant}
+            />
+          </div>
+        </>
+      </AccessManager>
 
       <>
         <Table

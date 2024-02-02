@@ -3,7 +3,7 @@ export interface LoggedInUserType {
   userName: string;
   name: string;
   email: string;
-  role: string;
+  role: 'ADMIN' | 'USER' | 'SUPERADMIN';
   accessToken: string;
   groups: UserGroupsType[];
 }
