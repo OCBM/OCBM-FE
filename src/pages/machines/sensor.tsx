@@ -34,7 +34,7 @@ const SensorPage = () => {
             machineName={sensorData.sensorId}
             sensorCard={true}
             key={sensorData.title}
-            handleView={() => navigate(`/machines/${sensorData?.id}/${sensorData?.subsystems}`)}
+            handleView={() => navigate(`/sensor/${sensorData?.sensorId}`, { state: { sensor: sensorData } })}
             title={sensorData.title}
             showValues={false}
             showSignals={false}

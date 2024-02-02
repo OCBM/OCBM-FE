@@ -28,6 +28,17 @@ export const ELEMENT_SERVICES = {
     }
   },
 
+  getElementByMachineIdAndElementId: async (elementId: string, machineId: string) => {
+    try {
+      const res = await apiInstance.get(`${SERVICES.element.get}/elementId=${elementId}&machineId=${machineId}`);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error?.response?.data?.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
+
   addElement: async (body: any) => {
     try {
       const formData = new FormData();

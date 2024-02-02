@@ -1,10 +1,6 @@
-//import { Config } from '@/config';
-//import axios from 'axios';
-
 import { apiInstance, iotApiInstance } from '@/lib/axios';
 import { HELPER_SERVICES } from './helperServices';
 import { toast } from 'react-toastify';
-// import iotApiInstance from '@/lib/iot_axios';
 
 export const SENSOR_SERVICES = {
   getSensorData: async (minTimestamp: string, macAddress?: string) => {
@@ -49,6 +45,40 @@ export const SENSOR_SERVICES = {
       console.log(error);
     }
   },
+
+  getSensorsByElementId: async (id: string) => {
+    try {
+      const res = await apiInstance.get(`/sensor/elementId=${id}`);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
+
+  getSensorsBySensorId: async (id: string) => {
+    try {
+      const res = await apiInstance.get(`/sensor/sensorId=${id}`);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
+
+  getSensorProperties: async (macAddress: string) => {
+    try {
+      const res = await iotApiInstance.get(`/sensor-properties/${macAddress}`);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
+
   postSensorOcbm: async (body: any) => {
     try {
       const formData = new FormData();

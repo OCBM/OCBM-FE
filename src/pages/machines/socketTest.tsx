@@ -7,9 +7,11 @@ import { format } from 'date-fns';
 import { Config } from '@/config';
 import { SENSOR_SERVICES } from '@/services/sensorServices';
 
-const SensorChart = () => {
+const SensorChart = ({ sensorId }: { sensorId: string }) => {
   const [sensorData, setSensorData] = useState<any>([]);
-  const [sensorIdList, setSensorIdList] = useState([]);
+  const [sensorProperties, setSensorProperties] = useState();
+  // const [sensorIdList, setSensorIdList] = useState([]);
+
   useEffect(() => {
     const token = getToken();
     const AUTHORIZATION = `Bearer ${token}`;
@@ -21,28 +23,38 @@ const SensorChart = () => {
     });
 
     _socket.emit('sensor-readings', {
-      sensors: sensorIdList, // sensor mac-address to listen
+      sensors: sensorId, // sensor mac-address to listen
     });
 
     _socket.on('sensor-reading', (data: any) => {
       setSensorData((prevData: any) => [...prevData, data.sensorReading]);
-      console.log(data, 'data');
     });
 
     return () => {
       _socket.disconnect();
     };
-  }, []);
-  const fetchAllSensors = async () => {
-    const res = await SENSOR_SERVICES.getAllSensor();
-    console.log(res, 'res');
-    setSensorIdList(res);
+  }, [sensorId]);
+
+  // const fetchAllSensors = async () => {
+  //   const res = await SENSOR_SERVICES.getAllSensor();
+  //   setSensorIdList(res);
+  // };
+
+  // useEffect(() => {
+  //   fetchAllSensors();
+  // }, []);
+
+  const getSensorProperties = async () => {
+    const res = await SENSOR_SERVICES.getSensorProperties(sensorId);
+    setSensorProperties(res);
   };
 
+  console.log(sensorProperties);
+
   useEffect(() => {
-    fetchAllSensors();
-  }, []);
-  console.log(sensorData, 'sensorData');
+    getSensorProperties();
+  }, [sensorId]);
+
   const [chartOptions] = useState<ApexOptions>({
     chart: {
       id: 'realtime',

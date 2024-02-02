@@ -1,15 +1,14 @@
 import { RunningIcon } from '@/assets/icons';
 import { Button } from '@/components';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { MACHINE_SERVICES } from '@/services/machineServices';
 import { ELEMENT_SERVICES } from '@/services/elementServices';
-import { Link } from 'react-router-dom';
-import { SITEMAP } from '@/utils/sitemap';
 
 const MachineInfo = () => {
   const { id } = useParams();
   const { state } = useLocation();
+  const navigate = useNavigate();
   const [machineList, setMachineList] = useState([]);
   const [machineElementList, setMachineElementList] = useState([]);
 
@@ -46,14 +45,13 @@ const MachineInfo = () => {
         </div>
         <div className="flex flex-col my-[50px] overflow-x-hidden h-[325px] webkit-scrollbar-w-5px ">
           {machineElementList?.map((element: any) => (
-            <Link to={SITEMAP?.machines?.SpindleCoolingSystem} key={element.elementId} className="w-full">
-              <button
-                key={element.elementId}
-                className="w-full py-4 px-10 text-lg font-bold tracking-[0.32px] text-[#444444] text-center border-2 border-solid border-[(rgba(68, 68, 68, 0.40))]   mr-3"
-              >
-                {element.elementName}
-              </button>
-            </Link>
+            <button
+              key={element.elementId}
+              className="w-full py-4 px-10 text-lg font-bold tracking-[0.32px] text-[#444444] text-center border-2 border-solid border-[(rgba(68, 68, 68, 0.40))] mr-3"
+              onClick={() => navigate('/machines/' + id + '/' + element?.elementId)}
+            >
+              {element.elementName}
+            </button>
           ))}
         </div>
       </div>
