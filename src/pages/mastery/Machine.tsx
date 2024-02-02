@@ -7,6 +7,7 @@ import { Table } from '@/components/reusable/table';
 import { MACHINE_LINE_SERVICES } from '@/services/machineLineServices';
 import { MACHINE_SERVICES } from '@/services/machineServices';
 import { useEffect, useState } from 'react';
+import { Avatar } from 'antd';
 import { toast } from 'react-toastify';
 
 export type DeleteMachineType = {
@@ -184,6 +185,10 @@ const Machine = () => {
       dataIndex: 'imageName',
       width: '20%',
       key: 'imageName',
+      render: (image: any, img: any) => {
+        console.log(img.image);
+        return <Avatar shape="square" size={64} src={img.image} alt={image} />;
+      },
     },
     {
       title: 'Actions',

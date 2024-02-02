@@ -3,18 +3,6 @@ import { SITEMAP } from '@/utils/sitemap';
 
 export const sideNavRoutes = [
   {
-    icon: PlantIcon,
-    title: 'Plant',
-    path: SITEMAP.plant.index,
-    key: SITEMAP.plant.index,
-  },
-  {
-    icon: MachineIcon,
-    title: 'Machines',
-    path: SITEMAP.machines.index,
-    key: SITEMAP.machines.index,
-  },
-  {
     icon: MasteryIcon,
     title: 'Mastery',
     path: SITEMAP.mastery.manualEntry,
@@ -25,6 +13,18 @@ export const sideNavRoutes = [
     title: 'Set PM Standards',
     path: SITEMAP.setStandards.index,
     key: SITEMAP.setStandards.index,
+  },
+  {
+    icon: PlantIcon,
+    title: 'Plant',
+    path: SITEMAP.plant.index,
+    key: SITEMAP.plant.index,
+  },
+  {
+    icon: MachineIcon,
+    title: 'Machines',
+    path: SITEMAP.machines.index,
+    key: SITEMAP.machines.index,
   },
   {
     icon: ReportsIcon,

@@ -7,6 +7,7 @@ import { Table } from '@/components/reusable/table';
 import { MACHINE_LINE_SERVICES } from '@/services/machineLineServices';
 import { SHOP_SERVICES } from '@/services/shopServices';
 import { useState, useEffect } from 'react';
+import { Avatar } from 'antd';
 import { toast } from 'react-toastify';
 
 const MachineLine = () => {
@@ -97,6 +98,9 @@ const MachineLine = () => {
       key: 'imageName',
       width: '20%',
       dataIndex: 'imageName',
+      render: (image: any, img: any) => {
+        return <Avatar shape="square" size={64} src={img.image} alt={image} />;
+      },
     },
     {
       title: 'Actions',

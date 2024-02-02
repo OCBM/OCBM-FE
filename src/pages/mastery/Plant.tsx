@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { MASTERY_PAGE_CONSTANTS } from '../users/constants';
 import Loader from '@/components/reusable/loader';
+import { Avatar } from 'antd';
 import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 
 function Plant() {
@@ -146,6 +147,10 @@ function Plant() {
       dataIndex: 'imageName',
       width: '20%',
       key: 'image',
+      render: (image: any, img: any) => {
+        console.log('imgurl', img.image);
+        return <Avatar shape="square" size={64} src={img.image} alt={image} />;
+      },
     },
     {
       title: 'Actions',
