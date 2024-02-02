@@ -39,6 +39,19 @@ export const MACHINE_SERVICES = {
     }
   },
 
+  getAllMachinesByPlantId: async (id: string, page?: number, limit?: number, sort?: 'asc' | 'desc') => {
+    try {
+      const res = await apiInstance.get(
+        `${SERVICES.machines.get}/plantId=${id}?page=${page || 1}&limit=${limit || 10}&sort=${sort || 'desc'}`,
+      );
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
+
   addMachine: async (body: any) => {
     try {
       const formData = new FormData();

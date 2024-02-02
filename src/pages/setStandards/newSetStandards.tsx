@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from 'react-router';
 import { SETSTANDARDS_SERVICES } from '@/services/setStandardsServices';
 import { toast } from 'react-toastify';
 import { MACHINE_SERVICES } from '@/services/machineServices';
+import { PLANT_SERVICES } from '@/services/plantServices';
 
 export type InitialSetstandardStateType = {
   machineId: any;
@@ -35,16 +36,18 @@ const NewSetStandard = () => {
       fetch();
     }
   }, []);
+  const plantId = 'd977c8f7-1028-4be1-a98b-75ab6b74b617';
 
   //fetching machines using machine-id
   const fetch = async () => {
-    const res = await MACHINE_SERVICES.getAllMachines(1, 1000);
-    console.log(res.message);
+    const res = await MACHINE_SERVICES.getAllMachinesByPlantId(plantId, 1, 1000);
+    console.log(res.message, 'resr');
     setdropdownData(res.message);
   };
 
   const fetchMachine = async (id: any) => {
     const res = await MACHINE_SERVICES.getAllMachinesByMachineId(id);
+
     console.log(res.message);
     setMachineList(res.message);
   };
@@ -147,7 +150,6 @@ const NewSetStandard = () => {
     }
     setMachineList(machineData);
   };
-  console.log('object1233', machineList);
   //disable button
   const disablingSetStandards = () => {
     if (state) {
@@ -346,7 +348,7 @@ const NewSetStandard = () => {
               <Input
                 type="string"
                 name="interval"
-                placeholder="8hr"
+                placeholder="Min"
                 value={data.interval || ''}
                 onChange={(event) => handleIntervalInputChange(event, 'interval', data)}
               />

@@ -234,7 +234,6 @@ const SetStandardList = () => {
           onClick={() => navigate(SITEMAP.setStandards.NewSetStandards)}
         />
       </div>
-      {console.log('div', setStandardlist)}
       <Table
         className="set-table"
         columns={columns}
