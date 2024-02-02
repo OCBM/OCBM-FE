@@ -228,7 +228,7 @@ function Plant() {
   return (
     <>
       <AccessManager role={loggedUser?.role || 'USER'} category="Plant" accessNeeded="add">
-        <h2 className="text-[20px] text-[#444444] leading-5 font-medium mb-8">Add Plant</h2>
+        <h2 className="text-[20px] text-[#444444] leading-5 font-medium mb-8">Add Business Unit</h2>
         <>
           <div className="flex justify-start items-center gap-[16px] mb-6">
             <Input

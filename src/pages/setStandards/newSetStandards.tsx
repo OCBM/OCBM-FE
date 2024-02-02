@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from 'react-router';
 import { SETSTANDARDS_SERVICES } from '@/services/setStandardsServices';
 import { toast } from 'react-toastify';
 import { MACHINE_SERVICES } from '@/services/machineServices';
+import { useAppSelector } from '@/hooks/redux';
 
 export type InitialSetstandardStateType = {
   machineId: any;
@@ -17,6 +18,7 @@ const NewSetStandard = () => {
   const initialState = {
     machineId: '',
   };
+  const { currentPlant } = useAppSelector((state) => state.plantRegistration);
 
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -35,7 +37,7 @@ const NewSetStandard = () => {
       fetch();
     }
   }, []);
-  const plantId = 'd977c8f7-1028-4be1-a98b-75ab6b74b617';
+  const plantId = currentPlant;
 
   //fetching machines using machine-id
   const fetch = async () => {

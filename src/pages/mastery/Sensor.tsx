@@ -87,26 +87,19 @@ function Sensor() {
 
   const columns = [
     {
-      title: 'Sensor Name',
+      title: 'Sensor ID',
       dataIndex: 'sensorId',
       key: 'sensorName',
     },
     {
       title: 'Sensor Description',
       dataIndex: 'sensorDescription',
-      width: '20%',
+
       key: 'description',
-    },
-    {
-      title: 'Sensor ID',
-      dataIndex: 'elementId',
-      width: '30%',
-      key: 'elementId',
     },
     {
       title: 'Image',
       dataIndex: 'image',
-      width: '20%',
       key: 'image',
       render: (image: any) => {
         return <Avatar shape="square" size={64} src={image} />;
@@ -115,7 +108,6 @@ function Sensor() {
     {
       title: 'Actions',
       dataIndex: 'actions',
-      width: '10%',
       key: 'actions',
       render: (_: any, data: any) => {
         return (

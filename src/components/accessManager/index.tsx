@@ -3,7 +3,7 @@ import { JSX } from 'react';
 
 type AccessManagerProps = {
   role: 'ADMIN' | 'SUPERADMIN' | 'USER';
-  category: 'Plant' | 'Machines' | 'Reports' | 'Mastery' | 'Set Standards' | 'User';
+  category: 'Plant' | 'Machines' | 'Reports' | 'Mastery' | 'Set PM Standards' | 'User';
   children: string | JSX.Element | JSX.Element[];
   accessNeeded: 'read' | 'update' | 'delete' | 'add';
 };

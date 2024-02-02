@@ -27,17 +27,15 @@ const SetStandardList = () => {
   const [showDeleteUserModal, setShowDeleteUserModal] = useState<boolean>(false);
   const [selectedStandard, setSelectedStandard] = useState<string>('');
   const loggedUser = useAppSelector((state) => state.auth?.user);
-  // To get userId
-  // const user = useAppSelector((state) => state.auth.user);
-  // const UserID = user?.userId;
-  const plantId = 'd977c8f7-1028-4be1-a98b-75ab6b74b617';
+  const { currentPlant } = useAppSelector((state) => state.plantRegistration);
 
-  // To Get Two API in one Variable
+  // To get plantId
+  const plantId = currentPlant;
+  console.log('plID', plantId);
+
+  // To Get all plants using plantId
   useEffect(() => {
     const fullData = async () => {
-      // const getPlantId = await PLANT_SERVICES.getAllPlantByUserId(UserID);
-      // console.log(getPlantId.message[0].plantId, 'plant');
-      // const plantId = getPlantId.message[0].plantId;
       const details = await PLANT_SERVICES.getAllPlantsSets(plantId);
       console.log('updated', details);
 
@@ -221,7 +219,7 @@ const SetStandardList = () => {
       },
     },
   ];
-  const userAccess = accessRules[loggedUser?.role || 'USER']['Set Standards'].includes('add');
+  const userAccess = accessRules[loggedUser?.role || 'USER']['Set PM Standards'].includes('add');
 
   return (
     <>

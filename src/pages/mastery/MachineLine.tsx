@@ -233,7 +233,7 @@ const MachineLine = () => {
 
   return (
     <div>
-      <p className="text-xl text-[#444] font-medium leading-5 mb-8">Add Machine Line</p>
+      <p className="text-xl text-[#444] font-medium leading-5 mb-8">Add Manufacturing Line</p>
       <div className="flex items-center gap-[16px] mb-6">
         <Input
           placeholder="Machine line Name"
