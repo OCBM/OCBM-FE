@@ -3,13 +3,32 @@ import Charts from './Charts';
 import Spindle from '../../assets/images/spindle.png';
 import BackIcon from '../../assets/images/back.png';
 import { OperatingRange, ReportIcon, SquareIcon, ThresholdValue } from '@/assets/icons';
-import { graphData } from '../../utils/ChartMockdata';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ELEMENT_SERVICES } from '@/services/elementServices';
+import { useEffect, useState } from 'react';
+import { SENSOR_SERVICES } from '@/services/sensorServices';
 
-function SpindleCoolingSystem() {
-  // ade76fad-ada9-4e57-9f13-36b7704cba21
+function ElementInfo() {
   const navigate = useNavigate();
-  console.log(graphData, 'graph');
+  const { machineId, id } = useParams();
+  const [elementData, setElementData] = useState<any>();
+  const [sensorData, setSensorData] = useState<any>([]);
+
+  const fetchElement = async () => {
+    const res = await ELEMENT_SERVICES.getElementByMachineIdAndElementId(id as string, machineId as string);
+    setElementData(res);
+  };
+
+  const fetchSensors = async () => {
+    const res = await SENSOR_SERVICES.getSensorsByElementId(id as string);
+    setSensorData(res?.message);
+  };
+
+  useEffect(() => {
+    fetchElement();
+    fetchSensors();
+  }, [id, machineId]);
+
   return (
     <div className="shadow-[0px_4px_20px_0px_#0000000F] border-[1px] border-[#44444440] rounded-[16px] p-[24px] ">
       <div className="flex justify-between mb-8 items-center">
@@ -24,7 +43,7 @@ function SpindleCoolingSystem() {
         </div>
         <div className="flex gap-[10px] justify-start items-center">
           <img className="" src={Spindle} alt="Spindle" />
-          <h2 className="font-bold text-[24px]">Spindle Cooling System</h2>
+          <h2 className="font-bold text-[24px]">{elementData?.elementName}</h2>
           <ReportIcon className="w-[24px]" />
         </div>
         <div className="w-[360px] flex gap-[10px] items-center flex-wrap h-fit justify-center">
@@ -41,10 +60,10 @@ function SpindleCoolingSystem() {
         </div>
       </div>
       <div className="flex gap-2 flex-wrap ">
-        {graphData.map((item) => (
-          <div key={item.id} className="w-[33%]">
+        {sensorData?.map((sensor: any) => (
+          <div key={sensor.sensor_Id} className="w-[33%]">
             <Card tag="high" className="w-full shadow-lg h-full bg-white p-[15px] rounded-[9px]">
-              <Charts item={item} />
+              <Charts item={sensor} />
             </Card>
           </div>
         ))}
@@ -52,4 +71,4 @@ function SpindleCoolingSystem() {
     </div>
   );
 }
-export default SpindleCoolingSystem;
+export default ElementInfo;

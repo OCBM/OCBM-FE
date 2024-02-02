@@ -37,7 +37,7 @@ function Input({
           onChange={onChange}
           className={`${inputClassName} w-full outline-none mx-1 bg-transparent`}
         />
-        {rightIcon}
+        <span className="absolute right-3">{rightIcon}</span>
       </div>
     </div>
   );

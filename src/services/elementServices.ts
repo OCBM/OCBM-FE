@@ -16,10 +16,33 @@ export const ELEMENT_SERVICES = {
       console.log(error);
     }
   },
+  getAllElementsByPlantId: async (plantId: string, page?: number, limit?: number, sort?: 'asc' | 'desc') => {
+    try {
+      const res = await apiInstance.get(
+        `${SERVICES.element.get}/plantId=${plantId}?page=${page || 1}&limit=${limit || 10}&sort=${sort || 'desc'}`,
+      );
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error?.response?.data?.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
 
   getElementsByMachineId: async (id: string) => {
     try {
       const res = await apiInstance.get(`${SERVICES.element.get}/machineId=${id}`);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error?.response?.data?.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
+
+  getElementByMachineIdAndElementId: async (elementId: string, machineId: string) => {
+    try {
+      const res = await apiInstance.get(`${SERVICES.element.get}/elementId=${elementId}&machineId=${machineId}`);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error?.response?.data?.message) || error?.message;

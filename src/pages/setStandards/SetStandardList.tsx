@@ -8,7 +8,8 @@ import { useEffect, useState } from 'react';
 import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 import { toast } from 'react-toastify';
 import { PLANT_SERVICES } from '@/services/plantServices';
-// import { useAppSelector } from '@/hooks';
+import { useAppSelector } from '@/hooks';
+import { accessRules } from '@/utils/accessibilityConstants';
 
 export type updatedData = {
   sensor: any;
@@ -25,7 +26,7 @@ const SetStandardList = () => {
   const [setStandardlist, setSetStandardList] = useState<any>([]);
   const [showDeleteUserModal, setShowDeleteUserModal] = useState<boolean>(false);
   const [selectedStandard, setSelectedStandard] = useState<string>('');
-
+  const loggedUser = useAppSelector((state) => state.auth?.user);
   // To get userId
   // const user = useAppSelector((state) => state.auth.user);
   // const UserID = user?.userId;
@@ -220,6 +221,7 @@ const SetStandardList = () => {
       },
     },
   ];
+  const userAccess = accessRules[loggedUser?.role || 'USER']['Set Standards'].includes('add');
 
   return (
     <>
@@ -231,6 +233,7 @@ const SetStandardList = () => {
           label="+ Create Standards"
           type="button"
           variant="primary"
+          disabled={!userAccess}
           onClick={() => navigate(SITEMAP.setStandards.NewSetStandards)}
         />
       </div>

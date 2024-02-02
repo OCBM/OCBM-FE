@@ -16,6 +16,18 @@ export const MACHINE_SERVICES = {
       console.log(error);
     }
   },
+  getAllMachinesByPlantId: async (plantId: string, page?: number, limit?: number, sort?: 'asc' | 'desc') => {
+    try {
+      const res = await apiInstance.get(
+        `${SERVICES.machines.get}/plantId=${plantId}?page=${page || 1}&limit=${limit || 10}&sort=${sort || 'desc'}`,
+      );
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
 
   getAllMachinesByMachineLineId: async (id: string) => {
     try {

@@ -7,7 +7,9 @@ import { Table } from '@/components/reusable/table';
 import { MACHINE_LINE_SERVICES } from '@/services/machineLineServices';
 import { MACHINE_SERVICES } from '@/services/machineServices';
 import { useEffect, useState } from 'react';
+import { Avatar } from 'antd';
 import { toast } from 'react-toastify';
+import { useAppSelector } from '@/hooks';
 
 export type DeleteMachineType = {
   onCloseDeleteModal: () => void;
@@ -30,6 +32,7 @@ type InitialMachineStateType = {
   machineDescription: string;
   machineLineId: string;
   machineId: string;
+  machineNumber: string;
 };
 
 type PaginationDataType = {
@@ -107,8 +110,9 @@ const Machine = () => {
     machineDescription: '',
     machineLineId: '',
     machineId: '',
+    machineNumber: '',
   };
-
+  const { currentPlant } = useAppSelector((state) => state.plantRegistration);
   // constants for file uploader
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
   const [fileName, setFileName] = useState<string>('');
@@ -146,7 +150,7 @@ const Machine = () => {
 
   const fetchAllMachines = async (page: number) => {
     setIsLoading(true);
-    const res = await MACHINE_SERVICES.getAllMachines(page);
+    const res = await MACHINE_SERVICES.getAllMachinesByPlantId(currentPlant, page);
     setMachineList(res?.message);
     setIsLoading(false);
     setPaginationData(res?.meta);
@@ -156,7 +160,7 @@ const Machine = () => {
   };
 
   const fetchAllMachineLines = async () => {
-    const res = await MACHINE_LINE_SERVICES.getAllMachineLine();
+    const res = await MACHINE_LINE_SERVICES.getMachineLinesByPlantId(currentPlant);
     setMachineLineList(res?.message);
   };
 
@@ -166,6 +170,11 @@ const Machine = () => {
       title: 'Machine Name',
       dataIndex: 'machineName',
       key: 'machineName',
+    },
+    {
+      title: 'Machine Number',
+      dataIndex: 'machineNumber',
+      key: 'machineNumber',
     },
     {
       title: 'Machine Description',
@@ -184,6 +193,10 @@ const Machine = () => {
       dataIndex: 'imageName',
       width: '20%',
       key: 'imageName',
+      render: (image: any, img: any) => {
+        console.log(img.image);
+        return <Avatar shape="square" size={64} src={img.image} alt={image} />;
+      },
     },
     {
       title: 'Actions',
@@ -258,6 +271,7 @@ const Machine = () => {
       imageName: newMachine.imageName,
       machineDescription: newMachine.machineDescription,
       machineLineId: newMachine?.machineLineId,
+      machineNumber: newMachine?.machineNumber,
     };
 
     const res = await MACHINE_SERVICES.addMachine(body);
@@ -289,6 +303,7 @@ const Machine = () => {
         machineDescription: newMachine?.machineDescription,
         image: newMachine?.image,
         imageName: newMachine?.imageName,
+        machineNumber: newMachine?.machineNumber,
       };
       const res = await MACHINE_SERVICES.updateMachineById(newMachine?.machineLineId, newMachine?.machineId, body);
       if (res.statusCode === 200) {
@@ -330,6 +345,15 @@ const Machine = () => {
           type="text"
           name="machineName"
           value={showEditModal ? '' : newMachine.machineName}
+          mandatory={true}
+        />
+        <Input
+          placeholder="Machine Number"
+          className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
+          onChange={handleChange}
+          type="text"
+          name="machineNumber"
+          value={showEditModal ? '' : newMachine.machineNumber}
           mandatory={true}
         />
         <Input
