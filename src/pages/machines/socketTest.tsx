@@ -10,7 +10,7 @@ import { Select } from 'antd';
 
 const SensorChart = ({ sensorId }: { sensorId: string }) => {
   const [sensorData, setSensorData] = useState<any>([]);
-  const [sensorProperties, setSensorProperties] = useState();
+  const [sensorProperties, setSensorProperties] = useState<any>();
   const [selectedDuration, setSelectedDuration] = useState('live');
   // const [sensorIdList, setSensorIdList] = useState([]);
 
@@ -79,70 +79,16 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
         enabled: false,
       },
     },
-    annotations: {
-      yaxis: [
-        {
-          y: 10,
-          borderColor: '#00E396',
-          label: {
-            borderColor: '#00E396',
-            style: {
-              color: '#fff',
-              background: '#00E396',
-            },
-            text: 'Support',
-          },
-        },
-        {
-          y: 40,
-          y2: 60,
-          borderColor: '#000',
-          fillColor: '#A299D2',
-          opacity: 0.3,
-          strokeDashArray: 10,
-          label: {
-            borderColor: '#333',
-            style: {
-              fontSize: '10px',
-              color: '#333',
-              background: '#FEB019',
-            },
-            text: 'Y-axis range',
-          },
-        },
-      ],
+    grid: {
+      show: false,
     },
     dataLabels: {
       enabled: false,
-      offsetY: 30,
     },
     stroke: {
       width: 4,
       curve: 'smooth',
-      colors: ['#66bb6a'],
-    },
-    fill: {
-      type: 'gradient',
-      gradient: {
-        type: 'vertical',
-        colorStops: [
-          {
-            offset: 30,
-            color: '#66bb6a',
-            opacity: 1,
-          },
-          {
-            offset: 40,
-            color: '#FF0000',
-            opacity: 1,
-          },
-          {
-            offset: 60,
-            color: ' #66bb6a',
-            opacity: 1,
-          },
-        ],
-      },
+      // colors: ['#66bb6a'],
     },
     markers: {
       size: 0,
@@ -159,6 +105,14 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
   const [temperatureChartOptions, setTemperatureChartOptions] = useState<ApexOptions>(chartInitialConfig);
   const [humidityChartOptions, setHumidityChartOptions] = useState<ApexOptions>(chartInitialConfig);
 
+  const getYaxisIndexPosition = (min: number, max: number, incrementValue: number, value: number) => {
+    const arr: any = [];
+    for (let i = min; i <= max + incrementValue; i += incrementValue) {
+      arr.push(i);
+    }
+    return arr?.indexOf(value);
+  };
+
   useEffect(() => {
     setTemperatureChartOptions({
       ...chartInitialConfig,
@@ -171,41 +125,83 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
           enabled: selectedDuration !== 'live',
         },
       },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          type: 'vertical',
+          colorStops: [
+            {
+              offset: 10,
+              color: '#14A87B',
+              opacity: 1,
+            },
+            {
+              offset: 30,
+              color: ' #FA4C4C',
+              opacity: 1,
+            },
+          ],
+        },
+      },
+      annotations: {
+        yaxis: [
+          {
+            y: sensorProperties?.minThresholdValue,
+            borderColor: '#A299D2',
+            opacity: 1,
+            strokeDashArray: 10,
+            label: {
+              borderColor: 'none',
+              style: {
+                fontSize: '10px',
+                color: '#A299D2',
+                background: 'none',
+              },
+              text: `${sensorProperties?.minThresholdValue} °C`,
+            },
+          },
+          {
+            y: sensorProperties?.maxThresholdValue,
+            borderColor: '#A299D2',
+            opacity: 1,
+            strokeDashArray: 10,
+            label: {
+              borderColor: 'none',
+              style: {
+                fontSize: '10px',
+                color: '#A299D2',
+                background: 'none',
+              },
+              text: `${sensorProperties?.maxThresholdValue} °C`,
+            },
+          },
+        ],
+      },
       yaxis: [
         {
-          max: 100,
+          stepSize: 20,
           min: 0,
+          max: 100,
           axisTicks: {
-            show: true,
+            show: false,
           },
           axisBorder: {
-            show: true,
-            color: '#FF1654',
+            show: false,
           },
           labels: {
-            formatter: function (value: any) {
+            formatter: function (value: any, option: any) {
+              if (option?.w?.config?.yaxis?.[0]?.labels?.style?.colors?.[0]) {
+                const pos = getYaxisIndexPosition(0, 100, 20, value);
+                if (value < sensorProperties?.minThresholdValue || value > sensorProperties?.maxThresholdValue) {
+                  option.w.config.yaxis[0].labels.style.colors[pos] = '#FA4C4C';
+                } else {
+                  option.w.config.yaxis[0].labels.style.colors[pos] = '#14A87B';
+                }
+              }
               return parseInt(value) + ' °C';
             },
             style: {
-              colors: '#FF1654',
-            },
-          },
-        },
-        {
-          opposite: true,
-          axisTicks: {
-            show: true,
-          },
-          axisBorder: {
-            show: true,
-            color: '#A299D2',
-          },
-          labels: {
-            formatter: function (value: any) {
-              return parseInt(value) + ' °C';
-            },
-            style: {
-              colors: '#A299D2',
+              colors: ['#14A87B'],
             },
           },
         },
@@ -222,50 +218,92 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
           enabled: selectedDuration !== 'live',
         },
       },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          type: 'vertical',
+          colorStops: [
+            {
+              offset: 10,
+              color: '#14A87B',
+              opacity: 1,
+            },
+            {
+              offset: 30,
+              color: ' #FA4C4C',
+              opacity: 1,
+            },
+          ],
+        },
+      },
+      annotations: {
+        yaxis: [
+          {
+            y: sensorProperties?.minThresholdValue,
+            borderColor: '#A299D2',
+            opacity: 1,
+            strokeDashArray: 10,
+            label: {
+              borderColor: 'none',
+              style: {
+                fontSize: '10px',
+                color: '#A299D2',
+                background: 'none',
+              },
+              text: `${sensorProperties?.minThresholdValue} Bar`,
+            },
+          },
+          {
+            y: sensorProperties?.maxThresholdValue,
+            borderColor: '#A299D2',
+            opacity: 1,
+            strokeDashArray: 10,
+            label: {
+              borderColor: 'none',
+              style: {
+                fontSize: '10px',
+                color: '#A299D2',
+                background: 'none',
+              },
+              text: `${sensorProperties?.maxThresholdValue} Bar`,
+            },
+          },
+        ],
+      },
       yaxis: [
         {
-          max: 100,
+          stepSize: 20,
           min: 0,
+          max: 100,
           axisTicks: {
-            show: true,
+            show: false,
           },
           axisBorder: {
-            show: true,
-            color: '#FF1654',
+            show: false,
           },
           labels: {
-            formatter: function (value: any) {
+            formatter: function (value: any, option: any) {
+              if (option?.w?.config?.yaxis?.[0]?.labels?.style?.colors?.[0]) {
+                const pos = getYaxisIndexPosition(0, 100, 20, value);
+                if (value < sensorProperties?.minThresholdValue || value > sensorProperties?.maxThresholdValue) {
+                  option.w.config.yaxis[0].labels.style.colors[pos] = '#FA4C4C';
+                } else {
+                  option.w.config.yaxis[0].labels.style.colors[pos] = '#14A87B';
+                }
+              }
               return parseInt(value) + ' Bar';
             },
             style: {
-              colors: '#FF1654',
-            },
-          },
-        },
-        {
-          opposite: true,
-          axisTicks: {
-            show: true,
-          },
-          axisBorder: {
-            show: true,
-            color: '#A299D2',
-          },
-          labels: {
-            formatter: function (value: any) {
-              return parseInt(value) + ' Bar';
-            },
-            style: {
-              colors: '#A299D2',
+              colors: ['#14A87B'],
             },
           },
         },
       ],
     });
-  }, [selectedDuration, sensorData]);
+  }, [selectedDuration, sensorData, sensorProperties]);
 
   return (
-    <div>
+    <div className="w-full h-full">
       <div className="flex gap-3">
         <Select
           style={{ width: 150 }}
@@ -294,43 +332,48 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
             },
           ]}
           onSelect={(value) => {
+            setSensorData([]);
             setSelectedDuration(value);
           }}
         />
       </div>
-      <div id="chart" className="flex gap-6 flex-wrap">
-        <Chart
-          options={temperatureChartOptions}
-          series={[
-            {
-              name: 'Temperature',
-              data: sensorData?.map((sensor: any) => ({
-                x: new Date(sensor?.msgTimeStamp)?.getTime(),
-                y: parseInt(sensor?.temperatureC),
-              })),
-            },
-          ]}
-          type="line"
-          height={350}
-          width={700}
-        />
-        <Chart
-          options={humidityChartOptions}
-          series={[
-            {
-              name: 'Humidity',
-              data: sensorData?.map((sensor: any) => ({
-                x: new Date(sensor?.msgTimeStamp)?.getTime(),
-                y: parseInt(sensor?.humidity),
-              })),
-            },
-          ]}
-          type="line"
-          height={350}
-          width={700}
-        />
+      <div id="chart" className="flex gap-6 flex-wrap mt-3 w-full">
+        <div className="w-[48%]">
+          <h1 className="uppercase text-[#444444] text-[18px] font-medium mb-2">Temperature</h1>
+          <Chart
+            options={temperatureChartOptions}
+            series={[
+              {
+                name: 'Temperature',
+                data: sensorData?.map((sensor: any) => ({
+                  x: new Date(sensor?.msgTimeStamp)?.getTime(),
+                  y: parseInt(sensor?.temperatureC),
+                })),
+              },
+            ]}
+            type="line"
+            height={350}
+          />
+        </div>
+        <div className="w-[48%]">
+          <h1 className="uppercase text-[#444444] text-[18px] font-medium mb-2">Humidity</h1>
+          <Chart
+            options={humidityChartOptions}
+            series={[
+              {
+                name: 'Humidity',
+                data: sensorData?.map((sensor: any) => ({
+                  x: new Date(sensor?.msgTimeStamp)?.getTime(),
+                  y: parseInt(sensor?.humidity),
+                })),
+              },
+            ]}
+            type="line"
+            height={350}
+          />
+        </div>
       </div>
-      <div id="html-dist"></div>
+      <div id="html-dist" />
     </div>
   );
 };

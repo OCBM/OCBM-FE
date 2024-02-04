@@ -9,8 +9,7 @@ const Charts = ({ item }: any) => {
     <div className="w-full h-auto">
       <div className="flex justify-between w-full gap-4">
         <div className="w-auto">
-          <h1 className="uppercase text-[#444444] text-[18px] font-medium mb-5">{item?.sensorId}</h1>
-          <h1 className="uppercase text-[#444444] text-[18px] font-medium mb-5">{item?.sensorDescription}</h1>
+          <h1 className="uppercase text-[#444444] text-[18px] font-medium mb-2">{item?.sensorId}</h1>
         </div>
         <div className="flex flex-col items-end gap-[3px]">
           <SquareIcon active critical className="w-[20px]" />

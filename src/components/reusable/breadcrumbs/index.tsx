@@ -36,7 +36,11 @@ function Breadcrumbs({ className, crumbs }: BreadcrumbsType) {
     const index = crumbs?.indexOf(data);
     let path: string | undefined = '';
     if (index !== -1 && index !== undefined) {
-      path = crumbs?.slice(0, index + 1).join('/');
+      if (crumbs?.slice(0, index + 1)?.[0] === 'sensor') {
+        path = 'machines/';
+      } else {
+        path = crumbs?.slice(0, index + 1).join('/');
+      }
     } else {
       path = '/';
     }

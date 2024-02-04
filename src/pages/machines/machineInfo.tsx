@@ -1,21 +1,19 @@
 import { RunningIcon } from '@/assets/icons';
 import { Button } from '@/components';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { MACHINE_SERVICES } from '@/services/machineServices';
 import { ELEMENT_SERVICES } from '@/services/elementServices';
 
 const MachineInfo = () => {
   const { id } = useParams();
-  const { state } = useLocation();
   const navigate = useNavigate();
   const [machineList, setMachineList] = useState([]);
   const [machineElementList, setMachineElementList] = useState([]);
-
   useEffect(() => {
     fetchAllMachines(1);
-    fetchElementsByMachineId(state);
-  }, []);
+    fetchElementsByMachineId(id);
+  }, [id]);
 
   const fetchElementsByMachineId = async (id: any) => {
     const res = await ELEMENT_SERVICES.getElementsByMachineId(id);
