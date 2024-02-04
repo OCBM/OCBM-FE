@@ -178,6 +178,7 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
           {
             y: sensorProperties?.minOperatingRange,
             borderColor: '#A299D2',
+            strokeDashArray: 0,
             opacity: 1,
             label: {
               borderColor: 'none',
@@ -192,6 +193,7 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
           {
             y: sensorProperties?.maxOperatingRange,
             borderColor: '#A299D2',
+            strokeDashArray: 0,
             opacity: 1,
             label: {
               borderColor: 'none',
@@ -294,6 +296,36 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
                 background: 'none',
               },
               text: `${sensorProperties?.maxThresholdValue} Bar`,
+            },
+          },
+          {
+            y: sensorProperties?.minOperatingRange,
+            borderColor: '#A299D2',
+            strokeDashArray: 0,
+            opacity: 1,
+            label: {
+              borderColor: 'none',
+              style: {
+                fontSize: '10px',
+                color: '#A299D2',
+                background: 'none',
+              },
+              text: `${sensorProperties?.minOperatingRange} °C`,
+            },
+          },
+          {
+            y: sensorProperties?.maxOperatingRange,
+            borderColor: '#A299D2',
+            strokeDashArray: 0,
+            opacity: 1,
+            label: {
+              borderColor: 'none',
+              style: {
+                fontSize: '10px',
+                color: '#A299D2',
+                background: 'none',
+              },
+              text: `${sensorProperties?.maxOperatingRange} °C`,
             },
           },
         ],
