@@ -23,7 +23,6 @@ const NewSetStandard = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [machineList, setMachineList] = useState<any[]>([]);
-  console.log(machineList, 'machine');
   const [newSetstandards, setNewSetstandards] = useState<InitialSetstandardStateType>(initialState);
   const [dropdownData, setdropdownData] = useState([]);
 
@@ -36,20 +35,18 @@ const NewSetStandard = () => {
     } else {
       fetch();
     }
-  }, []);
-  const plantId = currentPlant;
+  }, [currentPlant]);
 
   //fetching machines using machine-id
   const fetch = async () => {
-    const res = await MACHINE_SERVICES.getAllMachinesByPlantId(plantId, 1, 1000);
-    console.log(res.message, 'resr');
-    setdropdownData(res.message);
+    if (currentPlant) {
+      const res = await MACHINE_SERVICES.getAllMachinesByPlantId(currentPlant, 1, 1000);
+      setdropdownData(res.message);
+    }
   };
 
   const fetchMachine = async (id: any) => {
     const res = await MACHINE_SERVICES.getAllMachinesByMachineId(id);
-
-    console.log(res.message);
     setMachineList(res.message);
   };
 
@@ -98,7 +95,7 @@ const NewSetStandard = () => {
             },
           };
         });
-      console.log(body, 'body');
+
       const create_setstandards = await SETSTANDARDS_SERVICES.addSetstandardsBulk({ data: body });
       if (create_setstandards) {
         toast.success('setstandard added successfully');
@@ -165,6 +162,7 @@ const NewSetStandard = () => {
         data?.interval &&
         data?.trigger
       ) {
+        return false;
       } else {
         return true;
       }
@@ -182,6 +180,7 @@ const NewSetStandard = () => {
             machine.interval &&
             machine.trigger
           ) {
+            return false;
           } else {
             return true;
           }
@@ -194,11 +193,12 @@ const NewSetStandard = () => {
   const columns: any = [
     {
       title: 'Machine Number',
-      key: 'machinenName',
-      dataIndex: 'machineName',
+      key: 'machineNumber',
+      dataIndex: 'machineNumber',
       width: '10%',
       align: 'center',
       render: (_: any, data: any) => {
+        console.log('data', data);
         return (
           <div className="flex justify-center gap-3 ">
             {!state ? (
@@ -208,11 +208,11 @@ const NewSetStandard = () => {
                   stroke="white"
                   checked={data.isChecked}
                   onChange={(event) => handleMachineChange(event, 'isChecked', data)}
-                  label={data?.machine}
+                  label={data?.machineNumber}
                 />
               </div>
             ) : (
-              <div>{data?.machine}</div>
+              <div>{data?.machineNumber}</div>
             )}
           </div>
         );

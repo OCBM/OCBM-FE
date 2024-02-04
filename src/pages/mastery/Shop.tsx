@@ -1,16 +1,13 @@
 import { DeleteIcon, PencilIcon, QuestionMarkIcon, ChevronCancelIcon, ChevronSuccessIcon } from '@/assets/icons';
-import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
+import { Button, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
 import Loader from '@/components/reusable/loader';
 import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 import { Table } from '@/components/reusable/table';
 import { useAppSelector } from '@/hooks';
-import { RootState } from '@/redux/store';
-import { PLANT_SERVICES } from '@/services/plantServices';
 import { SHOP_SERVICES } from '@/services/shopServices';
 import { Avatar } from 'antd';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 export type InitialShopStateType = {
@@ -112,11 +109,9 @@ const Shop = () => {
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
   const [fileName, setFileName] = useState<string>('');
   const [imageURL, setImageURl] = useState<string>('');
-  const loggedUser = useSelector((state: RootState) => state.auth?.user);
   const { currentPlant } = useAppSelector((state) => state.plantRegistration);
   // constants to store plants and shops
   const [shopList, setShopList] = useState([]);
-  const [plantList, setPlantList] = useState([]);
 
   // constants to store new shop details
   const [newShop, setNewShop] = useState<InitialShopStateType>(initialState);
@@ -141,7 +136,6 @@ const Shop = () => {
 
   /* To get plants and shops */
   useEffect(() => {
-    fetchAllPlants();
     fetchAllShops(1);
   }, []);
 
@@ -156,10 +150,10 @@ const Shop = () => {
     }
   };
 
-  const fetchAllPlants = async () => {
-    const res = await PLANT_SERVICES.getAllPlantsbyUserid(loggedUser?.userId || '');
-    setPlantList(res?.message);
-  };
+  // const fetchAllPlants = async () => {
+  //   const res = await PLANT_SERVICES.getAllPlantsbyUserid(loggedUser?.userId || '');
+  //   setPlantList(res?.message);
+  // };
 
   /* Columns and Data for table */
   const columns = [
@@ -261,7 +255,7 @@ const Shop = () => {
       image: newShop.image,
       imageName: newShop.imageName,
       description: newShop.description,
-      plantId: newShop?.plantId,
+      plantId: currentPlant,
     };
 
     const res = await SHOP_SERVICES.addShop(body);
@@ -277,7 +271,7 @@ const Shop = () => {
   /* functions for buttons */
   // Add button functionalities
   const disablingAdd = () => {
-    return newShop.shopName && newShop.plantId && newShop.image ? false : true;
+    return newShop.shopName && currentPlant && newShop.image ? false : true;
   };
 
   // Clear button functionalities
@@ -349,7 +343,7 @@ const Shop = () => {
           value={showEditModal ? '' : newShop.description}
           mandatory={true}
         />
-        <Dropdown
+        {/* <Dropdown
           placeholder="Select Plant"
           className="w-[270px] border-[1px] border-solid border-[#A9A9A9] rounded-[50px] py-4 px-5 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           options={plantList}
@@ -359,7 +353,7 @@ const Shop = () => {
           }}
           value={showEditModal ? '' : plantList?.find((plant: any) => plant?.plantId === newShop?.plantId)}
           mandatory={true}
-        />
+        /> */}
       </div>
 
       {/* We can add shop images using uploader */}

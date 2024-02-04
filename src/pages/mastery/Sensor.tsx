@@ -44,6 +44,7 @@ function Sensor() {
   const [showDeleteSensorModal, setShowDeleteSensorModal] = useState<boolean>(false);
   const [showEditSensorModal, setShowEditSensorModal] = useState<boolean>(false);
   const [newSensor, setNewSensor] = useState<any>(sensorInitialState);
+  const [sensorList, setSensorList] = useState([]);
 
   const handleFile = async (event: any) => {
     setFileName(event[0].name);
@@ -79,7 +80,7 @@ function Sensor() {
     const res = await SENSOR_SERVICES.postSensorOcbm({ ...sensorData, imageName: fileName });
     if (res.statusCode === 201) {
       setSensorData(initialState);
-      toast.success('Machine Line added successfully');
+      toast.success('Sensor added successfully');
       fetchAllSensorsOcbm(1);
     }
   };
@@ -144,7 +145,6 @@ function Sensor() {
     setElementList(res?.message);
   };
   const fetchAllSensorsOcbm = async (page: number) => {
-    console.log('kdwij');
     setLoading(true);
     const res = await SENSOR_SERVICES.getAllSensorOcbmByPlantID(currentPlant, page);
     console.log(res.message);
@@ -154,6 +154,10 @@ function Sensor() {
     if (res?.Error && paginationData?.current_page > 1) {
       fetchAllSensorsOcbm(paginationData?.current_page - 1);
     }
+  };
+  const fetchAllSensors = async () => {
+    const res = await SENSOR_SERVICES.getAllSensor();
+    setSensorList(res);
   };
 
   //delete machine line
@@ -195,10 +199,8 @@ function Sensor() {
   useEffect(() => {
     fetchAllElements();
     fetchAllSensorsOcbm(1);
+    fetchAllSensors();
   }, []);
-
-  console.log('ocbmSensorList :: ', ocbmSensorList);
-  console.log('elementList :: ', elementList);
 
   return (
     <div>
@@ -217,13 +219,11 @@ function Sensor() {
         />
 
         <Dropdown
-          options={ocbmSensorList}
+          options={sensorList}
           className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
           placeholder="Select Sensor"
-          optionLabel="sensorId"
-          optionValue="sensorId"
           handleChange={(sensor) => setSensorData({ ...sensorData, sensorId: sensor })}
-          value={ocbmSensorList?.find((machine: any) => machine === sensorData.sensorId)}
+          value={sensorList?.find((machine: any) => machine === sensorData.sensorId)}
           mandatory={true}
         />
         <Input

@@ -3,7 +3,7 @@ import { Dropdown } from '@/components';
 import { Config } from '@/config';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { logoutUser } from '@/redux/slices/authSlice';
-import { setCurrentPlant } from '@/redux/slices/plantSlice';
+import { setAllPlants, setCurrentPlant } from '@/redux/slices/plantSlice';
 import { PLANT_SERVICES } from '@/services/plantServices';
 import { SENSOR_SERVICES } from '@/services/sensorServices';
 import { Select } from 'antd';
@@ -18,9 +18,8 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
   const navigate = useNavigate();
   const loggedUser = useAppSelector((state) => state.auth?.user);
   const user = useAppSelector((state) => state.auth.user);
-  const { currentPlant } = useAppSelector((state) => state.plantRegistration);
+  const { allPlants, currentPlant } = useAppSelector((state) => state.plantRegistration);
   const [showOpenNotificationModal, setShowNotificationModal] = useState(false);
-  const [plantsData, setPlantsData] = useState([]);
   const [sensorIdList, setSensorIdList] = useState([]);
   // const options = [
   //   {
@@ -123,8 +122,10 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
         label: el.plantName,
       };
     });
-    dispatch(setCurrentPlant(formattedData?.[0].value));
-    setPlantsData(formattedData);
+    dispatch(setAllPlants(formattedData));
+    if (!currentPlant && formattedData) {
+      dispatch(setCurrentPlant(formattedData[0].value));
+    }
   };
 
   useEffect(() => {
@@ -148,7 +149,7 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
               onChange={handlePlantChange}
               value={currentPlant}
               style={{ width: 200 }}
-              options={plantsData}
+              options={allPlants}
             />
           </div>
         ) : (

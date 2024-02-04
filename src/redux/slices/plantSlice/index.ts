@@ -22,6 +22,7 @@ const initialState: any = {
   },
   show: 'plant',
   currentPlant: '',
+  allPlants: [],
 };
 
 export const plantData = createAsyncThunk('plants/plantData', (id: any) => {
@@ -64,6 +65,9 @@ const PlantSlice = createSlice({
     setCurrentPlant: (state, { payload }) => {
       state.currentPlant = payload;
     },
+    setAllPlants: (state, { payload }) => {
+      state.allPlants = payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -100,4 +104,5 @@ export const {
   togglePlantOpen,
   resetPlantData,
   setCurrentPlant,
+  setAllPlants,
 } = PlantSlice.actions;
