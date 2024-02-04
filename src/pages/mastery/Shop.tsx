@@ -328,7 +328,7 @@ const Shop = () => {
 
   return (
     <div>
-      <p className="text-xl text-[#444] font-medium leading-5 mb-8">Add Shop</p>
+      <p className="text-xl text-[#444] font-medium leading-5 mb-8">Add Manufacturing Location</p>
       {/* Fields to get shop name, shop description and shop image */}
       <div className="flex items-center gap-[16px] mb-6">
         <Input

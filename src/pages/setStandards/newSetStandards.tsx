@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from 'react-router';
 import { SETSTANDARDS_SERVICES } from '@/services/setStandardsServices';
 import { toast } from 'react-toastify';
 import { MACHINE_SERVICES } from '@/services/machineServices';
+import { useAppSelector } from '@/hooks/redux';
 
 export type InitialSetstandardStateType = {
   machineId: any;
@@ -17,10 +18,12 @@ const NewSetStandard = () => {
   const initialState = {
     machineId: '',
   };
+  const { currentPlant } = useAppSelector((state) => state.plantRegistration);
 
   const navigate = useNavigate();
   const { state } = useLocation();
   const [machineList, setMachineList] = useState<any[]>([]);
+  console.log(machineList, 'machine');
   const [newSetstandards, setNewSetstandards] = useState<InitialSetstandardStateType>(initialState);
   const [dropdownData, setdropdownData] = useState([]);
 
@@ -34,16 +37,18 @@ const NewSetStandard = () => {
       fetch();
     }
   }, []);
+  const plantId = currentPlant;
 
   //fetching machines using machine-id
   const fetch = async () => {
-    const res = await MACHINE_SERVICES.getAllMachines(1, 1000);
-    console.log(res.message);
+    const res = await MACHINE_SERVICES.getAllMachinesByPlantId(plantId, 1, 1000);
+    console.log(res.message, 'resr');
     setdropdownData(res.message);
   };
 
   const fetchMachine = async (id: any) => {
     const res = await MACHINE_SERVICES.getAllMachinesByMachineId(id);
+
     console.log(res.message);
     setMachineList(res.message);
   };
@@ -59,7 +64,7 @@ const NewSetStandard = () => {
         minThresholdValue: data.minThresholdValue,
         maxThresholdValue: data.maxThresholdValue,
         uom: data.uom,
-        interval: data.interval,
+        interval: data?.interval || 0,
         trigger: data.trigger,
         criticality: {
           breakDown: data.criticality.breakDown || false,
@@ -109,6 +114,15 @@ const NewSetStandard = () => {
     machineData[updateMachineId][type] = parseInt(event.target.value);
     setMachineList(machineData);
   };
+  const handleIntervalInputChange = (event: any, type: string, data: any) => {
+    const machineData = [...machineList];
+    const updateMachineId = machineData.findIndex((machine) => machine.sensorId === data.sensorId);
+    machineData[updateMachineId][type] = parseInt(event.target.value || 0);
+    console.log(event.target.value || 0, 'value');
+    if (machineData[updateMachineId][type] >= 0 && machineData[updateMachineId][type] <= 480) {
+      setMachineList(machineData);
+    }
+  };
 
   //Dropdown onChange
   const handleDropdownChange = (value: any, type: string, data: any) => {
@@ -137,7 +151,6 @@ const NewSetStandard = () => {
     }
     setMachineList(machineData);
   };
-  console.log('object1233', machineList);
   //disable button
   const disablingSetStandards = () => {
     if (state) {
@@ -180,7 +193,7 @@ const NewSetStandard = () => {
 
   const columns: any = [
     {
-      title: 'Machine Name',
+      title: 'Machine Number',
       key: 'machinenName',
       dataIndex: 'machineName',
       width: '10%',
@@ -219,19 +232,6 @@ const NewSetStandard = () => {
       },
     },
     {
-      title: 'Sensor Description',
-      key: 'SensorDescription',
-      dataIndex: 'SensorDescription',
-      align: 'center',
-      render: (_: any, data: any) => {
-        return (
-          <div className="flex justify-center gap-3">
-            <h1>{data?.sensorDescription}</h1>
-          </div>
-        );
-      },
-    },
-    {
       title: 'Sensor ID',
       key: 'SensorID',
       dataIndex: 'SensorID',
@@ -240,6 +240,19 @@ const NewSetStandard = () => {
         return (
           <div className="flex justify-center gap-3">
             <h1>{data?.sensorId}</h1>
+          </div>
+        );
+      },
+    },
+    {
+      title: 'Sensor Description',
+      key: 'SensorDescription',
+      dataIndex: 'SensorDescription',
+      align: 'center',
+      render: (_: any, data: any) => {
+        return (
+          <div className="flex justify-center gap-3">
+            <h1>{data?.sensorDescription}</h1>
           </div>
         );
       },
@@ -274,7 +287,7 @@ const NewSetStandard = () => {
       },
     },
     {
-      title: 'Threshold Value',
+      title: 'Threshold Range',
       key: 'ThresholdValue',
       dataIndex: 'ThresholdValue',
       align: 'center',
@@ -303,13 +316,13 @@ const NewSetStandard = () => {
       },
     },
     {
-      title: 'uom',
+      title: 'UOM',
       key: 'uom',
       dataIndex: 'uom',
       align: 'center',
       render: (_: any, data: any) => {
         return (
-          <div className="flex justify-center ml-12 border-b-[1px] border-[#A9A9A9] w-[80px]">
+          <div className="flex justify-center ml-8 border-b-[1px] border-[#A9A9A9] w-[80px]">
             <Dropdown
               placeholder="Bar"
               openClassName="top-5 w-[85px]"
@@ -325,7 +338,7 @@ const NewSetStandard = () => {
       },
     },
     {
-      title: 'Interval',
+      title: 'Interval (minutes)',
       key: 'Interval',
       dataIndex: 'Interval',
       align: 'center',
@@ -336,9 +349,9 @@ const NewSetStandard = () => {
               <Input
                 type="string"
                 name="interval"
-                placeholder="8hr"
+                placeholder="Min"
                 value={data.interval || ''}
-                onChange={(event) => handleInputChange(event, 'interval', data)}
+                onChange={(event) => handleIntervalInputChange(event, 'interval', data)}
               />
             </div>
           </div>
@@ -346,13 +359,14 @@ const NewSetStandard = () => {
       },
     },
     {
-      title: 'Trigger',
+      title: 'Trigger (Threshold Value)',
       key: 'trigger',
       dataIndex: 'trigger',
+      width: '11%',
       align: 'center',
       render: (_: any, data: any) => {
         return (
-          <div className="flex gap-3 ml-8 border-b-[1px] border-[#A9A9A9] w-[80px]">
+          <div className="flex gap-3 ml-14 border-b-[1px] border-[#A9A9A9] w-[80px]">
             <Dropdown
               placeholder="Max"
               openClassName="top-5 w-[80px]"
@@ -406,7 +420,7 @@ const NewSetStandard = () => {
   return (
     <>
       <div className="rounded-[16px] shadow-md p-5 relative">
-        <h2 className="text-[24px] text-[#444444] font-medium">New Set Standards</h2>
+        <h2 className="text-[24px] text-[#444444] font-medium">New Set PM Standards</h2>
 
         {!state ? (
           <div className="flex justify-center flex-row gap-[20px] mt-5 mb-9">

@@ -31,7 +31,6 @@ const sensorInitialState = {
 function Sensor() {
   const { currentPlant } = useAppSelector((state) => state.plantRegistration);
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
-  const [sensorList, setSensorList] = useState<any>([]);
   const [sensorData, setSensorData] = useState<any>(initialState);
   const [elementList, setElementList] = useState<any>([]);
   const [imageUrl, setImageUrl] = useState<any>('');
@@ -87,26 +86,23 @@ function Sensor() {
 
   const columns = [
     {
-      title: 'Sensor Name',
+      title: 'Sensor ID',
       dataIndex: 'sensorId',
-      key: 'sensorName',
+      key: 'sensorId',
     },
     {
       title: 'Sensor Description',
       dataIndex: 'sensorDescription',
-      width: '20%',
       key: 'description',
     },
     {
       title: 'Sensor ID',
       dataIndex: 'elementId',
-      width: '30%',
       key: 'elementId',
     },
     {
       title: 'Image',
       dataIndex: 'image',
-      width: '20%',
       key: 'image',
       render: (image: any) => {
         return <Avatar shape="square" size={64} src={image} />;
@@ -115,7 +111,6 @@ function Sensor() {
     {
       title: 'Actions',
       dataIndex: 'actions',
-      width: '10%',
       key: 'actions',
       render: (_: any, data: any) => {
         return (
@@ -144,18 +139,15 @@ function Sensor() {
     },
   ];
 
-  const fetchAllSensors = async () => {
-    const res = await SENSOR_SERVICES.getAllSensor();
-    setSensorList(res);
-  };
-
   const fetchAllElements = async () => {
     const res = await ELEMENT_SERVICES.getAllElementsByPlantId(currentPlant);
     setElementList(res?.message);
   };
   const fetchAllSensorsOcbm = async (page: number) => {
+    console.log('kdwij');
     setLoading(true);
     const res = await SENSOR_SERVICES.getAllSensorOcbmByPlantID(currentPlant, page);
+    console.log(res.message);
     setOcbmSensorList(res?.message);
     setLoading(false);
     setPaginationData(res?.meta);
@@ -201,10 +193,12 @@ function Sensor() {
   };
 
   useEffect(() => {
-    fetchAllSensors();
     fetchAllElements();
     fetchAllSensorsOcbm(1);
   }, []);
+
+  console.log('ocbmSensorList :: ', ocbmSensorList);
+  console.log('elementList :: ', elementList);
 
   return (
     <div>
@@ -223,11 +217,13 @@ function Sensor() {
         />
 
         <Dropdown
-          options={sensorList}
+          options={ocbmSensorList}
           className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
           placeholder="Select Sensor"
+          optionLabel="sensorId"
+          optionValue="sensorId"
           handleChange={(sensor) => setSensorData({ ...sensorData, sensorId: sensor })}
-          value={sensorList?.find((machine: any) => machine === sensorData.sensorId)}
+          value={ocbmSensorList?.find((machine: any) => machine === sensorData.sensorId)}
           mandatory={true}
         />
         <Input

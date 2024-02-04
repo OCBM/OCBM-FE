@@ -10,9 +10,10 @@ import { MASTERY_PAGE_CONSTANTS } from '../users/constants';
 import Loader from '@/components/reusable/loader';
 import { Avatar } from 'antd';
 import PopupModal from '@/components/reusable/popupmodal/popupmodal';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import AccessManager from '@/components/accessManager';
+import { setAllPlants, setCurrentPlant } from '@/redux/slices/plantSlice';
 
 function Plant() {
   type InitialStateType = {
@@ -39,6 +40,8 @@ function Plant() {
     total_items?: number;
   };
   const data = useSelector((state: RootState) => state.auth.organization);
+  const { currentPlant } = useAppSelector((state) => state.plantRegistration);
+  const dispatch = useDispatch();
   const [plantData, setPlantData] = useState([]);
   const [newPlant, setNewPlant] = useState<InitialStateType>(initialState);
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
@@ -56,21 +59,29 @@ function Plant() {
   const [imageURL, setImageURl] = useState<string>('');
 
   // fetching All Plant data by organizationId
-  const fetchPlantDataByOrgId = async (page: number) => {
+  const fetchPlantDataByOrgId = async () => {
     if (loggedUser) {
       setIsLoading(true);
-      const res = await PLANT_SERVICES.getAllPlants(page);
+
+      const res = await PLANT_SERVICES.getAllPlantsbyUserid(loggedUser.userId);
+      const formattedData = res?.message.map((el: any) => {
+        return {
+          value: el.plantId,
+          label: el.plantName,
+        };
+      });
+      dispatch(setAllPlants(formattedData));
+      if (!currentPlant && formattedData) {
+        dispatch(setCurrentPlant(formattedData[0].value));
+      }
       setPlantData(res?.message);
       setIsLoading(false);
       setPaginationData(res?.meta);
-      if (res?.Error && paginationData?.current_page > 1) {
-        fetchPlantDataByOrgId(paginationData?.current_page - 1);
-      }
     }
   };
 
   useEffect(() => {
-    fetchPlantDataByOrgId(1);
+    fetchPlantDataByOrgId();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -110,7 +121,7 @@ function Plant() {
       const res = await PLANT_SERVICES.deletePlantById(orgId, plantId);
       toast.success(res.message);
       setShowDeleteUserModal(false);
-      fetchPlantDataByOrgId(paginationData?.current_page);
+      fetchPlantDataByOrgId();
     }
   };
 
@@ -201,7 +212,7 @@ function Plant() {
     if (res?.statusCode === 201) {
       handleClear();
       toast.success('Plant added successfully');
-      fetchPlantDataByOrgId(1);
+      fetchPlantDataByOrgId();
     }
   }
 
@@ -214,7 +225,7 @@ function Plant() {
     };
     const res = await PLANT_SERVICES.updatePlantbyId(data?.organizationId || '', newPlant.plantId, body);
     if (res.statusCode === 200) {
-      fetchPlantDataByOrgId(paginationData?.current_page);
+      fetchPlantDataByOrgId();
       handleClear();
       setEditPlant(false);
       setShowEditSuccessModal(true);
@@ -228,7 +239,7 @@ function Plant() {
   return (
     <>
       <AccessManager role={loggedUser?.role || 'USER'} category="Plant" accessNeeded="add">
-        <h2 className="text-[20px] text-[#444444] leading-5 font-medium mb-8">Add Plant</h2>
+        <h2 className="text-[20px] text-[#444444] leading-5 font-medium mb-8">Add Business Unit</h2>
         <>
           <div className="flex justify-start items-center gap-[16px] mb-6">
             <Input
@@ -284,8 +295,8 @@ function Plant() {
             pageSize: paginationData?.item_count,
             total: paginationData?.total_items,
             current: paginationData?.current_page,
-            onChange: (page) => {
-              fetchPlantDataByOrgId(page);
+            onChange: () => {
+              fetchPlantDataByOrgId();
             },
           }}
           loading={{

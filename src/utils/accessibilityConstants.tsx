@@ -4,7 +4,7 @@ export const accessRules: any = {
     Machines: ['read'],
     Reports: ['read'],
     Mastery: [],
-    'Set Standards': ['read'],
+    'Set PM Standards': ['read'],
     User: [],
   },
   ADMIN: {
@@ -12,7 +12,7 @@ export const accessRules: any = {
     Machines: ['read', 'update', 'delete', 'add'],
     Reports: ['read', 'update', 'delete', 'add'],
     Mastery: ['read', 'update', 'delete', 'add'],
-    'Set Standards': ['read', 'update', 'delete', 'add'],
+    'Set PM Standards': ['read', 'update', 'delete', 'add'],
     User: ['read', 'update', 'delete', 'add'],
   },
   SUPERADMIN: {
@@ -20,7 +20,7 @@ export const accessRules: any = {
     Machines: ['read', 'update', 'delete', 'add'],
     Reports: ['read', 'update', 'delete', 'add'],
     Mastery: ['read', 'update', 'delete', 'add'],
-    'Set Standards': ['read', 'update', 'delete', 'add'],
+    'Set PM Standards': ['read', 'update', 'delete', 'add'],
     User: ['read', 'update', 'delete', 'add'],
   },
 };

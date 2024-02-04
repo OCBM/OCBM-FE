@@ -16,7 +16,7 @@ function Breadcrumbs({ className, crumbs }: BreadcrumbsType) {
       case 'addUser':
         return 'add User';
       case 'setStandards':
-        return 'set Standards';
+        return 'set PM Standards';
       case 'SpindleCoolingSystem':
         return 'Spindle Cooling System';
       case 'hydraulicSystem':
@@ -26,30 +26,31 @@ function Breadcrumbs({ className, crumbs }: BreadcrumbsType) {
       case 'manualEntry':
         return 'manual entry';
       case 'NewSetStandards':
-        return 'New Set Standards';
+        return 'New Set PM Standards';
       default:
         return data;
     }
   };
   const navigate = useNavigate();
   const handleNavigate = (data: string) => {
-    const index = crumbs?.indexOf(data)
-    let path: string | undefined = ''
+    const index = crumbs?.indexOf(data);
+    let path: string | undefined = '';
     if (index !== -1 && index !== undefined) {
-      path = crumbs?.slice(0, index + 1).join('/')
+      path = crumbs?.slice(0, index + 1).join('/');
     } else {
-      path = '/'
+      path = '/';
     }
-    navigate(`/${path}`)
-  }
+    navigate(`/${path}`);
+  };
   return (
     <div className=" flex justify-between items-center">
       <div className=" flex justify-start">
         {crumbs?.map((data) => (
           <div
             key={data}
-            className={`${className || ''
-              } flex pb-2 text-[18px] text-black capitalize font-medium last:font-medium last:text-[#492ce1] cursor-pointer 
+            className={`${
+              className || ''
+            } flex pb-2 text-[18px] text-black capitalize font-medium last:font-medium last:text-[#492ce1] cursor-pointer 
 		        after:content-['/'] last:after:content-[''] before:ml-[10px] after:ml-[10px] last:content-['']`}
             onClick={() => handleNavigate(data)}
           >
