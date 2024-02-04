@@ -175,6 +175,34 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
               text: `${sensorProperties?.maxThresholdValue} °C`,
             },
           },
+          {
+            y: sensorProperties?.minOperatingRange,
+            borderColor: '#A299D2',
+            opacity: 1,
+            label: {
+              borderColor: 'none',
+              style: {
+                fontSize: '10px',
+                color: '#A299D2',
+                background: 'none',
+              },
+              text: `${sensorProperties?.minOperatingRange} °C`,
+            },
+          },
+          {
+            y: sensorProperties?.maxOperatingRange,
+            borderColor: '#A299D2',
+            opacity: 1,
+            label: {
+              borderColor: 'none',
+              style: {
+                fontSize: '10px',
+                color: '#A299D2',
+                background: 'none',
+              },
+              text: `${sensorProperties?.maxOperatingRange} °C`,
+            },
+          },
         ],
       },
       yaxis: [
