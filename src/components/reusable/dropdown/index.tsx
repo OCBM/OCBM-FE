@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { DropdownPropsType } from './types';
 import { ChevronDownIcon } from '@/assets/icons';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const Dropdown = ({
   options,
@@ -21,6 +22,7 @@ const Dropdown = ({
   mandatory = false,
   disabled = false,
   editable = false,
+  loading = false,
 }: DropdownPropsType) => {
   const [query, setQuery] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -139,9 +141,13 @@ const Dropdown = ({
             {getDisplayValue() || placeholder}
           </div>
         )}
-        <span ref={iconRef} className={`pl-3 pr-3 mt-1 ${isOpen ? 'rotate-180 transition' : ''}`}>
-          <ChevronDownIcon />
-        </span>
+        {loading ? (
+          <LoadingOutlined />
+        ) : (
+          <span ref={iconRef} className={`pl-3 pr-3 mt-1 ${isOpen ? 'rotate-180 transition' : ''}`}>
+            <ChevronDownIcon />
+          </span>
+        )}
       </div>
       {isOpen && (
         <div
