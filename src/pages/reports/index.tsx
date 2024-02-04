@@ -4,6 +4,9 @@ import { Button, DateRangePicker, Dropdown } from '@/components';
 import { SENSOR_SERVICES } from '@/services/sensorServices';
 import { REPORTS_SERVICE } from '@/services/reportsService';
 import { LoadingOutlined } from '@ant-design/icons';
+import { MACHINE_SERVICES } from '@/services/machineServices';
+import { useAppSelector } from '@/hooks';
+import { ELEMENT_SERVICES } from '@/services/elementServices';
 
 interface DateRange {
   start: Date | null;
@@ -16,6 +19,14 @@ const Reports = () => {
   const [sensorList, setSensorList] = useState<any>([]);
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [elementLoading, setElementLoading] = useState<boolean>();
+  const [machineLoading, setMachineLoading] = useState<boolean>(false);
+  const [sensorLoading, setSensorLoading] = useState<boolean>();
+  const { currentPlant } = useAppSelector((state) => state.plantRegistration);
+  const [machineList, setMachineList] = useState<any>();
+  const [elementList, setElementList] = useState<any>();
+  const [selectedMachine, setSelectedMachine] = useState();
+  const [selectedElement, setSelectedElement] = useState();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -42,15 +53,35 @@ const Reports = () => {
     if (res) {
       setLoading(false);
     }
+    setLoading(false);
   };
-  const fetchAllSensors = async () => {
-    const res = await SENSOR_SERVICES.getAllSensor();
-    setSensorList(res);
+  const fetchAllSensors = async (elementId: string) => {
+    setSensorLoading(true);
+    const res = await SENSOR_SERVICES.getSensorsByElementId(elementId);
+    setSensorList(res.message);
+    setSensorLoading(false);
+  };
+
+  const fetchAllMachines = async (page: number) => {
+    if (currentPlant) {
+      setMachineLoading(true);
+      const res = await MACHINE_SERVICES.getAllMachinesByPlantId(currentPlant, page);
+      setMachineList(res?.message);
+      setMachineLoading(false);
+    }
+  };
+
+  const fetchAllElements = async (machineId: string) => {
+    setElementLoading(true);
+    const res = await ELEMENT_SERVICES.getElementsByMachineId(machineId);
+    setElementList(res?.message);
+    setElementLoading(res?.message);
+    setElementLoading(false);
   };
 
   useEffect(() => {
-    fetchAllSensors();
-  }, []);
+    fetchAllMachines(1);
+  }, [currentPlant]);
 
   const handleError = () => {
     if (!sensor) {
@@ -69,20 +100,52 @@ const Reports = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sensor, dateRange.start, dateRange.end]);
 
+  console.log('object233', sensorList);
+
   return (
     <div className="shadow-md w-full p-8 rounded-[16px] mx-auto mb-8 overflow-x-hidden">
       <h2 className="text-[24px] text-[#444444] font-medium">CBM Date History</h2>
       <form onSubmit={handleSubmit}>
         <div className="w-[95%] mx-auto">
-          <div className="flex justify-between flex-row w-full gap-[20px] mt-5  mb-9">
+          <div className="flex  flex-row w-full gap-[20px] mt-5  mb-9">
             <Dropdown
+              loading={machineLoading}
+              label="Machine"
+              placeholder="Select Machine"
+              className="w-[270px] border-[1px] h-[50px] px-3"
+              options={machineList}
+              optionLabel="machineName"
+              handleChange={(value: any) => {
+                fetchAllElements(value.machineId);
+                setSelectedMachine(value.machineId);
+              }}
+              value={machineList?.find((machine: any) => machine?.machineId === selectedMachine)}
+              mandatory={true}
+            />
+            <Dropdown
+              loading={elementLoading}
+              label="Element"
+              className="w-[270px] border-[1px] h-[50px] px-3"
+              placeholder="Enter Sensor data Type"
+              optionLabel="elementName"
+              mandatory={true}
+              options={elementList}
+              handleChange={(e: any) => {
+                fetchAllSensors(e.elementId);
+                setSelectedElement(e.elementId);
+              }}
+              value={elementList?.find((element: any) => element.elementId === selectedElement)}
+            />
+            <Dropdown
+              loading={sensorLoading}
               label="Sensors"
               className="w-[270px] border-[1px] h-[50px] px-3"
               placeholder="Enter Sensor data Type"
               mandatory={true}
               options={sensorList}
-              handleChange={(e: string) => setSensor(e)}
-              value={sensorList?.find((shop: string) => shop === sensor)}
+              optionLabel="sensorId"
+              handleChange={(e: any) => setSensor(e.sensorId)}
+              value={sensorList?.find((shop: any) => shop.sensorId === sensor)}
             />
           </div>
           <div className="flex justify-between flex-row w-full gap-[20px] mt-5  mb-9">

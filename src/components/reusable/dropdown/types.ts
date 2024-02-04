@@ -16,4 +16,5 @@ export type DropdownPropsType = {
   mandatory?: boolean;
   disabled?: boolean;
   editable?: boolean;
+  loading?: boolean;
 };
