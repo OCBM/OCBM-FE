@@ -60,22 +60,28 @@ function Plant() {
 
   // fetching All Plant data by organizationId
   const fetchPlantDataByOrgId = async () => {
-    if (loggedUser) {
-      setIsLoading(true);
-      const res = await PLANT_SERVICES.getAllPlantsbyUserid(loggedUser.userId);
-      const formattedData = res?.message.map((el: any) => {
-        return {
-          value: el.plantId,
-          label: el.plantName,
-        };
-      });
-      dispatch(setAllPlants(formattedData));
-      if (!currentPlant && formattedData) {
-        dispatch(setCurrentPlant(formattedData[0].value));
+    try {
+      if (loggedUser) {
+        setIsLoading(true);
+
+        const res = await PLANT_SERVICES.getAllPlantsbyUserid(loggedUser.userId);
+        console.log('RESPONSE', res);
+        const formattedData = res?.message.map((el: any) => {
+          return {
+            value: el.plantId,
+            label: el.plantName,
+          };
+        });
+        dispatch(setAllPlants(formattedData));
+        if (!currentPlant && formattedData) {
+          dispatch(setCurrentPlant(formattedData[0].value));
+        }
+        setPlantData(res?.message);
+        setIsLoading(false);
+        setPaginationData(res?.meta);
       }
-      setPlantData(res?.message);
+    } catch {
       setIsLoading(false);
-      setPaginationData(res?.meta);
     }
   };
 

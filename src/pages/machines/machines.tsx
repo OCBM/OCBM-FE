@@ -17,10 +17,12 @@ const MachinesPage = () => {
 
   useEffect(() => {
     fetchAllMachines(1);
-  }, []);
+  }, [currentPlant]);
   const fetchAllMachines = async (page: number) => {
-    const res = await MACHINE_SERVICES.getAllMachinesByPlantId(currentPlant, page);
-    setMachineList(res?.message);
+    if (currentPlant) {
+      const res = await MACHINE_SERVICES.getAllMachinesByPlantId(currentPlant, page);
+      setMachineList(res?.message);
+    }
   };
 
   return (

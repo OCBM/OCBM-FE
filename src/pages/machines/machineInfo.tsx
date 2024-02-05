@@ -1,4 +1,3 @@
-import { RunningIcon } from '@/assets/icons';
 import { Button } from '@/components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -32,10 +31,10 @@ const MachineInfo = () => {
           <p className="text-[#444444] text-2xl font-bold tracking-[0.48px] leading-6">
             {filterMachineById?.machineName}
           </p>
-          <div className="flex items-center gap-[6px] mt-5">
+          {/* <div className="flex items-center gap-[6px] mt-5">
             <RunningIcon />
             <p className="text-[14px] text-[#444] font-medium leading-[10px] tracking-[0.28px]">Running</p>
-          </div>
+          </div> */}
           <div className="mt-5 mb-[18px]">
             <img src={filterMachineById?.image} alt="honor-15-mini" className="w-36" />
           </div>

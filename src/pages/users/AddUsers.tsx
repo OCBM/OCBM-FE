@@ -173,8 +173,8 @@ function Addusers() {
               />
             </div>
 
-            <div className="flex justify-between flex-row w-full gap-[20px] mt-5 mb-9">
-              {/* <Dropdown
+            {/* <div className="flex justify-between flex-row w-full gap-[20px] mt-5 mb-9"> */}
+            {/* <Dropdown
                 label="Select Organization"
                 className="w-full border-[1px] h-[50px] px-3"
                 placeholder="Select Organization"
@@ -188,7 +188,7 @@ function Addusers() {
                 mandatory={true}
               /> */}
 
-              {/* <Dropdown
+            {/* <Dropdown
                 label="Select Group"
                 className="w-full border-[1px] h-[50px] px-3"
                 placeholder="Select Group"
@@ -200,21 +200,7 @@ function Addusers() {
                 }}
                 mandatory={true}
               /> */}
-
-              <Dropdown
-                label="Select Plant"
-                className="w-full border-[1px] h-[50px] px-3"
-                placeholder="Select Plant"
-                value={user?.plants}
-                options={plantsData}
-                // disabled={!user.organization}
-                optionLabel="plantName"
-                handleChange={(value) => {
-                  setUser((prev: any) => ({ ...prev, plants: value }));
-                }}
-                mandatory={true}
-              />
-            </div>
+            {/* </div> */}
 
             <div className="flex justify-between flex-row w-full gap-[20px] mt-5 mb-9">
               <Input
@@ -256,21 +242,35 @@ function Addusers() {
               />
             </div>
             <div className="flex justify-start flex-row gap-[20px] mt-5 mb-9">
-              <div className="w-[33%]">
-                <Dropdown
-                  label="Role"
-                  className="w-[100%] border-[1px] h-[50px] px-3"
-                  placeholder="Select Role"
-                  value={user?.role}
-                  options={USERS_PAGE_CONSTANTS.ROLE_ACCESS_TYPES}
-                  optionLabel="role"
-                  optionValue="role"
-                  handleChange={(value) => {
-                    setUser((prev: any) => ({ ...prev, role: value }));
-                  }}
-                  mandatory={true}
-                />
-              </div>
+              <Dropdown
+                label="Role"
+                wrapClassName="w-full"
+                className="w-full border-[1px] h-[50px] px-3"
+                placeholder="Select Role"
+                value={user?.role}
+                options={USERS_PAGE_CONSTANTS.ROLE_ACCESS_TYPES}
+                optionLabel="role"
+                optionValue="role"
+                handleChange={(value) => {
+                  setUser((prev: any) => ({ ...prev, role: value }));
+                }}
+                mandatory={true}
+              />
+
+              <Dropdown
+                label="Select Plant"
+                wrapClassName="w-full"
+                className="w-full border-[1px] h-[50px] px-3"
+                placeholder="Select Plant"
+                value={user?.plants}
+                options={plantsData}
+                // disabled={!user.organization}
+                optionLabel="plantName"
+                handleChange={(value) => {
+                  setUser((prev: any) => ({ ...prev, plants: value }));
+                }}
+                mandatory={true}
+              />
             </div>
 
             <div className="flex justify-start flex-row w-full gap-[20px] mt-5 mb-9">

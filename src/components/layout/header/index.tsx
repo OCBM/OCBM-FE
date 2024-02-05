@@ -48,7 +48,8 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
 
   const logoutBtn = () => {
     toast.success('Logged out');
-
+    dispatch(setAllPlants([]));
+    dispatch(setCurrentPlant(''));
     setTimeout(() => {
       dispatch(logoutUser());
     }, 1000);
@@ -91,18 +92,13 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
         authorization: `Bearer ${user?.accessToken}`,
       },
     });
-    _socket.on('connection-status', ({ socketId, success, error }) => {
+    _socket.on('connection-status', ({ success }) => {
       if (success === true) {
-        console.log(socketId);
         setAlertsSocket(_socket);
       } else {
-        console.error(error);
         _socket.removeAllListeners();
         _socket.disconnect();
       }
-      _socket.on('disconnect', (reason) => {
-        console.log('disconnect', reason);
-      });
     });
   }
 
@@ -190,7 +186,7 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
           <div className="relative" onClick={() => setShowNotificationModal(!showOpenNotificationModal)}>
             <BellIcon className="shrink-0" />
             {showOpenNotificationModal ? (
-              <div className="absolute h-[250px] w-[300px] left-[-110px] overflow-auto shadow-lg rounded-2xl top-10 bg-white">
+              <div className="absolute h-[250px] w-[300px] left-[-110px] overflow-auto shadow-lg rounded-2xl top-10 bg-white z-10">
                 {alertsData?.length > 0 ? (
                   alertsData?.slice(-10)?.map((data: any) => (
                     <p key={data?.alert?.macAddress} className="p-3">

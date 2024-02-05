@@ -121,24 +121,24 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
           enabled: selectedDuration !== 'live',
         },
       },
-      fill: {
-        type: 'gradient',
-        gradient: {
-          type: 'vertical',
-          colorStops: [
-            {
-              offset: 10,
-              color: '#14A87B',
-              opacity: 1,
-            },
-            {
-              offset: 30,
-              color: ' #FA4C4C',
-              opacity: 1,
-            },
-          ],
-        },
-      },
+      // fill: {
+      //   type: 'gradient',
+      //   gradient: {
+      //     type: 'vertical',
+      //     colorStops: [
+      //       {
+      //         offset: sensorProperties?.maxThresholdValue,
+      //         color: '#14A87B',
+      //         opacity: 1,
+      //       },
+      //       {
+      //         offset: 30,
+      //         color: ' #FA4C4C',
+      //         opacity: 1,
+      //       },
+      //     ],
+      //   },
+      // },
       annotations: {
         yaxis: [
           {
@@ -247,24 +247,24 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
           enabled: selectedDuration !== 'live',
         },
       },
-      fill: {
-        type: 'gradient',
-        gradient: {
-          type: 'vertical',
-          colorStops: [
-            {
-              offset: 10,
-              color: '#14A87B',
-              opacity: 1,
-            },
-            {
-              offset: 30,
-              color: ' #FA4C4C',
-              opacity: 1,
-            },
-          ],
-        },
-      },
+      // fill: {
+      //   type: 'gradient',
+      //   gradient: {
+      //     type: 'vertical',
+      //     colorStops: [
+      //       {
+      //         offset: sensorProperties?.maxThresholdValue,
+      //         color: '#14A87B',
+      //         opacity: 1,
+      //       },
+      //       {
+      //         offset: sensorProperties?.minThresholdValue,
+      //         color: ' #FA4C4C',
+      //         opacity: 1,
+      //       },
+      //     ],
+      //   },
+      // },
       annotations: {
         yaxis: [
           {

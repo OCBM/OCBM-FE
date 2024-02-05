@@ -424,7 +424,7 @@ const NewSetStandard = () => {
 
         {!state ? (
           <div className="flex justify-center flex-row gap-[20px] mt-5 mb-9">
-            <div className="w-[12%]  h-[60px]">
+            <div className="  h-[60px]">
               <Dropdown
                 labelClassName="flex items-center justify-center text-[14px]"
                 label="Machine Name"

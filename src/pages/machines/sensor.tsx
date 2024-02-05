@@ -10,16 +10,18 @@ const SensorPage = () => {
   const { currentPlant } = useAppSelector((state) => state.plantRegistration);
 
   const fetchAllSensorss = async (page: number) => {
-    const res = await SENSOR_SERVICES.getAllSensorOcbmByPlantID(currentPlant, page);
-    setOcbmSensorList(res?.message);
+    if (currentPlant) {
+      const res = await SENSOR_SERVICES.getAllSensorOcbmByPlantID(currentPlant, page);
+      setOcbmSensorList(res?.message);
+    }
   };
 
   useEffect(() => {
     fetchAllSensorss(1);
-  }, []);
+  }, [currentPlant]);
   return (
     <div className="flex gap-14 flex-wrap">
-      {ocbmSensorList.map((sensorData: any) => (
+      {ocbmSensorList?.map((sensorData: any) => (
         <MachineCard
           machineName={sensorData.sensorId}
           sensorCard={true}

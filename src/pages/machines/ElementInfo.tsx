@@ -1,6 +1,4 @@
-import { Card } from '@/components';
 import Charts from './Charts';
-import Spindle from '../../assets/images/spindle.png';
 import BackIcon from '../../assets/images/back.png';
 import { OperatingRange, ReportIcon, SquareIcon, ThresholdValue } from '@/assets/icons';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -42,7 +40,7 @@ function ElementInfo() {
           <p className="text-[#444444] text-[14px]">Back</p>
         </div>
         <div className="flex gap-[10px] justify-start items-center">
-          <img className="" src={Spindle} alt="Spindle" />
+          <img className="h-11" src={elementData?.image} alt="Spindle" />
           <h2 className="font-bold text-[24px]">{elementData?.elementName}</h2>
           <ReportIcon className="w-[24px]" />
         </div>
@@ -61,10 +59,8 @@ function ElementInfo() {
       </div>
       <div className="flex gap-2 flex-wrap ">
         {sensorData?.map((sensor: any) => (
-          <div key={sensor.sensor_Id} className="w-[48%]">
-            <Card tag="high" className="w-full shadow-lg h-full bg-white p-[15px] rounded-[9px]">
-              <Charts item={sensor} />
-            </Card>
+          <div key={sensor.sensor_Id} className="w-full">
+            <Charts item={sensor} />
           </div>
         ))}
       </div>
