@@ -62,7 +62,6 @@ function Plant() {
   const fetchPlantDataByOrgId = async () => {
     if (loggedUser) {
       setIsLoading(true);
-
       const res = await PLANT_SERVICES.getAllPlantsbyUserid(loggedUser.userId);
       const formattedData = res?.message.map((el: any) => {
         return {

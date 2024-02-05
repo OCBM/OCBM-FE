@@ -71,10 +71,12 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
     return () => {
       if (alertsSocket) {
         alertsSocket.disconnect();
+        alertsSocket.removeAllListeners();
+        setAlertsSocket(null);
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [sensorIdList]);
 
   useEffect(() => {
     if (alertsSocket) {

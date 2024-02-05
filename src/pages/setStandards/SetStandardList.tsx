@@ -69,8 +69,8 @@ const SetStandardList = () => {
   const columns: any = [
     {
       title: 'Machine Number',
-      dataIndex: 'machine',
-      key: 'machine',
+      dataIndex: 'machineNumber',
+      key: 'machineNumber',
       align: 'center',
     },
 
@@ -185,7 +185,14 @@ const SetStandardList = () => {
           criticalityData = 'None';
         }
 
-        return criticalityData?.map((criticality: string) => <Tag key={criticality}>{criticality}</Tag>);
+        return criticalityData?.map((criticality: string) => {
+          const COLOR = criticality === 'BreakDown' ? 'magenta' : criticality === 'Defect' ? 'red' : 'orange';
+          return (
+            <Tag color={COLOR} key={criticality}>
+              {criticality}
+            </Tag>
+          );
+        });
       },
     },
     {
