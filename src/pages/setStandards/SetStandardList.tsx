@@ -68,6 +68,8 @@ const SetStandardList = () => {
     }
   };
 
+  const userAccess = accessRules[loggedUser?.role || 'USER']['Set PM Standards'].includes('add');
+
   const columns: any = [
     {
       title: 'Machine Number',
@@ -198,28 +200,33 @@ const SetStandardList = () => {
 
       render: (_: any, data: any) => {
         return (
-          <div className="flex justify-center gap-3">
-            <div
-              className="cursor-pointer"
-              onClick={() => navigate(SITEMAP.setStandards.NewSetStandards, { state: { data } })}
-            >
-              <PencilIcon className="w-[20px] h-[20px]" />
-            </div>
-            <div
-              className="cursor-pointer"
-              onClick={() => {
-                setShowDeleteUserModal(true);
-                setSelectedStandard(data?.macAddress);
-              }}
-            >
-              <DeleteIcon className="w-[20px] h-[20px]" />
-            </div>
+          <div>
+            {userAccess ? (
+              <div className="flex justify-center gap-3">
+                <div
+                  className="cursor-pointer"
+                  onClick={() => navigate(SITEMAP.setStandards.NewSetStandards, { state: { data } })}
+                >
+                  <PencilIcon className="w-[20px] h-[20px]" />
+                </div>
+                <div
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setShowDeleteUserModal(true);
+                    setSelectedStandard(data?.macAddress);
+                  }}
+                >
+                  <DeleteIcon className="w-[20px] h-[20px]" />
+                </div>
+              </div>
+            ) : (
+              <div></div>
+            )}
           </div>
         );
       },
     },
   ];
-  const userAccess = accessRules[loggedUser?.role || 'USER']['Set PM Standards'].includes('add');
 
   return (
     <>
