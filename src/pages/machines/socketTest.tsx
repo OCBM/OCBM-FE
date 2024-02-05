@@ -12,7 +12,6 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
   const [sensorData, setSensorData] = useState<any>([]);
   const [sensorProperties, setSensorProperties] = useState<any>();
   const [selectedDuration, setSelectedDuration] = useState('live');
-  // const [sensorIdList, setSensorIdList] = useState([]);
 
   const fetchSensorPreviousData = async () => {
     var date = new Date();
@@ -52,9 +51,6 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
     const res = await SENSOR_SERVICES.getSensorProperties(sensorId);
     setSensorProperties(res);
   };
-
-  console.log(sensorProperties);
-  console.log('sensorData', sensorData);
 
   useEffect(() => {
     getSensorProperties();
@@ -221,7 +217,10 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
           labels: {
             formatter: function (value: any, option: any) {
               if (option?.w?.config?.yaxis?.[0]?.labels?.style?.colors?.[0]) {
-                const pos = getYaxisIndexPosition(0, 100, 20, value);
+                const min = option?.w?.config?.yaxis?.[0]?.min;
+                const max = option?.w?.config?.yaxis?.[0]?.max;
+                const stepSize = option?.w?.config?.yaxis?.[0]?.stepSize;
+                const pos = getYaxisIndexPosition(min, max, stepSize, value);
                 if (value < sensorProperties?.minThresholdValue || value > sensorProperties?.maxThresholdValue) {
                   option.w.config.yaxis[0].labels.style.colors[pos] = '#FA4C4C';
                 } else {
@@ -344,7 +343,10 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
           labels: {
             formatter: function (value: any, option: any) {
               if (option?.w?.config?.yaxis?.[0]?.labels?.style?.colors?.[0]) {
-                const pos = getYaxisIndexPosition(0, 100, 20, value);
+                const min = option?.w?.config?.yaxis?.[0]?.min;
+                const max = option?.w?.config?.yaxis?.[0]?.max;
+                const stepSize = option?.w?.config?.yaxis?.[0]?.stepSize;
+                const pos = getYaxisIndexPosition(min, max, stepSize, value);
                 if (value < sensorProperties?.minThresholdValue || value > sensorProperties?.maxThresholdValue) {
                   option.w.config.yaxis[0].labels.style.colors[pos] = '#FA4C4C';
                 } else {
