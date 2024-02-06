@@ -11,9 +11,12 @@ import { loginUser } from '@/redux/slices/authSlice';
 import LoginLayout from './layout';
 import ResetPassword from './ResetPassword';
 import { LOGIN_CONSTANTS } from '@/utils/constants';
+import { PasswordNotVisible, PasswordVisible } from '@/assets/icons';
 
 const LoginCard = () => {
   const [showForgotPassword, setShowForgotPassword] = useState<boolean>(false);
+  const [passwordType, setPasswordType] = useState('password');
+
   const [formData, setFormData] = useState({
     userName: '',
     password: '',
@@ -70,6 +73,13 @@ const LoginCard = () => {
   const loginBtnClass = classNames(`w-full
   ${formData?.userName.length < 6 || formData?.password.length < 8 ? 'cursor-not-allowed' : 'cursor-pointer'}`);
 
+  const togglePassword = () => {
+    if (passwordType === 'password') {
+      setPasswordType('text');
+      return;
+    }
+    setPasswordType('password');
+  };
   return (
     <LoginLayout>
       {showForgotPassword ? (
@@ -101,12 +111,25 @@ const LoginCard = () => {
                     <div className="pt-[18px] w-full">
                       <Input
                         parentClassName="w-full"
-                        type="password"
+                        type={passwordType}
                         name="password"
                         value={formData.password}
                         placeholder="Password*"
                         className="h-[54px] px-2 border  text-[#444444] border-grey-dark"
                         onChange={inputHandler}
+                        rightIcon={
+                          <>
+                            {formData.password.trim() !== '' ? (
+                              <div onClick={togglePassword} className="cursor-pointer">
+                                {passwordType === 'password' ? (
+                                  <PasswordNotVisible className="h-[16px]" />
+                                ) : (
+                                  <PasswordVisible className="h-[16px]" />
+                                )}
+                              </div>
+                            ) : null}
+                          </>
+                        }
                       />
                     </div>
                     <p

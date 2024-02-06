@@ -7,6 +7,7 @@ const initialState: AuthInitialState = {
   loggedIn: false,
   isLoading: false,
   user: null,
+  organization: null,
 };
 
 export const loginUser = createAsyncThunk('auth/loginUser', (user: LoginDataType, thunkAPI) => {
@@ -31,6 +32,7 @@ const AuthSlice = createSlice({
         state.isLoading = false;
         state.loggedIn = true;
         state.user = payload?.message;
+        state.organization = payload?.message?.organization?.[0];
       })
       .addCase(loginUser.rejected, (state) => {
         state.isLoading = false;

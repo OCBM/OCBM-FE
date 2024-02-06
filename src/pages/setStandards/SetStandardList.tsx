@@ -8,7 +8,10 @@ import { useEffect, useState } from 'react';
 import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 import { toast } from 'react-toastify';
 import { PLANT_SERVICES } from '@/services/plantServices';
-// import { useAppSelector } from '@/hooks';
+import { useAppSelector } from '@/hooks';
+import { accessRules } from '@/utils/accessibilityConstants';
+import { Tag } from 'antd';
+import AccessManager from '@/components/accessManager';
 
 export type updatedData = {
   sensor: any;
@@ -25,39 +28,33 @@ const SetStandardList = () => {
   const [setStandardlist, setSetStandardList] = useState<any>([]);
   const [showDeleteUserModal, setShowDeleteUserModal] = useState<boolean>(false);
   const [selectedStandard, setSelectedStandard] = useState<string>('');
+  const loggedUser = useAppSelector((state) => state.auth?.user);
+  const { currentPlant } = useAppSelector((state) => state.plantRegistration);
 
-  // To get userId
-  // const user = useAppSelector((state) => state.auth.user);
-  // const UserID = user?.userId;
-  const plantId = 'd977c8f7-1028-4be1-a98b-75ab6b74b617';
-
-  // To Get Two API in one Variable
+  // To Get all plants using plantId
   useEffect(() => {
     const fullData = async () => {
-      // const getPlantId = await PLANT_SERVICES.getAllPlantByUserId(UserID);
-      // console.log(getPlantId.message[0].plantId, 'plant');
-      // const plantId = getPlantId.message[0].plantId;
-      const details = await PLANT_SERVICES.getAllPlantsSets(plantId);
-      console.log('updated', details);
+      if (currentPlant) {
+        const details = await PLANT_SERVICES.getAllPlantsSets(currentPlant);
 
-      const updatedData = await Promise.all(
-        details.message.map(async (data: { sensorId: string }) => {
-          const standardDetails = await SETSTANDARDS_SERVICES.getAllSetsbyid(data.sensorId);
-          return {
-            ...data,
-            ...standardDetails,
-          };
-        }),
-      );
-      console.log('dee', updatedData);
+        const updatedData = await Promise.all(
+          details.message.map(async (data: { sensorId: string }) => {
+            const standardDetails = await SETSTANDARDS_SERVICES.getAllSetsbyid(data.sensorId);
+            return {
+              ...data,
+              ...standardDetails,
+            };
+          }),
+        );
 
-      // Filtering to Get Full values Even after deleting sensor data
-      const finalData = updatedData.filter((data: { uom: any }) => data.uom);
-      setSetStandardList(finalData);
+        // Filtering to Get Full values Even after deleting sensor data
+        const finalData = updatedData.filter((data: { uom: any }) => data.uom);
+        setSetStandardList(finalData);
+      }
     };
 
     fullData();
-  }, []);
+  }, [currentPlant]);
 
   // delete plant
   const onDeletePlant = async (macAddress: any) => {
@@ -72,8 +69,8 @@ const SetStandardList = () => {
   const columns: any = [
     {
       title: 'Machine Number',
-      dataIndex: 'machine',
-      key: 'machine',
+      dataIndex: 'machineNumber',
+      key: 'machineNumber',
       align: 'center',
     },
 
@@ -182,13 +179,20 @@ const SetStandardList = () => {
           criticalityData.push('Unsafe');
         }
 
-        criticalityData = criticalityData.join(',');
+        // criticalityData = criticalityData.join(',');
 
         if (!criticalityBreakDown && !criticalityDefect && !criticalityUnsafe) {
-          criticalityData = 'Non';
+          criticalityData = 'None';
         }
 
-        return <div>{criticalityData}</div>;
+        return criticalityData?.map((criticality: string) => {
+          const COLOR = criticality === 'BreakDown' ? 'magenta' : criticality === 'Defect' ? 'red' : 'orange';
+          return (
+            <Tag color={COLOR} key={criticality}>
+              {criticality}
+            </Tag>
+          );
+        });
       },
     },
     {
@@ -200,26 +204,32 @@ const SetStandardList = () => {
       render: (_: any, data: any) => {
         return (
           <div className="flex justify-center gap-3">
-            <div
-              className="cursor-pointer"
-              onClick={() => navigate(SITEMAP.setStandards.NewSetStandards, { state: { data } })}
-            >
-              <PencilIcon className="w-[20px] h-[20px]" />
-            </div>
-            <div
-              className="cursor-pointer"
-              onClick={() => {
-                setShowDeleteUserModal(true);
-                setSelectedStandard(data?.macAddress);
-              }}
-            >
-              <DeleteIcon className="w-[20px] h-[20px]" />
-            </div>
+            <AccessManager role={loggedUser?.role || 'USER'} category="Set PM Standards" accessNeeded="update">
+              <div
+                className="cursor-pointer"
+                onClick={() => navigate(SITEMAP.setStandards.NewSetStandards, { state: { data } })}
+              >
+                <PencilIcon className="w-[20px] h-[20px]" />
+              </div>
+            </AccessManager>
+            <AccessManager role={loggedUser?.role || 'USER'} category="Set PM Standards" accessNeeded="delete">
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  setShowDeleteUserModal(true);
+                  setSelectedStandard(data?.macAddress);
+                }}
+              >
+                <DeleteIcon className="w-[20px] h-[20px]" />
+              </div>
+            </AccessManager>
           </div>
         );
       },
     },
   ];
+
+  const userAccess = accessRules[loggedUser?.role || 'USER']['Set PM Standards'].includes('add');
 
   return (
     <>
@@ -231,10 +241,10 @@ const SetStandardList = () => {
           label="+ Create Standards"
           type="button"
           variant="primary"
+          disabled={!userAccess}
           onClick={() => navigate(SITEMAP.setStandards.NewSetStandards)}
         />
       </div>
-      {console.log('div', setStandardlist)}
       <Table
         className="set-table"
         columns={columns}

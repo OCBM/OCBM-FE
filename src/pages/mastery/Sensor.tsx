@@ -3,6 +3,7 @@ import { Button, Dropdown, FileUploader, Input, Modal } from '@/components';
 import { FileUploadStatusType } from '@/components/reusable/fileuploader/types';
 import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 import { Table } from '@/components/reusable/table';
+import { useAppSelector } from '@/hooks';
 import { ELEMENT_SERVICES } from '@/services/elementServices';
 import { SENSOR_SERVICES } from '@/services/sensorServices';
 import { Avatar } from 'antd';
@@ -28,8 +29,8 @@ const sensorInitialState = {
 };
 
 function Sensor() {
+  const { currentPlant } = useAppSelector((state) => state.plantRegistration);
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
-  const [sensorList, setSensorList] = useState<any>([]);
   const [sensorData, setSensorData] = useState<any>(initialState);
   const [elementList, setElementList] = useState<any>([]);
   const [imageUrl, setImageUrl] = useState<any>('');
@@ -43,6 +44,7 @@ function Sensor() {
   const [showDeleteSensorModal, setShowDeleteSensorModal] = useState<boolean>(false);
   const [showEditSensorModal, setShowEditSensorModal] = useState<boolean>(false);
   const [newSensor, setNewSensor] = useState<any>(sensorInitialState);
+  const [sensorList, setSensorList] = useState([]);
 
   const handleFile = async (event: any) => {
     setFileName(event[0].name);
@@ -78,33 +80,30 @@ function Sensor() {
     const res = await SENSOR_SERVICES.postSensorOcbm({ ...sensorData, imageName: fileName });
     if (res.statusCode === 201) {
       setSensorData(initialState);
-      toast.success('Machine Line added successfully');
+      toast.success('Sensor added successfully');
       fetchAllSensorsOcbm(1);
     }
   };
 
   const columns = [
     {
-      title: 'Sensor Name',
+      title: 'Sensor ID',
       dataIndex: 'sensorId',
-      key: 'sensorName',
+      key: 'sensorId',
     },
     {
       title: 'Sensor Description',
       dataIndex: 'sensorDescription',
-      width: '20%',
       key: 'description',
     },
     {
       title: 'Sensor ID',
       dataIndex: 'elementId',
-      width: '30%',
       key: 'elementId',
     },
     {
       title: 'Image',
       dataIndex: 'image',
-      width: '20%',
       key: 'image',
       render: (image: any) => {
         return <Avatar shape="square" size={64} src={image} />;
@@ -113,7 +112,6 @@ function Sensor() {
     {
       title: 'Actions',
       dataIndex: 'actions',
-      width: '10%',
       key: 'actions',
       render: (_: any, data: any) => {
         return (
@@ -142,24 +140,23 @@ function Sensor() {
     },
   ];
 
-  const fetchAllSensors = async () => {
-    const res = await SENSOR_SERVICES.getAllSensor();
-    setSensorList(res);
-  };
-
   const fetchAllElements = async () => {
-    const res = await ELEMENT_SERVICES.getAllElements();
+    const res = await ELEMENT_SERVICES.getAllElementsByPlantId(currentPlant);
     setElementList(res?.message);
   };
   const fetchAllSensorsOcbm = async (page: number) => {
     setLoading(true);
-    const res = await SENSOR_SERVICES.getAllSensorOcbm(page);
+    const res = await SENSOR_SERVICES.getAllSensorOcbmByPlantID(currentPlant, page);
     setOcbmSensorList(res?.message);
     setLoading(false);
     setPaginationData(res?.meta);
     if (res?.Error && paginationData?.current_page > 1) {
       fetchAllSensorsOcbm(paginationData?.current_page - 1);
     }
+  };
+  const fetchAllSensors = async () => {
+    const res = await SENSOR_SERVICES.getAllSensor();
+    setSensorList(res);
   };
 
   //delete machine line
@@ -199,9 +196,9 @@ function Sensor() {
   };
 
   useEffect(() => {
-    fetchAllSensors();
     fetchAllElements();
     fetchAllSensorsOcbm(1);
+    fetchAllSensors();
   }, []);
 
   return (
@@ -209,6 +206,17 @@ function Sensor() {
       <h2 className="text-xl font-medium leading-5 text-[#444] mb-8">Add Sensor</h2>
 
       <div className="flex  gap-[16px] mb-6">
+        <Dropdown
+          options={elementList}
+          className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
+          placeholder="Select Element"
+          optionLabel="elementName"
+          optionValue="elementId"
+          handleChange={(element) => setSensorData({ ...sensorData, elementId: element })}
+          value={elementList?.find((data: any) => data?.elementId === sensorData.elementId)?.elementName}
+          mandatory={true}
+        />
+
         <Dropdown
           options={sensorList}
           className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
@@ -224,16 +232,6 @@ function Sensor() {
           value={sensorData.sensorDescription}
           name="description"
           onChange={(e) => setSensorData({ ...sensorData, sensorDescription: e.target.value })}
-        />
-        <Dropdown
-          options={elementList}
-          className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-          placeholder="Select Element"
-          optionLabel="elementName"
-          optionValue="elementId"
-          handleChange={(element) => setSensorData({ ...sensorData, elementId: element })}
-          value={elementList?.find((data: any) => data?.elementId === sensorData.elementId)?.elementName}
-          mandatory={true}
         />
       </div>
       <div>

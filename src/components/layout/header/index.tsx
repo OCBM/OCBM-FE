@@ -3,15 +3,22 @@ import { Dropdown } from '@/components';
 import { Config } from '@/config';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { logoutUser } from '@/redux/slices/authSlice';
+import { setAllPlants, setCurrentPlant } from '@/redux/slices/plantSlice';
+import { PLANT_SERVICES } from '@/services/plantServices';
 import { SENSOR_SERVICES } from '@/services/sensorServices';
+import { Select } from 'antd';
 import classNames from 'classnames';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import socketIOClient from 'socket.io-client';
 
 const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const loggedUser = useAppSelector((state) => state.auth?.user);
   const user = useAppSelector((state) => state.auth.user);
+  const { allPlants, currentPlant } = useAppSelector((state) => state.plantRegistration);
   const [showOpenNotificationModal, setShowNotificationModal] = useState(false);
   const [sensorIdList, setSensorIdList] = useState([]);
   // const options = [
@@ -41,7 +48,8 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
 
   const logoutBtn = () => {
     toast.success('Logged out');
-
+    dispatch(setAllPlants([]));
+    dispatch(setCurrentPlant(''));
     setTimeout(() => {
       dispatch(logoutUser());
     }, 1000);
@@ -64,10 +72,12 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
     return () => {
       if (alertsSocket) {
         alertsSocket.disconnect();
+        alertsSocket.removeAllListeners();
+        setAlertsSocket(null);
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [sensorIdList]);
 
   useEffect(() => {
     if (alertsSocket) {
@@ -82,18 +92,13 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
         authorization: `Bearer ${user?.accessToken}`,
       },
     });
-    _socket.on('connection-status', ({ socketId, success, error }) => {
+    _socket.on('connection-status', ({ success }) => {
       if (success === true) {
-        console.log(socketId);
         setAlertsSocket(_socket);
       } else {
-        console.error(error);
         _socket.removeAllListeners();
         _socket.disconnect();
       }
-      _socket.on('disconnect', (reason) => {
-        console.log('disconnect', reason);
-      });
     });
   }
 
@@ -107,9 +112,48 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
       setAlertsData((prevData: any) => [...prevData, data]);
     });
   }
+  const fetchPlantsbyUserId = async () => {
+    const res = await PLANT_SERVICES.getAllPlantByUserId(loggedUser?.userId);
+    const formattedData = res?.message.map((el: any) => {
+      return {
+        value: el.plantId,
+        label: el.plantName,
+      };
+    });
+    dispatch(setAllPlants(formattedData));
+    if (!currentPlant && formattedData) {
+      dispatch(setCurrentPlant(formattedData[0].value));
+    }
+  };
+
+  useEffect(() => {
+    fetchPlantsbyUserId();
+  }, []);
+
+  const handlePlantChange = (plantId: string) => {
+    dispatch(setCurrentPlant(plantId));
+    navigate('/plant');
+  };
 
   return (
-    <>
+    <div className="flex">
+      <div className="w-full flex justify-center">
+        {loggedUser?.role !== 'USER' ? (
+          <div className="flex gap-3 w-full items-center justify-start">
+            <span className="text-[#8B9298]">Current plant</span>
+            <span className="text-[#8B9298]">{`>`}</span>
+            <Select
+              size="small"
+              onChange={handlePlantChange}
+              value={currentPlant}
+              style={{ width: 200 }}
+              options={allPlants}
+            />
+          </div>
+        ) : (
+          ''
+        )}
+      </div>
       <div className="flex items-center justify-end gap-5">
         {/* Keep this commented code as it will be used later implementation
         <div
@@ -142,7 +186,7 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
           <div className="relative" onClick={() => setShowNotificationModal(!showOpenNotificationModal)}>
             <BellIcon className="shrink-0" />
             {showOpenNotificationModal ? (
-              <div className="absolute h-[250px] w-[300px] left-[-110px] overflow-auto shadow-lg rounded-2xl top-10 bg-white">
+              <div className="absolute h-[250px] w-[300px] left-[-110px] overflow-auto shadow-lg rounded-2xl top-10 bg-white z-10">
                 {alertsData?.length > 0 ? (
                   alertsData?.slice(-10)?.map((data: any) => (
                     <p key={data?.alert?.macAddress} className="p-3">
@@ -169,7 +213,7 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

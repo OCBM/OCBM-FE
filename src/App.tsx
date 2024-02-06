@@ -12,13 +12,12 @@ import Machines from './pages/machines';
 import MachineInfo from './pages/machines/machineInfo';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
-import HydraulicSystem from './pages/machines/HydraulicSystem';
-import SpindleCoolingSystem from './pages/machines/SpindleCoolingSystem';
-import LubricationSystem from './pages/machines/LubricationSystem';
 import ManualEntry from './pages/mastery/ManualEntry';
 import NewSetStandards from './pages/setStandards/newSetStandards';
 import SetStandard from './pages/setStandards';
 import Reports from './pages/reports';
+import ElementInfo from './pages/machines/ElementInfo';
+import SensorChart from './pages/machines/SensorChart';
 
 function App() {
   return (
@@ -51,11 +50,10 @@ function App() {
             <Route path={SITEMAP.users.addUser} element={<Addusers />} />
             <Route path={SITEMAP.users.index} element={<UsersList />} />
             <Route path={SITEMAP.plant.index} element={<Plant />} />
-            <Route path={SITEMAP.machines.hydraulicSystem} element={<HydraulicSystem />} />
-            <Route path={SITEMAP.machines.SpindleCoolingSystem} element={<SpindleCoolingSystem />} />
-            <Route path={SITEMAP.machines.LubricationSystem} element={<LubricationSystem />} />
             <Route path={SITEMAP.machines.index} element={<Machines />} />
             <Route path={SITEMAP.machines.machinesbyId} element={<MachineInfo />} />
+            <Route path={SITEMAP.machines.elementsById} element={<ElementInfo />} />
+            <Route path={SITEMAP.machines.sensorById} element={<SensorChart />} />
             <Route path={SITEMAP.setStandards.NewSetStandards} element={<NewSetStandards />} />
             <Route path={SITEMAP.setStandards.index} element={<SetStandard />} />
             <Route index element={<Home />} />

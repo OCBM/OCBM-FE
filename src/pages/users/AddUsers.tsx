@@ -2,12 +2,17 @@ import { useState, useEffect } from 'react';
 import { Button, Dropdown, Input } from '@/components';
 import { useNavigate } from 'react-router-dom';
 import { USER_SERVICES } from '@/services/userServices';
-import { GROUP_SERVICES } from '@/services/groupServices';
-import { ORGANIZATION_SERVICES } from '@/services/organizationServices';
+// import { GROUP_SERVICES } from '@/services/groupServices';
+// import { ORGANIZATION_SERVICES } from '@/services/organizationServices';
 import { toast } from 'react-toastify';
 import { SITEMAP } from '@/utils/sitemap';
 import { USERS_PAGE_CONSTANTS } from './constants';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { useAppSelector } from '@/hooks';
+// import { plantData } from '@/redux/slices/plantSlice';
+import { RootState } from '@/redux/store';
 import { PLANT_SERVICES } from '@/services/plantServices';
+import { useSelector } from 'react-redux';
 
 function Addusers() {
   type InitialStateType = {
@@ -36,29 +41,37 @@ function Addusers() {
   };
 
   const [user, setUser] = useState<InitialStateType>(initialState);
-  const [organizationData, setOrganizationData] = useState([]);
-  const [groupsData, setGroupsData] = useState([]);
+  const loggedUser = useSelector((state: RootState) => state.auth?.user);
+  // const { plants } = useAppSelector((state) => state.plantRegistration);
+  // const [organizationData, setOrganizationData] = useState([]);
+  // const [groupsData, setGroupsData] = useState([]);
   const [plantsData, setPlantsData] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    async function getOrganizations() {
-      const organization = await ORGANIZATION_SERVICES.getAllOrganization();
-      setOrganizationData(organization.message);
-    }
+  const fetchPlantsbyUserId = async () => {
+    const res = await PLANT_SERVICES.getAllPlantByUserId(loggedUser?.userId);
+    setPlantsData(res?.message);
+  };
 
-    async function getGroups() {
-      const group = await GROUP_SERVICES.getAllGroups();
-      setGroupsData(group.message);
-    }
-    getOrganizations();
-    getGroups();
+  useEffect(() => {
+    // async function getOrganizations() {
+    //   const organization = await ORGANIZATION_SERVICES.getAllOrganization();
+    //   setOrganizationData(organization.message);
+    // }
+
+    // async function getGroups() {
+    //   const group = await GROUP_SERVICES.getAllGroups();
+    //   setGroupsData(group.message);
+    // }
+    fetchPlantsbyUserId();
+    // getOrganizations();
+    // getGroups();
   }, []);
 
-  async function getPlants(value: any) {
-    const plants = await PLANT_SERVICES.getAllPlantsByOrgId(value.organizationId);
-    setPlantsData(plants?.message);
-  }
+  // async function getPlants(value: any) {
+  //   const plants = await PLANT_SERVICES.getAllPlantsByOrgId(value.organizationId);
+  //   setPlantsData(plants?.message);
+  // }
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
@@ -75,7 +88,6 @@ function Addusers() {
       user.password &&
       user.position &&
       user.userName &&
-      user.groups &&
       user.plants
       ? false
       : true;
@@ -90,11 +102,7 @@ function Addusers() {
       position: user.position,
       role: user.role,
       groups: {
-        connect: [
-          {
-            groupId: user.groups?.groupId || '',
-          },
-        ],
+        connect: [],
       },
       plants: {
         connect: [
@@ -103,13 +111,13 @@ function Addusers() {
           },
         ],
       },
-      organization: {
-        connect: [
-          {
-            organizationId: user.organization?.organizationId || '',
-          },
-        ],
-      },
+      // organization: {
+      //   connect: [
+      //     {
+      //       organizationId: user.organization?.organizationId || '',
+      //     },
+      //   ],
+      // },
       password: user.password,
     };
     const res = await USER_SERVICES.addUser(body);
@@ -165,8 +173,8 @@ function Addusers() {
               />
             </div>
 
-            <div className="flex justify-between flex-row w-full gap-[20px] mt-5 mb-9">
-              <Dropdown
+            {/* <div className="flex justify-between flex-row w-full gap-[20px] mt-5 mb-9"> */}
+            {/* <Dropdown
                 label="Select Organization"
                 className="w-full border-[1px] h-[50px] px-3"
                 placeholder="Select Organization"
@@ -178,9 +186,9 @@ function Addusers() {
                 value={user.organization}
                 optionLabel="organizationName"
                 mandatory={true}
-              />
+              /> */}
 
-              <Dropdown
+            {/* <Dropdown
                 label="Select Group"
                 className="w-full border-[1px] h-[50px] px-3"
                 placeholder="Select Group"
@@ -191,22 +199,8 @@ function Addusers() {
                   setUser((prev: any) => ({ ...prev, groups: value }));
                 }}
                 mandatory={true}
-              />
-
-              <Dropdown
-                label="Select Plant"
-                className="w-full border-[1px] h-[50px] px-3"
-                placeholder="Select Plant"
-                value={user?.plants}
-                options={plantsData}
-                disabled={!user.organization}
-                optionLabel="plantName"
-                handleChange={(value) => {
-                  setUser((prev: any) => ({ ...prev, plants: value }));
-                }}
-                mandatory={true}
-              />
-            </div>
+              /> */}
+            {/* </div> */}
 
             <div className="flex justify-between flex-row w-full gap-[20px] mt-5 mb-9">
               <Input
@@ -248,21 +242,35 @@ function Addusers() {
               />
             </div>
             <div className="flex justify-start flex-row gap-[20px] mt-5 mb-9">
-              <div className="w-[33%]">
-                <Dropdown
-                  label="Role"
-                  className="w-[100%] border-[1px] h-[50px] px-3"
-                  placeholder="Select Role"
-                  value={user?.role}
-                  options={USERS_PAGE_CONSTANTS.ROLE_ACCESS_TYPES}
-                  optionLabel="role"
-                  optionValue="role"
-                  handleChange={(value) => {
-                    setUser((prev: any) => ({ ...prev, role: value }));
-                  }}
-                  mandatory={true}
-                />
-              </div>
+              <Dropdown
+                label="Role"
+                wrapClassName="w-full"
+                className="w-full border-[1px] h-[50px] px-3"
+                placeholder="Select Role"
+                value={user?.role}
+                options={USERS_PAGE_CONSTANTS.ROLE_ACCESS_TYPES}
+                optionLabel="role"
+                optionValue="role"
+                handleChange={(value) => {
+                  setUser((prev: any) => ({ ...prev, role: value }));
+                }}
+                mandatory={true}
+              />
+
+              <Dropdown
+                label="Select Plant"
+                wrapClassName="w-full"
+                className="w-full border-[1px] h-[50px] px-3"
+                placeholder="Select Plant"
+                value={user?.plants}
+                options={plantsData}
+                // disabled={!user.organization}
+                optionLabel="plantName"
+                handleChange={(value) => {
+                  setUser((prev: any) => ({ ...prev, plants: value }));
+                }}
+                mandatory={true}
+              />
             </div>
 
             <div className="flex justify-start flex-row w-full gap-[20px] mt-5 mb-9">

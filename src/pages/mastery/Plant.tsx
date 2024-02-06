@@ -8,11 +8,14 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { MASTERY_PAGE_CONSTANTS } from '../users/constants';
 import Loader from '@/components/reusable/loader';
+import { Avatar } from 'antd';
 import PopupModal from '@/components/reusable/popupmodal/popupmodal';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import AccessManager from '@/components/accessManager';
+import { setAllPlants, setCurrentPlant } from '@/redux/slices/plantSlice';
 
 function Plant() {
-  const orgID: string = 'e38d4b0a-d80d-4a52-a85a-4da33732542d';
-  // const orgID: string = '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d';
   type InitialStateType = {
     plantName: string | undefined;
     organizationId: string | undefined;
@@ -36,7 +39,9 @@ function Plant() {
     totalPage?: number;
     total_items?: number;
   };
-
+  const data = useSelector((state: RootState) => state.auth.organization);
+  const { currentPlant } = useAppSelector((state) => state.plantRegistration);
+  const dispatch = useDispatch();
   const [plantData, setPlantData] = useState([]);
   const [newPlant, setNewPlant] = useState<InitialStateType>(initialState);
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
@@ -54,21 +59,34 @@ function Plant() {
   const [imageURL, setImageURl] = useState<string>('');
 
   // fetching All Plant data by organizationId
-  const fetchPlantDataByOrgId = async (page: number) => {
-    if (loggedUser) {
-      setIsLoading(true);
-      const res = await PLANT_SERVICES.getAllPlants(page);
-      setPlantData(res?.message);
-      setIsLoading(false);
-      setPaginationData(res?.meta);
-      if (res?.Error && paginationData?.current_page > 1) {
-        fetchPlantDataByOrgId(paginationData?.current_page - 1);
+  const fetchPlantDataByOrgId = async () => {
+    try {
+      if (loggedUser) {
+        setIsLoading(true);
+
+        const res = await PLANT_SERVICES.getAllPlantsbyUserid(loggedUser.userId);
+
+        const formattedData = res?.message.map((el: any) => {
+          return {
+            value: el.plantId,
+            label: el.plantName,
+          };
+        });
+        dispatch(setAllPlants(formattedData));
+        if (!currentPlant && formattedData) {
+          dispatch(setCurrentPlant(formattedData[0].value));
+        }
+        setPlantData(res?.message);
+        setIsLoading(false);
+        setPaginationData(res?.meta);
       }
+    } catch {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchPlantDataByOrgId(1);
+    fetchPlantDataByOrgId();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -108,7 +126,7 @@ function Plant() {
       const res = await PLANT_SERVICES.deletePlantById(orgId, plantId);
       toast.success(res.message);
       setShowDeleteUserModal(false);
-      fetchPlantDataByOrgId(paginationData?.current_page);
+      fetchPlantDataByOrgId();
     }
   };
 
@@ -146,6 +164,9 @@ function Plant() {
       dataIndex: 'imageName',
       width: '20%',
       key: 'image',
+      render: (image: any, img: any) => {
+        return <Avatar shape="square" size={64} src={img.image} alt={image} />;
+      },
     },
     {
       title: 'Actions',
@@ -155,24 +176,28 @@ function Plant() {
       render: (_: any, data: any) => {
         return (
           <div className="flex justify-start gap-3">
-            <div
-              className="cursor-pointer"
-              onClick={() => {
-                setNewPlant(data);
-                setEditPlant(true);
-              }}
-            >
-              <PencilIcon className="w-[20px] h-[20px]" />
-            </div>
-            <div
-              className="cursor-pointer"
-              onClick={() => {
-                setShowDeleteUserModal(true);
-                setSelectedPlant(data?.plantId);
-              }}
-            >
-              <DeleteIcon className="w-[20px] h-[20px]" />
-            </div>
+            <AccessManager role={loggedUser?.role || 'USER'} category="Plant" accessNeeded="update">
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  setNewPlant(data);
+                  setEditPlant(true);
+                }}
+              >
+                <PencilIcon className="w-[20px] h-[20px]" />
+              </div>
+            </AccessManager>
+            <AccessManager role={loggedUser?.role || 'USER'} category="Plant" accessNeeded="delete">
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  setShowDeleteUserModal(true);
+                  setSelectedPlant(data?.plantId);
+                }}
+              >
+                <DeleteIcon className="w-[20px] h-[20px]" />
+              </div>
+            </AccessManager>
           </div>
         );
       },
@@ -184,14 +209,14 @@ function Plant() {
       image: newPlant.image,
       plantName: newPlant.plantName,
       description: newPlant.description,
-      organizationId: orgID,
+      organizationId: data?.organizationId,
       imageName: newPlant.imageName,
     };
     const res = await PLANT_SERVICES.addPlant(body);
     if (res?.statusCode === 201) {
       handleClear();
       toast.success('Plant added successfully');
-      fetchPlantDataByOrgId(1);
+      fetchPlantDataByOrgId();
     }
   }
 
@@ -202,9 +227,9 @@ function Plant() {
       image: newPlant.image,
       imageName: newPlant.imageName,
     };
-    const res = await PLANT_SERVICES.updatePlantbyId(orgID, newPlant.plantId, body);
+    const res = await PLANT_SERVICES.updatePlantbyId(data?.organizationId || '', newPlant.plantId, body);
     if (res.statusCode === 200) {
-      fetchPlantDataByOrgId(paginationData?.current_page);
+      fetchPlantDataByOrgId();
       handleClear();
       setEditPlant(false);
       setShowEditSuccessModal(true);
@@ -217,52 +242,54 @@ function Plant() {
 
   return (
     <>
-      <h2 className="text-[20px] text-[#444444] leading-5 font-medium mb-8">Add Plant</h2>
-      <>
-        <div className="flex justify-start items-center gap-[16px] mb-6">
-          <Input
-            className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-            placeholder="Plant Name*"
-            type="text"
-            value={editPlant ? '' : newPlant?.plantName}
-            name="plantName"
-            onChange={handleChange}
-          />
-          <Input
-            className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-            placeholder="Plant Description*"
-            type="text"
-            name="description"
-            value={editPlant ? '' : newPlant?.description}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <FileUploader
-            className="w-[560px] py-6"
-            mastery
-            fileFormat=".jpg, .png"
-            handleFile={handleFile}
-            uploadStatus={uploadStatus}
-            fileName={editPlant ? '' : fileName}
-            image={editPlant ? '' : imageURL}
-          />
-        </div>
-        <div className="flex justify-start flex-row w-full gap-4 mt-8 mb-8">
-          <Button
-            onClick={handleClear}
-            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
-            label="Clear"
-            variant="secondary"
-          />
-          <Button
-            className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
-            label="Add"
-            disabled={disablingNewPlant()}
-            onClick={createPlant}
-          />
-        </div>
-      </>
+      <AccessManager role={loggedUser?.role || 'USER'} category="Plant" accessNeeded="add">
+        <h2 className="text-[20px] text-[#444444] leading-5 font-medium mb-8">Add Business Unit</h2>
+        <>
+          <div className="flex justify-start items-center gap-[16px] mb-6">
+            <Input
+              className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
+              placeholder="Plant Name*"
+              type="text"
+              value={editPlant ? '' : newPlant?.plantName}
+              name="plantName"
+              onChange={handleChange}
+            />
+            <Input
+              className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
+              placeholder="Plant Description*"
+              type="text"
+              name="description"
+              value={editPlant ? '' : newPlant?.description}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <FileUploader
+              className="w-[560px] py-6"
+              mastery
+              fileFormat=".jpg, .png"
+              handleFile={handleFile}
+              uploadStatus={uploadStatus}
+              fileName={editPlant ? '' : fileName}
+              image={editPlant ? '' : imageURL}
+            />
+          </div>
+          <div className="flex justify-start flex-row w-full gap-4 mt-8 mb-8">
+            <Button
+              onClick={handleClear}
+              className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
+              label="Clear"
+              variant="secondary"
+            />
+            <Button
+              className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
+              label="Add"
+              disabled={disablingNewPlant()}
+              onClick={createPlant}
+            />
+          </div>
+        </>
+      </AccessManager>
 
       <>
         <Table
@@ -272,8 +299,8 @@ function Plant() {
             pageSize: paginationData?.item_count,
             total: paginationData?.total_items,
             current: paginationData?.current_page,
-            onChange: (page) => {
-              fetchPlantDataByOrgId(page);
+            onChange: () => {
+              fetchPlantDataByOrgId();
             },
           }}
           loading={{
@@ -372,7 +399,7 @@ function Plant() {
         icon={<QuestionMarkIcon />}
         handleClose={() => setShowDeleteUserModal(false)}
         handleDelete={() => {
-          onDeletePlant(orgID, selectedPlant);
+          onDeletePlant(data?.organizationId || '', selectedPlant);
         }}
         onCloseDeleteModal={() => {
           setShowDeleteUserModal(false);
