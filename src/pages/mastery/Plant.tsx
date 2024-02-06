@@ -65,7 +65,7 @@ function Plant() {
         setIsLoading(true);
 
         const res = await PLANT_SERVICES.getAllPlantsbyUserid(loggedUser.userId);
-        console.log('RESPONSE', res);
+
         const formattedData = res?.message.map((el: any) => {
           return {
             value: el.plantId,
@@ -165,7 +165,6 @@ function Plant() {
       width: '20%',
       key: 'image',
       render: (image: any, img: any) => {
-        console.log('imgurl', img.image);
         return <Avatar shape="square" size={64} src={img.image} alt={image} />;
       },
     },

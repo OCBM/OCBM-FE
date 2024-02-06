@@ -29,7 +29,6 @@ const AuthSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(loginUser.fulfilled, (state, { payload }) => {
-        console.log('PAYLOAD', payload);
         state.isLoading = false;
         state.loggedIn = true;
         state.user = payload?.message;
@@ -40,7 +39,6 @@ const AuthSlice = createSlice({
       });
   },
 });
-console.log('auth', loginUser);
 
 export const { logoutUser } = AuthSlice.actions;
 export default AuthSlice.reducer;

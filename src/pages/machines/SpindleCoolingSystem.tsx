@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 function SpindleCoolingSystem() {
   // ade76fad-ada9-4e57-9f13-36b7704cba21
   const navigate = useNavigate();
-  console.log(graphData, 'graph');
+
   return (
     <div className="shadow-[0px_4px_20px_0px_#0000000F] border-[1px] border-[#44444440] rounded-[16px] p-[24px] ">
       <div className="flex justify-between mb-8 items-center">

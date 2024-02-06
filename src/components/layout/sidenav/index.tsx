@@ -27,12 +27,10 @@ const SideNav = () => {
       </div>
       <div className="flex flex-col justify-center items-center gap-[10px] overflow-y-auto hiddenScroll">
         {sideNavRoutes.map((option) => {
-          console.log('option :: ', option);
           const userAccess = accessRules[loggedUser?.role || 'USER']?.[option.title];
-          console.log('userAccess :: ', userAccess);
 
           const hasAccess = userAccess && userAccess.length > 0;
-          console.log('hasAccess :: ', hasAccess);
+
           return hasAccess ? (
             <div
               key={option.key}

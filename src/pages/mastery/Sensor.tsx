@@ -147,7 +147,6 @@ function Sensor() {
   const fetchAllSensorsOcbm = async (page: number) => {
     setLoading(true);
     const res = await SENSOR_SERVICES.getAllSensorOcbmByPlantID(currentPlant, page);
-    console.log(res.message);
     setOcbmSensorList(res?.message);
     setLoading(false);
     setPaginationData(res?.meta);

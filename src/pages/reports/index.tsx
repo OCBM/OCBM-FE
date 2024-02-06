@@ -100,8 +100,6 @@ const Reports = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sensor, dateRange.start, dateRange.end]);
 
-  console.log('object233', sensorList);
-
   return (
     <div className="shadow-md w-full p-8 rounded-[16px] mx-auto mb-8 overflow-x-hidden">
       <h2 className="text-[24px] text-[#444444] font-medium">CBM Data History</h2>

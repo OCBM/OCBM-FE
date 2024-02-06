@@ -21,8 +21,6 @@ function Plant() {
   const navigate = useNavigate();
   const loggedUser = useAppSelector((state) => state.auth?.user);
   const { plants, shops, machines, show } = useAppSelector((state) => state.plantRegistration);
-  const data = useAppSelector((state) => state.auth);
-  console.log('first', data.user?.role);
 
   const fetchPlantsbyUserId = async () => {
     if (loggedUser) {

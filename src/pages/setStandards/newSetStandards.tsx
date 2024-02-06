@@ -69,7 +69,7 @@ const NewSetStandard = () => {
           unSafe: data.criticality.unSafe || false,
         },
       };
-      console.log(body);
+
       const update_setstandards = await SETSTANDARDS_SERVICES.updateSetdstandards(data.sensorId, body);
       if (update_setstandards) {
         toast.success('setstandard updated successfully');
@@ -115,7 +115,7 @@ const NewSetStandard = () => {
     const machineData = [...machineList];
     const updateMachineId = machineData.findIndex((machine) => machine.sensorId === data.sensorId);
     machineData[updateMachineId][type] = parseInt(event.target.value || 0);
-    console.log(event.target.value || 0, 'value');
+
     if (machineData[updateMachineId][type] >= 0 && machineData[updateMachineId][type] <= 480) {
       setMachineList(machineData);
     }
@@ -198,7 +198,6 @@ const NewSetStandard = () => {
       width: '10%',
       align: 'center',
       render: (_: any, data: any) => {
-        console.log('data', data);
         return (
           <div className="flex justify-center gap-3 ">
             {!state ? (
@@ -433,7 +432,6 @@ const NewSetStandard = () => {
                 options={dropdownData}
                 optionLabel="machineName"
                 handleChange={(value: any) => {
-                  console.log(value, 'value');
                   fetchMachine(value?.machineId);
                   setNewSetstandards((prev: any) => ({
                     ...prev,

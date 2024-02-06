@@ -194,7 +194,6 @@ const Machine = () => {
       width: '20%',
       key: 'imageName',
       render: (image: any, img: any) => {
-        console.log(img.image);
         return <Avatar shape="square" size={64} src={img.image} alt={image} />;
       },
     },
