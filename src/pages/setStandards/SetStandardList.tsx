@@ -73,7 +73,6 @@ const SetStandardList = () => {
       key: 'machineNumber',
       align: 'center',
     },
-
     {
       title: 'Element Name',
       dataIndex: 'element',
@@ -81,9 +80,9 @@ const SetStandardList = () => {
       align: 'center',
     },
     {
-      title: 'Sensor ID',
-      dataIndex: 'macAddress',
-      key: 'macAddress',
+      title: 'Sensor Label',
+      dataIndex: 'sensorLabel',
+      key: 'sensorLabel',
       align: 'center',
     },
     {
@@ -194,6 +193,12 @@ const SetStandardList = () => {
           );
         });
       },
+    },
+    {
+      title: 'Sensor ID',
+      dataIndex: 'macAddress',
+      key: 'macAddress',
+      align: 'center',
     },
     {
       title: 'Actions',
