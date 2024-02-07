@@ -326,7 +326,7 @@ const Shop = () => {
       {/* Fields to get shop name, shop description and shop image */}
       <div className="flex items-center gap-[16px] mb-6">
         <Input
-          placeholder="Shop Name"
+          placeholder="Name"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"
@@ -335,7 +335,7 @@ const Shop = () => {
           mandatory={true}
         />
         <Input
-          placeholder="Shop Description"
+          placeholder="Description"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"
