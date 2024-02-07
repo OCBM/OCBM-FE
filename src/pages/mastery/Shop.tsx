@@ -55,7 +55,7 @@ const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newShop, 
             mandatory={true}
             type="text"
             name="shopName"
-            placeholder="Enter Shop Name"
+            placeholder="Enter Name"
             value={newShop?.shopName}
             onChange={handleChange}
           />
@@ -66,7 +66,7 @@ const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newShop, 
             mandatory={true}
             type="text"
             name="description"
-            placeholder="Enter Plant Description"
+            placeholder="Enter Description"
             value={newShop?.description}
             onChange={handleChange}
           />

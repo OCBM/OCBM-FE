@@ -66,6 +66,10 @@ const SetStandardList = () => {
     }
   };
 
+  const locale = {
+    emptyText: <span className="text-grey-light font-semibold text-2xl leading-6">No Plants Available</span>,
+  };
+
   const columns: any = [
     {
       title: 'Machine Number',
@@ -249,6 +253,7 @@ const SetStandardList = () => {
         className="set-table"
         columns={columns}
         dataSource={setStandardlist}
+        locale={locale}
         scroll={{ x: 'calc(1500px + 50%)' }}
       />
       <PopupModal
