@@ -219,47 +219,31 @@ const NewSetStandard = () => {
     },
     {
       title: 'Element Name',
-      key: 'ElementName',
-      dataIndex: 'ElementName',
+      key: 'element',
+      dataIndex: 'element',
+      width: 180,
       align: 'center',
-      render: (_: any, data: any) => {
-        return (
-          <div className="flex justify-center gap-3 ">
-            <h1>{data?.element}</h1>
-          </div>
-        );
-      },
     },
     {
-      title: 'Sensor ID',
-      key: 'SensorID',
-      dataIndex: 'SensorID',
+      title: 'Sensor Label',
+      key: 'sensorLabel',
+      dataIndex: 'sensorLabel',
+      width: 120,
+
       align: 'center',
-      render: (_: any, data: any) => {
-        return (
-          <div className="flex justify-center gap-3">
-            <h1>{data?.sensorId}</h1>
-          </div>
-        );
-      },
     },
     {
       title: 'Sensor Description',
-      key: 'SensorDescription',
-      dataIndex: 'SensorDescription',
+      key: 'sensorDescription',
+      dataIndex: 'sensorDescription',
+      width: 180,
       align: 'center',
-      render: (_: any, data: any) => {
-        return (
-          <div className="flex justify-center gap-3">
-            <h1>{data?.sensorDescription}</h1>
-          </div>
-        );
-      },
     },
     {
       title: 'Operating Range',
       key: 'OperatingRange',
       dataIndex: 'OperatingRange',
+      width: 180,
       align: 'center',
       render: (_: any, data: any) => {
         return (
@@ -289,6 +273,7 @@ const NewSetStandard = () => {
       title: 'Threshold Range',
       key: 'ThresholdValue',
       dataIndex: 'ThresholdValue',
+      width: 180,
       align: 'center',
       render: (_: any, data: any) => {
         return (
@@ -318,10 +303,11 @@ const NewSetStandard = () => {
       title: 'UOM',
       key: 'uom',
       dataIndex: 'uom',
+      width: 120,
       align: 'center',
       render: (_: any, data: any) => {
         return (
-          <div className="flex justify-center ml-8 border-b-[1px] border-[#A9A9A9] w-[80px]">
+          <div className="flex justify-center ml-1 border-b-[1px] border-[#A9A9A9] w-[80px]">
             <Dropdown
               placeholder="Bar"
               openClassName="top-5 w-[85px]"
@@ -340,6 +326,7 @@ const NewSetStandard = () => {
       title: 'Interval (minutes)',
       key: 'Interval',
       dataIndex: 'Interval',
+      width: 180,
       align: 'center',
       render: (_: any, data: any) => {
         return (
@@ -361,7 +348,8 @@ const NewSetStandard = () => {
       title: 'Trigger (Threshold Value)',
       key: 'trigger',
       dataIndex: 'trigger',
-      width: '11%',
+      width: 210,
+
       align: 'center',
       render: (_: any, data: any) => {
         return (
@@ -414,6 +402,20 @@ const NewSetStandard = () => {
         );
       },
     },
+    {
+      title: 'Sensor ID',
+      key: 'SensorID',
+      dataIndex: 'SensorID',
+      width: 160,
+      align: 'center',
+      render: (_: any, data: any) => {
+        return (
+          <div className="flex justify-center gap-3">
+            <h1>{data?.sensorId}</h1>
+          </div>
+        );
+      },
+    },
   ];
 
   return (
@@ -423,7 +425,7 @@ const NewSetStandard = () => {
 
         {!state ? (
           <div className="flex justify-center flex-row gap-[20px] mt-5 mb-9">
-            <div className="  h-[60px]">
+            <div className=" h-[60px]">
               <Dropdown
                 labelClassName="flex items-center justify-center text-[14px]"
                 label="Machine Name"
