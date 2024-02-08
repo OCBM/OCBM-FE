@@ -236,7 +236,7 @@ const MachineLine = () => {
       <p className="text-xl text-[#444] font-medium leading-5 mb-8">Add Manufacturing Line</p>
       <div className="flex items-center gap-[16px] mb-6">
         <Input
-          placeholder="Machine line Name"
+          placeholder="Name"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"
@@ -245,7 +245,7 @@ const MachineLine = () => {
           mandatory={true}
         />
         <Input
-          placeholder="Machine line description"
+          placeholder="description"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           name="description"
           type="text"

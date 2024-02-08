@@ -55,7 +55,7 @@ const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newShop, 
             mandatory={true}
             type="text"
             name="shopName"
-            placeholder="Enter Shop Name"
+            placeholder="Enter Name"
             value={newShop?.shopName}
             onChange={handleChange}
           />
@@ -66,7 +66,7 @@ const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newShop, 
             mandatory={true}
             type="text"
             name="description"
-            placeholder="Enter Plant Description"
+            placeholder="Enter Description"
             value={newShop?.description}
             onChange={handleChange}
           />
@@ -158,7 +158,7 @@ const Shop = () => {
   /* Columns and Data for table */
   const columns = [
     {
-      title: 'Shop Name',
+      title: 'Manufacturing Location',
       dataIndex: 'shopName',
       key: 'shopName',
     },
@@ -326,7 +326,7 @@ const Shop = () => {
       {/* Fields to get shop name, shop description and shop image */}
       <div className="flex items-center gap-[16px] mb-6">
         <Input
-          placeholder="Shop Name"
+          placeholder="Name"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"
@@ -335,7 +335,7 @@ const Shop = () => {
           mandatory={true}
         />
         <Input
-          placeholder="Shop Description"
+          placeholder="Description"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           onChange={handleChange}
           type="text"

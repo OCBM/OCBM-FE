@@ -16,7 +16,7 @@ const MachinesPage = () => {
   const { currentPlant } = useAppSelector((state) => state.plantRegistration);
 
   useEffect(() => {
-    fetchAllMachines(1);
+    currentPlant && fetchAllMachines(1);
   }, [currentPlant]);
   const fetchAllMachines = async (page: number) => {
     if (currentPlant) {
@@ -26,23 +26,29 @@ const MachinesPage = () => {
   };
 
   return (
-    <div className="flex gap-6 flex-wrap">
-      {machineList?.map((machineData: machineDataTypes) => (
-        <MachineCard
-          machineName=""
-          sensorCard={false}
-          key={machineData?.machineName}
-          handleView={() => navigate(`/machines/${machineData.machineId}`, { state: machineData.machineId })}
-          title={machineData?.machineName}
-          showValues
-          showSignals
-          outOfSpecValue="03"
-          thresholdValue="02"
-          withinSpecValue="01"
-          image={machineData?.image}
-        />
-      ))}
-    </div>
+    <>
+      {!currentPlant ? (
+        <div className="text-grey-light text-center font-semibold text-2xl leading-6">No Machines Available</div>
+      ) : (
+        <div className="flex gap-6 flex-wrap">
+          {machineList?.map((machineData: machineDataTypes) => (
+            <MachineCard
+              machineName=""
+              sensorCard={false}
+              key={machineData?.machineName}
+              handleView={() => navigate(`/machines/${machineData.machineId}`, { state: machineData.machineId })}
+              title={machineData?.machineName}
+              showValues
+              showSignals
+              outOfSpecValue="03"
+              thresholdValue="02"
+              withinSpecValue="01"
+              image={machineData?.image}
+            />
+          ))}
+        </div>
+      )}
+    </>
   );
 };
 
