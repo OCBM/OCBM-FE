@@ -158,7 +158,7 @@ const Shop = () => {
   /* Columns and Data for table */
   const columns = [
     {
-      title: 'Shop Name',
+      title: 'Manufacturing Location',
       dataIndex: 'shopName',
       key: 'shopName',
     },
