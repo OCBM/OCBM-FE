@@ -17,26 +17,32 @@ const SensorPage = () => {
   };
 
   useEffect(() => {
-    fetchAllSensorss(1);
+    currentPlant && fetchAllSensorss(1);
   }, [currentPlant]);
   return (
-    <div className="flex gap-14 flex-wrap">
-      {ocbmSensorList?.map((sensorData: any) => (
-        <MachineCard
-          machineName={sensorData.sensorId}
-          sensorCard={true}
-          key={sensorData.title}
-          handleView={() => navigate(`/sensor/${sensorData?.sensorId}`, { state: { sensor: sensorData } })}
-          title={sensorData.title}
-          showValues={false}
-          showSignals={false}
-          outOfSpecValue="03"
-          thresholdValue="02"
-          withinSpecValue="01"
-          image={sensorData.image}
-        />
-      ))}
-    </div>
+    <>
+      {!currentPlant ? (
+        <div className="text-grey-light text-center font-semibold text-2xl leading-6">No Sensor Available</div>
+      ) : (
+        <div className="flex gap-14 flex-wrap">
+          {ocbmSensorList?.map((sensorData: any) => (
+            <MachineCard
+              machineName={sensorData.sensorId}
+              sensorCard={true}
+              key={sensorData.title}
+              handleView={() => navigate(`/sensor/${sensorData?.sensorId}`, { state: { sensor: sensorData } })}
+              title={sensorData.title}
+              showValues={false}
+              showSignals={false}
+              outOfSpecValue="03"
+              thresholdValue="02"
+              withinSpecValue="01"
+              image={sensorData.image}
+            />
+          ))}
+        </div>
+      )}
+    </>
   );
 };
 

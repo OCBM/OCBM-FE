@@ -143,18 +143,18 @@ function Plant() {
 
   const columns = [
     {
-      title: 'Plant Name',
+      title: 'Business unit Name',
       dataIndex: 'plantName',
       key: 'name',
     },
     {
-      title: 'Plant Description',
+      title: 'Business unit Description',
       dataIndex: 'description',
       width: '20%',
       key: 'description',
     },
     {
-      title: 'Plant ID',
+      title: 'Business unit ID',
       dataIndex: 'plantId',
       width: '30%',
       key: 'id',
@@ -248,7 +248,7 @@ function Plant() {
           <div className="flex justify-start items-center gap-[16px] mb-6">
             <Input
               className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-              placeholder="Plant Name*"
+              placeholder="Name"
               type="text"
               value={editPlant ? '' : newPlant?.plantName}
               name="plantName"
@@ -256,7 +256,7 @@ function Plant() {
             />
             <Input
               className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
-              placeholder="Plant Description*"
+              placeholder="Description"
               type="text"
               name="description"
               value={editPlant ? '' : newPlant?.description}

@@ -13,9 +13,9 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
   const [sensorProperties, setSensorProperties] = useState<any>();
   const [selectedDuration, setSelectedDuration] = useState('live');
 
-  const fetchSensorPreviousData = async () => {
+  const fetchSensorPreviousData = async (value?: string) => {
     var date = new Date();
-    date.setDate(date?.getDate() - parseInt(selectedDuration));
+    date.setDate(date?.getDate() - parseInt(value || selectedDuration));
     const timeStamp = encodeURIComponent(date?.toISOString());
     const res = await SENSOR_SERVICES?.getSensorData(timeStamp, sensorId);
     setSensorData(res);
@@ -30,22 +30,33 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
         authorization: AUTHORIZATION,
       },
     });
+
     if (selectedDuration === 'live') {
+      fetchSensorPreviousData('1');
       _socket.emit('sensor-readings', {
         sensors: [sensorId?.toUpperCase()], // sensor mac-address to listen
       });
       _socket.on('sensor-reading', (data: any) => {
-        setSensorData((prevData: any) => [...prevData, data?.sensorReading]);
+        console.log('GOT DATA ::::');
+        setSensorData((prev: any) => {
+          prev.push(data?.sensorReading);
+          return prev;
+        });
+        // fetchSensorPreviousData('1');
       });
     } else {
       _socket.disconnect();
-      fetchSensorPreviousData();
+      // fetchSensorPreviousData();
     }
 
     return () => {
       _socket.disconnect();
     };
   }, [sensorId, selectedDuration]);
+
+  useEffect(() => {
+    fetchSensorPreviousData('1');
+  }, []);
 
   const getSensorProperties = async () => {
     const res = await SENSOR_SERVICES.getSensorProperties(sensorId);
@@ -55,7 +66,7 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
   useEffect(() => {
     getSensorProperties();
   }, [sensorId]);
-
+  console.log('object232323', sensorData);
   const chartInitialConfig: ApexOptions = {
     chart: {
       id: 'realtime',
@@ -396,6 +407,9 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
           onSelect={(value) => {
             setSensorData([]);
             setSelectedDuration(value);
+            if (selectedDuration) {
+              fetchSensorPreviousData('1');
+            }
           }}
         />
       </div>

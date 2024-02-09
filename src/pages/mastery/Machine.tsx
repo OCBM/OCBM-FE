@@ -365,7 +365,7 @@ const Machine = () => {
           mandatory={true}
         />
         <Dropdown
-          placeholder="Select machineLine"
+          placeholder="Select Manufacturing Line"
           className="w-[270px] border-[1px] border-solid border-[#A9A9A9] rounded-[50px] py-4 px-5 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           options={machineLineList}
           optionLabel="machineLineName"

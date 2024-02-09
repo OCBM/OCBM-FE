@@ -13,12 +13,14 @@ import { toast } from 'react-toastify';
 const initialState = {
   sensorId: '',
   sensorDescription: '',
+  sensorLabel: '',
   elementId: '',
   image: '',
 };
 const sensorInitialState = {
   sensor_Id: '',
   sensorId: '',
+  sensorLabel: '',
   sensorDescription: '',
   image: '',
   imageKey: '',
@@ -87,6 +89,11 @@ function Sensor() {
 
   const columns = [
     {
+      title: 'Sensor Label',
+      dataIndex: 'sensorLabel',
+      key: 'sensorLabel',
+    },
+    {
       title: 'Sensor ID',
       dataIndex: 'sensorId',
       key: 'sensorId',
@@ -97,7 +104,7 @@ function Sensor() {
       key: 'description',
     },
     {
-      title: 'Sensor ID',
+      title: 'Element ID',
       dataIndex: 'elementId',
       key: 'elementId',
     },
@@ -224,6 +231,14 @@ function Sensor() {
           handleChange={(sensor) => setSensorData({ ...sensorData, sensorId: sensor })}
           value={sensorList?.find((machine: any) => machine === sensorData.sensorId)}
           mandatory={true}
+        />
+        <Input
+          className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
+          placeholder="Sensor Label"
+          type="text"
+          value={sensorData.sensorLabel}
+          name="Sensor Label"
+          onChange={(e) => setSensorData({ ...sensorData, sensorLabel: e.target.value })}
         />
         <Input
           className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"

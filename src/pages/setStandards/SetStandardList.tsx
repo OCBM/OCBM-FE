@@ -66,6 +66,10 @@ const SetStandardList = () => {
     }
   };
 
+  const locale = {
+    emptyText: <span className="text-grey-light font-semibold text-2xl leading-6">No Plants Available</span>,
+  };
+
   const columns: any = [
     {
       title: 'Machine Number',
@@ -73,7 +77,6 @@ const SetStandardList = () => {
       key: 'machineNumber',
       align: 'center',
     },
-
     {
       title: 'Element Name',
       dataIndex: 'element',
@@ -81,9 +84,9 @@ const SetStandardList = () => {
       align: 'center',
     },
     {
-      title: 'Sensor ID',
-      dataIndex: 'macAddress',
-      key: 'macAddress',
+      title: 'Sensor Label',
+      dataIndex: 'sensorLabel',
+      key: 'sensorLabel',
       align: 'center',
     },
     {
@@ -196,6 +199,12 @@ const SetStandardList = () => {
       },
     },
     {
+      title: 'Sensor ID',
+      dataIndex: 'macAddress',
+      key: 'macAddress',
+      align: 'center',
+    },
+    {
       title: 'Actions',
       dataIndex: 'Actions',
       key: 'Actions',
@@ -249,6 +258,7 @@ const SetStandardList = () => {
         className="set-table"
         columns={columns}
         dataSource={setStandardlist}
+        locale={locale}
         scroll={{ x: 'calc(1500px + 50%)' }}
       />
       <PopupModal
