@@ -163,13 +163,13 @@ const Shop = () => {
       key: 'shopName',
     },
     {
-      title: 'Shop Description',
+      title: 'Manufacturing Location Description',
       dataIndex: 'description',
       width: '20%',
       key: 'description',
     },
     {
-      title: 'Shop ID',
+      title: 'Manufacturing Location ID',
       dataIndex: 'shopId',
       width: '30%',
       key: 'shopId',

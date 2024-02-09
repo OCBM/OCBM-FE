@@ -78,18 +78,18 @@ const MachineLine = () => {
   //DATA FOR MACHINE LINE TABLE
   const tableData = [
     {
-      title: 'Machine line Name',
+      title: 'Manufacturing Line Name',
       key: 'machineLineName',
       dataIndex: 'machineLineName',
     },
     {
-      title: 'Machine line Description',
+      title: 'Manufacturing Line Description',
       key: 'machineLineDescription',
       width: '20%',
       dataIndex: 'machineLineDescription',
     },
     {
-      title: 'Machine line ID',
+      title: 'Manufacturing Line ID',
       key: 'machineLineId',
       width: '30%',
       dataIndex: 'machineLineId',
@@ -245,7 +245,7 @@ const MachineLine = () => {
           mandatory={true}
         />
         <Input
-          placeholder="description"
+          placeholder="Description"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           name="description"
           type="text"
@@ -254,7 +254,7 @@ const MachineLine = () => {
           mandatory={true}
         />
         <Dropdown
-          placeholder="Select Shop"
+          placeholder="Select Manufacturing Location"
           className="w-[270px] border-[1px] border-solid border-[#A9A9A9] rounded-[50px] py-4 px-5 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           options={shopList}
           handleChange={(value: any) => {

@@ -143,18 +143,18 @@ function Plant() {
 
   const columns = [
     {
-      title: 'Plant Name',
+      title: 'Business unit Name',
       dataIndex: 'plantName',
       key: 'name',
     },
     {
-      title: 'Plant Description',
+      title: 'Business unit Description',
       dataIndex: 'description',
       width: '20%',
       key: 'description',
     },
     {
-      title: 'Plant ID',
+      title: 'Business unit ID',
       dataIndex: 'plantId',
       width: '30%',
       key: 'id',

@@ -13,12 +13,14 @@ import { toast } from 'react-toastify';
 const initialState = {
   sensorId: '',
   sensorDescription: '',
+  sensorLabel: '',
   elementId: '',
   image: '',
 };
 const sensorInitialState = {
   sensor_Id: '',
   sensorId: '',
+  sensorLabel: '',
   sensorDescription: '',
   image: '',
   imageKey: '',

@@ -141,7 +141,7 @@ const Reports = () => {
               placeholder="Enter Sensor data Type"
               mandatory={true}
               options={sensorList}
-              optionLabel="sensorId"
+              optionLabel="sensorLabel"
               handleChange={(e: any) => setSensor(e.sensorId)}
               value={sensorList?.find((shop: any) => shop.sensorId === sensor)}
             />
