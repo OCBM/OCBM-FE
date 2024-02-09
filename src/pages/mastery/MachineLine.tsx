@@ -255,7 +255,7 @@ const MachineLine = () => {
         />
         <Dropdown
           placeholder="Select Manufacturing Location"
-          className="w-[270px] border-[1px] border-solid border-[#A9A9A9] rounded-[50px] py-4 px-5 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
+          className="w-[320px] border-[1px] border-solid border-[#A9A9A9] rounded-[50px] py-4 px-5 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
           options={shopList}
           handleChange={(value: any) => {
             setNewMachineLine((prev: any) => ({ ...prev, shopId: value?.shopId }));
