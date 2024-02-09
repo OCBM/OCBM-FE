@@ -240,8 +240,6 @@ const Machine = () => {
     },
   ];
 
-  const regex = /^[A-Za-z0-9]+$/;
-
   /* Functions to create a new Machine */
   // function to read input changes
   const handleChange = (event: any) => {
@@ -251,9 +249,10 @@ const Machine = () => {
       [name]: value,
     }));
   };
+  const regex = /^[A-Za-z0-9]+$/ || '';
   const handleMachineChange = (event: any) => {
-    const { name, value } = event.target;
-    if (regex.test(value)) {
+    const { name, value } = event.target || '';
+    if (value == '' || regex.test(value)) {
       setNewMachine((initialState: InitialMachineStateType) => ({
         ...initialState,
         [name]: value,

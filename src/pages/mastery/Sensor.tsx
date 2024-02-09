@@ -84,6 +84,8 @@ function Sensor() {
       setSensorData(initialState);
       toast.success('Sensor added successfully');
       fetchAllSensorsOcbm(1);
+    } else {
+      toast.error('sensor already exists');
     }
   };
 
@@ -275,7 +277,13 @@ function Sensor() {
           className="py-3 px-6 rounded-2xl tracking-[0.32px] text-base leading-4 font-medium"
           label="Add"
           onClick={handleSubmit}
-          disabled={!sensorData.sensorId || !sensorData.sensorDescription || !sensorData.elementId || !sensorData.image}
+          disabled={
+            !sensorData.sensorId ||
+            !sensorData.sensorDescription ||
+            !sensorData.elementId ||
+            !sensorData.image ||
+            !sensorData.sensorLabel
+          }
         />
       </div>
 
