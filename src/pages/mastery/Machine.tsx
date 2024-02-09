@@ -50,11 +50,11 @@ const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newMachin
         <ChevronCancelIcon />
       </div>
 
-      <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-[36px]">Edit Details</h2>
+      <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-[36px]">Edit Machine</h2>
 
       <form>
         <div>
-          <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-6">Organization Details</h4>
+          <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-6">Machine Details</h4>
           <Input
             className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
             label="Machine Name"
@@ -64,6 +64,17 @@ const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newMachin
             name="machineName"
             placeholder="Enter Machine Name"
             value={newMachine?.machineName}
+            onChange={handleChange}
+          />
+          <Input
+            className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
+            label="Machine Number"
+            labelClassName="text-[#492CE1] text-[14px] font-medium"
+            mandatory={true}
+            type="text"
+            name="machineNumber"
+            placeholder="Enter machine Number"
+            value={newMachine?.machineNumber}
             onChange={handleChange}
           />
           <Input
@@ -229,6 +240,8 @@ const Machine = () => {
     },
   ];
 
+  const regex = /^[A-Za-z0-9]+$/;
+
   /* Functions to create a new Machine */
   // function to read input changes
   const handleChange = (event: any) => {
@@ -237,6 +250,15 @@ const Machine = () => {
       ...initialState,
       [name]: value,
     }));
+  };
+  const handleMachineChange = (event: any) => {
+    const { name, value } = event.target;
+    if (regex.test(value)) {
+      setNewMachine((initialState: InitialMachineStateType) => ({
+        ...initialState,
+        [name]: value,
+      }));
+    }
   };
 
   // function to read a file
@@ -349,7 +371,7 @@ const Machine = () => {
         <Input
           placeholder="Machine Number"
           className="w-[270px] border border-solid border-[#A9A9A9] rounded-[50px] p-4 text-[14px] leading-[14px] h-[46px] placeholder:text-[#BBBBBB]"
-          onChange={handleChange}
+          onChange={handleMachineChange}
           type="text"
           name="machineNumber"
           value={showEditModal ? '' : newMachine.machineNumber}

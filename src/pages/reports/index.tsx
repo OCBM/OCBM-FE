@@ -124,7 +124,7 @@ const Reports = () => {
               loading={elementLoading}
               label="Element"
               className="w-[270px] border-[1px] h-[50px] px-3"
-              placeholder="Enter Sensor data Type"
+              placeholder="Select Element"
               optionLabel="elementName"
               mandatory={true}
               options={elementList}
@@ -138,7 +138,7 @@ const Reports = () => {
               loading={sensorLoading}
               label="Sensors"
               className="w-[270px] border-[1px] h-[50px] px-3"
-              placeholder="Enter Sensor data Type"
+              placeholder="Select Sensor"
               mandatory={true}
               options={sensorList}
               optionLabel="sensorLabel"
@@ -152,7 +152,7 @@ const Reports = () => {
                 Date Period
                 <span className="text-[#D95117]">*</span>
               </span>
-              <div className="flex gap-4 self-start mt-2">
+              <div className="flex gap-4 self-start mt-2 ">
                 <DateRangePicker
                   className="w-[300px] h-[50px]"
                   placeholder={'From in DD/MM/YYYY'}

@@ -191,6 +191,7 @@ function Sensor() {
         sensorDescription: newSensor.sensorDescription,
         image: image || newSensor.image,
         imageName: fileName || newSensor.imageName,
+        sensorLabel: newSensor.sensorLabel,
       };
       const res = await SENSOR_SERVICES.updateSensorOcbm(newSensor?.elementId, newSensor?.sensorId, body);
       if (res.statusCode === 200) {
@@ -296,10 +297,10 @@ function Sensor() {
           >
             <ChevronCancelIcon />
           </div>
-          <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-[36px]">Edit Details</h2>
+          <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-[36px]">Edit Sensor</h2>
           <form>
             <div className="flex flex-col gap-3">
-              <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-6">Organization Details</h4>
+              <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-6">Sensor Details</h4>
               <Input
                 className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
                 label="Sensor description"
@@ -309,6 +310,17 @@ function Sensor() {
                 name="sensorDescription"
                 placeholder="Enter sensor description"
                 value={newSensor?.sensorDescription}
+                onChange={handleChange}
+              />
+              <Input
+                className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
+                label="Sensor Label"
+                labelClassName="text-[#492CE1] text-[14px] font-medium"
+                mandatory={true}
+                type="text"
+                name="sensorLabel"
+                placeholder="Enter sensor label"
+                value={newSensor?.sensorLabel}
                 onChange={handleChange}
               />
               <FileUploader

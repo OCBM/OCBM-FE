@@ -7,6 +7,7 @@ function Input({
   type = 'text',
   value,
   placeholder = '',
+  pattern = '[0-9]+',
   onChange,
   label,
   leftIcon,
@@ -29,6 +30,7 @@ function Input({
         {leftIcon}
         <input
           id={id}
+          pattern={pattern}
           type={type}
           name={name}
           disabled={disabled}

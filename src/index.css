@@ -59,7 +59,6 @@ body,
 }
 
 .ant-pagination-item:not(.ant-pagination-item-active) {
-  background-color: #F7F6F9;
+  background-color: #f7f6f9;
   font-weight: 600; /* Set the background color for inactive buttons */
 }
-
