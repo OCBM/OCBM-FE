@@ -243,7 +243,7 @@ const SetStandardList = () => {
   return (
     <>
       <div className="flex justify-between mb-7">
-        <p className="font-semibold text-2xl leading-6">CBM SET STANDARDS</p>
+        <p className="font-semibold text-2xl leading-6">CBM Set Standards</p>
 
         <Button
           className="font-medium text-base w-52 h-10 leading-4 flex justify-center items-center"

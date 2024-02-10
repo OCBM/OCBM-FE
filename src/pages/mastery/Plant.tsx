@@ -6,7 +6,6 @@ import { useAppSelector } from '@/hooks';
 import { PLANT_SERVICES } from '@/services/plantServices';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { MASTERY_PAGE_CONSTANTS } from '../users/constants';
 import Loader from '@/components/reusable/loader';
 import { Avatar } from 'antd';
 import PopupModal from '@/components/reusable/popupmodal/popupmodal';
@@ -328,18 +327,14 @@ function Plant() {
             <ChevronCancelIcon />
           </div>
 
-          <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-[36px]">
-            {MASTERY_PAGE_CONSTANTS.EDIT_PLANT_DIALOG.label}
-          </h2>
+          <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-[36px]">Edit Business Unit</h2>
 
           <form>
             <div>
-              <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-4">
-                {MASTERY_PAGE_CONSTANTS.EDIT_PLANT_DIALOG.orgLabel}
-              </h4>
+              <h4 className="text-[18px] text-[#0F0F0F] font-medium mb-4">Business Unit Details</h4>
               <Input
                 className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
-                label="Plant Name"
+                label="Business Unit Name"
                 labelClassName="text-[#492CE1] text-[14px] font-medium"
                 mandatory={true}
                 type="text"
@@ -350,7 +345,7 @@ function Plant() {
               />
               <Input
                 className="w-[385px] h-[54px] rounded-[50px] border-[#444444] border-[1px] p-[20px] mb-4 mt-[10px]"
-                label="Plant Description"
+                label="Business Unit Description"
                 labelClassName="text-[#492CE1] text-[14px] font-medium"
                 mandatory={true}
                 type="text"

@@ -101,7 +101,7 @@ function UsersList() {
   };
 
   const isAdmin = () => {
-    return auth?.role === USER_ROLES.ADMIN;
+    return auth?.role !== USER_ROLES.USER;
   };
 
   const columns = [

@@ -4,6 +4,7 @@ export type InputType = {
   id?: string;
   name?: string;
   className?: string;
+  pattern?: any;
   type?: string;
   value?: string;
   placeholder?: string;
