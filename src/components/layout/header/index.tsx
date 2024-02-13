@@ -186,7 +186,7 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
           <div className="relative" onClick={() => setShowNotificationModal(!showOpenNotificationModal)}>
             <BellIcon className="shrink-0" />
             {showOpenNotificationModal ? (
-              <div className="absolute h-[250px] w-[330px] left-[-110px] r-0 overflow-auto shadow-lg rounded-2xl top-10 bg-white z-10">
+              <div className="absolute h-[250px] w-[350px] left-[-140px] r-0 overflow-auto shadow-lg rounded-2xl top-10 bg-white z-10">
                 {alertsData?.length > 0 ? (
                   alertsData?.slice(-10)?.map((data: any) => (
                     <>
