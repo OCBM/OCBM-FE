@@ -205,7 +205,7 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
               </div>
             ) : null}
           </div>
-          <div className="bg-[#492CE1] text-white p-3 text-center w-[40px] h-[40px] rounded-[30px] flex items-center justify-center">
+          <div className="bg-[#492CE1] text-white p-3 text-center w-[32px] h-[32px] rounded-[30px] flex items-center justify-center">
             <span className="text-center w-[40px]">{user?.name ? user?.name.charAt(0) : 'U'}</span>
           </div>
           <Dropdown
