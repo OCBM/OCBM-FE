@@ -140,8 +140,8 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
       <div className="w-full flex justify-center">
         {loggedUser?.role !== 'USER' ? (
           <div className="flex gap-3 w-full items-center justify-start">
-            <span className="text-[#8B9298]">Current plant</span>
-            <span className="text-[#8B9298]">{`>`}</span>
+            <span className="text-[#492CE1] ">Current plant</span>
+            <span className="text-[#492CE1]">{`>`}</span>
             <Select
               size="small"
               onChange={handlePlantChange}
