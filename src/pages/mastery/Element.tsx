@@ -49,7 +49,7 @@ const EditModal = ({ closeEditModal, handleChange, handleFile, onEdit, newElemen
         <ChevronCancelIcon />
       </div>
 
-      <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-[36px]">Edit Element</h2>
+      <h2 className="text-[#605BFF] text-[24px] font-medium text-center mb-[36px]">Edit Element / Subsystem</h2>
 
       <form>
         <div>

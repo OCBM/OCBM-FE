@@ -1,4 +1,4 @@
-import { BellIcon } from '@/assets/icons';
+import { AlertsIcon, BellIcon } from '@/assets/icons';
 import { Dropdown } from '@/components';
 import { Config } from '@/config';
 import { useAppDispatch, useAppSelector } from '@/hooks';
@@ -186,12 +186,18 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
           <div className="relative" onClick={() => setShowNotificationModal(!showOpenNotificationModal)}>
             <BellIcon className="shrink-0" />
             {showOpenNotificationModal ? (
-              <div className="absolute h-[250px] w-[300px] left-[-110px] overflow-auto shadow-lg rounded-2xl top-10 bg-white z-10">
+              <div className="absolute h-[250px] w-[330px] left-[-110px] r-0 overflow-auto shadow-lg rounded-2xl top-10 bg-white z-10">
                 {alertsData?.length > 0 ? (
                   alertsData?.slice(-10)?.map((data: any) => (
-                    <p key={data?.alert?.macAddress} className="p-3">
-                      {`${data?.alert?.macAddress} reached ${data?.alert?.trigger} value. Humidity : ${data?.alert?.humidity} temperatureC: ${data?.alert?.temperatureC}`}
-                    </p>
+                    <>
+                      <div className="px-4 py-3 border-b-2">
+                        <p key={data?.alert?.macAddress} className="flex items-center gap-4  ">
+                          {' '}
+                          <AlertsIcon />
+                          {`${data?.alert?.macAddress} reached ${data?.alert?.trigger} value. Humidity : ${data?.alert?.humidity} temperatureC: ${data?.alert?.temperatureC}`}
+                        </p>
+                      </div>
+                    </>
                   ))
                 ) : (
                   <p className="h-full w-full flex justify-center items-center">No Notification</p>
