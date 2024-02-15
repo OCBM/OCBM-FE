@@ -195,7 +195,7 @@ const NewSetStandard = () => {
       title: 'Machine Number',
       key: 'machineNumber',
       dataIndex: 'machineNumber',
-      width: '10%',
+      width: 160,
       align: 'center',
       render: (_: any, data: any) => {
         return (
@@ -221,29 +221,28 @@ const NewSetStandard = () => {
       title: 'Element Name',
       key: 'element',
       dataIndex: 'element',
-      width: 180,
+      width: 160,
       align: 'center',
     },
     {
       title: 'Sensor Label',
       key: 'sensorLabel',
       dataIndex: 'sensorLabel',
-      width: 120,
-
+      width: 160,
       align: 'center',
     },
     {
       title: 'Sensor Description',
       key: 'sensorDescription',
       dataIndex: 'sensorDescription',
-      width: 180,
+      width: 160,
       align: 'center',
     },
     {
       title: 'Operating Range',
       key: 'OperatingRange',
       dataIndex: 'OperatingRange',
-      width: 180,
+      width: 160,
       align: 'center',
       render: (_: any, data: any) => {
         return (
@@ -273,7 +272,7 @@ const NewSetStandard = () => {
       title: 'Threshold Range',
       key: 'ThresholdValue',
       dataIndex: 'ThresholdValue',
-      width: 180,
+      width: 160,
       align: 'center',
       render: (_: any, data: any) => {
         return (
@@ -303,11 +302,11 @@ const NewSetStandard = () => {
       title: 'UOM',
       key: 'uom',
       dataIndex: 'uom',
-      width: 120,
+      width: 160,
       align: 'center',
       render: (_: any, data: any) => {
         return (
-          <div className="flex justify-center ml-1 border-b-[1px] border-[#A9A9A9] w-[80px]">
+          <div className="flex justify-center ml-5 border-b-[1px] border-[#A9A9A9] w-[80px]">
             <Dropdown
               placeholder="Bar"
               openClassName="top-5 w-[85px]"
@@ -326,7 +325,7 @@ const NewSetStandard = () => {
       title: 'Interval (minutes)',
       key: 'Interval',
       dataIndex: 'Interval',
-      width: 180,
+      width: 160,
       align: 'center',
       render: (_: any, data: any) => {
         return (
@@ -348,7 +347,7 @@ const NewSetStandard = () => {
       title: 'Trigger (Threshold Value)',
       key: 'trigger',
       dataIndex: 'trigger',
-      width: 210,
+      width: 220,
 
       align: 'center',
       render: (_: any, data: any) => {
@@ -371,7 +370,7 @@ const NewSetStandard = () => {
     {
       title: 'Criticality',
       key: 'Criticality',
-      width: '20%',
+      width: 280,
       dataIndex: 'Criticality',
       align: 'center',
       render: (_: any, data: any) => {
@@ -406,7 +405,7 @@ const NewSetStandard = () => {
       title: 'Sensor ID',
       key: 'SensorID',
       dataIndex: 'SensorID',
-      width: 160,
+      width: 280,
       align: 'center',
       render: (_: any, data: any) => {
         return (

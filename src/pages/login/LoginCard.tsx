@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import { toast } from 'react-toastify';
-import { Logo } from '@/assets/images';
+import Logo from '@/assets/images/logo.jpg';
 import { Button, Input } from '@/components';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { RootState } from '@/redux/store';
@@ -94,7 +94,7 @@ const LoginCard = () => {
           <div className=" h-fit w-[380px] rounded-3xl border bg-white">
             <div className="pt-[50px] pb-5 px-10 flex justify-center items-center flex-col w-full">
               <div className="w-[300px]">
-                <Logo className="w-full" />
+                <img src={Logo} className="w-full" />
                 <div className="w-full">
                   <div className="flex justify-center items-center flex-col">
                     <p className="text-base font-medium italic text-black pt-[50px]">Login</p>

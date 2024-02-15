@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { OmnexIcon } from '@/assets/icons';
+// import { OmnexIcon } from '@/assets/icons';
+import Logo from '@/assets/images/logo.jpg';
 import { sideNavRoutes } from './routes';
 import { SITEMAP } from '@/utils/sitemap';
 import { useSelector } from 'react-redux';
@@ -23,7 +24,8 @@ const SideNav = () => {
           navigate(SITEMAP.plant.index);
         }}
       >
-        <OmnexIcon />
+        {/* <OmnexIcon /> */}
+        <img src={Logo} className="w-28" />
       </div>
       <div className="flex flex-col justify-center items-center gap-[10px] overflow-y-auto hiddenScroll">
         {sideNavRoutes.map((option) => {
