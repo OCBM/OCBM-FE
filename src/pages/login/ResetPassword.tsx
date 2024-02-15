@@ -1,4 +1,4 @@
-import { Logo } from '@/assets/images';
+import Logo from '@/assets/images/logo.jpg';
 import { Button, Input } from '@/components';
 
 const ResetPassword = ({ onChange, formData, handleForgotPassword, forgotPasswordBack }: any) => {
@@ -6,7 +6,7 @@ const ResetPassword = ({ onChange, formData, handleForgotPassword, forgotPasswor
     <div className="flex flex-col items-center">
       <div className=" h-fit w-[380px] rounded-3xl flex-col flex  items-center border bg-white">
         <div className="pt-[50px] pb-5 px-10 flex justify-center items-center flex-col w-full">
-          <Logo />
+          <img src={Logo} />
           <div className="w-full">
             {formData?.reset ? (
               <>

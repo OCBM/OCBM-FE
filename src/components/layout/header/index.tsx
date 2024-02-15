@@ -86,8 +86,9 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
   }, [alertsSocket]);
 
   function connectToAlertsSocket() {
-    const _socket = socketIOClient(`${Config.OMNEX_SENSOR_URL}/alerts`, {
+    const _socket = socketIOClient(`${Config.OCBM_IOT_SOCKET_URL}/alerts`, {
       rejectUnauthorized: false,
+      path: '/ocbm-iot/socket.io',
       extraHeaders: {
         authorization: `Bearer ${user?.accessToken}`,
       },
