@@ -27,11 +27,11 @@ const SensorPage = () => {
         <div className="flex gap-14 flex-wrap">
           {ocbmSensorList?.map((sensorData: any) => (
             <MachineCard
-              machineName={sensorData.sensorId}
+              machineName=""
               sensorCard={true}
-              key={sensorData.title}
+              key={sensorData.sensorId}
               handleView={() => navigate(`/sensor/${sensorData?.sensorId}`, { state: { sensor: sensorData } })}
-              title={sensorData.title}
+              title={sensorData.sensorId}
               showValues={false}
               showSignals={false}
               outOfSpecValue="03"
