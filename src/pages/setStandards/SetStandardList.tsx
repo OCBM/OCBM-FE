@@ -96,7 +96,7 @@ const SetStandardList = () => {
       align: 'center',
     },
     {
-      title: 'Operating Range',
+      title: 'Primary Operating Range',
       dataIndex: ['minOperatingRange', 'maxOperatingRange'],
       key: 'minOperatingRange',
       className: 'operatingRange',
@@ -110,7 +110,21 @@ const SetStandardList = () => {
       },
     },
     {
-      title: 'Threshold Range ',
+      title: 'Secondary Operating Range',
+      dataIndex: ['minOperatingRange', 'maxOperatingRange'],
+      key: 'minOperatingRange',
+      className: 'operatingRange',
+      align: 'center',
+      render: (_: any, data: any) => {
+        return (
+          <div className="flex justify-center gap-3">
+            <span>{data.minOperatingRange}</span> -<span>{data.maxOperatingRange}</span>
+          </div>
+        );
+      },
+    },
+    {
+      title: 'Primary Threshold Range ',
       dataIndex: ['minThresholdValue', 'maxThresholdValue'],
       key: 'minThresholdValue',
       className: 'thresholdValue',
@@ -124,7 +138,34 @@ const SetStandardList = () => {
       },
     },
     {
-      title: 'UOM',
+      title: 'Secondary Threshold Range ',
+      dataIndex: ['minThresholdValue', 'maxThresholdValue'],
+      key: 'minThresholdValue',
+      className: 'thresholdValue',
+      align: 'center',
+      render: (_: any, data: any) => {
+        return (
+          <div className="flex justify-center gap-3">
+            <span>{data.minThresholdValue}</span> -<span>{data.maxThresholdValue}</span>
+          </div>
+        );
+      },
+    },
+    {
+      title: 'Primary UOM',
+      dataIndex: 'uom',
+      key: 'uom',
+      align: 'center',
+      render: (_: any, data: any) => {
+        return (
+          <div className="flex justify-center gap-3">
+            <span>{data.uom}</span>
+          </div>
+        );
+      },
+    },
+    {
+      title: 'Secondary UOM',
       dataIndex: 'uom',
       key: 'uom',
       align: 'center',
@@ -259,7 +300,7 @@ const SetStandardList = () => {
         columns={columns}
         dataSource={setStandardlist}
         locale={locale}
-        scroll={{ x: 'calc(1500px + 50%)' }}
+        scroll={{ x: 'calc(1900px + 50%)' }}
       />
       <PopupModal
         title={'Are you sure want to delete?'}
