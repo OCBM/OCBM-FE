@@ -5,8 +5,8 @@ import { Input } from '@/components';
 import { Checkbox } from '@/components';
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router';
-import { SETSTANDARDS_SERVICES } from '@/services/setStandardsServices';
-import { toast } from 'react-toastify';
+// import { SETSTANDARDS_SERVICES } from '@/services/setStandardsServices';
+// import { toast } from 'react-toastify';
 import { MACHINE_SERVICES } from '@/services/machineServices';
 import { useAppSelector } from '@/hooks/redux';
 
@@ -23,6 +23,7 @@ const NewSetStandard = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [machineList, setMachineList] = useState<any[]>([]);
+  console.log(machineList);
   const [newSetstandards, setNewSetstandards] = useState<InitialSetstandardStateType>(initialState);
   const [dropdownData, setdropdownData] = useState([]);
 
@@ -61,6 +62,11 @@ const NewSetStandard = () => {
         minThresholdValue: data.minThresholdValue,
         maxThresholdValue: data.maxThresholdValue,
         uom: data.uom,
+        secondaryMinOperatingRange: data.secondaryMinOperatingRange,
+        secondaryMaxOperatingRange: data.secondaryMaxOperatingRange,
+        secondaryMinThresholdValue: data.secondaryMinThresholdValue,
+        secondaryMaxThresholdValue: data.secondaryMaxThresholdValue,
+        secondaryUom: data.secondaryUom,
         interval: data?.interval || 0,
         trigger: data.trigger,
         criticality: {
@@ -69,12 +75,12 @@ const NewSetStandard = () => {
           unSafe: data.criticality.unSafe || false,
         },
       };
-
-      const update_setstandards = await SETSTANDARDS_SERVICES.updateSetdstandards(data.sensorId, body);
-      if (update_setstandards) {
-        toast.success('setstandard updated successfully');
-        navigate(-1);
-      }
+      console.log(body, 'body1');
+      // const update_setstandards = await SETSTANDARDS_SERVICES.updateSetdstandards(data.sensorId, body);
+      // if (update_setstandards) {
+      //   toast.success('setstandard updated successfully');
+      //   navigate(-1);
+      // }
     } else {
       const body = machineList
         .filter((data) => data.isChecked)
@@ -86,6 +92,11 @@ const NewSetStandard = () => {
             minThresholdValue: data.minThresholdValue,
             maxThresholdValue: data.maxThresholdValue,
             uom: data.uom,
+            secondaryMinOperatingRange: data.secondaryMinOperatingRange,
+            secondaryMaxOperatingRange: data.secondaryMaxOperatingRange,
+            secondaryMinThresholdValue: data.secondaryMinThresholdValue,
+            secondaryMaxThresholdValue: data.secondaryMaxThresholdValue,
+            secondaryUom: data.secondaryUom,
             interval: data.interval,
             trigger: data.trigger,
             criticality: {
@@ -96,11 +107,13 @@ const NewSetStandard = () => {
           };
         });
 
-      const create_setstandards = await SETSTANDARDS_SERVICES.addSetstandardsBulk({ data: body });
-      if (create_setstandards) {
-        toast.success('setstandard added successfully');
-        navigate(-1);
-      }
+      console.log(body, 'body2');
+
+      // const create_setstandards = await SETSTANDARDS_SERVICES.addSetstandardsBulk({ data: body });
+      // if (create_setstandards) {
+      //   toast.success('setstandard added successfully');
+      //   navigate(-1);
+      // }
     }
   };
 
@@ -239,7 +252,7 @@ const NewSetStandard = () => {
       align: 'center',
     },
     {
-      title: 'Operating Range',
+      title: 'Primary Operating Range',
       key: 'OperatingRange',
       dataIndex: 'OperatingRange',
       width: 160,
@@ -269,9 +282,39 @@ const NewSetStandard = () => {
       },
     },
     {
-      title: 'Threshold Range',
-      key: 'ThresholdValue',
-      dataIndex: 'ThresholdValue',
+      title: 'Secondary Operating Range',
+      key: 'OperatingRange',
+      dataIndex: 'OperatingRange',
+      width: 160,
+      align: 'center',
+      render: (_: any, data: any) => {
+        return (
+          <div className="flex gap-3 justify-center ">
+            <div className=" border-b-[1px] border-[#A9A9A9] w-[30px]">
+              <Input
+                placeholder="30"
+                name="minOperatingRange"
+                value={data.secondaryMinOperatingRange || ''}
+                onChange={(event) => handleInputChange(event, 'secondaryMinOperatingRange', data)}
+              />
+            </div>
+            <p>-</p>
+            <div className=" border-b-[1px] border-[#A9A9A9] w-[30px]">
+              <Input
+                placeholder="40"
+                name="maxOperatingRange"
+                value={data.secondaryMaxOperatingRange || ''}
+                onChange={(event) => handleInputChange(event, 'secondaryMaxOperatingRange', data)}
+              />
+            </div>
+          </div>
+        );
+      },
+    },
+    {
+      title: 'Primary Threshold Range',
+      key: 'ThresholdRange',
+      dataIndex: 'ThresholdRange',
       width: 160,
       align: 'center',
       render: (_: any, data: any) => {
@@ -299,14 +342,44 @@ const NewSetStandard = () => {
       },
     },
     {
-      title: 'UOM',
+      title: 'Secondary Threshold Range',
+      key: 'ThresholdRange',
+      dataIndex: 'ThresholdRange',
+      width: 160,
+      align: 'center',
+      render: (_: any, data: any) => {
+        return (
+          <div className="flex gap-3 justify-center">
+            <div className=" border-b-[1px] border-[#A9A9A9] w-[30px]">
+              <Input
+                placeholder="30"
+                name="minThresholdValue"
+                value={data.secondaryMinThresholdValue || ''}
+                onChange={(event) => handleInputChange(event, 'secondaryMinThresholdValue', data)}
+              />
+            </div>
+            <p>-</p>
+            <div className=" border-b-[1px] border-[#A9A9A9] w-[30px]">
+              <Input
+                placeholder="40"
+                name="maxThresholdValue"
+                value={data.secondaryMaxThresholdValue || ''}
+                onChange={(event) => handleInputChange(event, 'secondaryMaxThresholdValue', data)}
+              />
+            </div>
+          </div>
+        );
+      },
+    },
+    {
+      title: 'Primary UOM',
       key: 'uom',
       dataIndex: 'uom',
       width: 160,
       align: 'center',
       render: (_: any, data: any) => {
         return (
-          <div className="flex justify-center ml-5 border-b-[1px] border-[#A9A9A9] w-[80px]">
+          <div className="flex justify-center ml-16 border-b-[1px] border-[#A9A9A9] w-[80px]">
             <Dropdown
               placeholder="Bar"
               openClassName="top-5 w-[85px]"
@@ -315,6 +388,29 @@ const NewSetStandard = () => {
               options={uomData}
               handleChange={(value) => handleDropdownChange(value, 'uom', data)}
               value={machineList?.find((machine: any) => machine.sensorId === data.sensorId)?.uom}
+              mandatory={true}
+            />
+          </div>
+        );
+      },
+    },
+    {
+      title: 'Secondary UOM',
+      key: 'secondaryUom',
+      dataIndex: 'secondaryUom',
+      width: 160,
+      align: 'center',
+      render: (_: any, data: any) => {
+        return (
+          <div className="flex justify-center ml-16 border-b-[1px] border-[#A9A9A9] w-[80px]">
+            <Dropdown
+              placeholder="Bar"
+              openClassName="top-5 w-[85px]"
+              menuClassName="py-1"
+              className="w-[74px] border-transparent px-2 text-[14px] h-[25px] placeholder:text-[#BBBBBB]"
+              options={uomData}
+              handleChange={(value) => handleDropdownChange(value, 'secondaryUom', data)}
+              value={machineList?.find((machine: any) => machine.sensorId === data.sensorId)?.secondaryUom}
               mandatory={true}
             />
           </div>
@@ -347,12 +443,12 @@ const NewSetStandard = () => {
       title: 'Trigger (Threshold Value)',
       key: 'trigger',
       dataIndex: 'trigger',
-      width: 220,
+      width: 180,
 
       align: 'center',
       render: (_: any, data: any) => {
         return (
-          <div className="flex gap-3 ml-14 border-b-[1px] border-[#A9A9A9] w-[80px]">
+          <div className="flex gap-3 ml-20 border-b-[1px] border-[#A9A9A9] w-[80px]">
             <Dropdown
               placeholder="Max"
               openClassName="top-5 w-[80px]"
@@ -370,7 +466,7 @@ const NewSetStandard = () => {
     {
       title: 'Criticality',
       key: 'Criticality',
-      width: 280,
+      width: 250,
       dataIndex: 'Criticality',
       align: 'center',
       render: (_: any, data: any) => {
@@ -405,7 +501,7 @@ const NewSetStandard = () => {
       title: 'Sensor ID',
       key: 'SensorID',
       dataIndex: 'SensorID',
-      width: 280,
+      width: 220,
       align: 'center',
       render: (_: any, data: any) => {
         return (
@@ -462,7 +558,7 @@ const NewSetStandard = () => {
           className="create-machine-line-table"
           columns={columns}
           dataSource={machineList}
-          scroll={{ x: 'calc(1000px + 60%)', y: 'calc(1000px + 50%' }}
+          scroll={{ x: 'calc(2100px + 95%)', y: 'calc(1000px + 50%' }}
         />
         <div className="flex gap-5 justify-center">
           <Button
