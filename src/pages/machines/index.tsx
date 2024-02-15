@@ -2,7 +2,7 @@ import TabViewSecondary from '@/components/reusable/tabview/TabViewSecondary';
 import MachinesPage from './machines';
 import SensorPage from './sensor';
 import { useState } from 'react';
-import { OutOfSpec, Thresholdlimit, WithinSpec } from '@/assets/icons';
+//import { OutOfSpec, Thresholdlimit, WithinSpec } from '@/assets/icons';
 
 const Machines = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -25,7 +25,7 @@ const Machines = () => {
   return (
     <div className="rounded-lg shadow-md p-5 relative">
       <div className="flex gap-1 right-4 mt-1 absolute">
-        <span className="flex text-sm w-[100px] items-center h-[20px] gap-2">
+        {/* <span className="flex text-sm w-[100px] items-center h-[20px] gap-2">
           <OutOfSpec />
           Out of spec
         </span>
@@ -36,7 +36,7 @@ const Machines = () => {
         <span className="flex text-sm w-[120px] items-center h-[20px] gap-2">
           <WithinSpec />
           Within Spec
-        </span>
+        </span> */}
       </div>
       <div className="flex">
         <TabViewSecondary type="secondary" tabs={tabs} activeIndex={activeIndex} handleClick={handleClick} />

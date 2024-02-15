@@ -1,4 +1,4 @@
-import { BellIcon } from '@/assets/icons';
+import { AlertsIcon, BellIcon } from '@/assets/icons';
 import { Dropdown } from '@/components';
 import { Config } from '@/config';
 import { useAppDispatch, useAppSelector } from '@/hooks';
@@ -141,8 +141,8 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
       <div className="w-full flex justify-center">
         {loggedUser?.role !== 'USER' ? (
           <div className="flex gap-3 w-full items-center justify-start">
-            <span className="text-[#8B9298]">Current plant</span>
-            <span className="text-[#8B9298]">{`>`}</span>
+            <span className="text-[#492CE1] ">Current plant</span>
+            <span className="text-[#492CE1]">{`>`}</span>
             <Select
               size="small"
               onChange={handlePlantChange}
@@ -187,12 +187,18 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
           <div className="relative" onClick={() => setShowNotificationModal(!showOpenNotificationModal)}>
             <BellIcon className="shrink-0" />
             {showOpenNotificationModal ? (
-              <div className="absolute h-[250px] w-[300px] left-[-110px] overflow-auto shadow-lg rounded-2xl top-10 bg-white z-10">
+              <div className="absolute h-[250px] w-[350px] left-[-140px] r-0 overflow-auto shadow-lg rounded-2xl top-10 bg-white z-10">
                 {alertsData?.length > 0 ? (
                   alertsData?.slice(-10)?.map((data: any) => (
-                    <p key={data?.alert?.macAddress} className="p-3">
-                      {`${data?.alert?.macAddress} reached ${data?.alert?.trigger} value. Humidity : ${data?.alert?.humidity} temperatureC: ${data?.alert?.temperatureC}`}
-                    </p>
+                    <>
+                      <div className="px-4 py-3 border-b-2">
+                        <p key={data?.alert?.macAddress} className="flex items-center gap-4  ">
+                          {' '}
+                          <AlertsIcon />
+                          {`${data?.alert?.macAddress} reached ${data?.alert?.trigger} value. Humidity : ${data?.alert?.humidity} temperatureC: ${data?.alert?.temperatureC}`}
+                        </p>
+                      </div>
+                    </>
                   ))
                 ) : (
                   <p className="h-full w-full flex justify-center items-center">No Notification</p>
@@ -200,7 +206,7 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
               </div>
             ) : null}
           </div>
-          <div className="bg-[#492CE1] text-white p-3 text-center w-[40px] h-[40px] rounded-[30px] flex items-center justify-center">
+          <div className="bg-[#492CE1] text-white p-3 text-center w-[32px] h-[32px] rounded-[30px] flex items-center justify-center">
             <span className="text-center w-[40px]">{user?.name ? user?.name.charAt(0) : 'U'}</span>
           </div>
           <Dropdown
