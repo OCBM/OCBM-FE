@@ -24,8 +24,9 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
   useEffect(() => {
     const token = getToken();
     const AUTHORIZATION = `Bearer ${token}`;
-    const _socket = socketIOClient(`${Config.OMNEX_SENSOR_URL}/sensor-readings`, {
+    const _socket = socketIOClient(`${Config.OCBM_IOT_SOCKET_URL}/sensor-readings`, {
       rejectUnauthorized: false,
+      path: '/ocbm-iot/socket.io',
       extraHeaders: {
         authorization: AUTHORIZATION,
       },
