@@ -172,6 +172,11 @@ const NewSetStandard = () => {
         data?.minThresholdValue &&
         data?.maxThresholdValue &&
         data?.uom &&
+        data?.secondaryMinOperatingRange &&
+        data?.secondaryMaxOperatingRange &&
+        data?.secondaryMinThresholdValue &&
+        data?.secondaryMaxThresholdValue &&
+        data?.secondaryUom &&
         data?.interval &&
         data?.trigger
       ) {
@@ -190,6 +195,11 @@ const NewSetStandard = () => {
             machine.minThresholdValue &&
             machine.maxThresholdValue &&
             machine.uom &&
+            machine.secondaryMinOperatingRange &&
+            machine.secondaryMaxOperatingRange &&
+            machine.secondaryMinThresholdValue &&
+            machine.secondaryMaxThresholdValue &&
+            machine.secondaryUom &&
             machine.interval &&
             machine.trigger
           ) {
@@ -208,7 +218,7 @@ const NewSetStandard = () => {
       title: 'Machine Number',
       key: 'machineNumber',
       dataIndex: 'machineNumber',
-      width: 160,
+      width: 130,
       align: 'center',
       render: (_: any, data: any) => {
         return (
@@ -234,21 +244,21 @@ const NewSetStandard = () => {
       title: 'Element Name',
       key: 'element',
       dataIndex: 'element',
-      width: 160,
+      width: 130,
       align: 'center',
     },
     {
       title: 'Sensor Label',
       key: 'sensorLabel',
       dataIndex: 'sensorLabel',
-      width: 160,
+      width: 130,
       align: 'center',
     },
     {
       title: 'Sensor Description',
       key: 'sensorDescription',
       dataIndex: 'sensorDescription',
-      width: 160,
+      width: 130,
       align: 'center',
     },
     {
@@ -375,7 +385,7 @@ const NewSetStandard = () => {
       title: 'Primary UOM',
       key: 'uom',
       dataIndex: 'uom',
-      width: 160,
+      width: 150,
       align: 'center',
       render: (_: any, data: any) => {
         return (
@@ -398,7 +408,7 @@ const NewSetStandard = () => {
       title: 'Secondary UOM',
       key: 'secondaryUom',
       dataIndex: 'secondaryUom',
-      width: 160,
+      width: 150,
       align: 'center',
       render: (_: any, data: any) => {
         return (
@@ -421,7 +431,7 @@ const NewSetStandard = () => {
       title: 'Interval (minutes)',
       key: 'Interval',
       dataIndex: 'Interval',
-      width: 160,
+      width: 130,
       align: 'center',
       render: (_: any, data: any) => {
         return (
@@ -444,7 +454,6 @@ const NewSetStandard = () => {
       key: 'trigger',
       dataIndex: 'trigger',
       width: 180,
-
       align: 'center',
       render: (_: any, data: any) => {
         return (
