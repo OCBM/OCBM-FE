@@ -32,6 +32,8 @@ const sensorInitialState = {
 
 function Sensor() {
   const { currentPlant } = useAppSelector((state) => state.plantRegistration);
+  // const id = 'sanmar-org';
+
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatusType>('upload');
   const [sensorData, setSensorData] = useState<any>(initialState);
   const [elementList, setElementList] = useState<any>([]);
@@ -167,6 +169,11 @@ function Sensor() {
     const res = await SENSOR_SERVICES.getAllSensor();
     setSensorList(res);
   };
+
+  // const fetchAllSensors = async () => {
+  //   const res = await SENSOR_SERVICES.getSensorsByOrgId(id as string);
+  //   setSensorList(res?.message);
+  // };
 
   //delete machine line
   const onDeleteSensor = async (elementId: string, sensorId: string) => {

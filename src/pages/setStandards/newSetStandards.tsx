@@ -109,11 +109,11 @@ const NewSetStandard = () => {
 
       console.log(body, 'body2');
 
-      // const create_setstandards = await SETSTANDARDS_SERVICES.addSetstandardsBulk({ data: body });
-      // if (create_setstandards) {
-      //   toast.success('setstandard added successfully');
-      //   navigate(-1);
-      // }
+      //   const create_setstandards = await SETSTANDARDS_SERVICES.addSetstandardsBulk({ data: body });
+      //   if (create_setstandards) {
+      //     toast.success('setstandard added successfully');
+      //     navigate(-1);
+      //   }
     }
   };
 
@@ -161,6 +161,7 @@ const NewSetStandard = () => {
     }
     setMachineList(machineData);
   };
+
   //disable button
   const disablingSetStandards = () => {
     if (state) {
@@ -207,6 +208,30 @@ const NewSetStandard = () => {
           } else {
             return true;
           }
+        }
+      }
+    }
+    return false;
+  };
+
+  // fields disabling for schema1 and schema2
+  const disablingFields = () => {
+    if (state) {
+      const [data] = machineList;
+      // schema 1 need to be applied from api
+      if (data?.schema == 'schema1') {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      for (let i = 0; i < machineList.length; i++) {
+        const machine = machineList[i];
+        // schema 1 need to be applied from api
+        if (machine?.schema == 'schema1') {
+          return false;
+        } else {
+          return true;
         }
       }
     }
@@ -300,19 +325,33 @@ const NewSetStandard = () => {
       render: (_: any, data: any) => {
         return (
           <div className="flex gap-3 justify-center ">
-            <div className=" border-b-[1px] border-[#A9A9A9] w-[30px]">
+            <div
+              className={
+                disablingFields()
+                  ? 'border-b-[1px] border-grey-300 w-[30px]'
+                  : 'border-b-[1px] border-[#A9A9A9] w-[30px]'
+              }
+            >
               <Input
                 placeholder="30"
-                name="minOperatingRange"
+                name="secondaryMinOperatingRange"
+                disabled={disablingFields()}
                 value={data.secondaryMinOperatingRange || ''}
                 onChange={(event) => handleInputChange(event, 'secondaryMinOperatingRange', data)}
               />
             </div>
             <p>-</p>
-            <div className=" border-b-[1px] border-[#A9A9A9] w-[30px]">
+            <div
+              className={
+                disablingFields()
+                  ? 'border-b-[1px] border-grey-300 w-[30px]'
+                  : 'border-b-[1px] border-[#A9A9A9] w-[30px]'
+              }
+            >
               <Input
                 placeholder="40"
-                name="maxOperatingRange"
+                name="secondaryMaxOperatingRange"
+                disabled={disablingFields()}
                 value={data.secondaryMaxOperatingRange || ''}
                 onChange={(event) => handleInputChange(event, 'secondaryMaxOperatingRange', data)}
               />
@@ -360,19 +399,33 @@ const NewSetStandard = () => {
       render: (_: any, data: any) => {
         return (
           <div className="flex gap-3 justify-center">
-            <div className=" border-b-[1px] border-[#A9A9A9] w-[30px]">
+            <div
+              className={
+                disablingFields()
+                  ? 'border-b-[1px] border-grey-300 w-[30px]'
+                  : 'border-b-[1px] border-[#A9A9A9] w-[30px]'
+              }
+            >
               <Input
                 placeholder="30"
                 name="minThresholdValue"
+                disabled={disablingFields()}
                 value={data.secondaryMinThresholdValue || ''}
                 onChange={(event) => handleInputChange(event, 'secondaryMinThresholdValue', data)}
               />
             </div>
             <p>-</p>
-            <div className=" border-b-[1px] border-[#A9A9A9] w-[30px]">
+            <div
+              className={
+                disablingFields()
+                  ? 'border-b-[1px] border-grey-300 w-[30px]'
+                  : 'border-b-[1px] border-[#A9A9A9] w-[30px]'
+              }
+            >
               <Input
                 placeholder="40"
                 name="maxThresholdValue"
+                disabled={disablingFields()}
                 value={data.secondaryMaxThresholdValue || ''}
                 onChange={(event) => handleInputChange(event, 'secondaryMaxThresholdValue', data)}
               />
@@ -412,13 +465,20 @@ const NewSetStandard = () => {
       align: 'center',
       render: (_: any, data: any) => {
         return (
-          <div className="flex justify-center ml-16 border-b-[1px] border-[#A9A9A9] w-[80px]">
+          <div
+            className={
+              disablingFields()
+                ? 'flex justify-center ml-16 border-b-[1px] border-grey-300 w-[80px]'
+                : 'flex justify-center ml-16 border-b-[1px] border-[#A9A9A9] w-[80px]'
+            }
+          >
             <Dropdown
               placeholder="Bar"
               openClassName="top-5 w-[85px]"
               menuClassName="py-1"
               className="w-[74px] border-transparent px-2 text-[14px] h-[25px] placeholder:text-[#BBBBBB]"
               options={uomData}
+              disabled={disablingFields()}
               handleChange={(value) => handleDropdownChange(value, 'secondaryUom', data)}
               value={machineList?.find((machine: any) => machine.sensorId === data.sensorId)?.secondaryUom}
               mandatory={true}
