@@ -3,7 +3,6 @@ import Chart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
 import socketIOClient from 'socket.io-client';
 import { getToken } from '@/lib/axios';
-import { format } from 'date-fns';
 import { Config } from '@/config';
 import { SENSOR_SERVICES } from '@/services/sensorServices';
 import { Select } from 'antd';
@@ -20,7 +19,18 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
     const res = await SENSOR_SERVICES?.getSensorData(timeStamp, sensorId);
     setSensorData(res);
   };
-
+  const dateFormat = (date: any) => {
+    if (!date) return '';
+    const nDate = new Date(date);
+    let hours: number = nDate.getHours();
+    let minutes: number = nDate.getMinutes();
+    let ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    let strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+  };
+  console.log('sensorData', sensorData);
   useEffect(() => {
     const token = getToken();
     const AUTHORIZATION = `Bearer ${token}`;
@@ -38,16 +48,10 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
         sensors: [sensorId?.toUpperCase()], // sensor mac-address to listen
       });
       _socket.on('sensor-reading', (data: any) => {
-        console.log('GOT DATA ::::');
-        setSensorData((prev: any) => {
-          prev.push(data?.sensorReading);
-          return prev;
-        });
-        // fetchSensorPreviousData('1');
+        setSensorData((prev: any) => [...prev, data?.sensorReading]);
       });
     } else {
       _socket.disconnect();
-      // fetchSensorPreviousData();
     }
 
     return () => {
@@ -56,8 +60,8 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
   }, [sensorId, selectedDuration]);
 
   useEffect(() => {
-    fetchSensorPreviousData('1');
-  }, []);
+    fetchSensorPreviousData();
+  }, [selectedDuration]);
 
   const getSensorProperties = async () => {
     const res = await SENSOR_SERVICES.getSensorProperties(sensorId);
@@ -67,7 +71,6 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
   useEffect(() => {
     getSensorProperties();
   }, [sensorId]);
-  console.log('object232323', sensorData);
   const chartInitialConfig: ApexOptions = {
     chart: {
       id: 'realtime',
@@ -101,14 +104,14 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
     markers: {
       size: 0,
     },
-    xaxis: {
-      type: 'datetime',
-      labels: {
-        formatter: function (value: any) {
-          return format(new Date(value), 'HH:mm, dd/MMM');
-        },
-      },
-    },
+    // xaxis: {
+    //   type: 'datetime',
+    //   labels: {
+    //     formatter: function (value: any) {
+    //       return format(new Date(value), 'HH:mm, dd/MMM');
+    //     },
+    //   },
+    // },
   };
   const [temperatureChartOptions, setTemperatureChartOptions] = useState<ApexOptions>(chartInitialConfig);
   const [humidityChartOptions, setHumidityChartOptions] = useState<ApexOptions>(chartInitialConfig);
@@ -247,6 +250,15 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
           },
         },
       ],
+      xaxis: {
+        type: 'datetime',
+        range: 8,
+        labels: {
+          formatter: function (value: any) {
+            return dateFormat(value);
+          },
+        },
+      },
     });
     setHumidityChartOptions({
       ...chartInitialConfig,
@@ -373,8 +385,34 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
           },
         },
       ],
+      xaxis: {
+        type: 'datetime',
+        range: 8,
+        labels: {
+          formatter: function (value: any) {
+            return dateFormat(value);
+          },
+        },
+      },
     });
   }, [selectedDuration, sensorData, sensorProperties]);
+
+  // live chart - mock data with interval for 1 min
+  // useEffect(() => {
+  //   const sensorMockData: any = [...sensorData];
+  //   const intervalId = setInterval(() => {
+  //     const date = new Date();
+  //     const newData = Math.random() * 100; // Mock sensor data
+  //     const newLabel = date; // Mock time label
+  //     sensorMockData.push({
+  //       temperatureC: newData,
+  //       msgTimeStamp: newLabel,
+  //       humidity: newData,
+  //     });
+  //     setSensorData(sensorMockData);
+  //   }, 10000);
+  //   return () => clearInterval(intervalId);
+  // }, [sensorData]);
 
   return (
     <div className="w-full h-full">
@@ -408,9 +446,9 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
           onSelect={(value) => {
             setSensorData([]);
             setSelectedDuration(value);
-            if (selectedDuration) {
-              fetchSensorPreviousData('1');
-            }
+            // if (selectedDuration) {
+            //   fetchSensorPreviousData('1');
+            // }
           }}
         />
       </div>
@@ -423,7 +461,7 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
               {
                 name: 'Temperature',
                 data: sensorData?.map((sensor: any) => ({
-                  x: new Date(sensor?.msgTimeStamp)?.getTime(),
+                  x: sensor?.msgTimeStamp,
                   y: parseInt(sensor?.temperatureC),
                 })),
               },
@@ -440,7 +478,7 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
               {
                 name: 'Humidity',
                 data: sensorData?.map((sensor: any) => ({
-                  x: new Date(sensor?.msgTimeStamp)?.getTime(),
+                  x: sensor?.msgTimeStamp,
                   y: parseInt(sensor?.humidity),
                 })),
               },
