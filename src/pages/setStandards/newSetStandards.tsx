@@ -9,6 +9,9 @@ import { useNavigate, useLocation } from 'react-router';
 // import { toast } from 'react-toastify';
 import { MACHINE_SERVICES } from '@/services/machineServices';
 import { useAppSelector } from '@/hooks/redux';
+import { SENSOR_SERVICES } from '@/services/sensorServices';
+import { SETSTANDARDS_SERVICES } from '@/services/setStandardsServices';
+import { toast } from 'react-toastify';
 
 export type InitialSetstandardStateType = {
   machineId: any;
@@ -19,7 +22,8 @@ const NewSetStandard = () => {
     machineId: '',
   };
   const { currentPlant } = useAppSelector((state) => state.plantRegistration);
-
+  const [loading, setLoading] = useState(false);
+  const [macAddressWithSchemaTwo, setMacAddressWithSchemaTwo] = useState<string[]>([]);
   const navigate = useNavigate();
   const { state } = useLocation();
   const [machineList, setMachineList] = useState<any[]>([]);
@@ -50,7 +54,19 @@ const NewSetStandard = () => {
     const res = await MACHINE_SERVICES.getAllMachinesByMachineId(id);
     setMachineList(res.message);
   };
+  useEffect(() => {
+    const fetchSensorData = async () => {
+      setLoading(true);
+      const machineMacAddresses = machineList.map((machine) => machine.sensorId);
+      const res = await SENSOR_SERVICES.getAllSensorsByMacaddress(machineMacAddresses);
+      const finalData = res && res.filter((el: any) => el.schemaType === 'SCHEMA_TWO').map((el: any) => el.macAddress);
+      setMacAddressWithSchemaTwo(finalData);
+      setLoading(false);
+    };
 
+    fetchSensorData();
+  }, [machineList]);
+  console.log('first_data', macAddressWithSchemaTwo);
   //post setstandards data
   const createSetstandards = async () => {
     if (state) {
@@ -76,11 +92,11 @@ const NewSetStandard = () => {
         },
       };
       console.log(body, 'body1');
-      // const update_setstandards = await SETSTANDARDS_SERVICES.updateSetdstandards(data.sensorId, body);
-      // if (update_setstandards) {
-      //   toast.success('setstandard updated successfully');
-      //   navigate(-1);
-      // }
+      const update_setstandards = await SETSTANDARDS_SERVICES.updateSetdstandards(data.sensorId, body);
+      if (update_setstandards) {
+        toast.success('setstandard updated successfully');
+        navigate(-1);
+      }
     } else {
       const body = machineList
         .filter((data) => data.isChecked)
@@ -109,11 +125,11 @@ const NewSetStandard = () => {
 
       console.log(body, 'body2');
 
-      //   const create_setstandards = await SETSTANDARDS_SERVICES.addSetstandardsBulk({ data: body });
-      //   if (create_setstandards) {
-      //     toast.success('setstandard added successfully');
-      //     navigate(-1);
-      //   }
+      const create_setstandards = await SETSTANDARDS_SERVICES.addSetstandardsBulk({ data: body });
+      if (create_setstandards) {
+        toast.success('setstandard added successfully');
+        navigate(-1);
+      }
     }
   };
 
@@ -142,6 +158,8 @@ const NewSetStandard = () => {
     setMachineList(machineData);
   };
 
+  console.log('first', machineList);
+
   // Checkbox onChange
   const handleMachineChange = (event: any, type: string, data: any) => {
     const machineData = [...machineList];
@@ -166,6 +184,7 @@ const NewSetStandard = () => {
   const disablingSetStandards = () => {
     if (state) {
       const [data] = machineList;
+      console.log('first_DATATAA', data);
       if (
         data?.sensorId &&
         data?.minOperatingRange &&
@@ -188,6 +207,7 @@ const NewSetStandard = () => {
     } else {
       for (let i = 0; i < machineList.length; i++) {
         const machine = machineList[i];
+        console.log('first_DATATAA', machine);
         if (machine.isChecked) {
           if (
             machine.sensorId &&
@@ -214,28 +234,15 @@ const NewSetStandard = () => {
     return false;
   };
 
+  console.log('first', machineList);
+
   // fields disabling for schema1 and schema2
-  const disablingFields = () => {
-    if (state) {
-      const [data] = machineList;
-      // schema 1 need to be applied from api
-      if (data?.schema == 'schema1') {
-        return false;
-      } else {
-        return true;
-      }
+  const disablingFields = (macAddress: string) => {
+    if (macAddressWithSchemaTwo.includes(macAddress)) {
+      return true;
     } else {
-      for (let i = 0; i < machineList.length; i++) {
-        const machine = machineList[i];
-        // schema 1 need to be applied from api
-        if (machine?.schema == 'schema1') {
-          return false;
-        } else {
-          return true;
-        }
-      }
+      return false;
     }
-    return false;
   };
 
   const columns: any = [
@@ -323,40 +330,28 @@ const NewSetStandard = () => {
       width: 160,
       align: 'center',
       render: (_: any, data: any) => {
-        return (
+        return disablingFields(data.sensorId) ? (
           <div className="flex gap-3 justify-center ">
-            <div
-              className={
-                disablingFields()
-                  ? 'border-b-[1px] border-grey-300 w-[30px]'
-                  : 'border-b-[1px] border-[#A9A9A9] w-[30px]'
-              }
-            >
+            <div className="border-b-[1px] border-[#A9A9A9] w-[30px]">
               <Input
                 placeholder="30"
                 name="secondaryMinOperatingRange"
-                disabled={disablingFields()}
                 value={data.secondaryMinOperatingRange || ''}
                 onChange={(event) => handleInputChange(event, 'secondaryMinOperatingRange', data)}
               />
             </div>
             <p>-</p>
-            <div
-              className={
-                disablingFields()
-                  ? 'border-b-[1px] border-grey-300 w-[30px]'
-                  : 'border-b-[1px] border-[#A9A9A9] w-[30px]'
-              }
-            >
+            <div className="border-b-[1px] border-[#A9A9A9] w-[30px]">
               <Input
                 placeholder="40"
                 name="secondaryMaxOperatingRange"
-                disabled={disablingFields()}
                 value={data.secondaryMaxOperatingRange || ''}
                 onChange={(event) => handleInputChange(event, 'secondaryMaxOperatingRange', data)}
               />
             </div>
           </div>
+        ) : (
+          <span>-</span>
         );
       },
     },
@@ -397,40 +392,30 @@ const NewSetStandard = () => {
       width: 160,
       align: 'center',
       render: (_: any, data: any) => {
-        return (
-          <div className="flex gap-3 justify-center">
-            <div
-              className={
-                disablingFields()
-                  ? 'border-b-[1px] border-grey-300 w-[30px]'
-                  : 'border-b-[1px] border-[#A9A9A9] w-[30px]'
-              }
-            >
-              <Input
-                placeholder="30"
-                name="minThresholdValue"
-                disabled={disablingFields()}
-                value={data.secondaryMinThresholdValue || ''}
-                onChange={(event) => handleInputChange(event, 'secondaryMinThresholdValue', data)}
-              />
+        return disablingFields(data.sensorId) ? (
+          <>
+            <div className="flex gap-3 justify-center">
+              <div className="border-b-[1px] border-[#A9A9A9] w-[30px]">
+                <Input
+                  placeholder="30"
+                  name="minThresholdValue"
+                  value={data.secondaryMinThresholdValue || ''}
+                  onChange={(event) => handleInputChange(event, 'secondaryMinThresholdValue', data)}
+                />
+              </div>
+              <p>-</p>
+              <div className="border-b-[1px] border-[#A9A9A9] w-[30px]">
+                <Input
+                  placeholder="40"
+                  name="maxThresholdValue"
+                  value={data.secondaryMaxThresholdValue || ''}
+                  onChange={(event) => handleInputChange(event, 'secondaryMaxThresholdValue', data)}
+                />
+              </div>
             </div>
-            <p>-</p>
-            <div
-              className={
-                disablingFields()
-                  ? 'border-b-[1px] border-grey-300 w-[30px]'
-                  : 'border-b-[1px] border-[#A9A9A9] w-[30px]'
-              }
-            >
-              <Input
-                placeholder="40"
-                name="maxThresholdValue"
-                disabled={disablingFields()}
-                value={data.secondaryMaxThresholdValue || ''}
-                onChange={(event) => handleInputChange(event, 'secondaryMaxThresholdValue', data)}
-              />
-            </div>
-          </div>
+          </>
+        ) : (
+          <span>-</span>
         );
       },
     },
@@ -464,26 +449,21 @@ const NewSetStandard = () => {
       width: 150,
       align: 'center',
       render: (_: any, data: any) => {
-        return (
-          <div
-            className={
-              disablingFields()
-                ? 'flex justify-center ml-16 border-b-[1px] border-grey-300 w-[80px]'
-                : 'flex justify-center ml-16 border-b-[1px] border-[#A9A9A9] w-[80px]'
-            }
-          >
+        return disablingFields(data.sensorId) ? (
+          <div className="flex justify-center ml-16 border-b-[1px] border-[#A9A9A9] w-[80px]">
             <Dropdown
               placeholder="Bar"
               openClassName="top-5 w-[85px]"
               menuClassName="py-1"
               className="w-[74px] border-transparent px-2 text-[14px] h-[25px] placeholder:text-[#BBBBBB]"
               options={uomData}
-              disabled={disablingFields()}
               handleChange={(value) => handleDropdownChange(value, 'secondaryUom', data)}
               value={machineList?.find((machine: any) => machine.sensorId === data.sensorId)?.secondaryUom}
               mandatory={true}
             />
           </div>
+        ) : (
+          <span>-</span>
         );
       },
     },
@@ -627,6 +607,7 @@ const NewSetStandard = () => {
           className="create-machine-line-table"
           columns={columns}
           dataSource={machineList}
+          loading={loading}
           scroll={{ x: 'calc(2100px + 95%)', y: 'calc(1000px + 50%' }}
         />
         <div className="flex gap-5 justify-center">
