@@ -13,6 +13,16 @@ export const SENSOR_SERVICES = {
       console.log(error);
     }
   },
+  getSensorsDetails: async (sensorId: string) => {
+    try {
+      const res = await iotApiInstance.post(`/sensors`, [sensorId]);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error?.response?.data?.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
   /**
    * Fetches all sensors from the IOT backend.
    * @async

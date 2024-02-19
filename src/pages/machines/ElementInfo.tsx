@@ -59,7 +59,7 @@ function ElementInfo() {
       </div>
       <div className="flex gap-2 flex-wrap ">
         {sensorData?.map((sensor: any) => (
-          <div key={sensor.sensor_Id} className="w-full">
+          <div key={sensor.sensor_Id} className="w-full mb-10">
             <Charts item={sensor} />
           </div>
         ))}

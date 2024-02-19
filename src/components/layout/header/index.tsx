@@ -88,7 +88,7 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
   function connectToAlertsSocket() {
     const _socket = socketIOClient(`${Config.OCBM_IOT_SOCKET_URL}/alerts`, {
       rejectUnauthorized: false,
-      path: '/ocbm-iot/socket.io',
+      path: Config.OCBM_IOT_SOCKET_PATH,
       extraHeaders: {
         authorization: `Bearer ${user?.accessToken}`,
       },
