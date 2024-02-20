@@ -168,6 +168,11 @@ function Sensor() {
     setSensorList(res);
   };
 
+  // const fetchAllSensors = async () => {
+  //   const res = await SENSOR_SERVICES.getSensorsByOrgId(id as string);
+  //   setSensorList(res?.message);
+  // };
+
   //delete machine line
   const onDeleteSensor = async (elementId: string, sensorId: string) => {
     setShowDeleteSensorModal(true);

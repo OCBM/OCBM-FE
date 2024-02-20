@@ -118,7 +118,7 @@ const SetStandardList = () => {
       render: (_: any, data: any) => {
         return (
           <div className="flex justify-center gap-3">
-            <span>{data.minOperatingRange}</span> -<span>{data.maxOperatingRange}</span>
+            <span>{data.secondaryMinOperatingRange}</span> -<span>{data.secondaryMaxOperatingRange}</span>
           </div>
         );
       },
@@ -146,7 +146,7 @@ const SetStandardList = () => {
       render: (_: any, data: any) => {
         return (
           <div className="flex justify-center gap-3">
-            <span>{data.minThresholdValue}</span> -<span>{data.maxThresholdValue}</span>
+            <span>{data.secondaryMinThresholdValue}</span> -<span>{data.secondaryMaxThresholdValue}</span>
           </div>
         );
       },
@@ -166,13 +166,13 @@ const SetStandardList = () => {
     },
     {
       title: 'Secondary UOM',
-      dataIndex: 'uom',
-      key: 'uom',
+      dataIndex: 'secondaryUom',
+      key: 'secondaryUom',
       align: 'center',
       render: (_: any, data: any) => {
         return (
           <div className="flex justify-center gap-3">
-            <span>{data.uom}</span>
+            <span>{data.secondaryUom}</span>
           </div>
         );
       },

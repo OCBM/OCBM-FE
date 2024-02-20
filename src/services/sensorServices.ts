@@ -13,6 +13,16 @@ export const SENSOR_SERVICES = {
       console.log(error);
     }
   },
+  getSensorsDetails: async (sensorId: string) => {
+    try {
+      const res = await iotApiInstance.post(`/sensors`, [sensorId]);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error?.response?.data?.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
   /**
    * Fetches all sensors from the IOT backend.
    * @async
@@ -57,6 +67,17 @@ export const SENSOR_SERVICES = {
     }
   },
 
+  getSensorsByOrgId: async (id: string) => {
+    try {
+      const res = await iotApiInstance.get(`/sensors/${id}`);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
+
   getAllSensorOcbmByPlantID: async (plantId: string, page?: number, limit?: number, sort?: 'asc' | 'desc') => {
     try {
       const res = await apiInstance.get(
@@ -84,6 +105,16 @@ export const SENSOR_SERVICES = {
   getSensorProperties: async (macAddress: string) => {
     try {
       const res = await iotApiInstance.get(`/sensor-properties/${macAddress}`);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
+  getAllSensorsByMacaddress: async (macAddress: string[]) => {
+    try {
+      const res = await iotApiInstance.post(`/sensors`, macAddress);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
