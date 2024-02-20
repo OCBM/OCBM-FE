@@ -6,12 +6,19 @@ import { getToken } from '@/lib/axios';
 import { Config } from '@/config';
 import { SENSOR_SERVICES } from '@/services/sensorServices';
 import { Select } from 'antd';
+import { SquareIcon } from '@/assets/icons';
 
-const SensorChart = ({ sensorId }: { sensorId: string }) => {
+type CriticalityStatusType = 'normal' | 'medium' | 'high' | '';
+
+const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCallback: (status: any) => void }) => {
   const [sensorData, setSensorData] = useState<any>([]);
   const [sensorDetail, setSensorDetail] = useState<any>();
   const [sensorProperties, setSensorProperties] = useState<any>();
   const [selectedDuration, setSelectedDuration] = useState('live');
+  const [chartCriticalityStatus, setChartCriticalityStatus] = useState<{
+    tempStatus: CriticalityStatusType;
+    humidityStatus: CriticalityStatusType;
+  }>({ tempStatus: '', humidityStatus: '' });
 
   const fetchSensorPreviousData = async (value?: string) => {
     var date = new Date();
@@ -39,6 +46,55 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
       setSensorDetail(res[0]);
     }
   }
+
+  const getChartCriticalStatus = (sensorReading: any) => {
+    const value =
+      sensorDetail && sensorDetail?.schemaType === 'SCHEMA_ONE' ? sensorReading?.value : sensorReading?.temperatureC;
+    const getTempStatus = () => {
+      if (!value) return '';
+      if (
+        parseInt(value) > sensorProperties?.maxThresholdValue ||
+        parseInt(value) < sensorProperties?.minThresholdValue
+      ) {
+        return 'high';
+      } else if (
+        (parseInt(value) <= sensorProperties?.maxThresholdValue &&
+          parseInt(value) > sensorProperties?.maxOperatingRange) ||
+        (parseInt(value) >= sensorProperties?.minThresholdValue &&
+          parseInt(value) > sensorProperties?.minOperatingRange)
+      ) {
+        return 'medium';
+      } else {
+        return 'normal';
+      }
+    };
+    const getHumidityStatus = () => {
+      if (!sensorReading?.humidity) return '';
+      if (
+        parseInt(sensorReading?.humidity) > sensorProperties?.maxThresholdValue ||
+        parseInt(sensorReading?.humidity) < sensorProperties?.minThresholdValue
+      ) {
+        return 'high';
+      } else if (
+        (parseInt(sensorReading?.humidity) <= sensorProperties?.maxThresholdValue &&
+          parseInt(sensorReading?.humidity) > sensorProperties?.maxOperatingRange) ||
+        (parseInt(sensorReading?.humidity) >= sensorProperties?.minThresholdValue &&
+          parseInt(sensorReading?.humidity) > sensorProperties?.minOperatingRange)
+      ) {
+        return 'medium';
+      } else {
+        return 'normal';
+      }
+    };
+    setChartCriticalityStatus({
+      tempStatus: getTempStatus() as CriticalityStatusType,
+      humidityStatus: getHumidityStatus() as CriticalityStatusType,
+    });
+    statusCallback({
+      tempStatus: getTempStatus() as CriticalityStatusType,
+      humidityStatus: getHumidityStatus() as CriticalityStatusType,
+    });
+  };
 
   useEffect(() => {
     getSensorDetails();
@@ -78,6 +134,10 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
     fetchSensorPreviousData();
   }, [selectedDuration]);
 
+  useEffect(() => {
+    getChartCriticalStatus(sensorData?.[sensorData?.length - 1]);
+  }, [sensorData, sensorProperties, sensorDetail]);
+
   const getSensorProperties = async () => {
     const res = await SENSOR_SERVICES.getSensorProperties(sensorId);
     setSensorProperties(res);
@@ -86,6 +146,7 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
   useEffect(() => {
     getSensorProperties();
   }, [sensorId]);
+
   const chartInitialConfig: ApexOptions = {
     chart: {
       id: 'realtime',
@@ -401,6 +462,15 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
             },
           },
         ],
+        xaxis: {
+          type: 'datetime',
+          range: 8,
+          labels: {
+            formatter: function (value: any) {
+              return dateFormat(value);
+            },
+          },
+        },
       });
     }
   }, [selectedDuration, sensorData, sensorProperties, sensorDetail]);
@@ -423,7 +493,6 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
   //   }, 10000);
   //   return () => clearInterval(intervalId);
   // }, [sensorData]);
-
   return (
     <div className="w-full h-full">
       <div className="flex gap-3">
@@ -464,7 +533,14 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
       </div>
       <div id="chart" className="flex gap-6 flex-wrap mt-3 w-full">
         <div className="w-[48%]">
-          <h1 className="uppercase text-[#444444] text-[18px] font-medium mb-2">{sensorName}</h1>
+          <div className="relative">
+            <h1 className="uppercase text-[#444444] text-[18px] font-medium mb-2">{sensorName}</h1>
+            <div className="absolute top-0 right-0 flex flex-col items-end gap-[3px]">
+              <SquareIcon active={chartCriticalityStatus?.tempStatus === 'high'} critical className="w-[20px]" />
+              <SquareIcon active={chartCriticalityStatus?.tempStatus === 'medium'} medium className="w-[20px]" />
+              <SquareIcon active={chartCriticalityStatus?.tempStatus === 'normal'} low className="w-[20px]" />
+            </div>
+          </div>
           <Chart
             options={temperatureChartOptions}
             series={[
@@ -483,9 +559,16 @@ const SensorChart = ({ sensorId }: { sensorId: string }) => {
             height={350}
           />
         </div>
-        {sensorDetail && sensorDetail.schemaType === 'SCHEMA_TWO' && (
+        {sensorDetail && sensorDetail?.schemaType === 'SCHEMA_TWO' && (
           <div className="w-[48%]">
-            <h1 className="uppercase text-[#444444] text-[18px] font-medium mb-2">Humidity</h1>
+            <div className="relative">
+              <h1 className="uppercase text-[#444444] text-[18px] font-medium mb-2">Humidity</h1>
+              <div className="absolute top-0 right-0 flex flex-col items-end gap-[3px]">
+                <SquareIcon active={chartCriticalityStatus?.humidityStatus === 'high'} critical className="w-[20px]" />
+                <SquareIcon active={chartCriticalityStatus?.humidityStatus === 'medium'} medium className="w-[20px]" />
+                <SquareIcon active={chartCriticalityStatus?.humidityStatus === 'normal'} low className="w-[20px]" />
+              </div>
+            </div>
             <Chart
               options={humidityChartOptions}
               series={[
