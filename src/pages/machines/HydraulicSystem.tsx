@@ -58,7 +58,7 @@ function HydraulicSystem() {
         {posts.map((item: any, index: number) => (
           <div key={index} className="w-[33%]">
             <Card tag="high" className="w-full shadow-lg h-full bg-white p-[15px] rounded-[9px]">
-              <Charts item={item} index={index} />
+              <Charts item={item} />
             </Card>
           </div>
         ))}
