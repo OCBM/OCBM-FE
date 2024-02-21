@@ -46,7 +46,7 @@ function Sensor() {
   const [showDeleteSensorModal, setShowDeleteSensorModal] = useState<boolean>(false);
   const [showEditSensorModal, setShowEditSensorModal] = useState<boolean>(false);
   const [newSensor, setNewSensor] = useState<any>(sensorInitialState);
-  const [sensorList, setSensorList] = useState([]);
+  const [sensorList, setSensorList] = useState<any>([]);
 
   const handleFile = async (event: any) => {
     setFileName(event[0].name);
@@ -164,9 +164,15 @@ function Sensor() {
     }
   };
   const fetchAllSensors = async () => {
-    const res = await SENSOR_SERVICES.getAllSensor();
+    const res = await SENSOR_SERVICES.getAllSensorsByOrganization();
+    console.log('res', res);
     setSensorList(res);
   };
+
+  // const fetchAllSensors = async () => {
+  //   const res = await SENSOR_SERVICES.getSensorsByOrgId(id as string);
+  //   setSensorList(res?.message);
+  // };
 
   //delete machine line
   const onDeleteSensor = async (elementId: string, sensorId: string) => {
@@ -231,8 +237,10 @@ function Sensor() {
           options={sensorList}
           className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
           placeholder="Select Sensor"
+          optionLabel="macAddress"
+          optionValue="macAddress"
           handleChange={(sensor) => setSensorData({ ...sensorData, sensorId: sensor })}
-          value={sensorList?.find((machine: any) => machine === sensorData.sensorId)}
+          value={sensorList?.find((machine: any) => machine?.macAddress === sensorData?.sensorId)?.macAddress}
           mandatory={true}
         />
         <Input

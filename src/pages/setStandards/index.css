@@ -2,10 +2,6 @@
 /* word-spacing: 1rem; */
 /* } */
 
-.set-table .thresholdValue {
-  word-spacing: 1rem;
-}
-
 .set-table .ant-table-thead > tr > th:nth-child(6) {
   word-spacing: normal;
 }

@@ -5,8 +5,14 @@ import { Card } from '@/components';
 import { useParams } from 'react-router-dom';
 import { OperatingRange, SquareIcon, ThresholdValue } from '@/assets/icons';
 
+type CriticalityStatusType = 'normal' | 'medium' | 'high' | '';
+
 const SensorChart: React.FC = () => {
   const [sensorData, setSensorData] = useState<any>([]);
+  const [chartCriticalityStatus, setChartCriticalityStatus] = useState<{
+    tempStatus: CriticalityStatusType;
+    humidityStatus: CriticalityStatusType;
+  }>({ tempStatus: '', humidityStatus: '' });
   const { id } = useParams();
 
   const fetchSensorData = async () => {
@@ -18,6 +24,15 @@ const SensorChart: React.FC = () => {
     fetchSensorData();
   }, [id]);
 
+  const getTagStatus = () => {
+    if (chartCriticalityStatus?.tempStatus === 'high' || chartCriticalityStatus?.humidityStatus === 'high') {
+      return 'high';
+    } else if (chartCriticalityStatus?.tempStatus === 'medium' || chartCriticalityStatus?.humidityStatus === 'medium') {
+      return 'medium';
+    } else {
+      return 'normal';
+    }
+  };
   return (
     <div id="chart">
       <div className="w-full flex justify-end">
@@ -34,8 +49,16 @@ const SensorChart: React.FC = () => {
           <p className="text-[14px] text-[#444444]">Threshold Value</p>
         </div>
       </div>
-      <Card tag="high" className="w-full shadow-lg h-full bg-white p-[15px] rounded-[9px]">
-        <Charts item={sensorData} />
+      <Card tag={getTagStatus()} className="w-full shadow-lg h-full bg-white p-[15px] rounded-[9px]">
+        <Charts
+          item={sensorData}
+          statusCallback={(status: any) =>
+            setChartCriticalityStatus({
+              tempStatus: status?.tempStatus,
+              humidityStatus: status?.humidityStatus,
+            })
+          }
+        />
       </Card>
     </div>
   );
