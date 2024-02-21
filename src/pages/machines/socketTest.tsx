@@ -90,10 +90,11 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
       tempStatus: getTempStatus() as CriticalityStatusType,
       humidityStatus: getHumidityStatus() as CriticalityStatusType,
     });
-    statusCallback({
-      tempStatus: getTempStatus() as CriticalityStatusType,
-      humidityStatus: getHumidityStatus() as CriticalityStatusType,
-    });
+    statusCallback &&
+      statusCallback({
+        tempStatus: getTempStatus() as CriticalityStatusType,
+        humidityStatus: getHumidityStatus() as CriticalityStatusType,
+      });
   };
 
   useEffect(() => {
@@ -111,11 +112,12 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
     });
 
     if (selectedDuration === 'live') {
-      // fetchSensorPreviousData('1');
+      fetchSensorPreviousData('1');
       _socket.emit('sensor-readings', {
         sensors: [sensorId?.toUpperCase()], // sensor mac-address to listen
       });
       _socket.on('sensor-reading', (data: any) => {
+        console.log('SENSOR_READING', data);
         setSensorData((prev: any) => {
           return [...prev, { ...data?.sensorReading }];
         });

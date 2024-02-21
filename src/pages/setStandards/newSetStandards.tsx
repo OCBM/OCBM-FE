@@ -35,7 +35,7 @@ const NewSetStandard = () => {
 
   useEffect(() => {
     if (state) {
-      setMachineList([state.data]);
+      setMachineList([{ ...state.data, isChecked: true }]);
     } else {
       fetch();
     }
@@ -172,41 +172,22 @@ const NewSetStandard = () => {
     }
     setMachineList(machineData);
   };
+  const disablingFields = (macAddress: string) => {
+    if (macAddressWithSchemaTwo?.includes(macAddress)) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   //disable button
   const disablingSetStandards = () => {
-    if (state) {
-      const [data] = machineList;
-      const commonFiled =
-        data?.sensorId &&
-        data?.minOperatingRange &&
-        data?.maxOperatingRange &&
-        data?.minThresholdValue &&
-        data?.maxThresholdValue &&
-        data?.uom &&
-        data?.interval &&
-        data?.trigger &&
-        data?.criticality?.breakDown &&
-        data?.criticality?.defect &&
-        data?.criticality?.unSafe;
-      if (
-        disablingFields(data?.sensorId)
-          ? commonFiled &&
-            data?.secondaryMinOperatingRange &&
-            data?.secondaryMaxOperatingRange &&
-            data?.secondaryMinThresholdValue &&
-            data?.secondaryMaxThresholdValue &&
-            data?.secondaryUom
-          : commonFiled
-      ) {
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      for (let i = 0; i < machineList?.length; i++) {
-        const machine = machineList?.[i];
-        if (machine?.isChecked) {
+    if (machineList) {
+      const filteredMachines = machineList.filter((machine) => machine?.isChecked);
+      const diabledMachines = filteredMachines.map((machine) => {
+        if (!machine?.isChecked) {
+          return true;
+        } else {
           const commonFiled =
             machine?.sensorId &&
             machine?.minOperatingRange &&
@@ -216,36 +197,25 @@ const NewSetStandard = () => {
             machine?.uom &&
             machine?.interval &&
             machine?.trigger &&
-            machine?.criticality?.breakDown &&
-            machine?.criticality?.defect &&
-            machine?.criticality?.unSafe;
+            (machine?.criticality?.breakDown || machine?.criticality?.defect || machine?.criticality?.unSafe);
+
           if (
-            disablingFields(machine?.sensorId)
-              ? commonFiled &&
-                machine?.secondaryMinOperatingRange &&
-                machine?.secondaryMaxOperatingRange &&
-                machine?.secondaryMinThresholdValue &&
-                machine?.secondaryMaxThresholdValue &&
-                machine?.secondaryUom
-              : commonFiled
+            disablingFields(machine?.sensorId) &&
+            commonFiled &&
+            machine?.secondaryMinOperatingRange &&
+            machine?.secondaryMaxOperatingRange &&
+            machine?.secondaryMinThresholdValue &&
+            machine?.secondaryMaxThresholdValue &&
+            machine?.secondaryUom
           ) {
             return false;
-          } else {
-            return true;
+          } else if (!disablingFields(machine?.sensorId) && commonFiled) {
+            return false;
           }
+          return true;
         }
-        return true;
-      }
-      return machineList?.length === 0;
-    }
-  };
-
-  // fields disabling for schema1 and schema2
-  const disablingFields = (macAddress: string) => {
-    if (macAddressWithSchemaTwo.includes(macAddress)) {
-      return true;
-    } else {
-      return false;
+      });
+      return diabledMachines.includes(true);
     }
   };
 

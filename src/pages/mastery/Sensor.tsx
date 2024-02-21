@@ -46,7 +46,7 @@ function Sensor() {
   const [showDeleteSensorModal, setShowDeleteSensorModal] = useState<boolean>(false);
   const [showEditSensorModal, setShowEditSensorModal] = useState<boolean>(false);
   const [newSensor, setNewSensor] = useState<any>(sensorInitialState);
-  const [sensorList, setSensorList] = useState([]);
+  const [sensorList, setSensorList] = useState<any>([]);
 
   const handleFile = async (event: any) => {
     setFileName(event[0].name);
@@ -240,7 +240,7 @@ function Sensor() {
           optionLabel="macAddress"
           optionValue="macAddress"
           handleChange={(sensor) => setSensorData({ ...sensorData, sensorId: sensor })}
-          value={sensorList?.find((machine: any) => machine === sensorData.macAddress)}
+          value={sensorList?.find((machine: any) => machine?.macAddress === sensorData?.sensorId)?.macAddress}
           mandatory={true}
         />
         <Input
