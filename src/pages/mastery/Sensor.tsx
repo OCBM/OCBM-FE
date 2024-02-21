@@ -164,7 +164,8 @@ function Sensor() {
     }
   };
   const fetchAllSensors = async () => {
-    const res = await SENSOR_SERVICES.getAllSensor();
+    const res = await SENSOR_SERVICES.getAllSensorsByOrganization();
+    console.log('res', res);
     setSensorList(res);
   };
 
@@ -236,8 +237,10 @@ function Sensor() {
           options={sensorList}
           className="w-[270px] border-[1px] h-[46px] px-3 rounded-[50px] border-[#A9A9A9] p-[16px] text-[14px]"
           placeholder="Select Sensor"
+          optionLabel="macAddress"
+          optionValue="macAddress"
           handleChange={(sensor) => setSensorData({ ...sensorData, sensorId: sensor })}
-          value={sensorList?.find((machine: any) => machine === sensorData.sensorId)}
+          value={sensorList?.find((machine: any) => machine === sensorData.macAddress)}
           mandatory={true}
         />
         <Input

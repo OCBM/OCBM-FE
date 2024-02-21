@@ -1,6 +1,7 @@
 import { apiInstance, iotApiInstance } from '@/lib/axios';
 import { HELPER_SERVICES } from './helperServices';
 import { toast } from 'react-toastify';
+import { Config } from '@/config';
 
 export const SENSOR_SERVICES = {
   getSensorData: async (minTimestamp: string, macAddress?: string) => {
@@ -115,6 +116,16 @@ export const SENSOR_SERVICES = {
   getAllSensorsByMacaddress: async (macAddress: string[]) => {
     try {
       const res = await iotApiInstance.post(`/sensors`, macAddress);
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
+  getAllSensorsByOrganization: async () => {
+    try {
+      const res = await iotApiInstance.get(`/sensors/${Config.VITE_CURRENT_ORGANIZATION}`);
       return res.data;
     } catch (error: any) {
       const errorMsg = HELPER_SERVICES.ErrorMsg(error.response?.data.message) || error?.message;
