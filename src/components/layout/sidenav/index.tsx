@@ -1,8 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 // import { OmnexIcon } from '@/assets/icons';
-import Logo from '@/assets/images/logo.jpg';
 import { sideNavRoutes } from './routes';
-import { SITEMAP } from '@/utils/sitemap';
+
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { accessRules } from '@/utils/accessibilityConstants';
@@ -18,15 +17,15 @@ const SideNav = () => {
 
   return (
     <div className="bg-[#605BFF] rounded-2xl flex flex-col items-center px-5 py-[50px] ">
-      <div
+      {/* <div
         className="p-[10px] mb-10 cursor-pointer"
         onClick={() => {
           navigate(SITEMAP.plant.index);
         }}
       >
-        {/* <OmnexIcon /> */}
+       
         <img src={Logo} className="w-28" />
-      </div>
+      </div> */}
       <div className="flex flex-col justify-center items-center gap-[10px] overflow-y-auto hiddenScroll">
         {sideNavRoutes.map((option) => {
           const userAccess = accessRules[loggedUser?.role || 'USER']?.[option.title];

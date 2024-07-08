@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Header from './header';
 import SideNav from './sidenav';
 import { Breadcrumbs } from '..';
@@ -6,8 +6,10 @@ import { useAppSelector, useBreadcrumbs } from '@/hooks';
 import classNames from 'classnames';
 
 export function Layout() {
+  const location = useLocation();
   const list = useBreadcrumbs();
   const { show } = useAppSelector((state) => state.plantRegistration);
+  console.log('location', location);
   return (
     // <div
     //   className={`${classNames({
@@ -16,23 +18,27 @@ export function Layout() {
     // >
     // Changing this as we get two scroll bars when hei8ght goes out of bounds.
     <div className="h-screen">
-      <div
-        className={`${classNames({
-          'bg-black flex h-full w-full overflow-hidden py-[14px] px-[14px ': show !== 'plant',
-        })} flex h-full w-full overflow-hidden py-[14px] px-[14px]`}
-      >
-        <SideNav />
-        <div className="px-[30px] w-full h-auto flex flex-col overflow-y-auto hiddenScroll">
-          <Header hideAvatar={show !== 'plant'} />
+      {location.pathname !== '/emulator' ? (
+        <div
+          className={`${classNames({
+            'bg-black flex h-full w-full overflow-hidden py-[14px] px-[14px ': show !== 'plant',
+          })} flex h-full w-full overflow-hidden py-[14px] px-[14px]`}
+        >
+          <SideNav />
+          <div className="px-[30px] w-full h-auto flex flex-col overflow-y-auto hiddenScroll">
+            <Header hideAvatar={show !== 'plant'} />
 
-          {show !== 'shop' && show !== 'machine' && (
-            <div className="my-8">
-              <Breadcrumbs crumbs={[...list]} />
-            </div>
-          )}
-          <Outlet />
+            {show !== 'shop' && show !== 'machine' && (
+              <div className="my-8">
+                <Breadcrumbs crumbs={[...list]} />
+              </div>
+            )}
+            <Outlet />
+          </div>
         </div>
-      </div>
+      ) : (
+        <Outlet />
+      )}
     </div>
   );
 }

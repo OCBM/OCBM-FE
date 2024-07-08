@@ -24,6 +24,20 @@ export const SENSOR_SERVICES = {
       console.log(error);
     }
   },
+  postSensorData: async (data: any) => {
+    try {
+      const res = await iotApiInstance.post(`/sensor-reading/emulate`, {
+        sensorData: data,
+        org: 'sanmar-org',
+        schemaType: 'SCHEMA_TWO',
+      });
+      return res.data;
+    } catch (error: any) {
+      const errorMsg = HELPER_SERVICES.ErrorMsg(error?.response?.data?.message) || error?.message;
+      toast.error(errorMsg);
+      console.log(error);
+    }
+  },
   /**
    * Fetches all sensors from the IOT backend.
    * @async

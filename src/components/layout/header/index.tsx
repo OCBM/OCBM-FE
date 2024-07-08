@@ -1,4 +1,5 @@
 import { AlertsIcon, BellIcon } from '@/assets/icons';
+import Logo from '@/assets/images/logo.jpg';
 import { Dropdown } from '@/components';
 import { Config } from '@/config';
 import { useAppDispatch, useAppSelector } from '@/hooks';
@@ -109,8 +110,8 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
     });
 
     alertsSocket.on('sensor-alert', (data: any) => {
-      toast.error(`${data.alert.macAddress} reached ${data.alert.trigger} value`);
       setAlertsData((prevData: any) => [...prevData, data]);
+      toast.error(`${data.alert.macAddress} reached ${data.alert.trigger} value`);
     });
   }
   const fetchPlantsbyUserId = async () => {
@@ -218,6 +219,7 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
             options={userOptions}
             handleChange={logoutBtn}
           />
+          <img src={Logo} className="w-36" alt="omnex-logo" />
         </div>
       </div>
     </div>

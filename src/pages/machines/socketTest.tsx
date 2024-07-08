@@ -32,15 +32,17 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
     const nDate = new Date(date);
     let hours: number = nDate.getHours();
     let minutes: number = nDate.getMinutes();
+    let seconds: number = nDate.getSeconds();
     let ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
-    let strTime = hours + ':' + minutes + ' ' + ampm;
+    let strTime = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
     return strTime;
   };
 
   async function getSensorDetails() {
     const res = await SENSOR_SERVICES?.getSensorsDetails(sensorId);
+
     if (!res[0]) return;
     if (!sensorDetail) {
       setSensorDetail(res[0]);
@@ -130,6 +132,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
     return () => {
       _socket.disconnect();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sensorId, selectedDuration, sensorDetail]);
 
   useEffect(() => {
@@ -182,14 +185,6 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
     markers: {
       size: 0,
     },
-    // xaxis: {
-    //   type: 'datetime',
-    //   labels: {
-    //     formatter: function (value: any) {
-    //       return format(new Date(value), 'HH:mm, dd/MMM');
-    //     },
-    //   },
-    // },
   };
   const [temperatureChartOptions, setTemperatureChartOptions] = useState<ApexOptions>(chartInitialConfig);
   const [humidityChartOptions, setHumidityChartOptions] = useState<ApexOptions>(chartInitialConfig);
@@ -548,13 +543,16 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
             series={[
               {
                 name: 'Temperature',
-                data: sensorData?.map((sensor: any) => ({
-                  x: sensor?.msgTimeStamp,
-                  y:
-                    sensorDetail && sensorDetail.schemaType === 'SCHEMA_ONE'
-                      ? parseInt(sensor?.value)
-                      : parseInt(sensor?.temperatureC),
-                })),
+                data: sensorData?.map((sensor: any) => {
+                  console.log('TEST_SENSOR', sensor, sensorDetail.schemaType);
+                  return {
+                    x: sensor?.msgTimeStamp,
+                    y:
+                      sensorDetail && sensorDetail.schemaType === 'SCHEMA_ONE'
+                        ? parseInt(sensor?.value)
+                        : parseInt(sensor?.temperatureC),
+                  };
+                }),
               },
             ]}
             type="line"

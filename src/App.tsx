@@ -18,6 +18,7 @@ import SetStandard from './pages/setStandards';
 import Reports from './pages/reports';
 import ElementInfo from './pages/machines/ElementInfo';
 import SensorChart from './pages/machines/SensorChart';
+import Emulator from './pages/emulator';
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
             <Route path={SITEMAP.machines.sensorById} element={<SensorChart />} />
             <Route path={SITEMAP.setStandards.NewSetStandards} element={<NewSetStandards />} />
             <Route path={SITEMAP.setStandards.index} element={<SetStandard />} />
+            <Route path={'/emulator'} element={<Emulator />} />
             <Route index element={<Home />} />
             <Route path={SITEMAP.notFound} element={<h1>Not found</h1>} />
           </Route>
