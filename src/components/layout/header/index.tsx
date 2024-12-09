@@ -4,6 +4,7 @@ import { Config } from '@/config';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { logoutUser } from '@/redux/slices/authSlice';
 import { setAllPlants, setCurrentPlant } from '@/redux/slices/plantSlice';
+import { setSensorNotifications } from '@/redux/slices/sensorSlice';
 import { PLANT_SERVICES } from '@/services/plantServices';
 import { SENSOR_SERVICES } from '@/services/sensorServices';
 import { Select } from 'antd';
@@ -17,6 +18,8 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const loggedUser = useAppSelector((state) => state.auth?.user);
+  const sensorData = useAppSelector((state) => state.sensorSlice.sensorData);
+  const sensorNotificationData = useAppSelector((state) => state.sensorSlice.sensorNotificationData);
   const user = useAppSelector((state) => state.auth.user);
   const { allPlants, currentPlant } = useAppSelector((state) => state.plantRegistration);
   const [showOpenNotificationModal, setShowNotificationModal] = useState(false);
@@ -66,7 +69,8 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
 
   const [alertsSocket, setAlertsSocket] = useState<any>(null);
   const [alertsData, setAlertsData] = useState<any>([]);
-
+  console.log('first1', sensorData);
+  console.log('first4', sensorNotificationData);
   useEffect(() => {
     connectToAlertsSocket();
     return () => {
@@ -136,6 +140,16 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
     navigate('/plant');
   };
 
+  const getAllSensorProperties = async () => {
+    const res = await SENSOR_SERVICES.getAllSensorProperties();
+    if (res) {
+      dispatch(setSensorNotifications(res));
+    }
+  };
+
+  useEffect(() => {
+    getAllSensorProperties();
+  }, []);
   return (
     <div className="flex">
       <div className="w-full flex justify-center">
