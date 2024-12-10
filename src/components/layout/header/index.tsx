@@ -152,7 +152,7 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
   useEffect(() => {
     const sensorInterval = setInterval(() => {
       dispatch(setSensorStoreDetail());
-    }, 6000);
+    }, 60000);
     return () => {
       clearInterval(sensorInterval);
     };

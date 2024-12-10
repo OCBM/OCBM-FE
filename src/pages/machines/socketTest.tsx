@@ -154,15 +154,14 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
   };
   useEffect(() => {
     getSensorDataFromStore();
-  }, [sensorStoreData, sensorId]);
+  }, [sensorStoreData, sensorId, sensorDetail]);
 
   useEffect(() => {
     getSensorProperties();
     getSensorDetails();
   }, [sensorId]);
 
-  console.log('first1', sensorId);
-  console.log('first2', sensorData);
+  console.log('sensore Data store::', sensorData);
   const chartInitialConfig: ApexOptions = {
     chart: {
       id: 'realtime',

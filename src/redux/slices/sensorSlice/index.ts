@@ -22,21 +22,12 @@ const sensorSlice = createSlice({
       const _notificationArr: any = [...storeValue.sensorNotificationData];
       for (let i = 0; i < sensorPropertiesList?.length; i++) {
         const properties = sensorPropertiesList[i];
-        let _default_dec_number = properties?.minOperatingRange - properties?.minThresholdValue || 1;
-        _default_dec_number = _default_dec_number < 0 ? _default_dec_number * -1 : _default_dec_number;
-        let _default_inc_number = properties?.maxOperatingRange - properties?.maxThresholdValue || 1;
-        _default_inc_number = _default_inc_number < 0 ? _default_inc_number * -1 : _default_inc_number;
         const _newSensorData = {
           macAddress: properties?.macAddress,
-          humidity: getRandomNumberInRange(
-            properties?.minThresholdValue - _default_dec_number,
-            properties?.maxThresholdValue + _default_inc_number,
-          ),
+          humidity: getRandomNumberInRange(properties?.minThresholdValue - 2, properties?.maxThresholdValue + 2),
           msgTimeStamp: new Date().toISOString(),
-          temperatureC: getRandomNumberInRange(
-            properties?.minThresholdValue - _default_dec_number,
-            properties?.maxThresholdValue + _default_inc_number,
-          ),
+          temperatureC: getRandomNumberInRange(properties?.minThresholdValue - 2, properties?.maxThresholdValue + 2),
+          value: getRandomNumberInRange(properties?.minThresholdValue - 2, properties?.maxThresholdValue + 2),
         };
         _sensorArr.push(_newSensorData);
         if (
@@ -52,8 +43,7 @@ const sensorSlice = createSlice({
           });
         }
       }
-      console.log('first6', _notificationArr);
-      state.sensorNotificationData = _notificationArr;
+      state.sensorNotificationData = _notificationArr?.slice(-30);
       state.sensorData = _sensorArr;
     },
     setSensorProperties: (state, { payload }) => {
@@ -66,24 +56,23 @@ const sensorSlice = createSlice({
         const sensorData: any = [];
         for (let i = 0; i < sensorPropertiesList?.length; i++) {
           const properties = sensorPropertiesList[i];
-          let _default_dec_number = properties?.minOperatingRange - properties?.minThresholdValue || 1;
-          _default_dec_number = _default_dec_number < 0 ? _default_dec_number * -1 : _default_dec_number;
-          let _default_inc_number = properties?.maxOperatingRange - properties?.maxThresholdValue || 1;
-          _default_inc_number = _default_inc_number < 0 ? _default_inc_number * -1 : _default_inc_number;
-          const sensor: any = Array(10)
+          const sensor: any = Array(9)
             .fill(0)
-            ?.map(() => ({
-              macAddress: properties?.macAddress,
-              humidity: getRandomNumberInRange(
-                properties?.minThresholdValue - _default_dec_number,
-                properties?.maxThresholdValue + _default_inc_number,
-              ),
-              msgTimeStamp: new Date().toISOString(),
-              temperatureC: getRandomNumberInRange(
-                properties?.minThresholdValue - _default_dec_number,
-                properties?.maxThresholdValue + _default_inc_number,
-              ),
-            }));
+            ?.map((_, idx) => {
+              const date = new Date();
+              date.setMinutes(date.getMinutes() - idx + 1);
+              return {
+                macAddress: properties?.macAddress,
+                humidity: getRandomNumberInRange(properties?.minThresholdValue - 2, properties?.maxThresholdValue + 2),
+                msgTimeStamp: date.toISOString(),
+                temperatureC: getRandomNumberInRange(
+                  properties?.minThresholdValue - 2,
+                  properties?.maxThresholdValue + 2,
+                ),
+                value: getRandomNumberInRange(properties?.minThresholdValue - 2, properties?.maxThresholdValue + 2),
+              };
+            })
+            .sort((a, b) => (new Date(a.msgTimeStamp) as any) - (new Date(b.msgTimeStamp) as any));
           sensorData.push(...sensor);
         }
         state.sensorData = sensorData;
