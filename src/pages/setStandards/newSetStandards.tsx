@@ -8,18 +8,16 @@ import { useNavigate, useLocation } from 'react-router';
 // import { SETSTANDARDS_SERVICES } from '@/services/setStandardsServices';
 // import { toast } from 'react-toastify';
 import { MACHINE_SERVICES } from '@/services/machineServices';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { useAppSelector } from '@/hooks/redux';
 import { SENSOR_SERVICES } from '@/services/sensorServices';
 import { SETSTANDARDS_SERVICES } from '@/services/setStandardsServices';
 import { toast } from 'react-toastify';
-import { setSensorProperties } from '@/redux/slices/sensorSlice';
 
 export type InitialSetstandardStateType = {
   machineId: any;
 };
 
 const NewSetStandard = () => {
-  const dispatch = useAppDispatch();
   const initialState = {
     machineId: '',
   };
@@ -93,7 +91,6 @@ const NewSetStandard = () => {
       };
       const update_setstandards = await SETSTANDARDS_SERVICES.updateSetdstandards(data?.sensorId, body);
       if (update_setstandards) {
-        dispatch(setSensorProperties(update_setstandards));
         toast.success('setstandard updated successfully');
         navigate(-1);
       }

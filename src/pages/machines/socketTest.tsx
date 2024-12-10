@@ -259,7 +259,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
                 color: '#A299D2',
                 background: 'none',
               },
-              text: `${sensorProperties?.minThresholdValue} °C`,
+              text: `${sensorProperties?.minThresholdValue} ${sensorProperties?.uom}`,
             },
           },
           {
@@ -274,7 +274,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
                 color: '#A299D2',
                 background: 'none',
               },
-              text: `${sensorProperties?.maxThresholdValue} °C`,
+              text: `${sensorProperties?.maxThresholdValue} ${sensorProperties?.uom}`,
             },
           },
           {
@@ -289,7 +289,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
                 color: '#A299D2',
                 background: 'none',
               },
-              text: `${sensorProperties?.minOperatingRange} °C`,
+              text: `${sensorProperties?.minOperatingRange} ${sensorProperties?.uom}`,
             },
           },
           {
@@ -304,7 +304,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
                 color: '#A299D2',
                 background: 'none',
               },
-              text: `${sensorProperties?.maxOperatingRange} °C`,
+              text: `${sensorProperties?.maxOperatingRange} ${sensorProperties?.uom}`,
             },
           },
         ],
@@ -333,7 +333,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
                   option.w.config.yaxis[0].labels.style.colors[pos] = '#14A87B';
                 }
               }
-              return parseInt(value) + ' °C';
+              return parseInt(value) + ' ' + sensorProperties?.uom;
             },
             style: {
               colors: ['#14A87B'],
@@ -425,7 +425,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
                   color: '#A299D2',
                   background: 'none',
                 },
-                text: `${sensorProperties?.minOperatingRange} °C`,
+                text: `${sensorProperties?.minOperatingRange} Bar`,
               },
             },
             {
@@ -440,7 +440,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
                   color: '#A299D2',
                   background: 'none',
                 },
-                text: `${sensorProperties?.maxOperatingRange} °C`,
+                text: `${sensorProperties?.maxOperatingRange} Bar`,
               },
             },
           ],
@@ -560,7 +560,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
             options={temperatureChartOptions}
             series={[
               {
-                name: 'Temperature',
+                name: sensorProperties?.uom === 'Bar' ? 'Value' : 'Temperature',
                 data: sensorData?.map((sensor: any) => ({
                   x: sensor?.msgTimeStamp,
                   y:

@@ -3,7 +3,7 @@ export const USER_ROLES = Object.freeze({
   USER: 'USER',
 });
 export const LOGIN_CONSTANTS = Object.freeze({
-  title: 'OMNEX TPM I-IoT',
+  title: 'OMNEX TPM LITE',
   description: 'CONDITION BASED MAINTENANCE',
   copyrights: `All Rights Reserved. © 2023`,
 });

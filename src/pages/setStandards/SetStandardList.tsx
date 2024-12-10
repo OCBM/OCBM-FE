@@ -8,10 +8,11 @@ import { useEffect, useState } from 'react';
 import PopupModal from '@/components/reusable/popupmodal/popupmodal';
 import { toast } from 'react-toastify';
 import { PLANT_SERVICES } from '@/services/plantServices';
-import { useAppSelector } from '@/hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import { accessRules } from '@/utils/accessibilityConstants';
 import { Tag } from 'antd';
 import AccessManager from '@/components/accessManager';
+import { setSensorProperties } from '@/redux/slices/sensorSlice';
 
 export type updatedData = {
   sensor: any;
@@ -24,6 +25,7 @@ export type updatedData = {
 };
 
 const SetStandardList = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [setStandardlist, setSetStandardList] = useState<any>([]);
   const [showDeleteUserModal, setShowDeleteUserModal] = useState<boolean>(false);
@@ -50,6 +52,7 @@ const SetStandardList = () => {
         // Filtering to Get Full values Even after deleting sensor data
         const finalData = updatedData.filter((data: { uom: any }) => data.uom);
         setSetStandardList(finalData);
+        dispatch(setSensorProperties(finalData));
       }
     };
 
