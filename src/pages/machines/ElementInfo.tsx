@@ -5,16 +5,29 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ELEMENT_SERVICES } from '@/services/elementServices';
 import { useEffect, useState } from 'react';
 import { SENSOR_SERVICES } from '@/services/sensorServices';
+import { Card } from '@/components';
+import { MACHINE_SERVICES } from '@/services/machineServices';
+
+type CriticalityStatusType = 'normal' | 'medium' | 'high' | '';
 
 function ElementInfo() {
   const navigate = useNavigate();
   const { machineId, id } = useParams();
   const [elementData, setElementData] = useState<any>();
   const [sensorData, setSensorData] = useState<any>([]);
+  const [machineData, setMachineData] = useState<any>();
+  const [chartCriticalityStatus, setChartCriticalityStatus] = useState<{
+    tempStatus: CriticalityStatusType;
+    humidityStatus: CriticalityStatusType;
+  }>({ tempStatus: '', humidityStatus: '' });
 
   const fetchElement = async () => {
     const res = await ELEMENT_SERVICES.getElementByMachineIdAndElementId(id as string, machineId as string);
     setElementData(res);
+  };
+  const fetchMachineDetail = async () => {
+    const res = await MACHINE_SERVICES.getAllMachinesByMachineId(machineId as string);
+    setMachineData({ ...res?.message?.[0], machineName: res?.message?.[0]?.machine });
   };
 
   const fetchSensors = async () => {
@@ -25,8 +38,18 @@ function ElementInfo() {
   useEffect(() => {
     fetchElement();
     fetchSensors();
+    fetchMachineDetail();
   }, [id, machineId]);
 
+  const getTagStatus = () => {
+    if (chartCriticalityStatus?.tempStatus === 'high' || chartCriticalityStatus?.humidityStatus === 'high') {
+      return 'high';
+    } else if (chartCriticalityStatus?.tempStatus === 'medium' || chartCriticalityStatus?.humidityStatus === 'medium') {
+      return 'medium';
+    } else {
+      return 'normal';
+    }
+  };
   return (
     <div className="shadow-[0px_4px_20px_0px_#0000000F] border-[1px] border-[#44444440] rounded-[16px] p-[24px] ">
       <div className="flex justify-between mb-8 items-center">
@@ -60,7 +83,17 @@ function ElementInfo() {
       <div className="flex gap-2 flex-wrap ">
         {sensorData?.map((sensor: any) => (
           <div key={sensor.sensor_Id} className="w-full mb-10">
-            <Charts item={sensor} />
+            <Card tag={getTagStatus()} className="w-full shadow-lg h-full bg-white p-[15px] rounded-[9px]">
+              <Charts
+                item={{ elements: { machines: machineData, ...elementData }, ...sensor }}
+                statusCallback={(status: any) =>
+                  setChartCriticalityStatus({
+                    tempStatus: status?.tempStatus,
+                    humidityStatus: status?.humidityStatus,
+                  })
+                }
+              />
+            </Card>
           </div>
         ))}
       </div>

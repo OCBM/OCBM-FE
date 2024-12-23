@@ -56,15 +56,15 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
     const getTempStatus = () => {
       if (!value) return '';
       if (
-        parseInt(value) > sensorProperties?.maxThresholdValue ||
-        parseInt(value) < sensorProperties?.minThresholdValue
+        parseInt(value) > sensorProperties?.maxOperatingRange ||
+        parseInt(value) < sensorProperties?.minOperatingRange
       ) {
         return 'high';
       } else if (
-        (parseInt(value) <= sensorProperties?.maxThresholdValue &&
-          parseInt(value) > sensorProperties?.maxOperatingRange) ||
-        (parseInt(value) >= sensorProperties?.minThresholdValue &&
-          parseInt(value) > sensorProperties?.minOperatingRange)
+        (parseInt(value) <= sensorProperties?.maxOperatingRange &&
+          parseInt(value) > sensorProperties?.maxThresholdValue) ||
+        (parseInt(value) >= sensorProperties?.minOperatingRange &&
+          parseInt(value) < sensorProperties?.minThresholdValue)
       ) {
         return 'medium';
       } else {
@@ -74,15 +74,15 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
     const getHumidityStatus = () => {
       if (!sensorReading?.humidity) return '';
       if (
-        parseInt(sensorReading?.humidity) > sensorProperties?.maxThresholdValue ||
-        parseInt(sensorReading?.humidity) < sensorProperties?.minThresholdValue
+        parseInt(sensorReading?.humidity) > sensorProperties?.maxOperatingRange ||
+        parseInt(sensorReading?.humidity) < sensorProperties?.minOperatingRange
       ) {
         return 'high';
       } else if (
-        (parseInt(sensorReading?.humidity) <= sensorProperties?.maxThresholdValue &&
-          parseInt(sensorReading?.humidity) > sensorProperties?.maxOperatingRange) ||
-        (parseInt(sensorReading?.humidity) >= sensorProperties?.minThresholdValue &&
-          parseInt(sensorReading?.humidity) > sensorProperties?.minOperatingRange)
+        (parseInt(sensorReading?.humidity) <= sensorProperties?.maxOperatingRange &&
+          parseInt(sensorReading?.humidity) > sensorProperties?.maxThresholdValue) ||
+        (parseInt(sensorReading?.humidity) >= sensorProperties?.minOperatingRange &&
+          parseInt(sensorReading?.humidity) < sensorProperties?.minThresholdValue)
       ) {
         return 'medium';
       } else {
@@ -161,7 +161,6 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
     getSensorDetails();
   }, [sensorId]);
 
-  console.log('sensore Data store::', sensorData);
   const chartInitialConfig: ApexOptions = {
     chart: {
       id: 'realtime',

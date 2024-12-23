@@ -133,6 +133,8 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
     fetchPlantsbyUserId();
   }, []);
 
+  console.log('sensore Data store::', sensorData);
+
   const handlePlantChange = (plantId: string) => {
     dispatch(setCurrentPlant(plantId));
     navigate('/plant');
