@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import Chart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
-import socketIOClient from 'socket.io-client';
-import { getToken } from '@/lib/axios';
-import { Config } from '@/config';
+// import socketIOClient from 'socket.io-client';
+// import { getToken } from '@/lib/axios';
+// import { Config } from '@/config';
+// import { Select } from 'antd';
 import { SENSOR_SERVICES } from '@/services/sensorServices';
-import { Select } from 'antd';
 import { SquareIcon } from '@/assets/icons';
+import { useAppSelector } from '@/hooks';
 
 type CriticalityStatusType = 'normal' | 'medium' | 'high' | '';
 
@@ -14,19 +15,21 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
   const [sensorData, setSensorData] = useState<any>([]);
   const [sensorDetail, setSensorDetail] = useState<any>();
   const [sensorProperties, setSensorProperties] = useState<any>();
-  const [selectedDuration, setSelectedDuration] = useState('live');
+  // const [selectedDuration, setSelectedDuration] = useState('live');
   const [chartCriticalityStatus, setChartCriticalityStatus] = useState<{
     tempStatus: CriticalityStatusType;
     humidityStatus: CriticalityStatusType;
   }>({ tempStatus: '', humidityStatus: '' });
 
-  const fetchSensorPreviousData = async (value?: string) => {
-    var date = new Date();
-    date.setDate(date?.getDate() - parseInt(value || selectedDuration));
-    const timeStamp = encodeURIComponent(date?.toISOString());
-    const res = await SENSOR_SERVICES?.getSensorData(timeStamp, sensorId);
-    setSensorData(res);
-  };
+  const sensorStoreData = useAppSelector((state) => state.sensorSlice.sensorData);
+
+  // const fetchSensorPreviousData = async (value?: string) => {
+  //   var date = new Date();
+  //   date.setDate(date?.getDate() - parseInt(value || selectedDuration));
+  //   const timeStamp = encodeURIComponent(date?.toISOString());
+  //   const res = await SENSOR_SERVICES?.getSensorData(timeStamp, sensorId);
+  //   setSensorData(res);
+  // };
   const dateFormat = (date: any) => {
     if (!date) return '';
     const nDate = new Date(date);
@@ -53,15 +56,15 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
     const getTempStatus = () => {
       if (!value) return '';
       if (
-        parseInt(value) > sensorProperties?.maxThresholdValue ||
-        parseInt(value) < sensorProperties?.minThresholdValue
+        parseInt(value) > sensorProperties?.maxOperatingRange ||
+        parseInt(value) < sensorProperties?.minOperatingRange
       ) {
         return 'high';
       } else if (
-        (parseInt(value) <= sensorProperties?.maxThresholdValue &&
-          parseInt(value) > sensorProperties?.maxOperatingRange) ||
-        (parseInt(value) >= sensorProperties?.minThresholdValue &&
-          parseInt(value) > sensorProperties?.minOperatingRange)
+        (parseInt(value) <= sensorProperties?.maxOperatingRange &&
+          parseInt(value) > sensorProperties?.maxThresholdValue) ||
+        (parseInt(value) >= sensorProperties?.minOperatingRange &&
+          parseInt(value) < sensorProperties?.minThresholdValue)
       ) {
         return 'medium';
       } else {
@@ -71,15 +74,15 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
     const getHumidityStatus = () => {
       if (!sensorReading?.humidity) return '';
       if (
-        parseInt(sensorReading?.humidity) > sensorProperties?.maxThresholdValue ||
-        parseInt(sensorReading?.humidity) < sensorProperties?.minThresholdValue
+        parseInt(sensorReading?.humidity) > sensorProperties?.maxOperatingRange ||
+        parseInt(sensorReading?.humidity) < sensorProperties?.minOperatingRange
       ) {
         return 'high';
       } else if (
-        (parseInt(sensorReading?.humidity) <= sensorProperties?.maxThresholdValue &&
-          parseInt(sensorReading?.humidity) > sensorProperties?.maxOperatingRange) ||
-        (parseInt(sensorReading?.humidity) >= sensorProperties?.minThresholdValue &&
-          parseInt(sensorReading?.humidity) > sensorProperties?.minOperatingRange)
+        (parseInt(sensorReading?.humidity) <= sensorProperties?.maxOperatingRange &&
+          parseInt(sensorReading?.humidity) > sensorProperties?.maxThresholdValue) ||
+        (parseInt(sensorReading?.humidity) >= sensorProperties?.minOperatingRange &&
+          parseInt(sensorReading?.humidity) < sensorProperties?.minThresholdValue)
       ) {
         return 'medium';
       } else {
@@ -97,44 +100,44 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
       });
   };
 
-  useEffect(() => {
-    getSensorDetails();
-    if (!sensorDetail) return;
+  // useEffect(() => {
+  // getSensorDetails();
+  // if (!sensorDetail) return;
 
-    const token = getToken();
-    const AUTHORIZATION = `Bearer ${token}`;
-    const _socket = socketIOClient(`${Config.OCBM_IOT_SOCKET_URL}/sensor-readings`, {
-      rejectUnauthorized: false,
-      path: Config.OCBM_IOT_SOCKET_PATH,
-      extraHeaders: {
-        authorization: AUTHORIZATION,
-      },
-    });
+  // const token = getToken();
+  // const AUTHORIZATION = `Bearer ${token}`;
+  // const _socket = socketIOClient(`${Config.OCBM_IOT_SOCKET_URL}/sensor-readings`, {
+  //   rejectUnauthorized: false,
+  //   path: Config.OCBM_IOT_SOCKET_PATH,
+  //   extraHeaders: {
+  //     authorization: AUTHORIZATION,
+  //   },
+  // });
 
-    if (selectedDuration === 'live') {
-      fetchSensorPreviousData('1');
-      _socket.emit('sensor-readings', {
-        sensors: [sensorId?.toUpperCase()], // sensor mac-address to listen
-      });
-      _socket.on('sensor-reading', (data: any) => {
-        console.log('SENSOR_READING', data);
-        setSensorData((prev: any) => {
-          return [...prev, { ...data?.sensorReading }];
-        });
-        // fetchSensorPreviousData('1');
-      });
-    } else {
-      _socket.disconnect();
-    }
+  // if (selectedDuration === 'live') {
+  //   fetchSensorPreviousData('1');
+  //   _socket.emit('sensor-readings', {
+  //     sensors: [sensorId?.toUpperCase()], // sensor mac-address to listen
+  //   });
+  //   _socket.on('sensor-reading', (data: any) => {
+  //     console.log('SENSOR_READING', data);
+  //     setSensorData((prev: any) => {
+  //       return [...prev, { ...data?.sensorReading }];
+  //     });
+  //     // fetchSensorPreviousData('1');
+  //   });
+  // } else {
+  //   _socket.disconnect();
+  // }
 
-    return () => {
-      _socket.disconnect();
-    };
-  }, [sensorId, selectedDuration, sensorDetail]);
+  // return () => {
+  //   _socket.disconnect();
+  // };
+  // }, [sensorId]);
 
-  useEffect(() => {
-    fetchSensorPreviousData();
-  }, [selectedDuration]);
+  // useEffect(() => {
+  //   fetchSensorPreviousData();
+  // }, [selectedDuration]);
 
   useEffect(() => {
     getChartCriticalStatus(sensorData?.[sensorData?.length - 1]);
@@ -145,8 +148,17 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
     setSensorProperties(res);
   };
 
+  const getSensorDataFromStore = () => {
+    const filteredBySensorId = sensorStoreData?.filter((data: any) => data?.macAddress === sensorId);
+    setSensorData(filteredBySensorId);
+  };
+  useEffect(() => {
+    getSensorDataFromStore();
+  }, [sensorStoreData, sensorId, sensorDetail]);
+
   useEffect(() => {
     getSensorProperties();
+    getSensorDetails();
   }, [sensorId]);
 
   const chartInitialConfig: ApexOptions = {
@@ -205,15 +217,15 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
   useEffect(() => {
     setTemperatureChartOptions({
       ...chartInitialConfig,
-      chart: {
-        ...chartInitialConfig?.chart,
-        toolbar: {
-          show: selectedDuration !== 'live',
-        },
-        zoom: {
-          enabled: selectedDuration !== 'live',
-        },
-      },
+      // chart: {
+      //   ...chartInitialConfig?.chart,
+      //   toolbar: {
+      //     show: selectedDuration !== 'live',
+      //   },
+      //   zoom: {
+      //     enabled: selectedDuration !== 'live',
+      //   },
+      // },
       // fill: {
       //   type: 'gradient',
       //   gradient: {
@@ -246,7 +258,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
                 color: '#A299D2',
                 background: 'none',
               },
-              text: `${sensorProperties?.minThresholdValue} °C`,
+              text: `${sensorProperties?.minThresholdValue} ${sensorProperties?.uom}`,
             },
           },
           {
@@ -261,7 +273,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
                 color: '#A299D2',
                 background: 'none',
               },
-              text: `${sensorProperties?.maxThresholdValue} °C`,
+              text: `${sensorProperties?.maxThresholdValue} ${sensorProperties?.uom}`,
             },
           },
           {
@@ -276,7 +288,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
                 color: '#A299D2',
                 background: 'none',
               },
-              text: `${sensorProperties?.minOperatingRange} °C`,
+              text: `${sensorProperties?.minOperatingRange} ${sensorProperties?.uom}`,
             },
           },
           {
@@ -291,7 +303,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
                 color: '#A299D2',
                 background: 'none',
               },
-              text: `${sensorProperties?.maxOperatingRange} °C`,
+              text: `${sensorProperties?.maxOperatingRange} ${sensorProperties?.uom}`,
             },
           },
         ],
@@ -320,7 +332,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
                   option.w.config.yaxis[0].labels.style.colors[pos] = '#14A87B';
                 }
               }
-              return parseInt(value) + ' °C';
+              return parseInt(value) + ' ' + sensorProperties?.uom;
             },
             style: {
               colors: ['#14A87B'],
@@ -341,15 +353,15 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
     if (sensorDetail && sensorDetail.schemaType === 'SCHEMA_TWO') {
       setHumidityChartOptions({
         ...chartInitialConfig,
-        chart: {
-          ...chartInitialConfig?.chart,
-          toolbar: {
-            show: selectedDuration !== 'live',
-          },
-          zoom: {
-            enabled: selectedDuration !== 'live',
-          },
-        },
+        // chart: {
+        //   ...chartInitialConfig?.chart,
+        //   toolbar: {
+        //     show: selectedDuration !== 'live',
+        //   },
+        //   zoom: {
+        //     enabled: selectedDuration !== 'live',
+        //   },
+        // },
         // fill: {
         //   type: 'gradient',
         //   gradient: {
@@ -412,7 +424,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
                   color: '#A299D2',
                   background: 'none',
                 },
-                text: `${sensorProperties?.minOperatingRange} °C`,
+                text: `${sensorProperties?.minOperatingRange} Bar`,
               },
             },
             {
@@ -427,7 +439,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
                   color: '#A299D2',
                   background: 'none',
                 },
-                text: `${sensorProperties?.maxOperatingRange} °C`,
+                text: `${sensorProperties?.maxOperatingRange} Bar`,
               },
             },
           ],
@@ -475,7 +487,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
         },
       });
     }
-  }, [selectedDuration, sensorData, sensorProperties, sensorDetail]);
+  }, [sensorData, sensorProperties, sensorDetail]);
 
   const sensorName = sensorData && sensorData[0] && sensorData[0].sensorType;
 
@@ -497,7 +509,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
   // }, [sensorData]);
   return (
     <div className="w-full h-full">
-      <div className="flex gap-3">
+      {/* <div className="flex gap-3">
         <Select
           style={{ width: 150 }}
           placeholder="Select"
@@ -532,7 +544,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
             // }
           }}
         />
-      </div>
+      </div> */}
       <div id="chart" className="flex gap-6 flex-wrap mt-3 w-full">
         <div className="w-[48%]">
           <div className="relative">
@@ -547,7 +559,7 @@ const SensorChart = ({ sensorId, statusCallback }: { sensorId: string; statusCal
             options={temperatureChartOptions}
             series={[
               {
-                name: 'Temperature',
+                name: sensorProperties?.uom === 'Bar' ? 'Value' : 'Temperature',
                 data: sensorData?.map((sensor: any) => ({
                   x: sensor?.msgTimeStamp,
                   y:

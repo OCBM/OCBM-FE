@@ -1,9 +1,10 @@
 import { AlertsIcon, BellIcon } from '@/assets/icons';
 import { Dropdown } from '@/components';
-import { Config } from '@/config';
+// import { Config } from '@/config';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { logoutUser } from '@/redux/slices/authSlice';
 import { setAllPlants, setCurrentPlant } from '@/redux/slices/plantSlice';
+import { setSensorStoreDetail, setSensorNotificationStatus, setSensorProperties } from '@/redux/slices/sensorSlice';
 import { PLANT_SERVICES } from '@/services/plantServices';
 import { SENSOR_SERVICES } from '@/services/sensorServices';
 import { Select } from 'antd';
@@ -11,16 +12,18 @@ import classNames from 'classnames';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import socketIOClient from 'socket.io-client';
+// import socketIOClient from 'socket.io-client';
 
 const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const loggedUser = useAppSelector((state) => state.auth?.user);
+  const sensorData = useAppSelector((state) => state.sensorSlice.sensorData);
+  const sensorNotificationData = useAppSelector((state) => state.sensorSlice.sensorNotificationData);
   const user = useAppSelector((state) => state.auth.user);
   const { allPlants, currentPlant } = useAppSelector((state) => state.plantRegistration);
   const [showOpenNotificationModal, setShowNotificationModal] = useState(false);
-  const [sensorIdList, setSensorIdList] = useState([]);
+  // const [sensorIdList, setSensorIdList] = useState([]);
   // const options = [
   //   {
   //     key: 'plants',
@@ -55,64 +58,63 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
     }, 1000);
   };
 
-  const fetchAllSensors = async () => {
-    const res = await SENSOR_SERVICES.getAllSensor();
-    setSensorIdList(res);
-  };
+  // const fetchAllSensors = async () => {
+  //   const res = await SENSOR_SERVICES.getAllSensor();
+  //   setSensorIdList(res);
+  // };
 
-  useEffect(() => {
-    fetchAllSensors();
-  }, []);
+  // useEffect(() => {
+  //   fetchAllSensors();
+  // }, []);
 
-  const [alertsSocket, setAlertsSocket] = useState<any>(null);
-  const [alertsData, setAlertsData] = useState<any>([]);
+  // const [alertsSocket, setAlertsSocket] = useState<any>(null);
+  // const [alertsData, setAlertsData] = useState<any>([]);
+  // useEffect(() => {
+  //   connectToAlertsSocket();
+  //   return () => {
+  //     if (alertsSocket) {
+  //       alertsSocket.disconnect();
+  //       alertsSocket.removeAllListeners();
+  //       setAlertsSocket(null);
+  //     }
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [sensorIdList]);
 
-  useEffect(() => {
-    connectToAlertsSocket();
-    return () => {
-      if (alertsSocket) {
-        alertsSocket.disconnect();
-        alertsSocket.removeAllListeners();
-        setAlertsSocket(null);
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sensorIdList]);
+  // useEffect(() => {
+  //   if (alertsSocket) {
+  //     listenToAlerts();
+  //   }
+  // }, [alertsSocket]);
 
-  useEffect(() => {
-    if (alertsSocket) {
-      listenToAlerts();
-    }
-  }, [alertsSocket]);
+  // function connectToAlertsSocket() {
+  //   const _socket = socketIOClient(`${Config.OCBM_IOT_SOCKET_URL}/alerts`, {
+  //     rejectUnauthorized: false,
+  //     path: Config.OCBM_IOT_SOCKET_PATH,
+  //     extraHeaders: {
+  //       authorization: `Bearer ${user?.accessToken}`,
+  //     },
+  //   });
+  //   _socket.on('connection-status', ({ success }) => {
+  //     if (success === true) {
+  //       setAlertsSocket(_socket);
+  //     } else {
+  //       _socket.removeAllListeners();
+  //       _socket.disconnect();
+  //     }
+  //   });
+  // }
 
-  function connectToAlertsSocket() {
-    const _socket = socketIOClient(`${Config.OCBM_IOT_SOCKET_URL}/alerts`, {
-      rejectUnauthorized: false,
-      path: Config.OCBM_IOT_SOCKET_PATH,
-      extraHeaders: {
-        authorization: `Bearer ${user?.accessToken}`,
-      },
-    });
-    _socket.on('connection-status', ({ success }) => {
-      if (success === true) {
-        setAlertsSocket(_socket);
-      } else {
-        _socket.removeAllListeners();
-        _socket.disconnect();
-      }
-    });
-  }
+  // function listenToAlerts() {
+  //   alertsSocket.emit('sensor-alerts', {
+  //     sensors: sensorIdList,
+  //   });
 
-  function listenToAlerts() {
-    alertsSocket.emit('sensor-alerts', {
-      sensors: sensorIdList,
-    });
-
-    alertsSocket.on('sensor-alert', (data: any) => {
-      toast.error(`${data.alert.macAddress} reached ${data.alert.trigger} value`);
-      setAlertsData((prevData: any) => [...prevData, data]);
-    });
-  }
+  //   alertsSocket.on('sensor-alert', (data: any) => {
+  //     toast.error(`${data.alert.macAddress} reached ${data.alert.trigger} value`);
+  //     setAlertsData((prevData: any) => [...prevData, data]);
+  //   });
+  // }
   const fetchPlantsbyUserId = async () => {
     const res = await PLANT_SERVICES.getAllPlantByUserId(loggedUser?.userId);
     const formattedData = res?.message.map((el: any) => {
@@ -131,10 +133,45 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
     fetchPlantsbyUserId();
   }, []);
 
+  console.log('sensore Data store::', sensorData);
+
   const handlePlantChange = (plantId: string) => {
     dispatch(setCurrentPlant(plantId));
     navigate('/plant');
   };
+
+  const getAllSensorProperties = async () => {
+    const res = await SENSOR_SERVICES.getAllSensorProperties();
+    if (res) {
+      dispatch(setSensorProperties(res));
+    }
+  };
+
+  useEffect(() => {
+    getAllSensorProperties();
+  }, []);
+
+  useEffect(() => {
+    const sensorInterval = setInterval(() => {
+      dispatch(setSensorStoreDetail());
+    }, 60000);
+    return () => {
+      clearInterval(sensorInterval);
+    };
+  }, [sensorData]);
+
+  useEffect(() => {
+    if (sensorNotificationData?.length > 0) {
+      sensorNotificationData?.slice(-10)?.forEach((data: any) => {
+        if (data?.status === 'new') {
+          toast.error(`${data.macAddress} reached ${data.trigger} value`);
+          toast.onChange(() => {
+            dispatch(setSensorNotificationStatus('seen'));
+          });
+        }
+      });
+    }
+  }, [sensorNotificationData]);
 
   return (
     <div className="flex">
@@ -188,14 +225,14 @@ const Header = ({ hideAvatar }: { hideAvatar: boolean }) => {
             <BellIcon className="shrink-0" />
             {showOpenNotificationModal ? (
               <div className="absolute h-[250px] w-[350px] left-[-140px] r-0 overflow-auto shadow-lg rounded-2xl top-10 bg-white z-10">
-                {alertsData?.length > 0 ? (
-                  alertsData?.slice(-10)?.map((data: any) => (
+                {sensorNotificationData?.length > 0 ? (
+                  sensorNotificationData?.slice(-10)?.map((data: any) => (
                     <>
                       <div className="px-4 py-3 border-b-2">
                         <p key={data?.alert?.macAddress} className="flex items-center gap-4  ">
                           {' '}
                           <AlertsIcon />
-                          {`${data?.alert?.macAddress} reached ${data?.alert?.trigger} value. Humidity : ${data?.alert?.humidity} temperatureC: ${data?.alert?.temperatureC}`}
+                          {`${data?.macAddress} reached ${data?.trigger} value. Humidity : ${data?.humidity} temperatureC: ${data?.temperatureC}`}
                         </p>
                       </div>
                     </>
